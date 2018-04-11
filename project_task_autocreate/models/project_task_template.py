@@ -314,7 +314,8 @@ class ProjectTaskTemplate(models.Model):
     @api.multi
     def _get_partner_id(self, record=None):
         self.ensure_one()
-        if self.use_relative_partner_id and record:
+        if self.use_relative_partner_id and record and \
+                self._get_relative_value(self.relative_partner_id, record):
             return self._get_relative_value(
                 self.relative_partner_id, record).id
         else:
