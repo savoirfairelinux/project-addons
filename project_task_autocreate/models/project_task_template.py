@@ -286,7 +286,7 @@ class ProjectTaskTemplate(models.Model):
         """
         description = self.description
         if description:
-            description = unicode(description).format(object=record)
+            description = str(description).format(object=record)
         vals = {
             'name': self.name.format(object=record),
             'description': description,
@@ -332,7 +332,8 @@ class ProjectTaskTemplate(models.Model):
     @api.multi
     def _get_team_id(self, record=None):
         self.ensure_one()
-        if self.use_relative_team_id and record:
+        if self.use_relative_team_id and record and self._get_relative_value(
+                self.relative_team_id, record):
             return self._get_relative_value(self.relative_team_id, record).id
         else:
             return self.team_id.id or False
@@ -340,7 +341,8 @@ class ProjectTaskTemplate(models.Model):
     @api.multi
     def _get_project_id(self, record=None):
         self.ensure_one()
-        if self.use_relative_project_id and record:
+        if self.use_relative_project_id and record and \
+                self._get_relative_value(self.relative_project_id, record):
             return self._get_relative_value(
                 self.relative_project_id, record).id
         else:
