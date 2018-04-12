@@ -286,7 +286,7 @@ class ProjectTaskTemplate(models.Model):
         """
         description = self.description
         if description:
-            description = str(description).format(object=record)
+            description = unicode(description).format(object=record)
         vals = {
             'name': self.name.format(object=record),
             'description': description,
