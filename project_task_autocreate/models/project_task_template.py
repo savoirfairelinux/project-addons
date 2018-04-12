@@ -314,7 +314,8 @@ class ProjectTaskTemplate(models.Model):
     @api.multi
     def _get_partner_id(self, record=None):
         self.ensure_one()
-        if self.use_relative_partner_id and record:
+        if self.use_relative_partner_id and record and \
+                self._get_relative_value(self.relative_partner_id, record):
             return self._get_relative_value(
                 self.relative_partner_id, record).id
         else:
@@ -332,7 +333,8 @@ class ProjectTaskTemplate(models.Model):
     @api.multi
     def _get_team_id(self, record=None):
         self.ensure_one()
-        if self.use_relative_team_id and record:
+        if self.use_relative_team_id and record and self._get_relative_value(
+                self.relative_team_id, record):
             return self._get_relative_value(self.relative_team_id, record).id
         else:
             return self.team_id.id or False
@@ -340,7 +342,8 @@ class ProjectTaskTemplate(models.Model):
     @api.multi
     def _get_project_id(self, record=None):
         self.ensure_one()
-        if self.use_relative_project_id and record:
+        if self.use_relative_project_id and record and \
+                self._get_relative_value(self.relative_project_id, record):
             return self._get_relative_value(
                 self.relative_project_id, record).id
         else:
