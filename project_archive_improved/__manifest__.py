@@ -13,6 +13,6 @@
     'depends': [
         'project',
     ],
-    'installable': True,
+    'installable': False,
     'application': True,
 }

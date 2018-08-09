@@ -15,6 +15,6 @@
     'data': [
         'views/project_project.xml',
     ],
-    'installable': True,
+    'installable': False,
     'application': False,
 }
