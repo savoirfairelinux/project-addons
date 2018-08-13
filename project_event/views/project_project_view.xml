@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_project_event" model="ir.actions.act_window">
+        <field name="name">Events</field>
+        <field name="res_model">project.project</field>
+        <field name="context" eval="{'default_project_type': 'event'}"/>
+        <field name="domain">[('project_type','=','event')]</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="project_event_menu_root"
+              name="Event"/>
+    <menuitem id="project_event_menu"
+              name="Event"
+              parent="project_event_menu_root"/>
+    <menuitem id="project_event_sub_menu"
+              name="Event"
+              parent="project_event_menu"
+              action="action_project_event"
+              sequence="1"/>
+    <menuitem id="project_event_configuration_menu"
+              name="Configuration"
+              parent="project_event_menu_root"/>
+
+    <record id="project_event_form" model="ir.ui.view">
+        <field name="name">Event Form</field>
+        <field name="model">project.project</field>
+        <field name="arch" type="xml">
+            <form string="Project Event">
+                <sheet>
+                    <div>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <div align="right">
+                        <h1>
+                            <field name="code" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="user_id"/>
+                            <field name="event_type_id"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="project_type" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Activities">
+                            <field name="task_ids"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+    <record id="project_event_tree" model="ir.ui.view">
+        <field name="name">Event Tree</field>
+        <field name="model">project.project</field>
+        <field name="arch" type="xml">
+            <tree string="Project Event">
+                <field name="code"/>
+                <field name="partner_id"/>
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

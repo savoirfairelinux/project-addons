@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_project_event_type" model="ir.actions.act_window">
+        <field name="name">Event Type</field>
+        <field name="res_model">project.event.type</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="project_event_config_sub_menu"
+              name="Event Type"
+              parent="project_event_configuration_menu"
+              action="action_project_event_type"
+              sequence="2"/>
+
+    <record id="project_event_type_form" model="ir.ui.view">
+        <field name="name">Event Type Form</field>
+        <field name="model">project.event.type</field>
+        <field name="arch" type="xml">
+            <form string="Project Event Type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="project_event_type_tree" model="ir.ui.view">
+        <field name="name">Event Type Tree</field>
+        <field name="model">project.event.type</field>
+        <field name="arch" type="xml">
+            <tree string="Project Event Type">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,120 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* project_event
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-08-10 12:59-0400\n"
+"PO-Revision-Date: 2018-08-10 13:07-0400\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 2.0.6\n"
+"Last-Translator: \n"
+"Language: fr\n"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_form
+msgid "Activities"
+msgstr "Activités"
+
+#. module: project_event
+#: model:ir.ui.menu,name:project_event.project_event_configuration_menu
+msgid "Configuration"
+msgstr "Configuration"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_type_create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_type_create_date
+msgid "Created on"
+msgstr ""
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_type_display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: project_event
+#: model:ir.ui.menu,name:project_event.project_event_menu
+#: model:ir.ui.menu,name:project_event.project_event_menu_root
+#: model:ir.ui.menu,name:project_event.project_event_sub_menu
+#: selection:project.project,project_type:0
+msgid "Event"
+msgstr "Événement"
+
+#. module: project_event
+#: model:ir.actions.act_window,name:project_event.action_project_event_type
+#: model:ir.ui.menu,name:project_event.project_event_config_sub_menu
+msgid "Event Type"
+msgstr "Type d'événement"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_project_event_type_id
+msgid "Event type"
+msgstr "Type d'événement"
+
+#. module: project_event
+#: model:ir.actions.act_window,name:project_event.action_project_event
+msgid "Events"
+msgstr "Événements"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_type_id
+msgid "ID"
+msgstr ""
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_type___last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_type_write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_type_write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_type_name
+msgid "Name"
+msgstr "Nom"
+
+#. module: project_event
+#: model:ir.model,name:project_event.model_project_project
+#: selection:project.project,project_type:0
+msgid "Project"
+msgstr "Projet"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_form
+#: model:ir.ui.view,arch_db:project_event.project_event_tree
+msgid "Project Event"
+msgstr "Événement"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_type_form
+#: model:ir.ui.view,arch_db:project_event.project_event_type_tree
+msgid "Project Event Type"
+msgstr "Type d'événement"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_project_project_type
+msgid "Type"
+msgstr "Type"
+
+#. module: project_event
+#: model:ir.model,name:project_event.model_project_event_type
+msgid "project.event.type"
+msgstr ""

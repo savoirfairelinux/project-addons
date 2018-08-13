@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_project_event" model="ir.sequence">
+        <field name="name">Project Event</field>
+        <field name="code">project.project</field>
+        <field name="padding">6</field>
+        <field name="prefix">EV</field>
+    </record>
+</odoo>
