@@ -21,6 +21,8 @@
     'data': [
         'views/project_project_view.xml',
         'views/project_event_type_view.xml',
+        'views/project_task_view.xml',
+        'views/activity_category_view.xml',
         'data/ir_sequence_data.xml',
     ],
     'installable': True,
