@@ -6,4 +6,18 @@
         <field name="padding">6</field>
         <field name="prefix">EV</field>
     </record>
+
+    <record id="seq_project_event_activity" model="ir.sequence">
+        <field name="name">Project Event Activity</field>
+        <field name="code">project.task.activity</field>
+        <field name="padding">6</field>
+        <field name="prefix">AC</field>
+    </record>
+
+    <record id="seq_project_event_task" model="ir.sequence">
+        <field name="name">Project Event Task</field>
+        <field name="code">project.task.task</field>
+        <field name="padding">6</field>
+        <field name="prefix">TA</field>
+    </record>
 </odoo>
