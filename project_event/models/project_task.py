@@ -9,6 +9,10 @@ class Task(models.Model):
     _name = "project.task"
     _inherit = ['project.task']
 
+    name = fields.Char(
+        string='Title',
+        required=True,
+    )
     code = fields.Char(
         string='Number',
     )
@@ -19,9 +23,36 @@ class Task(models.Model):
         ],
         string='Type',
     )
-    activity_category = fields.Many2one(
+    activity_category_id = fields.Many2one(
         'activity.category.type',
         string='Category',
+    )
+    task_category_id = fields.Many2one(
+        'task.category.type',
+        string='Category',
+    )
+    department_id = fields.Many2one(
+        'hr.department',
+        string='Department',
+    )
+    employee_ids = fields.Many2many(
+        'hr.employee', 'task_emp_rel',
+        'task_id', 'employee_id',
+        string='Employees'
+    )
+    responsible_id = fields.Many2one(
+        'res.partner',
+        related='project_id.responsible_id',
+        readonly=True,
+        string='Responsible',
+        store=True,
+    )
+    partner_id = fields.Many2one(
+        'res.partner',
+        related='project_id.partner_id',
+        string='Client',
+        store=True,
+        readonly=True,
     )
 
     @api.model

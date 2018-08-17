@@ -1,10 +1,12 @@
 Project Event
 =============
-This module sets the fields for the Project Event module .
+This module sets the fields for the Project Event module.
 
 Contributors
 ------------
 Jananjoy Rajkumar <jananjoy.rajkumar@savoirfairelinux.com>
+João Alfredo Gama Batista <joao.gama@savoirfairelinux.com>
+Rim BEN DHAOU <rim.bendhaou@savoirfairelinux.com>
 
 More information
 ----------------

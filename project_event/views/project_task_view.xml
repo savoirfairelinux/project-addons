@@ -4,6 +4,7 @@
     <record id="project_event_activity_form" model="ir.ui.view">
         <field name="name">Activity Form</field>
         <field name="model">project.task</field>
+        <field eval="1" name="priority"/>
         <field name="arch" type="xml">
             <form string="Activity">
                 <sheet>
@@ -20,7 +21,9 @@
                     <group>
                         <group>
                             <field name="project_id" string="Event"/>
-                            <field name="activity_category"/>
+                            <field name="responsible_id"/>
+                            <field name="partner_id"/>
+                            <field name="activity_category_id"/>
                             <field name="activity_task_type" invisible="1"/>
                         </group>
                         <group>
@@ -30,7 +33,12 @@
                     </group>
                     <notebook>
                         <page string="Tasks">
-                            <field name="child_ids"/>
+                            <field name="child_ids" context="{
+                            'form_view_ref':'project_event.project_event_task_form',
+                            'tree_view_ref':'project_event.project_event_task_tree',
+                            'default_activity_task_type':'task',
+                            'default_parent_id': active_id,
+                        }" domain="[('activity_task_type','=', 'task')]"/>
                         </page>
                         <page string="Description">
                             <field name="notes"/>
@@ -42,7 +50,7 @@
     </record>
 
     <record id="project_event_activity_tree" model="ir.ui.view">
-        <field name="name">Activity</field>
+        <field name="name">Activity Tree</field>
         <field name="model">project.task</field>
         <field name="arch" type="xml">
             <tree string="Activity">
@@ -55,22 +63,132 @@
         </field>
     </record>
 
+    <record id="project_event_task_form" model="ir.ui.view">
+        <field name="name">Task Form</field>
+        <field name="model">project.task</field>
+        <field name="arch" type="xml">
+            <form string="Task">
+                <sheet>
+                    <div>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <div align="right">
+                        <h1>
+                            <field name="code" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="project_id" invisible="1"/>
+                            <field name="responsible_id"/>
+                            <field name="partner_id"/>
+                            <field name="parent_id" string="Activity"/>
+                            <field name="task_category_id"/>
+                            <field name="activity_task_type" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                        <group>
+                            <div>
+                                <h3> Assigned to:</h3>
+                            </div>
+                            <field name="department_id"/>
+                            <field name="employee_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_event_task_tree" model="ir.ui.view">
+        <field name="name">Task Tree</field>
+        <field name="model">project.task</field>
+        <field name="arch" type="xml">
+            <tree string="Task">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="parent_id" string="Activity"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="project_event_activity_calendar">
+            <field name="name">project.activity.task.calendar</field>
+            <field name="model">project.task</field>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View" date_start="date_start">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="project_id" string="Event"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                </calendar>
+            </field>
+        </record>
+
+    <record model="ir.ui.view" id="project_event_task_calendar">
+            <field name="name">project.activity.task.calendar</field>
+            <field name="model">project.task</field>
+            <field name="arch" type="xml">
+                <calendar string="Calendar View" date_start="date_start">
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="parent_id" string="Activity"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                </calendar>
+            </field>
+    </record>
+
     <record id="action_project_event_activity" model="ir.actions.act_window">
         <field name="name">Activity</field>
         <field name="res_model">project.task</field>
         <field name="view_type">form</field>
         <field name="domain">[('activity_task_type','=','activity')]</field>
         <field name="context" eval="{'default_activity_task_type': 'activity'}"/>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,calendar</field>
         <field name="view_ids"
                    eval="[(5, 0, 0),
                           (0, 0, {'view_mode': 'tree', 'view_id': ref('project_event_activity_tree')}),
-                          (0, 0, {'view_mode': 'form', 'view_id': ref('project_event_activity_form')})]"/>
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('project_event_activity_form')}),
+                          (0, 0, {'view_mode': 'calendar', 'view_id': ref('project_event_activity_calendar')})]"/>
     </record>
 
-    <menuitem id="project_task_menu"
+    <record id="action_project_event_task" model="ir.actions.act_window">
+        <field name="name">Task</field>
+        <field name="res_model">project.task</field>
+        <field name="view_type">form</field>
+        <field name="domain">[('activity_task_type','=','task')]</field>
+        <field name="context" eval="{'default_activity_task_type': 'task'}"/>
+        <field name="view_mode">tree,form,calendar</field>
+        <field name="view_ids"
+                   eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('project_event_task_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('project_event_task_form')}),
+                          (0, 0, {'view_mode': 'calendar', 'view_id': ref('project_event_task_calendar')})]"/>
+    </record>
+
+    <menuitem id="project_task_activity_menu"
               name="Activity"
               parent="project_event_menu"
               action="action_project_event_activity"
-              sequence="3"/>
+              sequence="20"/>
+
+    <menuitem id="project_task_task_menu"
+              name="Task"
+              parent="project_event_menu"
+              action="action_project_event_task"
+              sequence="30"/>
 </odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_task_category_type" model="ir.actions.act_window">
+        <field name="name">Task Category</field>
+        <field name="res_model">task.category.type</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="project_event_task_categories_menu"
+              name="Task Categories"
+              parent="project_event_configuration_menu"
+              action="action_task_category_type"/>
+
+    <record id="task_category_form" model="ir.ui.view">
+        <field name="name">Category Form</field>
+        <field name="model">task.category.type</field>
+        <field name="arch" type="xml">
+            <form string="Task Category Type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="task_category_tree" model="ir.ui.view">
+        <field name="name">Category Tree</field>
+        <field name="model">task.category.type</field>
+        <field name="arch" type="xml">
+            <tree string="Task Category Type">
+                <field name="name"/>
+                <field name="sequence"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

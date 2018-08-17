@@ -13,14 +13,9 @@ class Project(models.Model):
         'Number',
         default='New',
     )
-    user_id = fields.Many2one(
-        'res.users',
+    responsible_id = fields.Many2one(
+        'res.partner',
         string='Responsible',
-        default=lambda self: self.env.user,
-    )
-    event_type_id = fields.Many2one(
-        'project.event.type',
-        string='Event type',
     )
     partner_id = fields.Many2one(
         'res.partner',
@@ -34,6 +29,7 @@ class Project(models.Model):
         string='Type',
         default='project',
     )
+    notes = fields.Text(string='Notes')
 
     @api.model
     def create(self, vals):
