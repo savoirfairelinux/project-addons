@@ -1,0 +1,23 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: odoo:11.0
+      - image: circleci/postgres:9.6
+        environment:
+          POSTGRES_USER: odoo
+          POSTGRES_PASSWORD: odoo
+
+    working_directory: /mnt/extra-addons
+
+    steps:
+      - checkout
+      - run:
+          name: odoo install base
+          command: |
+            sleep 5
+            odoo --db_host=localhost --db_user=odoo --db_password=odoo -d circleci_test --workers=0 -i base --stop-after-init
+
+      - run:
+          name: odoo install repos modules
+          command: odoo --db_host localhost --db_user odoo --db_password odoo -d circleci_test --workers=0 --test-enable -i $(find . -maxdepth 1 -type d ! -name '.*' -printf '%f,') --stop-after-init
