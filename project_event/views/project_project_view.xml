@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="action_project_event" model="ir.actions.act_window">
         <field name="name">Events</field>
         <field name="res_model">project.project</field>
@@ -18,7 +19,7 @@
               name="Event"
               parent="project_event_menu"
               action="action_project_event"
-              sequence="1"/>
+              sequence="10"/>
     <menuitem id="project_event_configuration_menu"
               name="Configuration"
               parent="project_event_menu_root"/>
@@ -41,8 +42,7 @@
                     </div>
                     <group>
                         <group>
-                            <field name="user_id"/>
-                            <field name="event_type_id"/>
+                            <field name="responsible_id"/>
                         </group>
                         <group>
                             <field name="partner_id"/>
@@ -51,7 +51,15 @@
                     </group>
                     <notebook>
                         <page string="Activities">
-                            <field name="task_ids"/>
+                            <field name="task_ids" context="{
+                            'form_view_ref':'project_event.project_event_activity_form',
+                            'tree_view_ref':'project_event.project_event_activity_tree',
+                            'default_activity_task_type':'activity',
+                            'default_project_id': active_id,
+                        }" domain="[('activity_task_type','=', 'activity')]"/>
+                        </page>
+                        <page string="Description">
+                            <field name="notes"/>
                         </page>
                     </notebook>
                 </sheet>
@@ -62,6 +70,7 @@
             </form>
         </field>
     </record>
+
     <record id="project_event_tree" model="ir.ui.view">
         <field name="name">Event Tree</field>
         <field name="model">project.project</field>
@@ -73,4 +82,5 @@
             </tree>
         </field>
     </record>
+
 </odoo>

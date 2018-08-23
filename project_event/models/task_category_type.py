@@ -5,9 +5,13 @@
 from odoo import fields, models
 
 
-class ProjectEventType(models.Model):
-    _name = 'project.event.type'
+class TaskCategoryType(models.Model):
+    _name = 'task.category.type'
+    _order = 'sequence, name, id'
 
     name = fields.Char(
         string='Name',
+    )
+    sequence = fields.Integer(
+        string='Sequence'
     )
