@@ -25,6 +25,7 @@
                             <field name="partner_id"/>
                             <field name="activity_category_id"/>
                             <field name="activity_task_type" invisible="1"/>
+                            <field name="subtask_project_id" invisible="1"/>
                         </group>
                         <group>
                             <field name="date_start"/>
@@ -38,6 +39,7 @@
                             'tree_view_ref':'project_event.project_event_task_tree',
                             'default_activity_task_type':'task',
                             'default_parent_id': active_id,
+                            'default_project_id':subtask_project_id,
                         }" domain="[('activity_task_type','=', 'task')]"/>
                         </page>
                         <page string="Description">
@@ -87,6 +89,7 @@
                             <field name="parent_id" string="Activity"/>
                             <field name="task_category_id"/>
                             <field name="activity_task_type" invisible="1"/>
+                            <field name="subtask_project_id" invisible="1"/>
                         </group>
                         <group>
                             <field name="date_start"/>

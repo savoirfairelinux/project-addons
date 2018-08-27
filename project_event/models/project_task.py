@@ -55,6 +55,11 @@ class Task(models.Model):
         readonly=True,
     )
 
+    @api.onchange('parent_id')
+    def _onchange_parent_id(self):
+        if self.activity_task_type == 'task':
+            self.project_id = self.parent_id.project_id
+
     @api.model
     def create(self, vals):
         if 'activity_task_type' in vals:
