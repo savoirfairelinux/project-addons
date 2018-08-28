@@ -55,6 +55,12 @@ class Task(models.Model):
         readonly=True,
     )
 
+    @api.constrains('parent_id')
+    def _check_subtask_project(self):
+        for task in self:
+            if task.activity_task_type is False:
+                super(Task, task)._check_subtask_project()
+
     @api.model
     def create(self, vals):
         if 'activity_task_type' in vals:
