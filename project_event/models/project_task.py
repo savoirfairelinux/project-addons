@@ -54,6 +54,20 @@ class Task(models.Model):
         store=True,
         readonly=True,
     )
+    task_responsible_id = fields.Many2one(
+        'res.partner',
+        related='parent_id.responsible_id',
+        readonly=True,
+        string='Responsible',
+        store=True,
+    )
+    task_partner_id = fields.Many2one(
+        'res.partner',
+        related='parent_id.partner_id',
+        string='Client',
+        store=True,
+        readonly=True,
+    )
 
     @api.constrains('parent_id')
     def _check_subtask_project(self):
