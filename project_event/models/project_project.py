@@ -38,3 +38,12 @@ class Project(models.Model):
                 vals['code'] = self.env['ir.sequence'] \
                     .next_by_code('project.project')
         return super(Project, self).create(vals)
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|', ('name', operator, name),
+                      ('code', operator, name)]
+        return super(Project, self).search(domain + args, limit=limit).name_get()

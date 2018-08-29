@@ -94,7 +94,7 @@
                         </group>
                         <group>
                             <div>
-                                <h3> Assigned to:</h3>
+                                <h3>Assigned to:</h3>
                             </div>
                             <field name="department_id"/>
                             <field name="employee_ids" widget="many2many_tags"/>
@@ -124,32 +124,46 @@
         </field>
     </record>
 
+    <record id="view_project_task_search" model="ir.ui.view">
+        <field name="name">Project Task Search</field>
+        <field name="model">project.task</field>
+        <field name="arch" type="xml">
+            <search string="Project Task Search">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="parent_id"/>
+                <field name="task_responsible_id" string="Task Responsible"/>
+                <field name="task_partner_id" string="Task Client"/>
+            </search>
+        </field>
+    </record>
+
     <record model="ir.ui.view" id="project_event_activity_calendar">
-            <field name="name">project.activity.task.calendar</field>
-            <field name="model">project.task</field>
-            <field name="arch" type="xml">
-                <calendar string="Calendar View" date_start="date_start">
-                    <field name="name"/>
-                    <field name="code"/>
-                    <field name="project_id" string="Event"/>
-                    <field name="date_start"/>
-                    <field name="date_end"/>
-                </calendar>
-            </field>
-        </record>
+        <field name="name">project.activity.task.calendar</field>
+        <field name="model">project.task</field>
+        <field name="arch" type="xml">
+            <calendar string="Calendar View" date_start="date_start">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="project_id" string="Event"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+            </calendar>
+        </field>
+    </record>
 
     <record model="ir.ui.view" id="project_event_task_calendar">
-            <field name="name">project.activity.task.calendar</field>
-            <field name="model">project.task</field>
-            <field name="arch" type="xml">
-                <calendar string="Calendar View" date_start="date_start">
-                    <field name="name"/>
-                    <field name="code"/>
-                    <field name="parent_id" string="Activity"/>
-                    <field name="date_start"/>
-                    <field name="date_end"/>
-                </calendar>
-            </field>
+        <field name="name">project.activity.task.calendar</field>
+        <field name="model">project.task</field>
+        <field name="arch" type="xml">
+            <calendar string="Calendar View" date_start="date_start">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="parent_id" string="Activity"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+            </calendar>
+        </field>
     </record>
 
     <record id="action_project_event_activity" model="ir.actions.act_window">
@@ -160,7 +174,7 @@
         <field name="context" eval="{'default_activity_task_type': 'activity'}"/>
         <field name="view_mode">tree,form,calendar</field>
         <field name="view_ids"
-                   eval="[(5, 0, 0),
+               eval="[(5, 0, 0),
                           (0, 0, {'view_mode': 'tree', 'view_id': ref('project_event_activity_tree')}),
                           (0, 0, {'view_mode': 'form', 'view_id': ref('project_event_activity_form')}),
                           (0, 0, {'view_mode': 'calendar', 'view_id': ref('project_event_activity_calendar')})]"/>
@@ -174,7 +188,7 @@
         <field name="context" eval="{'default_activity_task_type': 'task'}"/>
         <field name="view_mode">tree,form,calendar</field>
         <field name="view_ids"
-                   eval="[(5, 0, 0),
+               eval="[(5, 0, 0),
                           (0, 0, {'view_mode': 'tree', 'view_id': ref('project_event_task_tree')}),
                           (0, 0, {'view_mode': 'form', 'view_id': ref('project_event_task_form')}),
                           (0, 0, {'view_mode': 'calendar', 'view_id': ref('project_event_task_calendar')})]"/>

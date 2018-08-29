@@ -85,3 +85,12 @@ class Task(models.Model):
                 vals['code'] = self.env['ir.sequence'] \
                     .next_by_code('project.task.task')
         return super(Task, self).create(vals)
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|', ('name', operator, name),
+                      ('code', operator, name)]
+        return super(Task, self).search(domain + args, limit=limit).name_get()
