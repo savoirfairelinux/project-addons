@@ -4,5 +4,5 @@
 
 from . import project_project
 from . import project_task
-from . import activity_category_type
-from . import task_category_type
+from . import activity_category
+from . import task_category

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="action_activity_category_type" model="ir.actions.act_window">
+    <record id="action_activity_category" model="ir.actions.act_window">
         <field name="name">Activity Category</field>
-        <field name="res_model">activity.category.type</field>
+        <field name="res_model">activity.category</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
@@ -10,13 +10,13 @@
     <menuitem id="project_event_activity_categories_menu"
               name="Activity Categories"
               parent="project_event_configuration_menu"
-              action="action_activity_category_type"/>
+              action="action_activity_category"/>
 
     <record id="activity_category_form" model="ir.ui.view">
         <field name="name">Category Form</field>
-        <field name="model">activity.category.type</field>
+        <field name="model">activity.category</field>
         <field name="arch" type="xml">
-            <form string="Activity Category Type">
+            <form string="Activity Category">
                 <sheet>
                     <group>
                         <field name="name"/>
@@ -28,9 +28,9 @@
     </record>
     <record id="activity_category_tree" model="ir.ui.view">
         <field name="name">Category Tree</field>
-        <field name="model">activity.category.type</field>
+        <field name="model">activity.category</field>
         <field name="arch" type="xml">
-            <tree string="Activity Category Type">
+            <tree string="Activity Category">
                 <field name="name"/>
                 <field name="sequence"/>
             </tree>

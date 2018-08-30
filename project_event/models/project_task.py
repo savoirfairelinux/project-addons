@@ -24,11 +24,11 @@ class Task(models.Model):
         string='Type',
     )
     activity_category_id = fields.Many2one(
-        'activity.category.type',
+        'activity.category',
         string='Category',
     )
     task_category_id = fields.Many2one(
-        'task.category.type',
+        'task.category',
         string='Category',
     )
     department_id = fields.Many2one(

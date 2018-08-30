@@ -5,13 +5,12 @@
 from odoo import fields, models
 
 
-class ActivityCategoryType(models.Model):
-    _name = 'activity.category.type'
+class TaskCategory(models.Model):
+    _name = 'task.category'
     _order = 'sequence, name, id'
 
     name = fields.Char(
         string='Name',
-        translate=True,
     )
     sequence = fields.Integer(
         string='Sequence'
