@@ -51,7 +51,7 @@
                     </group>
                     <notebook>
                         <page string="Activities">
-                            <field name="task_ids" context="{
+                            <field name="task_ids" string="Activity" context="{
                             'form_view_ref':'project_event.project_event_activity_form',
                             'tree_view_ref':'project_event.project_event_activity_tree',
                             'default_activity_task_type':'activity',

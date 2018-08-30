@@ -33,7 +33,7 @@
                     </group>
                     <notebook>
                         <page string="Tasks">
-                            <field name="child_ids" context="{
+                            <field name="child_ids" string="Task" context="{
                             'form_view_ref':'project_event.project_event_task_form',
                             'tree_view_ref':'project_event.project_event_task_tree',
                             'default_activity_task_type':'task',
