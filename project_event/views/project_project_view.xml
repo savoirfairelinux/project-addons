@@ -83,4 +83,15 @@
         </field>
     </record>
 
+    <record id="view_project_project_search" model="ir.ui.view">
+        <field name="name">Event Search</field>
+        <field name="model">project.project</field>
+        <field name="arch" type="xml">
+            <search string="Search">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="partner_id"/>
+            </search>
+        </field>
+    </record>
 </odoo>
