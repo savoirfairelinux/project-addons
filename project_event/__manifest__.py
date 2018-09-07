@@ -21,6 +21,7 @@
     },
     'data': [
         'security/ir.model.access.csv',
+        'security/project_security.xml',
         'views/project_project_view.xml',
         'views/project_task_view.xml',
         'views/activity_category_view.xml',
