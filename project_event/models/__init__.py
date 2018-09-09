@@ -6,6 +6,3 @@ from . import project_project
 from . import project_task
 from . import activity_category
 from . import task_category
-from . import project_template
-from . import activity_template
-from . import task_template
