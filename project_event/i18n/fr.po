@@ -1,14 +1,14 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* project_event
+# 	* project_event
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-30 17:15+0000\n"
-"PO-Revision-Date: 2018-08-30 17:15+0000\n"
-"Last-Translator: Luis GARCIA <luis.garcia@savoirfairelinux.com>\n"
+"POT-Creation-Date: 2018-09-10 12:22-0400\n"
+"PO-Revision-Date: 2018-09-10 12:56-0400\n"
+"Last-Translator: Rim BEN DHAOU <rim.bendhaou@savoirfairelinux.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -16,8 +16,10 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
+
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_form
+#: model:ir.ui.view,arch_db:project_event.project_event_template_form
 msgid "Activities"
 msgstr "Activités"
 
@@ -41,16 +43,28 @@ msgstr "Catégories d'activité"
 
 #. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_activity_category
+#: model:ir.ui.view,arch_db:project_event.activity_category_form
+#: model:ir.ui.view,arch_db:project_event.activity_category_tree
 msgid "Activity Category"
 msgstr "Catégorie d'activité"
 
 #. module: project_event
-#: model:ir.ui.view,arch_db:project_event.activity_category_form
-#: model:ir.ui.view,arch_db:project_event.activity_category_tree
-msgid "Activity Category Type"
-msgstr "Catégories d'activité"
+#: model:ir.model.fields,field_description:project_event.field_event_template_activity_template_ids
+#: model:ir.model.fields,field_description:project_event.field_task_template_activity_template_id
+#: model:ir.ui.menu,name:project_event.event_activity_template_menu
+#: model:ir.ui.view,arch_db:project_event.activity_task_template_form
+#: model:ir.ui.view,arch_db:project_event.activity_template_form
+#: model:ir.ui.view,arch_db:project_event.activity_template_tree
+msgid "Activity Template"
+msgstr "Modèle d'activité"
 
 #. module: project_event
+#: model:ir.actions.act_window,name:project_event.action_event_activity_template
+msgid "Activity Templates"
+msgstr "Modèles d'activités"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.activity_task_template_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
 msgid "Assigned to:"
 msgstr "Assigné à"
@@ -62,8 +76,10 @@ msgid "Calendar View"
 msgstr "Vue Calendrier"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_activity_template_activity_category_id
 #: model:ir.model.fields,field_description:project_event.field_project_task_activity_category_id
 #: model:ir.model.fields,field_description:project_event.field_project_task_task_category_id
+#: model:ir.model.fields,field_description:project_event.field_task_template_task_category_id
 msgid "Category"
 msgstr "Catégorie"
 
@@ -79,36 +95,55 @@ msgstr "Configuration"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_category_create_uid
+#: model:ir.model.fields,field_description:project_event.field_activity_template_create_uid
+#: model:ir.model.fields,field_description:project_event.field_event_template_create_uid
 #: model:ir.model.fields,field_description:project_event.field_task_category_create_uid
+#: model:ir.model.fields,field_description:project_event.field_task_template_create_uid
 msgid "Created by"
 msgstr "Créé par"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_category_create_date
+#: model:ir.model.fields,field_description:project_event.field_activity_template_create_date
+#: model:ir.model.fields,field_description:project_event.field_event_template_create_date
 #: model:ir.model.fields,field_description:project_event.field_task_category_create_date
+#: model:ir.model.fields,field_description:project_event.field_task_template_create_date
 msgid "Created on"
 msgstr "Créé le"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_department_id
+#: model:ir.model.fields,field_description:project_event.field_task_template_department_id
 msgid "Department"
 msgstr "Départment"
 
 #. module: project_event
+#: model:ir.ui.view,arch_db:project_event.activity_task_template_form
+#: model:ir.ui.view,arch_db:project_event.activity_template_form
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
 #: model:ir.ui.view,arch_db:project_event.project_event_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
+#: model:ir.ui.view,arch_db:project_event.project_event_template_form
 msgid "Description"
 msgstr "Description"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_category_display_name
+#: model:ir.model.fields,field_description:project_event.field_activity_template_display_name
+#: model:ir.model.fields,field_description:project_event.field_event_template_display_name
 #: model:ir.model.fields,field_description:project_event.field_task_category_display_name
+#: model:ir.model.fields,field_description:project_event.field_task_template_display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_task_template_duration
+msgid "Duration"
+msgstr "Durée"
+
+#. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_employee_ids
+#: model:ir.model.fields,field_description:project_event.field_task_template_employee_ids
 msgid "Employees"
 msgstr "Employé"
 
@@ -124,42 +159,73 @@ msgid "Event"
 msgstr "Événement"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_activity_template_event_template_id
+#: model:ir.ui.menu,name:project_event.event_template_menu
+#: model:ir.ui.view,arch_db:project_event.project_event_template_form
+#: model:ir.ui.view,arch_db:project_event.project_event_template_tree
+msgid "Event Template"
+msgstr "Modèle d'événement"
+
+#. module: project_event
+#: model:ir.actions.act_window,name:project_event.action_project_event_template
+msgid "Event Templates"
+msgstr "Modèles d'événements"
+
+#. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_project_event
 msgid "Events"
 msgstr "Événements"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_category_id
+#: model:ir.model.fields,field_description:project_event.field_activity_template_id
+#: model:ir.model.fields,field_description:project_event.field_event_template_id
 #: model:ir.model.fields,field_description:project_event.field_task_category_id
+#: model:ir.model.fields,field_description:project_event.field_task_template_id
 msgid "ID"
 msgstr "ID"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_category___last_update
+#: model:ir.model.fields,field_description:project_event.field_activity_template___last_update
+#: model:ir.model.fields,field_description:project_event.field_event_template___last_update
 #: model:ir.model.fields,field_description:project_event.field_task_category___last_update
+#: model:ir.model.fields,field_description:project_event.field_task_template___last_update
 msgid "Last Modified on"
 msgstr "Dernière Modification le"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_category_write_uid
+#: model:ir.model.fields,field_description:project_event.field_activity_template_write_uid
+#: model:ir.model.fields,field_description:project_event.field_event_template_write_uid
 #: model:ir.model.fields,field_description:project_event.field_task_category_write_uid
+#: model:ir.model.fields,field_description:project_event.field_task_template_write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_category_write_date
+#: model:ir.model.fields,field_description:project_event.field_activity_template_write_date
+#: model:ir.model.fields,field_description:project_event.field_event_template_write_date
 #: model:ir.model.fields,field_description:project_event.field_task_category_write_date
+#: model:ir.model.fields,field_description:project_event.field_task_template_write_date
 msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_category_name
+#: model:ir.model.fields,field_description:project_event.field_activity_template_name
+#: model:ir.model.fields,field_description:project_event.field_event_template_name
 #: model:ir.model.fields,field_description:project_event.field_task_category_name
+#: model:ir.model.fields,field_description:project_event.field_task_template_name
 msgid "Name"
 msgstr "Nom"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_activity_template_notes
+#: model:ir.model.fields,field_description:project_event.field_event_template_notes
 #: model:ir.model.fields,field_description:project_event.field_project_project_notes
+#: model:ir.model.fields,field_description:project_event.field_task_template_notes
 msgid "Notes"
 msgstr "Notes"
 
@@ -181,17 +247,35 @@ msgid "Project Event"
 msgstr "Événement"
 
 #. module: project_event
+#: model:ir.ui.view,arch_db:project_event.view_project_task_search
+msgid "Project Task Search"
+msgstr "Recherche Tâche"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_activity_template_temp_resp_id
+#: model:ir.model.fields,field_description:project_event.field_event_template_temp_resp_id
 #: model:ir.model.fields,field_description:project_event.field_project_project_responsible_id
 #: model:ir.model.fields,field_description:project_event.field_project_task_responsible_id
 #: model:ir.model.fields,field_description:project_event.field_project_task_task_responsible_id
+#: model:ir.model.fields,field_description:project_event.field_task_template_temp_resp_id
 msgid "Responsible"
 msgstr "Responsable"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.view_project_project_search
+msgid "Search"
+msgstr "Recherche"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_category_sequence
 #: model:ir.model.fields,field_description:project_event.field_task_category_sequence
 msgid "Sequence"
 msgstr "Séquence"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_task_template_start_time
+msgid "Start Time"
+msgstr "Heure de début"
 
 #. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_project_event_task
@@ -217,9 +301,48 @@ msgid "Task Category"
 msgstr "Catégorie de tâche"
 
 #. module: project_event
+#: model:ir.ui.view,arch_db:project_event.view_project_task_search
+msgid "Task Client"
+msgstr "Client de la tâche"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.view_project_task_search
+msgid "Task Responsible"
+msgstr "Responsable de la tâche"
+
+#. module: project_event
+#: model:ir.ui.menu,name:project_event.activity_task_template_menu
+#: model:ir.ui.view,arch_db:project_event.activity_task_template_form
+#: model:ir.ui.view,arch_db:project_event.activity_task_template_tree
+msgid "Task Template"
+msgstr "Modèle de tâche"
+
+#. module: project_event
+#: model:ir.actions.act_window,name:project_event.action_activity_task_template
+msgid "Task Templates"
+msgstr "Modèles de tâches"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.activity_template_form
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
 msgid "Tasks"
 msgstr "Tâches"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_activity_template_task_template_ids
+msgid "Tasks Template"
+msgstr "Modèle de tâches"
+
+#. module: project_event
+#: model:ir.ui.menu,name:project_event.project_event_template_menu
+msgid "Template"
+msgstr "Modèle"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.activity_template_form
+#: model:ir.ui.view,arch_db:project_event.activity_template_tree
+msgid "Template Event"
+msgstr "Modèle d'événement"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_project_project_type
@@ -233,6 +356,24 @@ msgid "activity.category"
 msgstr "activity.category"
 
 #. module: project_event
+#: model:ir.model,name:project_event.model_activity_template
+msgid "activity.template"
+msgstr "activity.template"
+
+#. module: project_event
+#: model:ir.model,name:project_event.model_event_template
+msgid "event.template"
+msgstr "event.template"
+
+#. module: project_event
 #: model:ir.model,name:project_event.model_task_category
 msgid "task.category"
 msgstr "task.category"
+
+#. module: project_event
+#: model:ir.model,name:project_event.model_task_template
+msgid "task.template"
+msgstr "task.template"
+
+#~ msgid "Activity Category Type"
+#~ msgstr "Catégories d'activité"

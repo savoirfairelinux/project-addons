@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="project_event_template_form" model="ir.ui.view">
+        <field name="name">Event Template Form</field>
+        <field name="model">event.template</field>
+        <field name="arch" type="xml">
+            <form string="Event Template">
+                <sheet>
+                    <div>
+                        <h1>
+                            <field name="name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="temp_resp_id"/>
+                    </group>
+                    <notebook>
+                        <page string="Activities">
+                            <field name="activity_template_ids" context="{'default_event_template_id': active_id}"/>
+                        </page>
+                        <page string="Description">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="project_event_template_tree" model="ir.ui.view">
+        <field name="name">Event Template Tree</field>
+        <field name="model">event.template</field>
+        <field name="arch" type="xml">
+            <tree string="Event Template">
+                <field name="name"/>
+                <field name="temp_resp_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="action_project_event_template" model="ir.actions.act_window">
+        <field name="name">Event Templates</field>
+        <field name="res_model">event.template</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="project_event_template_menu"
+              name="Template"
+              parent="project_event_menu_root"/>
+    <menuitem id="event_template_menu"
+              name="Event Template"
+              parent="project_event_template_menu"
+              action="action_project_event_template"
+              sequence="10"/>
+
+</odoo>
