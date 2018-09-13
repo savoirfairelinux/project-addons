@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="group_project_event_OdooProd" model="res.groups">
+        <field name="name">OdooProd</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_project_event_OdooAca" model="res.groups">
+        <field name="name">OdooAca</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_project_event_OdooProdInvite" model="res.groups">
+        <field name="name">OdooProdInvite</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <record id="group_project_event_OdooProf" model="res.groups">
+        <field name="name">OdooProf</field>
+        <field name="implied_ids" eval="[(4,ref('base.group_user'))]"/>
+    </record>
+
+</odoo>
