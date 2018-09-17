@@ -3,6 +3,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from odoo import api, fields, models
+from datetime import datetime
 
 
 class Task(models.Model):
@@ -68,6 +69,12 @@ class Task(models.Model):
         store=True,
         readonly=True,
     )
+    task_order = fields.Integer(
+        string='Task order',
+        store=True,
+        readonly=True,
+        compute='_compute_order_task',
+    )
 
     @api.constrains('parent_id')
     def _check_subtask_project(self):
@@ -94,3 +101,17 @@ class Task(models.Model):
             domain = ['|', ('name', operator, name),
                       ('code', operator, name)]
         return super(Task, self).search(domain + args, limit=limit).name_get()
+
+    @api.multi
+    @api.depends('date_start', 'parent_id.date_start')
+    def _compute_order_task(self):
+        for task in self:
+            if task.activity_task_type == 'task':
+                if task.parent_id and task.parent_id.date_start:
+                    activity_date_start= task.parent_id.date_start
+                    fmt = '%Y-%m-%d %H:%M:%S'
+                    time_difference = \
+                        datetime.strptime(task.date_start, fmt)\
+                        - datetime.strptime(activity_date_start, fmt)
+                    task.task_order = time_difference.days * 24 * 60\
+                                      + time_difference.seconds / 60
