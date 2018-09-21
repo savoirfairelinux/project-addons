@@ -18,10 +18,15 @@
                             <field name="event_template_id" string="Template Event"/>
                             <field name="activity_category_id"/>
                         </group>
+                        <group>
+                            <field name="room_id"/>
+                            <button name="action_initialize" string="Initialize" type="object"/>
+                            <button name="action_clear" string="Clear" type="object"/>
+                        </group>
                     </group>
                     <notebook>
                         <page string="Tasks">
-                            <field name="task_template_ids"/>
+                            <field name="task_template_ids" context="{'default_activity_template_id': active_id}"/>
                         </page>
                         <page string="Description">
                             <field name="notes"/>

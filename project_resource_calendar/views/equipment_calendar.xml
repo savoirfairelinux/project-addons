@@ -16,7 +16,7 @@
                 </h2>
                 <label for="resource_type" class="oe_edit_only" />
                 <field name="resource_type"/>
-                <field name="room_ids" 
+                <field name="room_ids"
                        attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"
                        widget="many2many_tags"
                        placeholder="Select Room"
@@ -37,7 +37,7 @@
         <field name="arch" type="xml">
             <field name="partner_ids" position="after">
             <field name="resource_type"/>
-            <field name="room_ids" 
+            <field name="room_ids"
                    attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"
                    widget="many2many_tags"
             />
