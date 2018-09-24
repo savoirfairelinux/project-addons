@@ -82,6 +82,20 @@ class Task(models.Model):
             if task.activity_task_type is False:
                 super(Task, task)._check_subtask_project()
 
+    task_state = fields.Selection([
+        ('draft', 'Draft'),
+        ('option', 'Option'),
+        ('requested', 'Requested'),
+        ('read', 'Read'),
+        ('accepted', 'Accepted'),
+        ('done', 'Done'),
+        ('canceled', 'Canceled')],
+        string='Task State',
+        default='draft',
+        required=True,
+        track_visibility='onchange',
+    )
+
     @api.model
     def create(self, vals):
         if 'activity_task_type' in vals:
@@ -115,3 +129,30 @@ class Task(models.Model):
                         - datetime.strptime(activity_date_start, fmt)
                     task.task_order = time_difference.days * 24 * 60\
                                       + time_difference.seconds / 60
+
+    def action_done(self):
+        self.write({'task_state': 'done'})
+
+    @api.multi
+    def action_request(self):
+        self.write({'task_state': 'requested'})
+
+    @api.multi
+    def action_option(self):
+        self.write({'task_state': 'option'})
+
+    @api.multi
+    def action_cancel(self):
+        self.write({'task_state': 'canceled'})
+
+    @api.multi
+    def action_accept(self):
+        self.write({'task_state': 'accepted'})
+
+    @api.multi
+    def action_read(self):
+        self.write({'task_state': 'read'})
+
+    @api.multi
+    def action_draft(self):
+        self.write({'task_state': 'draft'})
