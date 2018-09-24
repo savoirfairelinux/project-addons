@@ -122,6 +122,7 @@
                 <field name="parent_id" string="Activity"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
+                <field name="task_order" invisible="1"/>
             </tree>
         </field>
     </record>
