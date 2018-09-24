@@ -24,6 +24,7 @@
                             <field name="responsible_id"/>
                             <field name="partner_id"/>
                             <field name="activity_category_id"/>
+                            <field name="room_id"/>
                             <field name="activity_task_type" invisible="1"/>
                         </group>
                         <group>
@@ -76,7 +77,8 @@
                     <button name="action_draft" string="Return to Draft" attrs="{'invisible': [('task_state', 'not in', ['requested','accepted'])]}" type="object"/>
                     <button name="action_cancel" string="Cancel" type="object" attrs="{'invisible': [('task_state', 'in', ['done','canceled'])]}"/>
                     <field name="task_state" widget="statusbar"/>
-                </header>
+                    <button class="oe_read_only" string="Request" type="object" name="request_resource_reservation"/>
+            </header>
                 <sheet>
                     <div>
                         <h1>
@@ -114,6 +116,13 @@
                     <notebook>
                         <page string="Description">
                             <field name="notes"/>
+                        </page>
+                         <page string="Resources">
+                          <group>
+                            <field name="resource_type"/>
+                            <field name="room_id" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
+                            <field name="equipment_id" attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
+                         </group>
                         </page>
                     </notebook>
                 </sheet>

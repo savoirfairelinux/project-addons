@@ -75,6 +75,26 @@ class Task(models.Model):
         readonly=True,
         compute='_compute_order_task',
     )
+    room_id = fields.Many2one(
+        string='Room',
+        comodel_name='resource.calendar.room',
+        ondelete='set null',
+    )
+    equipment_id = fields.Many2one(
+        string='Equipment',
+        comodel_name='resource.calendar.instrument',
+        ondelete='set null',
+    )
+    resource_type = fields.Selection([
+        ('user', 'Human'),
+        ('equipment', 'Equipment'),
+        ('room', 'Room')], string='Resource Type',
+        default='room', required=True)
+
+    @api.onchange('resource_type')
+    def _onchange_resource_type(self):
+        self.room_id = None
+        self.equipment_id = None
 
     @api.constrains('parent_id')
     def _check_subtask_project(self):
@@ -95,6 +115,18 @@ class Task(models.Model):
         required=True,
         track_visibility='onchange',
     )
+    @api.one
+    def request_resource_reservation(self):
+        calendar_event = self.env['calendar.event']
+        values = {
+            'start': self.date_start,
+            'stop': self.date_end,
+            'name': self.name,
+            'resource_type': self.resource_type,
+            'equipment_id': self.equipment_id.id if self.equipment_id else None,
+            'room_id': self.room_id.id if self.room_id else None,
+             }
+        calendar_event.create(values)
 
     @api.model
     def create(self, vals):
@@ -122,7 +154,7 @@ class Task(models.Model):
         for task in self:
             if task.activity_task_type == 'task':
                 if task.parent_id and task.parent_id.date_start:
-                    activity_date_start= task.parent_id.date_start
+                    activity_date_start = task.parent_id.date_start
                     fmt = '%Y-%m-%d %H:%M:%S'
                     time_difference = \
                         datetime.strptime(task.date_start, fmt)\

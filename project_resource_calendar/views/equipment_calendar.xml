@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="calendar_resource.view_calendar_event_form" model="ir.ui.view">
+        <field name="name">calendar.event.form</field>
+        <field name="model">calendar.event</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_title']" position="inside">
+                <label for="resource_ids" class="oe_edit_only" invisible="1" />
+                <h2>
+                    <field name="resource_ids"
+                           widget="many2many_tags"
+                           placeholder="Select Resources"
+                           class="oe_inline" 
+                           invisible="1"/>
+                </h2>
+                <label for="resource_type" class="oe_edit_only" />
+                <field name="resource_type"/>
+                <field name="room_ids" 
+                       attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"
+                       widget="many2many_tags"
+                       placeholder="Select Room"
+                       class="oe_inline" />
+                <field name="equipment_ids" 
+                       attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"
+                       widget="many2many_tags"
+                       placeholder="Select Equipment"
+                       class="oe_inline" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_calendar_event_form_popup" model="ir.ui.view">
+        <field name="name">view.calendar.event.form.popup</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar_resource.view_calendar_event_form_popup" />
+        <field name="arch" type="xml">
+            <field name="partner_ids" position="after">
+            <field name="resource_type"/>
+            <field name="room_ids" 
+                   attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"
+                   widget="many2many_tags"
+            />
+            <field name="equipment_ids" 
+                   attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"
+                   widget="many2many_tags"
+            />
+            </field>
+        
+        </field>
+    </record>
+    
+    <record id="view_calendar_event_calendar" model="ir.ui.view">
+        <field name="name">calendar.event.calendar</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_calendar" />
+        <field name="arch" type="xml">
+            <calendar>
+                <field name="room_ids" write_model="resource.calendar.room"/>
+                <field name="is_highlighted" invisible="1"/>
+            </calendar>
+        </field>
+    </record>
+
+</odoo>

@@ -461,6 +461,3 @@ msgstr "task.category"
 #: model:ir.model,name:project_event.model_task_template
 msgid "task.template"
 msgstr "task.template"
-
-#~ msgid "Activity Category Type"
-#~ msgstr "Catégories d'activité"
