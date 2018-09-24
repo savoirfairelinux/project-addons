@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-10 12:22-0400\n"
-"PO-Revision-Date: 2018-09-10 12:56-0400\n"
+"POT-Creation-Date: 2018-09-24 15:15-0400\n"
+"PO-Revision-Date: 2018-09-24 15:18-0400\n"
 "Last-Translator: Rim BEN DHAOU <rim.bendhaou@savoirfairelinux.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -16,6 +16,16 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 "X-Generator: Poedit 1.8.7.1\n"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_task_form
+msgid "Accept"
+msgstr "Accepter"
+
+#. module: project_event
+#: selection:project.task,task_state:0
+msgid "Accepted"
+msgstr "Accepté"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_form
@@ -74,6 +84,16 @@ msgstr "Assigné à"
 #: model:ir.ui.view,arch_db:project_event.project_event_task_calendar
 msgid "Calendar View"
 msgstr "Vue Calendrier"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_task_form
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: project_event
+#: selection:project.task,task_state:0
+msgid "Canceled"
+msgstr "Annulé"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_template_activity_category_id
@@ -135,6 +155,17 @@ msgstr "Description"
 #: model:ir.model.fields,field_description:project_event.field_task_template_display_name
 msgid "Display Name"
 msgstr "Nom affiché"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_task_form
+#: selection:project.task,task_state:0
+msgid "Done"
+msgstr "Réalisé"
+
+#. module: project_event
+#: selection:project.task,task_state:0
+msgid "Draft"
+msgstr "Brouillon"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_task_template_duration
@@ -235,6 +266,32 @@ msgid "Number"
 msgstr "Numéro"
 
 #. module: project_event
+#: model:res.groups,name:project_event.group_project_event_OdooAca
+msgid "OdooAca"
+msgstr "OdooAca"
+
+#. module: project_event
+#: model:res.groups,name:project_event.group_project_event_OdooProd
+msgid "OdooProd"
+msgstr "OdooProd"
+
+#. module: project_event
+#: model:res.groups,name:project_event.group_project_event_OdooProdInvite
+msgid "OdooProdInvite"
+msgstr "OdooProdInvite"
+
+#. module: project_event
+#: model:res.groups,name:project_event.group_project_event_OdooProf
+msgid "OdooProf"
+msgstr "OdooProf"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_task_form
+#: selection:project.task,task_state:0
+msgid "Option"
+msgstr "Option"
+
+#. module: project_event
 #: model:ir.model,name:project_event.model_project_project
 #: selection:project.project,project_type:0
 msgid "Project"
@@ -252,6 +309,21 @@ msgid "Project Task Search"
 msgstr "Recherche Tâche"
 
 #. module: project_event
+#: selection:project.task,task_state:0
+msgid "Read"
+msgstr "Lu"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_task_form
+msgid "Request"
+msgstr "Demander"
+
+#. module: project_event
+#: selection:project.task,task_state:0
+msgid "Requested"
+msgstr "Demandé"
+
+#. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_template_temp_resp_id
 #: model:ir.model.fields,field_description:project_event.field_event_template_temp_resp_id
 #: model:ir.model.fields,field_description:project_event.field_project_project_responsible_id
@@ -260,6 +332,11 @@ msgstr "Recherche Tâche"
 #: model:ir.model.fields,field_description:project_event.field_task_template_temp_resp_id
 msgid "Responsible"
 msgstr "Responsable"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_task_form
+msgid "Return to Draft"
+msgstr "Revenir à brouillon"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.view_project_project_search
@@ -311,6 +388,11 @@ msgid "Task Responsible"
 msgstr "Responsable de la tâche"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_task_task_state
+msgid "Task State"
+msgstr "État de tâche"
+
+#. module: project_event
 #: model:ir.ui.menu,name:project_event.activity_task_template_menu
 #: model:ir.ui.view,arch_db:project_event.activity_task_template_form
 #: model:ir.ui.view,arch_db:project_event.activity_task_template_tree
@@ -321,6 +403,11 @@ msgstr "Modèle de tâche"
 #: model:ir.actions.act_window,name:project_event.action_activity_task_template
 msgid "Task Templates"
 msgstr "Modèles de tâches"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_task_task_order
+msgid "Task order"
+msgstr "Ordre de tâche"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.activity_template_form
@@ -374,6 +461,3 @@ msgstr "task.category"
 #: model:ir.model,name:project_event.model_task_template
 msgid "task.template"
 msgstr "task.template"
-
-#~ msgid "Activity Category Type"
-#~ msgstr "Catégories d'activité"

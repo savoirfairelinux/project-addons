@@ -15,6 +15,7 @@
         'project',
         'mail',
         'hr',
+        'project_resource_calendar'
     ],
     'external_dependencies': {
         'python': [],

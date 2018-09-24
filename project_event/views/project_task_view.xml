@@ -24,6 +24,7 @@
                             <field name="responsible_id"/>
                             <field name="partner_id"/>
                             <field name="activity_category_id"/>
+                            <field name="room_id"/>
                             <field name="activity_task_type" invisible="1"/>
                         </group>
                         <group>
@@ -68,6 +69,16 @@
         <field name="model">project.task</field>
         <field name="arch" type="xml">
             <form string="Task">
+                <header>
+                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', '!=', 'draft')]}" type="object"/>
+                    <button name="action_request" string="Request" attrs="{'invisible': [('task_state', 'not in', ['draft','option'])]}" type="object"/>
+                    <button name="action_accept" string="Accept" attrs="{'invisible': [('task_state', '!=', 'requested')]}" type="object"/>
+                    <button name="action_done" string="Done" attrs="{'invisible': [('task_state', '!=', 'accepted')]}" type="object"/>
+                    <button name="action_draft" string="Return to Draft" attrs="{'invisible': [('task_state', 'not in', ['requested','accepted'])]}" type="object"/>
+                    <button name="action_cancel" string="Cancel" type="object" attrs="{'invisible': [('task_state', 'in', ['done','canceled'])]}"/>
+                    <field name="task_state" widget="statusbar"/>
+                    <button class="oe_read_only" string="Request" type="object" name="request_resource_reservation"/>
+            </header>
                 <sheet>
                     <div>
                         <h1>
@@ -106,6 +117,13 @@
                         <page string="Description">
                             <field name="notes"/>
                         </page>
+                         <page string="Resources">
+                          <group>
+                            <field name="resource_type"/>
+                            <field name="room_id" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
+                            <field name="equipment_id" attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
+                         </group>
+                        </page>
                     </notebook>
                 </sheet>
             </form>
@@ -123,6 +141,7 @@
                 <field name="date_start"/>
                 <field name="date_end"/>
                 <field name="task_order" invisible="1"/>
+                <field name="task_state"/>
             </tree>
         </field>
     </record>

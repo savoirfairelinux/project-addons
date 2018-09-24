@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_resource_instrument" model="ir.actions.act_window">
+        <field name="name">Instruments</field>
+        <field name="res_model">resource.calendar.instrument</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="instrument_sub_menu"
+              name="Instruments"
+              parent="resource.menu_resource_config"
+              action="action_resource_instrument"
+              sequence="16"/>
+
+     <record id="resource_instrument_tree" model="ir.ui.view">
+        <field name="name">Instrument Tree</field>
+        <field name="model">resource.calendar.instrument</field>
+        <field name="arch" type="xml">
+            <tree string="instrument">
+                <field name='name'/>
+                <field name='room_id'/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="resource_calendar_instrument_form" model="ir.ui.view">
+        <field name="name">Instrument Form</field>
+        <field name="model">resource.calendar.instrument</field>
+        <field name="arch" type="xml">
+            <form string="Instrument">
+                <sheet>
+                    <div>
+                        <h1>
+                            <field name="name" placeholder="Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="room_id" />
+                            <field name="item_type" />
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Tasks">
+                        </page>
+                        <page string="Description">
+                        </page>
+                        <page string="Pricing">
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>
