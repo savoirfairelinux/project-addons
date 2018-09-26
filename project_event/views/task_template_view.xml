@@ -14,6 +14,9 @@
                     </div>
                     <group>
                         <group>
+                            <field name="resource_type"/>
+                            <field name="equipment_id" string="Equipment" attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
+                            <field name="room_id" string="Room" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
                             <field name="activity_template_id" string="Activity Template"/>
                             <field name="temp_resp_id"/>
                             <field name="task_category_id"/>
@@ -44,6 +47,9 @@
         <field name="model">task.template</field>
         <field name="arch" type="xml">
             <tree string="Task Template">
+                <field name="resource_type"/>
+                <field name="equipment_id" string="Equipment"/>
+                <field name="room_id" string="Room"/>
                 <field name="name"/>
                 <field name="activity_template_id"/>
                 <field name="task_category_id"/>
