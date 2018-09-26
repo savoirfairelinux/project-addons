@@ -65,7 +65,7 @@ class ActivityTemplate(models.Model):
                 vals = {
                     'task_template_ids': [(0, 0, equipment)],
                 }
-            self.write(vals)
+                self.write(vals)
         else:
             main_task = {
                 'name': self.name,

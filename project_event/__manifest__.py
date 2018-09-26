@@ -21,6 +21,7 @@
         'python': [],
     },
     'data': [
+        'data/ir_sequence_data.xml',
         'security/ir.model.access.csv',
         'security/project_security.xml',
         'views/project_project_view.xml',
@@ -30,7 +31,7 @@
         'views/event_template_view.xml',
         'views/activity_template_view.xml',
         'views/task_template_view.xml',
-        'data/ir_sequence_data.xml',
+        'wizard/project_event_wizard_view.xml',
     ],
     'installable': True,
     'application': False,

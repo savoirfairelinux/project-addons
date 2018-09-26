@@ -45,6 +45,7 @@
                 <field name="event_template_id" string="Template Event"/>
                 <field name="temp_resp_id"/>
                 <field name="activity_category_id"/>
+                <field name="room_id"/>
             </tree>
         </field>
     </record>
