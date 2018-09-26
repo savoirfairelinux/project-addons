@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <record id="project_event_template_form" model="ir.ui.view">
         <field name="name">Event Template Form</field>
         <field name="model">event.template</field>
@@ -27,7 +26,6 @@
             </form>
         </field>
     </record>
-
     <record id="project_event_template_tree" model="ir.ui.view">
         <field name="name">Event Template Tree</field>
         <field name="model">event.template</field>
@@ -38,14 +36,12 @@
             </tree>
         </field>
     </record>
-
     <record id="action_project_event_template" model="ir.actions.act_window">
         <field name="name">Event Templates</field>
         <field name="res_model">event.template</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
-
     <menuitem id="project_event_template_menu"
               name="Template"
               parent="project_event_menu_root"/>
@@ -54,5 +50,4 @@
               parent="project_event_template_menu"
               action="action_project_event_template"
               sequence="10"/>
-
 </odoo>

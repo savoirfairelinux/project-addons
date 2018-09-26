@@ -6,12 +6,10 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
-
     <menuitem id="project_event_task_categories_menu"
               name="Task Categories"
               parent="project_event_configuration_menu"
               action="action_task_category"/>
-
     <record id="task_category_form" model="ir.ui.view">
         <field name="name">Category Form</field>
         <field name="model">task.category</field>
