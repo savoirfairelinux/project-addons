@@ -32,4 +32,6 @@ class ProjectActivityWizard(models.TransientModel):
         'resource.resource',
         string='Room',
     )
-    notes = fields.Text(string='Notes')
+    notes = fields.Text(
+        string='Notes',
+    )

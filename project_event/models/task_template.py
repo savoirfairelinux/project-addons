@@ -1,4 +1,3 @@
-# coding: utf-8 -*-
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
@@ -6,7 +5,9 @@ from odoo import api, fields, models
 
 
 class TaskTemplate(models.Model):
+    """Event Task Template"""
     _name = "task.template"
+    _description = __doc__
 
     name = fields.Char(
         string='Name',
@@ -51,7 +52,7 @@ class TaskTemplate(models.Model):
     employee_ids = fields.Many2many(
         'hr.employee', 'task_template_emp_rel',
         'task_id', 'employee_id',
-        string='Employees'
+        string='Employees',
     )
     duration = fields.Float(
         string='Duration',
@@ -59,7 +60,9 @@ class TaskTemplate(models.Model):
     start_time = fields.Float(
         string='Start Time',
     )
-    notes = fields.Text(string='Notes')
+    notes = fields.Text(
+        string='Notes',
+    )
 
     @api.onchange('resource_type')
     def _onchange_resource_type(self):

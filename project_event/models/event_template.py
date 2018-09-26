@@ -1,4 +1,3 @@
-# coding: utf-8 -*-
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
@@ -6,7 +5,9 @@ from odoo import fields, models
 
 
 class EventTemplate(models.Model):
+    """Event Template"""
     _name = "event.template"
+    _description = __doc__
 
     name = fields.Char(
         string='Name',
@@ -20,4 +21,6 @@ class EventTemplate(models.Model):
         'event_template_id',
         string='Activity Template',
     )
-    notes = fields.Text(string='Notes')
+    notes = fields.Text(
+        string='Notes',
+    )

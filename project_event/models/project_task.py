@@ -1,4 +1,3 @@
-# coding: utf-8 -*-
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
@@ -39,7 +38,7 @@ class Task(models.Model):
     employee_ids = fields.Many2many(
         'hr.employee', 'task_emp_rel',
         'task_id', 'employee_id',
-        string='Employees'
+        string='Employees',
     )
     responsible_id = fields.Many2one(
         'res.partner',
@@ -89,7 +88,20 @@ class Task(models.Model):
         ('user', 'Human'),
         ('equipment', 'Equipment'),
         ('room', 'Room')], string='Resource Type',
-        default='room', required=True)
+        default='room', required=True,
+    )
+    task_state = fields.Selection([
+        ('draft', 'Draft'),
+        ('option', 'Option'),
+        ('requested', 'Requested'),
+        ('read', 'Read'),
+        ('accepted', 'Accepted'),
+        ('done', 'Done'),
+        ('canceled', 'Canceled')],
+        string='Task State',
+        default='draft',
+        track_visibility='onchange',
+    )
 
     @api.onchange('resource_type')
     def _onchange_resource_type(self):
@@ -101,32 +113,6 @@ class Task(models.Model):
         for task in self:
             if task.activity_task_type is False:
                 super(Task, task)._check_subtask_project()
-
-    task_state = fields.Selection([
-        ('draft', 'Draft'),
-        ('option', 'Option'),
-        ('requested', 'Requested'),
-        ('read', 'Read'),
-        ('accepted', 'Accepted'),
-        ('done', 'Done'),
-        ('canceled', 'Canceled')],
-        string='Task State',
-        default='draft',
-        required=True,
-        track_visibility='onchange',
-    )
-    @api.one
-    def request_resource_reservation(self):
-        calendar_event = self.env['calendar.event']
-        values = {
-            'start': self.date_start,
-            'stop': self.date_end,
-            'name': self.name,
-            'resource_type': self.resource_type,
-            'equipment_id': self.equipment_id.id if self.equipment_id else None,
-            'room_id': self.room_id.id if self.room_id else None,
-             }
-        calendar_event.create(values)
 
     @api.model
     def create(self, vals):
@@ -167,10 +153,30 @@ class Task(models.Model):
 
     @api.multi
     def action_request(self):
+        calendar_event = self.env['calendar.event']
+        values = {
+            'start': self.date_start,
+            'stop': self.date_end,
+            'name': self.name,
+            'resource_type': self.resource_type,
+            'equipment_id': self.equipment_id.id if self.equipment_id else None,
+            'room_id': self.room_id.id if self.room_id else None,
+        }
+        calendar_event.create(values)
         self.write({'task_state': 'requested'})
 
     @api.multi
     def action_option(self):
+        calendar_event = self.env['calendar.event']
+        values = {
+            'start': self.date_start,
+            'stop': self.date_end,
+            'name': self.name,
+            'resource_type': self.resource_type,
+            'equipment_id': self.equipment_id.id if self.equipment_id else None,
+            'room_id': self.room_id.id if self.room_id else None,
+        }
+        calendar_event.create(values)
         self.write({'task_state': 'option'})
 
     @api.multi
