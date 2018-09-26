@@ -14,13 +14,17 @@
               action="action_resource_instrument"
               sequence="16"/>
 
-     <record id="resource_instrument_tree" model="ir.ui.view">
+    <record id="resource_instrument_tree" model="ir.ui.view">
         <field name="name">Instrument Tree</field>
         <field name="model">resource.calendar.instrument</field>
         <field name="arch" type="xml">
-            <tree string="instrument">
-                <field name='name'/>
-                <field name='room_id'/>
+            <tree string="Instrument">
+                <field name="name"/>
+                <field name="room_id"/>
+                <field name="sku"/>
+                <field name="tarification"/>
+                <field name="is_bookable"/>
+                <field name="description"/>
             </tree>
         </field>
     </record>
@@ -38,8 +42,14 @@
                     </div>
                     <group>
                         <group>
-                            <field name="room_id" />
-                            <field name="item_type" />
+                            <field name="room_id"/>
+                            <field name="category_type"/>
+                            <field name="tarification"/>
+                        </group>
+                        <group>
+                            <field name="sku"/>
+                            <field name="is_bookable"/>
+                            <field name="description"/>
                         </group>
                     </group>
                     <notebook>
@@ -48,6 +58,9 @@
                         <page string="Description">
                         </page>
                         <page string="Pricing">
+                        </page>
+                        <page string="Photos">
+                            <field name="photos" widget="image"/>
                         </page>
                     </notebook>
                 </sheet>
