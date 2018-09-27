@@ -16,16 +16,10 @@ class Room(models.Model):
     floor = fields.Char(
         string='Floor',
     )
-    description = fields.Text(
-        string='Dsescription',
-    )
     room_type_id = fields.Many2one(
         string='Room Type',
         comodel_name='resource.calendar.room.type',
         ondelete='set null',
-    )
-    is_bookable = fields.Boolean(
-        string='Is Bookable',
     )
     sector_id = fields.Many2one(
         string='Sector',
@@ -40,12 +34,6 @@ class Room(models.Model):
     miscellaneous = fields.Many2many(
         string='Miscellaneous',
         comodel_name='resource.calendar.miscellaneous',
-    )
-    pricing = fields.Float(
-        string='Pricing ($)',
-    )
-    pricing_type = fields.Char(
-        string='Pricing_type',
     )
 
     @api.model

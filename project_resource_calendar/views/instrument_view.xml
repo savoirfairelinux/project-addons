@@ -19,9 +19,7 @@
                 <field name="name"/>
                 <field name="room_id"/>
                 <field name="sku"/>
-                <field name="tarification"/>
                 <field name="is_bookable"/>
-                <field name="description"/>
             </tree>
         </field>
     </record>
@@ -31,6 +29,7 @@
         <field name="arch" type="xml">
             <form string="Instrument">
                 <sheet>
+                    <field name="photo" widget="image" class="oe_avatar" />
                     <div>
                         <h1>
                             <field name="name" placeholder="Name"/>
@@ -40,18 +39,41 @@
                         <group>
                             <field name="room_id"/>
                             <field name="category_type"/>
-                            <field name="tarification"/>
                         </group>
                         <group>
                             <field name="sku"/>
                             <field name="is_bookable"/>
-                            <field name="description"/>
                         </group>
                     </group>
                     <notebook>
-                        <page string="Tasks"></page>
-                        <page string="Description"></page>
-                        <page string="Pricing"></page>
+                        <page string="Photos">
+                            <group>
+                                <field name="photo_1"
+                                   widget="image" />
+                            </group>
+                            <group>
+                                <field name="photo_2"
+                                   widget="image"
+                                   attrs="{'invisible': [('photo_1','=',False)]}"/>
+                            </group>
+                            <group>
+                                <field name="photo_3"
+                                   widget="image"
+                                   attrs="{'invisible': [('photo_2','=',False)]}"/>
+                                <field name="photo_4"
+                                   widget="image"
+                                   attrs="{'invisible': [('photo_3','=',False)]}"/>
+                            </group>
+                        </page>
+                        <page string="Pricing">
+                            <group>
+                                <field name="pricing_type"/>
+                                <field name="pricing"/>
+                            </group>
+                        </page>
+                        <page string="Description">
+                             <field name="description"/>
+                        </page>
                     </notebook>
                 </sheet>
             </form>
