@@ -18,12 +18,6 @@
             <tree string="room">
                 <field name='name'/>
                 <field name='room_code'/>
-                <field name='capacity'/>
-                <field name='description'/>
-                <field name='room_type_id'/>
-                <field name='is_bookable'/>
-                <field name='sector_id'/>
-                <field name='instruments_ids'/>
             </tree>
         </field>
     </record>
@@ -33,33 +27,58 @@
         <field name="arch" type="xml">
             <form string="Room">
                 <sheet>
-                    <div>
+                    <field name="photo" widget="image" class="oe_avatar" />
+                    <div class="oe_title">
+                        <label class="oe_edit_only" for="name" string="Room Name"/>
                         <h1>
-                            <field name="name" placeholder="Name"/>
+                            <field name="name" placeholder="Room Name"/>
                         </h1>
-                    </div>
-                    <div align="right">
-                        <h1>
-                            <field name="room_code" placeholder='ID'/>
-                        </h1>
+                        <label class="oe_edit_only" for="room_code" string="Room Code"/>
+                        <h4>
+                            <field name="room_code" placeholder='Room Code'/>
+                        </h4>
                     </div>
                     <group>
                         <group>
+                            <field name="description" placeholder="Description"/>
                             <field name="capacity" />
+                            <field name="floor" />
                             <field name="room_type_id"/>
                             <field name="is_bookable"/>
                             <field name="sector_id" />
                             <field name="instruments_ids" />
+                            <field name="miscellaneous"
+                                widget="many2many_tags"
+                                placeholder="Select Resources"
+                                class="oe_inline" />
                         </group>
                         <group></group>
                     </group>
                     <notebook>
-                        <page string="Tasks"></page>
-                        <page string="Description">
-                            <field name="description"/>
+                        <page string="Photos">
+                            <group>
+                                <field name="photo_1" 
+                                   widget="image" />
+                            </group>
+                            <group>
+                                <field name="photo_2" 
+                                   widget="image" 
+                                   attrs="{'invisible': [('photo_1','=',False)]}"/>
+                            </group>
+                            <group>
+                                <field name="photo_3" 
+                                   widget="image" 
+                                   attrs="{'invisible': [('photo_2','=',False)]}"/>
+                                <field name="photo_4" 
+                                   widget="image" 
+                                   attrs="{'invisible': [('photo_3','=',False)]}"/>
+                            </group>
                         </page>
                         <page string="Pricing">
-                            <field name="description"/>
+                            <group>
+                                <field name="pricing_type"/>
+                                <field name="pricing"/>
+                            </group>
                         </page>
                     </notebook>
                 </sheet>
