@@ -58,4 +58,6 @@ class ProjectTaskWizard(models.TransientModel):
     start_time = fields.Float(
         string='Start Time',
     )
-    notes = fields.Text(string='Notes')
+    notes = fields.Text(
+        string='Notes',
+    )

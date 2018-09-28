@@ -1,4 +1,3 @@
-# coding: utf-8 -*-
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
@@ -11,7 +10,6 @@ class Project(models.Model):
 
     code = fields.Char(
         'Number',
-        default='New',
     )
     responsible_id = fields.Many2one(
         'res.partner',
@@ -29,7 +27,9 @@ class Project(models.Model):
         string='Type',
         default='project',
     )
-    notes = fields.Text(string='Notes')
+    notes = fields.Text(
+        string='Notes',
+    )
 
     @api.model
     def create(self, vals):
@@ -46,4 +46,5 @@ class Project(models.Model):
         if name:
             domain = ['|', ('name', operator, name),
                       ('code', operator, name)]
-        return super(Project, self).search(domain + args, limit=limit).name_get()
+        return super(Project, self).search(
+            domain + args, limit=limit).name_get()

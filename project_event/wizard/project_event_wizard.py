@@ -26,12 +26,12 @@ class ProjectEventWizard(models.TransientModel):
     activity_ids = fields.One2many(
         'project.activity.wizard',
         'event_wizard_id',
-        string='Activities to Edit'
+        string='Activities to Edit',
     )
     task_line_ids = fields.One2many(
         'project.task.wizard',
         'event_wizard_id',
-        string='Tasks to Edit'
+        string='Tasks to Edit',
     )
 
     @api.multi
