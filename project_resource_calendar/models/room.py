@@ -13,6 +13,9 @@ class Room(models.Model):
     capacity = fields.Integer(
         string='Capacity',
     )
+    floor = fields.Char(
+        string='Floor',
+    )
     description = fields.Text(
         string='Dsescription',
     )
@@ -33,6 +36,16 @@ class Room(models.Model):
         'resource.calendar.instrument',
         'room_id',
         string='Instruments',
+    )
+    miscellaneous = fields.Many2many(
+        string='Miscellaneous',
+        comodel_name='resource.calendar.miscellaneous',
+    )
+    pricing = fields.Float(
+        string='Pricing ($)',
+    )
+    pricing_type = fields.Char(
+        string='Pricing_type',
     )
 
     @api.model

@@ -22,3 +22,28 @@ class Resource(models.Model):
     is_bookable = fields.Boolean(
         string='Is Bookable',
     )
+    photo = fields.Binary(
+        "Photo",
+        help="Add Photo",
+        attachment=True,
+    )
+    photo_1 = fields.Binary(
+        "Photo 1",
+        help="Add Photo",
+        attachment=True,
+    )
+    photo_2 = fields.Binary(
+        "Photo 2",
+        help="Add Photo",
+        attachment=True,
+    )
+    photo_3 = fields.Binary(
+        "Photo 3",
+        help="Add Photo",
+        attachment=True,
+    )
+    photo_4 = fields.Binary(
+        "Photo 4",
+        help="Add Photo",
+        attachment=True,
+    )
