@@ -1,4 +1,3 @@
-# coding: utf-8 -*-
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
@@ -6,7 +5,9 @@ from odoo import api, fields, models
 
 
 class ActivityTemplate(models.Model):
+    """Event Activity Template"""
     _name = "activity.template"
+    _description = __doc__
 
     name = fields.Char(
         string='Name',
@@ -37,7 +38,9 @@ class ActivityTemplate(models.Model):
         'activity_template_id',
         string='Tasks Template',
     )
-    notes = fields.Text(string='Notes')
+    notes = fields.Text(
+        string='Notes',
+    )
 
     @api.multi
     def action_clear(self):
