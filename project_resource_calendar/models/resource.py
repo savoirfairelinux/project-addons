@@ -7,11 +7,10 @@ from odoo import fields, models
 class Resource(models.Model):
     _inherit = 'resource.resource'
 
-    resource_type = fields.Selection([
-        ('user', 'Human'),
-        ('material', 'Material'),
-        ('room', 'Room')
-    ],
+    resource_type = fields.Selection(
+        [('user', 'Human'),
+         ('material', 'Material'),
+         ('room', 'Room')],
         string='Resource Type',
         default='user',
         required=True,
@@ -46,4 +45,13 @@ class Resource(models.Model):
         "Photo 4",
         help="Add Photo",
         attachment=True,
+    )
+    pricing = fields.Float(
+        string='Pricing ($)',
+    )
+    pricing_type = fields.Selection(
+        [('fixed', 'Fixed Rate'),
+         ('hour', 'Per Hour')],
+        string='Pricing Type',
+        default='fixed',
     )

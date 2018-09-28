@@ -46,7 +46,6 @@
                     </div>
                     <group>
                         <group>
-                            <field name="description" placeholder="Description"/>
                             <field name="capacity" />
                             <field name="floor" />
                             <field name="room_type_id"/>
@@ -58,7 +57,6 @@
                                 placeholder="Select Resources"
                                 class="oe_inline" />
                         </group>
-                        <group></group>
                     </group>
                     <notebook>
                         <page string="Photos">
@@ -85,6 +83,9 @@
                                 <field name="pricing_type"/>
                                 <field name="pricing"/>
                             </group>
+                        </page>
+                        <page string="Description">
+                            <field name="description"/>
                         </page>
                     </notebook>
                 </sheet>
