@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
+    <record model="ir.ui.menu" id="resource.menu_resource_calendar">
+        <field name="active">false</field>
+    </record>
+    <record model="ir.ui.menu" id="resource.menu_view_resource_calendar_leaves_search">
+        <field name="active">false</field>
+    </record>
     <record id="action_resource_calendar" model="ir.actions.act_window">
         <field name="name">Resource Calendar</field>
         <field name="res_model">resource.resource</field>
@@ -9,13 +14,7 @@
     </record>
     <menuitem id="resource_calendar_menu_root"
               name="Resource calendar"/>
-    <menuitem id="resource_calendar_sub_menu"
-              name="Calendar"
-              parent="resource.menu_resource_config"
-              action="action_resource_calendar"
-              sequence="9"/>
-
-     <record id="resource_calendar_tree" model="ir.ui.view">
+    <record id="resource_calendar_tree" model="ir.ui.view">
         <field name="name">Resource Calendar Tree</field>
         <field name="model">resource.resource</field>
         <field name="arch" type="xml">
@@ -25,28 +24,25 @@
             </tree>
         </field>
     </record>
-
-    
     <record id="resource.resource_resource_form" model="ir.ui.view">
         <field name="name">resource.resource.form</field>
         <field name="model">resource.resource</field>
         <field name="arch" type="xml">
             <form string="Resource">
-               <group>
-                  <group>
-                    <field name="name"/>
-                    <field name="user_id" attrs="{'required':[('resource_type','=','user')], 'invisible':[('resource_type','in',['material','room'])]}"/>
-                    <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
-                    <field name="active"/>
-                   </group>
-                   <group>
-                    <field name="resource_type" />
-                    <field name="calendar_id"/>
-                    <field name="time_efficiency"/>
-                   </group>
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="user_id" attrs="{'required':[('resource_type','=','user')], 'invisible':[('resource_type','in',['material','room'])]}"/>
+                        <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                        <field name="active"/>
+                    </group>
+                    <group>
+                        <field name="resource_type" />
+                        <field name="calendar_id"/>
+                        <field name="time_efficiency"/>
+                    </group>
                 </group>
             </form>
         </field>
     </record>
-
 </odoo>

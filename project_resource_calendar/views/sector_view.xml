@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <record id="action_resource_sector" model="ir.actions.act_window">
         <field name="name">Sector</field>
         <field name="res_model">sector.sector</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
-
     <menuitem id="sector_sub_menu"
               name="Sectors"
               parent="resource.menu_resource_config"
               action="action_resource_sector"
               sequence="14"/>
-
-     <record id="resource_sector_tree" model="ir.ui.view">
+    <record id="resource_sector_tree" model="ir.ui.view">
         <field name="name">Sector Tree</field>
         <field name="model">sector.sector</field>
         <field name="arch" type="xml">
@@ -23,8 +20,7 @@
             </tree>
         </field>
     </record>
-
-     <record id="sector_form" model="ir.ui.view">
+    <record id="sector_form" model="ir.ui.view">
         <field name="name">Sector Form</field>
         <field name="model">sector.sector</field>
         <field name="arch" type="xml">
@@ -39,5 +35,4 @@
             </form>
         </field>
     </record>
-
 </odoo>
