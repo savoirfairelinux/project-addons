@@ -18,6 +18,12 @@
             <tree string="room">
                 <field name='name'/>
                 <field name='room_code'/>
+                <field name='capacity'/>
+                <field name='description'/>
+                <field name='room_type_id'/>
+                <field name='is_bookable'/>
+                <field name='sector_id'/>
+                <field name='instruments_ids'/>
             </tree>
         </field>
     </record>

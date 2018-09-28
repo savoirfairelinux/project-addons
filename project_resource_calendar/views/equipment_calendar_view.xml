@@ -15,9 +15,8 @@
                 </h2>
                 <label for="resource_type" class="oe_edit_only" />
                 <field name="resource_type"/>
-                <field name="room_ids"
+                <field name="room_id"
                        attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"
-                       widget="many2many_tags"
                        placeholder="Select Room"
                        class="oe_inline" />
                 <field name="equipment_ids" 
@@ -35,14 +34,12 @@
         <field name="arch" type="xml">
             <field name="partner_ids" position="after">
                 <field name="resource_type"/>
-                <field name="room_ids"
-                   attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"
-                   widget="many2many_tags"
-            />
+                <field name="room_id"
+                   attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
                 <field name="equipment_ids" 
                    attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"
-                   widget="many2many_tags"
-            /></field>
+                   widget="many2many_tags"/>
+          </field>
         </field>
     </record>
     <record id="view_calendar_event_calendar" model="ir.ui.view">
@@ -65,7 +62,7 @@
                 <field name="equipment_ids"/>
             </xpath>
             <xpath expr="//field[@name='resource_ids']" position="replace">
-                <field name="room_ids"/>
+                <field name="room_id"/>
             </xpath>
         </field>
     </record>
