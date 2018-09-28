@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <record id="project_event_activity_form" model="ir.ui.view">
         <field name="name">Activity Form</field>
         <field name="model">project.task</field>
@@ -49,7 +48,6 @@
             </form>
         </field>
     </record>
-
     <record id="project_event_activity_tree" model="ir.ui.view">
         <field name="name">Activity Tree</field>
         <field name="model">project.task</field>
@@ -63,7 +61,6 @@
             </tree>
         </field>
     </record>
-
     <record id="project_event_task_form" model="ir.ui.view">
         <field name="name">Task Form</field>
         <field name="model">project.task</field>
@@ -123,12 +120,18 @@
                         <page string="Description">
                             <field name="notes"/>
                         </page>
+                        <page string="Resources">
+                            <group>
+                                <field name="resource_type"/>
+                                <field name="room_id" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
+                                <field name="equipment_id" attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
             </form>
         </field>
     </record>
-
     <record id="project_event_task_tree" model="ir.ui.view">
         <field name="name">Task Tree</field>
         <field name="model">project.task</field>
@@ -144,7 +147,6 @@
             </tree>
         </field>
     </record>
-
     <record id="view_project_task_search" model="ir.ui.view">
         <field name="name">Project Task Search</field>
         <field name="model">project.task</field>
@@ -158,7 +160,6 @@
             </search>
         </field>
     </record>
-
     <record model="ir.ui.view" id="project_event_activity_calendar">
         <field name="name">project.activity.task.calendar</field>
         <field name="model">project.task</field>
@@ -172,7 +173,6 @@
             </calendar>
         </field>
     </record>
-
     <record model="ir.ui.view" id="project_event_task_calendar">
         <field name="name">project.activity.task.calendar</field>
         <field name="model">project.task</field>
@@ -186,7 +186,6 @@
             </calendar>
         </field>
     </record>
-
     <record id="action_project_event_activity" model="ir.actions.act_window">
         <field name="name">Activity</field>
         <field name="res_model">project.task</field>
@@ -200,7 +199,6 @@
                           (0, 0, {'view_mode': 'form', 'view_id': ref('project_event_activity_form')}),
                           (0, 0, {'view_mode': 'calendar', 'view_id': ref('project_event_activity_calendar')})]"/>
     </record>
-
     <record id="action_project_event_task" model="ir.actions.act_window">
         <field name="name">Task</field>
         <field name="res_model">project.task</field>
@@ -214,13 +212,11 @@
                           (0, 0, {'view_mode': 'form', 'view_id': ref('project_event_task_form')}),
                           (0, 0, {'view_mode': 'calendar', 'view_id': ref('project_event_task_calendar')})]"/>
     </record>
-
     <menuitem id="project_task_activity_menu"
               name="Activity"
               parent="project_event_menu"
               action="action_project_event_activity"
               sequence="20"/>
-
     <menuitem id="project_task_task_menu"
               name="Task"
               parent="project_event_menu"

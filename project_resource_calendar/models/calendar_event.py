@@ -14,7 +14,7 @@ class CalendarEvent(models.Model):
         ('room', 'Room')], string='Resource Type',
         default='room', required=True)
 
-    room_ids = fields.Many2many(
+    room_id = fields.Many2one(
         string='Room',
         comodel_name='resource.calendar.room',
         ondelete='set null',
