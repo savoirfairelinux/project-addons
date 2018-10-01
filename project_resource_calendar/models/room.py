@@ -17,7 +17,7 @@ class Room(models.Model):
         string='Floor',
     )
     description = fields.Text(
-        string='Description',
+        string='Dsescription',
     )
     room_type_id = fields.Many2one(
         string='Room Type',
@@ -40,6 +40,12 @@ class Room(models.Model):
     miscellaneous = fields.Many2many(
         string='Miscellaneous',
         comodel_name='resource.calendar.miscellaneous',
+    )
+    pricing = fields.Float(
+        string='Pricing ($)',
+    )
+    pricing_type = fields.Char(
+        string='Pricing_type',
     )
 
     @api.model

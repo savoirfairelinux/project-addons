@@ -120,6 +120,13 @@
                         <page string="Description">
                             <field name="notes"/>
                         </page>
+                        <page string="Resources">
+                            <group>
+                                <field name="resource_type"/>
+                                <field name="room_id" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
+                                <field name="equipment_id" attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
             </form>
