@@ -153,31 +153,41 @@ class Task(models.Model):
 
     @api.multi
     def action_request(self):
-        calendar_event = self.env['calendar.event']
-        values = {
-            'start': self.date_start,
-            'stop': self.date_end,
-            'name': self.name,
-            'resource_type': self.resource_type,
-            'equipment_ids': [(4, self.equipment_id.id, 0)] if self.equipment_id else None,
-            'room_id': self.room_id.id if self.room_id else None,
-        }
-        calendar_event.create(values)
+        self.request_reservation()
         self.write({'task_state': 'requested'})
 
     @api.multi
     def action_option(self):
+        self.request_reservation()
+        self.write({'task_state': 'option'})
+
+    @api.multi
+    def request_reservation(self):
         calendar_event = self.env['calendar.event']
         values = {
             'start': self.date_start,
             'stop': self.date_end,
             'name': self.name,
             'resource_type': self.resource_type,
-            'equipment_id': self.equipment_id.id if self.equipment_id else None,
             'room_id': self.room_id.id if self.room_id else None,
+            'equipment_ids': [(4, self.equipment_id.id, 0)] if self.equipment_id else None,
         }
-        calendar_event.create(values)
-        self.write({'task_state': 'option'})
+        new_event = calendar_event.create(values)
+        if self.room_id:
+            self.reserve_equipment_inside(new_event.id)
+
+    @api.multi
+    def reserve_equipment_inside(self, event_id):
+        calendar_event = self.env['calendar.event'].browse(event_id)
+        calendar_event.write(
+            {
+                'equipment_ids': [(6, 0, self.get_equipment_ids_inside())]
+            })
+
+    @api.multi
+    def get_equipment_ids_inside(self):
+        room_id = self.env['resource.calendar.room'].browse(self.room_id).id
+        return room_id.instruments_ids.ids
 
     @api.multi
     def action_cancel(self):
