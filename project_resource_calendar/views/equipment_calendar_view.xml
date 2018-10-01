@@ -13,17 +13,19 @@
                            class="oe_inline" 
                            invisible="1"/>
                 </h2>
-                <label for="resource_type" class="oe_edit_only" />
-                <field name="resource_type"/>
+                <label for="room_id" class="oe_edit_only" />
+                <h2>
                 <field name="room_id"
-                       attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"
                        placeholder="Select Room"
                        class="oe_inline" />
+                </h2>
+                <label for="equipment_ids" class="oe_edit_only" />
+                <h2>
                 <field name="equipment_ids" 
-                       attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"
                        widget="many2many_tags"
                        placeholder="Select Equipment"
                        class="oe_inline" />
+                </h2>
             </xpath>
         </field>
     </record>
@@ -35,9 +37,9 @@
             <field name="partner_ids" position="after">
                 <field name="resource_type"/>
                 <field name="room_id"
-                   attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
+                   attrs="{'required':[('resource_type','=','room')]}"/>
                 <field name="equipment_ids" 
-                   attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"
+                   attrs="{'required':[('resource_type','=','equipment')]}"
                    widget="many2many_tags"/>
           </field>
         </field>
