@@ -11,9 +11,10 @@ class CalendarEvent(models.Model):
     resource_type = fields.Selection([
         ('user', 'Human'),
         ('equipment', 'Equipment'),
-        ('room', 'Room')], string='Resource Type',
-        default='room', required=True)
-
+        ('room', 'Room')],
+        string='Resource Type',
+        default='room',
+    )
     room_id = fields.Many2one(
         string='Room',
         comodel_name='resource.calendar.room',
