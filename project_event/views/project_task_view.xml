@@ -130,6 +130,8 @@
         <field name="model">project.task</field>
         <field name="arch" type="xml">
             <tree string="Task">
+                <field name="equipment_id" string="Resource"/>
+                <field name="room_id" string="Room"/>
                 <field name="name"/>
                 <field name="code"/>
                 <field name="parent_id" string="Activity"/>
