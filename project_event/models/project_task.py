@@ -146,7 +146,7 @@ class Task(models.Model):
                         datetime.strptime(task.date_start, fmt)\
                         - datetime.strptime(activity_date_start, fmt)
                     task.task_order = time_difference.days * 24 * 60\
-                                      + time_difference.seconds / 60
+                        + time_difference.seconds / 60
 
     def action_done(self):
         self.write({'task_state': 'done'})
@@ -159,7 +159,7 @@ class Task(models.Model):
             'stop': self.date_end,
             'name': self.name,
             'resource_type': self.resource_type,
-            'equipment_id': self.equipment_id.id if self.equipment_id else None,
+            'equipment_ids': [(4, self.equipment_id.id, 0)] if self.equipment_id else None,
             'room_id': self.room_id.id if self.room_id else None,
         }
         calendar_event.create(values)
