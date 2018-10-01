@@ -10,16 +10,21 @@ class Instrument(models.Model):
     _inherit = ['resource.resource']
     _description = __doc__
 
-    tarification = fields.Float(
-        'tarification',
+    currency_id = fields.Many2one(
+        'res.currency',
+        string='Currency',
     )
-    photo = fields.Binary(
+    tarification = fields.Monetary(
+        'tarification',
+         currency_field='currency_id',
+    )
+    photos = fields.Binary(
         "Photo",
         help="Add Instrument Photo",
     )
     group_ids = fields.Many2many(
         'res.groups',
-        string='Group',
+        string='Group Type',
     )
     sku = fields.Char(
         string='SKU',
@@ -30,9 +35,9 @@ class Instrument(models.Model):
     )
     category_type = fields.Selection([
         ('equipment', 'Equipment'),
-        ('consumable', 'Consumable'),
-        ('instruments', 'Instrument'),
-        ('service', 'Service'),
+        ('consumables', 'Consumables'),
+        ('instruments', 'Instruments'),
+        ('services', 'Services'),
         ],
         string='Type',
         index=True,
