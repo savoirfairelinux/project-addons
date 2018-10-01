@@ -12,7 +12,6 @@ class TaskCategory(models.Model):
 
     name = fields.Char(
         string='Name',
-        translate=True,
     )
     sequence = fields.Integer(
         string='Sequence',
