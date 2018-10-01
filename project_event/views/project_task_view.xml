@@ -67,18 +67,12 @@
         <field name="arch" type="xml">
             <form string="Task">
                 <header>
-                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', '!=', 'draft')]}"
-                            type="object"/>
-                    <button name="action_request" string="Request"
-                            attrs="{'invisible': [('task_state', 'not in', ['draft','option'])]}" type="object"/>
-                    <button name="action_accept" string="Accept"
-                            attrs="{'invisible': [('task_state', '!=', 'requested')]}" type="object"/>
-                    <button name="action_done" string="Done" attrs="{'invisible': [('task_state', '!=', 'accepted')]}"
-                            type="object"/>
-                    <button name="action_draft" string="Return to Draft"
-                            attrs="{'invisible': [('task_state', 'not in', ['requested','accepted'])]}" type="object"/>
-                    <button name="action_cancel" string="Cancel" type="object"
-                            attrs="{'invisible': [('task_state', 'in', ['done','canceled'])]}"/>
+                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', '!=', 'draft')]}" type="object"/>
+                    <button name="action_request" string="Request" attrs="{'invisible': [('task_state', 'not in', ['draft','option'])]}" type="object"/>
+                    <button name="action_accept" string="Accept" attrs="{'invisible': [('task_state', '!=', 'requested')]}" type="object"/>
+                    <button name="action_done" string="Done" attrs="{'invisible': [('task_state', '!=', 'accepted')]}" type="object"/>
+                    <button name="action_draft" string="Return to Draft" attrs="{'invisible': [('task_state', 'not in', ['requested','accepted'])]}" type="object"/>
+                    <button name="action_cancel" string="Cancel" type="object" attrs="{'invisible': [('task_state', 'in', ['done','canceled'])]}"/>
                     <field name="task_state" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -151,10 +145,11 @@
         <field name="model">project.task</field>
         <field name="arch" type="xml">
             <search string="Project Task Search">
-                <field name="name"/>
                 <field name="code"/>
-                <field name="project_id" string="Event"/>
-                <field name="parent_id" string="Activity"/>
+                <field name="name"/>
+                <field name="parent_id"/>
+                <field name="task_responsible_id" string="Task Responsible"/>
+                <field name="task_partner_id" string="Task Client"/>
             </search>
         </field>
     </record>
