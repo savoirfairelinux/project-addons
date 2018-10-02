@@ -56,7 +56,7 @@
         <field name="name">Activity Tree</field>
         <field name="model">project.task</field>
         <field name="arch" type="xml">
-            <tree string="Activity">
+            <tree string="Activity" default_order="date_start asc">
                 <field name="name"/>
                 <field name="code"/>
                 <field name="project_id" string="Event"/>
@@ -145,7 +145,7 @@
         <field name="name">Task Tree</field>
         <field name="model">project.task</field>
         <field name="arch" type="xml">
-            <tree string="Task">
+            <tree string="Task" default_order="date_start asc">
                 <field name="equipment_id" string="Resource"/>
                 <field name="room_id" string="Room"/>
                 <field name="name"/>
