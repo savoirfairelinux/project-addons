@@ -25,3 +25,11 @@ class CalendarEvent(models.Model):
         comodel_name='resource.calendar.instrument',
         ondelete='set null',
     )
+    state = fields.Selection([
+        ('draft', 'Unconfirmed'),
+        ('open', 'Confirmed'),
+        ('cancelled', 'Cancelled')],
+        string='Status',
+        readonly=True,
+        track_visibility='onchange',
+        default='draft')

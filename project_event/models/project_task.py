@@ -6,7 +6,6 @@ from datetime import datetime
 
 
 class Task(models.Model):
-    _name = "project.task"
     _inherit = ['project.task']
 
     name = fields.Char(
@@ -102,6 +101,9 @@ class Task(models.Model):
         default='draft',
         track_visibility='onchange',
     )
+    reservation_event_id = fields.Integer(
+        string='Reservation event',
+    )
 
     @api.onchange('resource_type')
     def _onchange_resource_type(self):
@@ -153,16 +155,18 @@ class Task(models.Model):
 
     @api.multi
     def action_request(self):
-        self.request_reservation()
+        self.draft_resources_reservation()
         self.write({'task_state': 'requested'})
 
     @api.multi
     def action_option(self):
-        self.request_reservation()
+        if self.activity_task_type == 'task':
+            self.draft_resources_reservation()
         self.write({'task_state': 'option'})
 
     @api.multi
     def request_reservation(self):
+        self.ensure_one()
         calendar_event = self.env['calendar.event']
         values = {
             'start': self.date_start,
@@ -171,13 +175,16 @@ class Task(models.Model):
             'resource_type': self.resource_type,
             'room_id': self.room_id.id if self.room_id else None,
             'equipment_ids': [(4, self.equipment_id.id, 0)] if self.equipment_id else None,
+            'state': 'open'
         }
         new_event = calendar_event.create(values)
+        self.reservation_event_id = new_event.id
         if self.room_id:
             self.reserve_equipment_inside(new_event.id)
 
     @api.multi
     def reserve_equipment_inside(self, event_id):
+        self.ensure_one()
         calendar_event = self.env['calendar.event'].browse(event_id)
         calendar_event.write(
             {
@@ -190,11 +197,38 @@ class Task(models.Model):
         return room_id.instruments_ids.ids
 
     @api.multi
+    def cancel_resources_reservation(self):
+        self.ensure_one()
+        if self.reservation_event_id:
+            reservation_event = self.env['calendar.event'].browse(
+                self.reservation_event_id)
+        reservation_event.write(
+            {
+                'state': 'cancelled'
+            }
+        )
+
+    @api.multi
+    def draft_resources_reservation(self):
+        self.ensure_one()
+        if not self.reservation_event_id:
+            self.request_reservation()
+        reservation_event = self.env['calendar.event'].browse(
+            self.reservation_event_id)
+        reservation_event.write(
+            {
+                'state': 'draft'
+            }
+        )
+
+    @api.multi
     def action_cancel(self):
         self.write({'task_state': 'canceled'})
+        self.cancel_resources_reservation()
 
     @api.multi
     def action_accept(self):
+        self.request_reservation()
         self.write({'task_state': 'accepted'})
 
     @api.multi
@@ -204,3 +238,4 @@ class Task(models.Model):
     @api.multi
     def action_draft(self):
         self.write({'task_state': 'draft'})
+        self.draft_resources_reservation()
