@@ -102,13 +102,55 @@ class Task(models.Model):
         track_visibility='onchange',
     )
     notes = fields.Html(string='Notes')
-    reservation_event_id = fields.Integer(
-        string='Reservation event',
-    )
     is_from_template = fields.Boolean(
         string='Is Created From Template',
         default=False,
     )
+    reservation_event_id = fields.Integer(
+        string='Reservation event',
+    )
+    report_done_required = fields.Boolean(
+        string='Report done required',
+    )
+<<<<<<< HEAD
+
+    preceding_tasks_ids = fields.Many2many(
+=======
+    preceding_task_ids = fields.Many2many(
+>>>>>>> b5d083d... [ADD] refactor
+        string='Preceding tasks',
+        comodel_name='project.task',
+        relation='project_task_related_rel',
+        column1='project_task_id',
+        column2='project_task_related_id',
+    )
+    succeeding_task_ids = fields.Many2many(
+        string='Succeeding tasks',
+        comodel_name='project.task',
+        relation='project_task_related_rel',
+        column1='project_task_related_id',
+        column2='project_task_id',
+    )
+
+    @api.onchange('succeeding_task_ids')
+    def update_preceding(self):
+        self.clean_preceding()
+        for succeeding in self.succeeding_task_ids:
+            succeeding.preceding_task_ids = [(4, self.id, 0)]
+
+    def clean_preceding(self):
+        for succeeding in self.succeeding_task_ids:
+            succeeding.preceding_task_ids = [(2, self.id, 0)]
+
+    @api.onchange('preceding_task_ids')
+    def update_succeeding(self):
+        self.clean_succeeding()
+        for preceding in self.preceding_task_ids:
+            preceding.succeeding_task_ids = [(4, self.id, 0)]
+
+    def clean_succeeding(self):
+        for preceding in self.preceding_task_ids:
+            preceding.succeeding_task_ids = [(2, self.id, 0)]
 
     @api.onchange('resource_type')
     def _onchange_resource_type(self):
