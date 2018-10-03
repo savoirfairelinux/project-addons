@@ -122,9 +122,22 @@ class Task(models.Model):
             if vals['activity_task_type'] == 'activity':
                 vals['code'] = self.env['ir.sequence'] \
                     .next_by_code('project.task.activity')
+                return_create = super(Task, self).create(vals)
+                vals['parent_id'] = return_create.id
+                vals['message_follower_ids'] = None
+                vals['project_id'] = None
+                self.create_main_task(vals)
             elif vals['activity_task_type'] == 'task':
                 vals['code'] = self.env['ir.sequence'] \
                     .next_by_code('project.task.task')
+                return_create = super(Task, self).create(vals)
+        return return_create
+
+    @api.multi
+    def create_main_task(self, vals):
+        vals['activity_task_type'] = 'task'
+        vals['code'] = self.env['ir.sequence'] \
+            .next_by_code('project.task.task')
         return super(Task, self).create(vals)
 
     @api.model
