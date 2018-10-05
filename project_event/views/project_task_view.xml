@@ -41,6 +41,9 @@
                         }" domain="[('activity_task_type','=', 'task')]"/>
                         </page>
                         <page string="Description">
+                            <field name="description"/>
+                        </page>
+                        <page string="Notes">
                             <field name="notes"/>
                         </page>
                     </notebook>
@@ -118,6 +121,9 @@
                             </group>
                         </page>
                         <page string="Description">
+                            <field name="description"/>
+                        </page>
+                         <page string="Notes">
                             <field name="notes"/>
                         </page>
                     </notebook>

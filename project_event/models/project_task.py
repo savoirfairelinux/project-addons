@@ -102,6 +102,7 @@ class Task(models.Model):
         default='draft',
         track_visibility='onchange',
     )
+    notes = fields.Html(string='Notes')
 
     @api.onchange('resource_type')
     def _onchange_resource_type(self):
