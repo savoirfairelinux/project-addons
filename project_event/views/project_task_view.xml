@@ -67,12 +67,18 @@
         <field name="arch" type="xml">
             <form string="Task">
                 <header>
-                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', '!=', 'draft')]}" type="object"/>
-                    <button name="action_request" string="Request" attrs="{'invisible': [('task_state', 'not in', ['draft','option'])]}" type="object"/>
-                    <button name="action_accept" string="Accept" attrs="{'invisible': [('task_state', '!=', 'requested')]}" type="object"/>
-                    <button name="action_done" string="Done" attrs="{'invisible': [('task_state', '!=', 'accepted')]}" type="object"/>
-                    <button name="action_draft" string="Return to Draft" attrs="{'invisible': [('task_state', 'not in', ['requested','accepted'])]}" type="object"/>
-                    <button name="action_cancel" string="Cancel" type="object" attrs="{'invisible': [('task_state', 'in', ['done','canceled'])]}"/>
+                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', '!=', 'draft')]}"
+                            type="object"/>
+                    <button name="action_request" string="Request"
+                            attrs="{'invisible': [('task_state', 'not in', ['draft','option'])]}" type="object"/>
+                    <button name="action_accept" string="Accept"
+                            attrs="{'invisible': [('task_state', '!=', 'requested')]}" type="object"/>
+                    <button name="action_done" string="Done" attrs="{'invisible': [('task_state', '!=', 'accepted')]}"
+                            type="object"/>
+                    <button name="action_draft" string="Return to Draft"
+                            attrs="{'invisible': [('task_state', 'not in', ['requested','accepted'])]}" type="object"/>
+                    <button name="action_cancel" string="Cancel" type="object"
+                            attrs="{'invisible': [('task_state', 'in', ['done','canceled'])]}"/>
                     <field name="task_state" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -113,8 +119,10 @@
                         <page string="Resources">
                             <group>
                                 <field name="resource_type"/>
-                                <field name="room_id" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
-                                <field name="equipment_id" attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
+                                <field name="room_id"
+                                       attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
+                                <field name="equipment_id"
+                                       attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
                             </group>
                         </page>
                         <page string="Description">
@@ -142,14 +150,29 @@
             </tree>
         </field>
     </record>
-    <record id="view_project_task_search" model="ir.ui.view">
+       <record id="project_activity_search" model="ir.ui.view">
+        <field name="name">Project Activity Search</field>
+        <field name="model">project.task</field>
+        <field name="arch" type="xml">
+            <search string="Project Activity Search">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="project_id" string="Event" eval="ref('project_event_activity_form')"/>
+                <field name="task_responsible_id" string="Task Responsible"/>
+                <field name="task_partner_id" string="Task Client"/>
+            </search>
+        </field>
+    </record>
+    <record id="project_task_search" model="ir.ui.view">
         <field name="name">Project Task Search</field>
         <field name="model">project.task</field>
         <field name="arch" type="xml">
             <search string="Project Task Search">
-                <field name="code"/>
+                <field name="equipment_id" string="Resource"/>
+                <field name="room_id" string="Room"/>
                 <field name="name"/>
-                <field name="parent_id"/>
+                <field name="code"/>
+                <field name="parent_id" string="Activity"/>
                 <field name="task_responsible_id" string="Task Responsible"/>
                 <field name="task_partner_id" string="Task Client"/>
             </search>
@@ -188,6 +211,7 @@
         <field name="domain">[('activity_task_type','=','activity')]</field>
         <field name="context" eval="{'default_activity_task_type': 'activity'}"/>
         <field name="view_mode">tree,form,calendar</field>
+        <field name="search_view_id" ref="project_activity_search"/>
         <field name="view_ids"
                eval="[(5, 0, 0),
                           (0, 0, {'view_mode': 'tree', 'view_id': ref('project_event_activity_tree')}),
@@ -201,12 +225,14 @@
         <field name="domain">[('activity_task_type','=','task')]</field>
         <field name="context" eval="{'default_activity_task_type': 'task'}"/>
         <field name="view_mode">tree,form,calendar</field>
+        <field name="search_view_id" ref="project_task_search"/>
         <field name="view_ids"
                eval="[(5, 0, 0),
                           (0, 0, {'view_mode': 'tree', 'view_id': ref('project_event_task_tree')}),
                           (0, 0, {'view_mode': 'form', 'view_id': ref('project_event_task_form')}),
                           (0, 0, {'view_mode': 'calendar', 'view_id': ref('project_event_task_calendar')})]"/>
     </record>
+
     <menuitem id="project_task_activity_menu"
               name="Activity"
               parent="project_event_menu"
