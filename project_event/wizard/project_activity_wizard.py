@@ -29,9 +29,16 @@ class ProjectActivityWizard(models.TransientModel):
         string='Category',
     )
     room_id = fields.Many2one(
-        'resource.resource',
+        'resource.calendar.room',
         string='Room',
     )
-    notes = fields.Text(
+    date_start = fields.Datetime(
+        string='Starting Date',
+        default=fields.Datetime.now,
+    )
+    date_end = fields.Datetime(
+        string='Ending Date',
+    )
+    notes = fields.Html(
         string='Notes',
     )
