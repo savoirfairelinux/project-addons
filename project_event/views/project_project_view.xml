@@ -72,9 +72,9 @@
         <field name="model">project.project</field>
         <field name="arch" type="xml">
             <tree string="Project Event">
-                <field name="code"/>
+                <field name="code" string="Event Number"/>
                 <field name="partner_id"/>
-                <field name="name"/>
+                <field name="name" string="Event Title"/>
             </tree>
         </field>
     </record>
