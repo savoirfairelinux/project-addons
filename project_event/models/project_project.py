@@ -9,7 +9,7 @@ class Project(models.Model):
     _inherit = ['project.project', 'mail.thread']
 
     code = fields.Char(
-        'Number',
+        string='Number',
     )
     responsible_id = fields.Many2one(
         'res.partner',
@@ -31,6 +31,33 @@ class Project(models.Model):
     notes = fields.Text(
         string='Notes',
     )
+    state = fields.Selection(
+        [
+            ('draft', 'Draft'),
+            ('option', 'Option'),
+            ('accepted', 'Accepted'),
+            ('canceled', 'Canceled')
+        ],
+        string='State',
+        default='draft',
+        track_visibility='onchange',
+    )
+
+    @api.multi
+    def action_cancel(self):
+        self.write({'state': 'canceled'})
+
+    @api.multi
+    def action_accept(self):
+        self.write({'state': 'accepted'})
+
+    @api.multi
+    def action_option(self):
+        self.write({'state': 'option'})
+
+    @api.multi
+    def action_draft(self):
+        self.write({'state': 'draft'})
 
     @api.model
     def create(self, vals):

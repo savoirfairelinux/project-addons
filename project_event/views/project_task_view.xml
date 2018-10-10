@@ -6,6 +6,13 @@
         <field eval="1" name="priority"/>
         <field name="arch" type="xml">
             <form string="Activity">
+             <header>
+                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', '!=', 'draft')]}" type="object"/>
+                    <button name="action_accept" string="Accept" attrs="{'invisible': [('task_state', 'in', ['accepted','canceled'])]}" type="object"/>
+                    <button name="action_draft" string="Return to Draft" attrs="{'invisible': [('task_state', 'in', ['draft','canceled'])]}" type="object"/>
+                    <button name="action_cancel" string="Cancel" type="object" attrs="{'invisible': [('task_state', '!=', 'canceled')]}"/>
+                    <field name="task_state" widget="statusbar" statusbar_visible="draft,option,accepted,canceled"/>
+                </header>
                 <sheet>
                     <div>
                         <h1>
