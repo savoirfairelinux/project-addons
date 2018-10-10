@@ -41,6 +41,18 @@ class Project(models.Model):
         default='draft',
         track_visibility='onchange',
     )
+    event_log_count = fields.Integer(
+        string='Event Logs',
+        compute='_compute_event_log_count',
+    )
+
+    def _compute_event_log_count(self):
+        for rec in self:
+            rec.event_log_count = self.env['auditlog.log'].search_count([
+                ('model_id', '=', self.env.ref(
+                    'project.model_project_project').id),
+                ('res_id', '=', rec.id)
+            ])
 
     @api.multi
     def action_cancel(self):
