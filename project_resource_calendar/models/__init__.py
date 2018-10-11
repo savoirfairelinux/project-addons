@@ -7,3 +7,4 @@ from . import sector
 from . import instrument
 from . import calendar_event
 from . import miscellaneous
+from . import resource_group_access

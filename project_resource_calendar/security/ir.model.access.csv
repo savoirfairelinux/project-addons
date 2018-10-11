@@ -4,4 +4,5 @@ access_instrument,access_instrument,model_resource_calendar_instrument,base.grou
 access_sector,access_sector,model_sector_sector,base.group_user,1,1,1,1
 access_room_type,access_room_type,model_resource_calendar_room_type,base.group_user,1,1,1,1
 access_miscellaneous,access_miscellaneous,model_resource_calendar_miscellaneous,base.group_user,1,1,1,1
+access_resource_group_access,access_resource_group_access,model_resource_group_access,base.group_user,1,1,1,1
 

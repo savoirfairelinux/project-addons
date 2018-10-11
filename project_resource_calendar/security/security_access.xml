@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="resource_room_write_rule" model="ir.rule">
+        <field name="name">Resource Write Rule</field>
+        <field name="model_id" ref="model_resource_calendar_room"/>
+        <field eval="True" name="global"/>
+        <field name="domain_force">[('resource_group_ids.has_access_read', '=', True), ('resource_group_ids.group_id.id', 'in', [g.id for g in user.groups_id])]</field>
+        <field name="perm_read" eval="True"/>
+    </record>
+    <record id="resource_room_read_rule" model="ir.rule">
+        <field name="name">Resource Read Rule</field>
+        <field name="model_id" ref="model_resource_calendar_room"/>
+        <field eval="True" name="global"/>
+        <field name="domain_force">[('resource_group_ids.has_access_write', '=', True), ('resource_group_ids.group_id.id', 'in', [g.id for g in user.groups_id])]</field>
+        <field name="perm_write" eval="True"/>
+    </record>
+</odoo>
