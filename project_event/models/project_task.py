@@ -131,6 +131,8 @@ class Task(models.Model):
                 vals['code'] = self.env['ir.sequence'] \
                     .next_by_code('project.task.task')
                 return_create = super(Task, self).create(vals)
+        else:
+            return super(Task, self).create(vals)
         return return_create
 
     @api.multi
