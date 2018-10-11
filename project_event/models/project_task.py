@@ -126,6 +126,18 @@ class Task(models.Model):
         column1='project_task_related_id',
         column2='project_task_id',
     )
+    project_task_log = fields.Integer(
+        string='Project Task Logs',
+        compute='_compute_project_task_log',
+    )
+
+    def _compute_project_task_log(self):
+        for rec in self:
+            rec.project_task_log = self.env['auditlog.log'].search_count([
+                ('model_id', '=', self.env.ref(
+                    'project.model_project_task').id),
+                ('res_id', '=', rec.id)
+            ])
 
     @api.onchange('succeeding_task_ids')
     def update_preceding(self):

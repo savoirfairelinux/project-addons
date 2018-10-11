@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-11 20:59+0000\n"
-"PO-Revision-Date: 2018-10-11 17:03-0400\n"
+"POT-Creation-Date: 2018-10-16 15:34+0000\n"
+"PO-Revision-Date: 2018-10-16 11:36-0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
@@ -71,6 +71,11 @@ msgstr "Catégories d'activités"
 #: model:ir.ui.view,arch_db:project_event.activity_category_tree
 msgid "Activity Category"
 msgstr "Catégorie d'activité"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_activity_form
+msgid "Activity Logs"
+msgstr "Journaux"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_event_template_activity_template_ids
@@ -351,7 +356,8 @@ msgid ""
 "Event will be created from template in draft so that you can review\n"
 "                    the event before validation."
 msgstr ""
-"L'événement sera créé en état Brouillon à partir du modèle afin que vous puissiez examiner\n"
+"L'événement sera créé en état Brouillon à partir du modèle afin que vous "
+"puissiez examiner\n"
 "  l'événement avant la validation."
 
 #. module: project_event
@@ -498,6 +504,12 @@ msgid "Project Event"
 msgstr "Événement de projet"
 
 #. module: project_event
+#: model:ir.actions.act_window,name:project_event.action_project_task_auditlog_log
+#: model:ir.model.fields,field_description:project_event.field_project_task_project_task_log
+msgid "Project Task Logs"
+msgstr "Journaux"
+
+#. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_task_search
 msgid "Project Task Search"
 msgstr "Recherche de tâche de projet"
@@ -595,6 +607,13 @@ msgid "Start Time"
 msgstr "Heure de début"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_date_start
+#, fuzzy
+#| msgid "Start Time"
+msgid "Starting Date"
+msgstr "Heure de début"
+
+#. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_project_state
 msgid "State"
 msgstr "Statut"
@@ -627,6 +646,11 @@ msgstr "Catégorie de tâches"
 #: model:ir.ui.view,arch_db:project_event.project_task_search
 msgid "Task Client"
 msgstr "Client de la tâche"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_task_form
+msgid "Task Logs"
+msgstr "Journaux"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_activity_search
