@@ -26,6 +26,13 @@
         <field name="model">project.project</field>
         <field name="arch" type="xml">
             <form string="Project Event">
+            <header>
+                    <button name="action_option" string="Option" attrs="{'invisible': [('state', '!=', 'draft')]}" type="object"/>
+                    <button name="action_accept" string="Accept" attrs="{'invisible': [('state', 'in', ['accepted','canceled'])]}" type="object"/>
+                    <button name="action_draft" string="Return to Draft" attrs="{'invisible': [('state', 'in', ['draft','canceled'])]}" type="object"/>
+                    <button name="action_cancel" string="Cancel" type="object" attrs="{'invisible': [('state', '!=', 'canceled')]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,option,accepted,canceled"/>
+                </header>
                 <sheet>
                     <div>
                         <h1>
@@ -75,9 +82,9 @@
         <field name="model">project.project</field>
         <field name="arch" type="xml">
             <tree string="Project Event">
-                <field name="code"/>
+                <field name="code" string="Event Number"/>
                 <field name="partner_id"/>
-                <field name="name"/>
+                <field name="name" string="Event Title"/>
             </tree>
         </field>
     </record>
