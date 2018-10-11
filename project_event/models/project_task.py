@@ -101,6 +101,7 @@ class Task(models.Model):
         default='draft',
         track_visibility='onchange',
     )
+    notes = fields.Html(string='Notes')
     reservation_event_id = fields.Integer(
         string='Reservation event',
     )
