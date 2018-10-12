@@ -2,6 +2,7 @@
 # License LGPL-3.0 or Later (http://www.gnu.org/licenses/lgpl).
 
 from odoo import api, fields, models, _
+from dateutil.relativedelta import relativedelta
 
 
 class ProjectEventWizard(models.TransientModel):
@@ -20,7 +21,11 @@ class ProjectEventWizard(models.TransientModel):
         'res.partner',
         string='Responsible',
     )
-    event_notes = fields.Text(
+    event_partner_id = fields.Many2one(
+        'res.partner',
+        string='Client',
+    )
+    event_notes = fields.Html(
         string='Notes',
     )
     activity_ids = fields.One2many(
@@ -107,6 +112,7 @@ class ProjectEventWizard(models.TransientModel):
         event_vals = {
             'name': self.name,
             'responsible_id': self.event_resp_id.id,
+            'partner_id': self.event_partner_id.id,
             'notes': self.event_notes,
             'project_type': 'event',
         }
@@ -123,7 +129,10 @@ class ProjectEventWizard(models.TransientModel):
                 'activity_category_id': act.activity_category_id.id,
                 'activity_task_type': 'activity',
                 'room_id': act.room_id.id,
+                'date_start': act.date_start,
+                'date_end': act.date_end,
                 'notes': act.notes,
+                'is_from_template': True,
                 'child_ids': [
                     (0,
                      0,
@@ -136,7 +145,18 @@ class ProjectEventWizard(models.TransientModel):
                          'resource_type': task.resource_type,
                          'equipment_id': task.equipment_id.id,
                          'room_id': task.room_id.id,
+                         'date_start': (
+                             fields.Datetime.from_string(
+                                 act.date_start) + relativedelta(
+                                 minutes=task.start_time)
+                         ),
+                         'date_end': (
+                             fields.Datetime.from_string(
+                                 act.date_start) + relativedelta(
+                                 minutes=task.start_time + task.duration)
+                         ),
                          'notes': task.notes,
+                         'is_from_template': True,
                      }
                      ) for task in tasks],
             }
