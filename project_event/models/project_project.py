@@ -28,9 +28,8 @@ class Project(models.Model):
         string='Type',
         default='project',
     )
-    notes = fields.Text(
-        string='Notes',
-    )
+    notes = fields.Html(string='Notes')
+    description = fields.Html(string='Description')
     state = fields.Selection(
         [
             ('draft', 'Draft'),
