@@ -52,12 +52,12 @@ class ProjectTaskWizard(models.TransientModel):
         'hr.department',
         string='Department',
     )
-    duration = fields.Float(
+    duration = fields.Integer(
         string='Duration',
     )
-    start_time = fields.Float(
+    start_time = fields.Integer(
         string='Start Time',
     )
-    notes = fields.Text(
+    notes = fields.Html(
         string='Notes',
     )
