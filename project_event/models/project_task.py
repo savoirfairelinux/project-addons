@@ -123,6 +123,8 @@ class Task(models.Model):
 
     @api.model
     def create(self, vals):
+        if self.is_from_template:
+            vals['message_follower_ids'] = None
         if 'activity_task_type' in vals:
             if vals['activity_task_type'] == 'activity':
                 vals['code'] = self.env['ir.sequence'] \
