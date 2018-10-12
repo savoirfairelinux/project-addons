@@ -6,9 +6,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-12 12:40-0400\n"
-"PO-Revision-Date: 2018-10-12 12:41-0400\n"
-"Last-Translator: Rim BEN DHAOU <rim.bendhaou@savoirfairelinux.com>\n"
+"POT-Creation-Date: 2018-10-11 20:59+0000\n"
+"PO-Revision-Date: 2018-10-11 17:03-0400\n"
+"Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
@@ -117,7 +117,6 @@ msgstr "Ajouter des tâches"
 #: model:ir.model,name:project_event.model_account_analytic_account
 msgid "Analytic Account"
 msgstr "Compte analytique"
-
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.activity_task_template_form
@@ -294,6 +293,13 @@ msgstr "Catégorie d'activité d'événement"
 #: model:ir.model,name:project_event.model_activity_template
 msgid "Event Activity Template"
 msgstr "Modèle d'activité d'événement"
+
+#. module: project_event
+#: model:ir.actions.act_window,name:project_event.action_project_event_to_auditlog_log
+#: model:ir.model.fields,field_description:project_event.field_project_project_event_log_count
+#: model:ir.ui.view,arch_db:project_event.project_event_form
+msgid "Event Logs"
+msgstr "Journaux"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_tree
@@ -516,7 +522,6 @@ msgstr "Demandé"
 msgid "Reservation event"
 msgstr "Réservation"
 
-
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_task_tree
 #: model:ir.ui.view,arch_db:project_event.project_task_search
@@ -593,7 +598,6 @@ msgstr "Heure de début"
 #: model:ir.model.fields,field_description:project_event.field_project_project_state
 msgid "State"
 msgstr "Statut"
-
 
 #. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_project_event_task

@@ -11,6 +11,7 @@
     'category': 'Project Management',
     'summary': 'Project Event module',
     'depends': [
+        'auditlog',
         'project',
         'mail',
         'hr',
@@ -20,9 +21,11 @@
         'python': [],
     },
     'data': [
+        'data/auditlog_rule.xml',
         'data/ir_sequence_data.xml',
         'security/ir.model.access.csv',
         'security/project_security.xml',
+        'views/auditlog_log.xml',
         'views/project_project_view.xml',
         'views/project_task_view.xml',
         'views/activity_category_view.xml',
