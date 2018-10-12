@@ -116,7 +116,8 @@ msgstr "Ajouter des tâches"
 #. module: project_event
 #: model:ir.model,name:project_event.model_account_analytic_account
 msgid "Analytic Account"
-msgstr ""
+msgstr "Compte analytique"
+
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.activity_task_template_form
@@ -228,7 +229,7 @@ msgstr "Description"
 #: model:ir.model.fields,field_description:project_event.field_task_category_display_name
 #: model:ir.model.fields,field_description:project_event.field_task_template_display_name
 msgid "Display Name"
-msgstr "Nom"
+msgstr "Nom à afficher"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
@@ -344,8 +345,7 @@ msgid ""
 "Event will be created from template in draft so that you can review\n"
 "                    the event before validation."
 msgstr ""
-"L'événement sera créé en état Brouillon à partir du modèle afin que vous "
-"puissiez examiner\n"
+"L'événement sera créé en état Brouillon à partir du modèle afin que vous puissiez examiner\n"
 "  l'événement avant la validation."
 
 #. module: project_event
@@ -483,7 +483,7 @@ msgstr "Projet"
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_activity_search
 msgid "Project Activity Search"
-msgstr ""
+msgstr "Recherche d'activité de projet"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_form
@@ -514,7 +514,8 @@ msgstr "Demandé"
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_reservation_event_id
 msgid "Reservation event"
-msgstr ""
+msgstr "Réservation"
+
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_task_tree
@@ -589,14 +590,10 @@ msgid "Start Time"
 msgstr "Heure de début"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_date_start
-msgid "Starting Date"
-msgstr ""
-
-#. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_project_state
 msgid "State"
-msgstr ""
+msgstr "Statut"
+
 
 #. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_project_event_task
