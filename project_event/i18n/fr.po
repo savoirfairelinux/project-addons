@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
@@ -36,7 +36,7 @@ msgid "Activities"
 msgstr "Activités"
 
 #. module: project_event
-#: code:addons/project_event/wizard/project_event_wizard.py:56
+#: code:addons/project_event/wizard/project_event_wizard.py:61
 #, python-format
 msgid "Activities Wizard"
 msgstr "Wizard d'activités"
@@ -161,6 +161,7 @@ msgid "Clear"
 msgstr "Supprimer tout"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_event_partner_id
 #: model:ir.model.fields,field_description:project_event.field_project_task_task_partner_id
 msgid "Client"
 msgstr "Client"
@@ -227,7 +228,7 @@ msgstr "Description"
 #: model:ir.model.fields,field_description:project_event.field_task_category_display_name
 #: model:ir.model.fields,field_description:project_event.field_task_template_display_name
 msgid "Display Name"
-msgstr "Nom"
+msgstr "Nom à afficher"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
@@ -251,6 +252,11 @@ msgstr "Durée"
 #: model:ir.model.fields,field_description:project_event.field_task_template_employee_ids
 msgid "Employees"
 msgstr "Employés"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_date_end
+msgid "Ending Date"
+msgstr ""
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_equipment_id
@@ -345,8 +351,7 @@ msgid ""
 "Event will be created from template in draft so that you can review\n"
 "                    the event before validation."
 msgstr ""
-"L'événement sera créé en état Brouillon à partir du modèle afin que vous "
-"puissiez examiner\n"
+"L'événement sera créé en état Brouillon à partir du modèle afin que vous puissiez examiner\n"
 "  l'événement avant la validation."
 
 #. module: project_event
@@ -377,6 +382,11 @@ msgstr "ID"
 #: model:ir.ui.view,arch_db:project_event.activity_template_form
 msgid "Initialize"
 msgstr "Initialiser"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_task_is_from_template
+msgid "Is Created From Template"
+msgstr "Est créé à partir du template"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_category___last_update
@@ -479,7 +489,7 @@ msgstr "Projet"
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_activity_search
 msgid "Project Activity Search"
-msgstr "Recherche activités"
+msgstr "Recherche d'activité de projet"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_form
@@ -510,7 +520,7 @@ msgstr "Demandé"
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_reservation_event_id
 msgid "Reservation event"
-msgstr "Événement"
+msgstr "Réservation"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_task_tree
@@ -586,10 +596,8 @@ msgstr "Heure de début"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_project_state
-#, fuzzy
-#| msgid "Task State"
 msgid "State"
-msgstr "État de tâche"
+msgstr "Statut"
 
 #. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_project_event_task
@@ -671,7 +679,7 @@ msgid "Tasks Template"
 msgstr "Modèle de tâches"
 
 #. module: project_event
-#: code:addons/project_event/wizard/project_event_wizard.py:93
+#: code:addons/project_event/wizard/project_event_wizard.py:98
 #, python-format
 msgid "Tasks Wizard"
 msgstr "Wizard de tâches"
