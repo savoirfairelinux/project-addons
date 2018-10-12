@@ -105,6 +105,10 @@ class Task(models.Model):
     reservation_event_id = fields.Integer(
         string='Reservation event',
     )
+    is_from_template = fields.Boolean(
+        string='Is Created From Template',
+        default=False,
+    )
 
     @api.onchange('resource_type')
     def _onchange_resource_type(self):

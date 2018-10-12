@@ -132,6 +132,7 @@ class ProjectEventWizard(models.TransientModel):
                 'date_start': act.date_start,
                 'date_end': act.date_end,
                 'notes': act.notes,
+                'is_from_template': True,
                 'child_ids': [
                     (0,
                      0,
@@ -155,6 +156,7 @@ class ProjectEventWizard(models.TransientModel):
                                  minutes=task.start_time + task.duration)
                          ),
                          'notes': task.notes,
+                         'is_from_template': True,
                      }
                      ) for task in tasks],
             }

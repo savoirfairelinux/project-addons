@@ -6,24 +6,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-09 16:25+0000\n"
-"PO-Revision-Date: 2018-10-09 12:29-0400\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2018-10-12 12:40-0400\n"
+"PO-Revision-Date: 2018-10-12 12:41-0400\n"
+"Last-Translator: Rim BEN DHAOU <rim.bendhaou@savoirfairelinux.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_activity_form
+#: model:ir.ui.view,arch_db:project_event.project_event_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
 msgid "Accept"
 msgstr "Accepter"
 
 #. module: project_event
-#: selection:project.task,task_state:0
+#: selection:project.project,state:0 selection:project.task,task_state:0
 msgid "Accepted"
 msgstr "Accepté"
 
@@ -34,7 +36,7 @@ msgid "Activities"
 msgstr "Activités"
 
 #. module: project_event
-#: code:addons/project_event/wizard/project_event_wizard.py:56
+#: code:addons/project_event/wizard/project_event_wizard.py:61
 #, python-format
 msgid "Activities Wizard"
 msgstr "Wizard d'activités"
@@ -53,6 +55,7 @@ msgstr "Activités à modifier"
 #: model:ir.ui.view,arch_db:project_event.project_event_task_calendar
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_tree
+#: model:ir.ui.view,arch_db:project_event.project_task_search
 #: selection:project.task,activity_task_type:0
 msgid "Activity"
 msgstr "Activité"
@@ -111,6 +114,11 @@ msgid "Add tasks"
 msgstr "Ajouter des tâches"
 
 #. module: project_event
+#: model:ir.model,name:project_event.model_account_analytic_account
+msgid "Analytic Account"
+msgstr ""
+
+#. module: project_event
 #: model:ir.ui.view,arch_db:project_event.activity_task_template_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
 msgid "Assigned to:"
@@ -123,6 +131,8 @@ msgid "Calendar View"
 msgstr "Vue calendrier"
 
 #. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_activity_form
+#: model:ir.ui.view,arch_db:project_event.project_event_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
 #: model:ir.ui.view,arch_db:project_event.view_project_activity_wizard
 #: model:ir.ui.view,arch_db:project_event.view_project_event_wizard
@@ -131,7 +141,7 @@ msgid "Cancel"
 msgstr "Annuler"
 
 #. module: project_event
-#: selection:project.task,task_state:0
+#: selection:project.project,state:0 selection:project.task,task_state:0
 msgid "Canceled"
 msgstr "Annulé"
 
@@ -151,6 +161,7 @@ msgid "Clear"
 msgstr "Supprimer tout"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_event_partner_id
 #: model:ir.model.fields,field_description:project_event.field_project_task_task_partner_id
 msgid "Client"
 msgstr "Client"
@@ -197,6 +208,7 @@ msgid "Department"
 msgstr "Département"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_project_description
 #: model:ir.ui.view,arch_db:project_event.activity_task_template_form
 #: model:ir.ui.view,arch_db:project_event.activity_template_form
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
@@ -225,7 +237,7 @@ msgid "Done"
 msgstr "Réalisé"
 
 #. module: project_event
-#: selection:project.task,task_state:0
+#: selection:project.project,state:0 selection:project.task,task_state:0
 msgid "Draft"
 msgstr "Brouillon"
 
@@ -240,6 +252,11 @@ msgstr "Durée"
 #: model:ir.model.fields,field_description:project_event.field_task_template_employee_ids
 msgid "Employees"
 msgstr "Employés"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_date_end
+msgid "Ending Date"
+msgstr ""
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_equipment_id
@@ -259,6 +276,7 @@ msgstr "Équipement"
 #: model:ir.ui.menu,name:project_event.project_event_menu
 #: model:ir.ui.menu,name:project_event.project_event_menu_root
 #: model:ir.ui.menu,name:project_event.project_event_sub_menu
+#: model:ir.ui.view,arch_db:project_event.project_activity_search
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_calendar
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_tree
@@ -360,6 +378,11 @@ msgid "Initialize"
 msgstr "Initialiser"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_task_is_from_template
+msgid "Is Created From Template"
+msgstr "Est créé à partir du template"
+
+#. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_category___last_update
 #: model:ir.model.fields,field_description:project_event.field_activity_template___last_update
 #: model:ir.model.fields,field_description:project_event.field_event_template___last_update
@@ -412,6 +435,9 @@ msgstr "Nom"
 #: model:ir.model.fields,field_description:project_event.field_project_project_notes
 #: model:ir.model.fields,field_description:project_event.field_project_task_wizard_notes
 #: model:ir.model.fields,field_description:project_event.field_task_template_notes
+#: model:ir.ui.view,arch_db:project_event.project_event_activity_form
+#: model:ir.ui.view,arch_db:project_event.project_event_form
+#: model:ir.ui.view,arch_db:project_event.project_event_task_form
 msgid "Notes"
 msgstr "Notes"
 
@@ -441,8 +467,10 @@ msgid "OdooProf"
 msgstr "OdooProf"
 
 #. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_activity_form
+#: model:ir.ui.view,arch_db:project_event.project_event_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
-#: selection:project.task,task_state:0
+#: selection:project.project,state:0 selection:project.task,task_state:0
 msgid "Option"
 msgstr "Option"
 
@@ -453,13 +481,18 @@ msgid "Project"
 msgstr "Projet"
 
 #. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_activity_search
+msgid "Project Activity Search"
+msgstr ""
+
+#. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_form
 #: model:ir.ui.view,arch_db:project_event.project_event_tree
 msgid "Project Event"
 msgstr "Événement de projet"
 
 #. module: project_event
-#: model:ir.ui.view,arch_db:project_event.view_project_task_search
+#: model:ir.ui.view,arch_db:project_event.project_task_search
 msgid "Project Task Search"
 msgstr "Recherche de tâche de projet"
 
@@ -479,7 +512,13 @@ msgid "Requested"
 msgstr "Demandé"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_task_reservation_event_id
+msgid "Reservation event"
+msgstr ""
+
+#. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_task_tree
+#: model:ir.ui.view,arch_db:project_event.project_task_search
 msgid "Resource"
 msgstr "Ressource"
 
@@ -509,6 +548,8 @@ msgid "Responsible"
 msgstr "Responsable"
 
 #. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_activity_form
+#: model:ir.ui.view,arch_db:project_event.project_event_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
 msgid "Return to Draft"
 msgstr "Revenir à brouillon"
@@ -522,6 +563,7 @@ msgstr "Revenir à brouillon"
 #: model:ir.ui.view,arch_db:project_event.activity_task_template_form
 #: model:ir.ui.view,arch_db:project_event.activity_task_template_tree
 #: model:ir.ui.view,arch_db:project_event.project_event_task_tree
+#: model:ir.ui.view,arch_db:project_event.project_task_search
 #: model:ir.ui.view,arch_db:project_event.view_project_task_wizard
 #: selection:project.task,resource_type:0
 #: selection:project.task.wizard,resource_type:0
@@ -547,6 +589,16 @@ msgid "Start Time"
 msgstr "Heure de début"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_date_start
+msgid "Starting Date"
+msgstr ""
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_project_state
+msgid "State"
+msgstr ""
+
+#. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_project_event_task
 #: model:ir.model,name:project_event.model_project_task
 #: model:ir.ui.menu,name:project_event.project_task_task_menu
@@ -570,12 +622,14 @@ msgid "Task Category"
 msgstr "Catégorie de tâches"
 
 #. module: project_event
-#: model:ir.ui.view,arch_db:project_event.view_project_task_search
+#: model:ir.ui.view,arch_db:project_event.project_activity_search
+#: model:ir.ui.view,arch_db:project_event.project_task_search
 msgid "Task Client"
 msgstr "Client de la tâche"
 
 #. module: project_event
-#: model:ir.ui.view,arch_db:project_event.view_project_task_search
+#: model:ir.ui.view,arch_db:project_event.project_activity_search
+#: model:ir.ui.view,arch_db:project_event.project_task_search
 msgid "Task Responsible"
 msgstr "Responsable de la tâche"
 
@@ -624,7 +678,7 @@ msgid "Tasks Template"
 msgstr "Modèle de tâches"
 
 #. module: project_event
-#: code:addons/project_event/wizard/project_event_wizard.py:93
+#: code:addons/project_event/wizard/project_event_wizard.py:98
 #, python-format
 msgid "Tasks Wizard"
 msgstr "Wizard de tâches"
