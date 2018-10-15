@@ -252,4 +252,4 @@ class Task(models.Model):
             "done": "",
             "canceled": "The following is canceled and no longer on your calendars"
         }
-        print(switcher.get(action))
+        switcher.get(action)
