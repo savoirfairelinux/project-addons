@@ -162,6 +162,8 @@ class Task(models.Model):
     def action_option(self):
         if self.activity_task_type == 'task':
             self.draft_resources_reservation()
+        if self.task_state in ['requested', 'read', 'accepted']:
+            self.send_message("option")
         self.write({'task_state': 'option'})
 
     @api.multi
@@ -239,3 +241,15 @@ class Task(models.Model):
     def action_draft(self):
         self.write({'task_state': 'draft'})
         self.draft_resources_reservation()
+
+    def send_message(self, action):
+        switcher = {
+            "draft": "",
+            "option": "The following are Optional and no longer on your calendars",
+            "requested": "The following is requested",
+            "accepted": "",
+            "read": "",
+            "done": "",
+            "canceled": "The following is canceled and no longer on your calendars"
+        }
+        print(switcher.get(action))

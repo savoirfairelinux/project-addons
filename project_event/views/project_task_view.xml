@@ -78,7 +78,7 @@
         <field name="arch" type="xml">
             <form string="Task">
                 <header>
-                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', '!=', 'draft')]}"
+                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', 'not in', ['draft', 'requested'])]}"
                             type="object"/>
                     <button name="action_request" string="Request"
                             attrs="{'invisible': [('task_state', 'not in', ['draft','option'])]}" type="object"/>
@@ -86,6 +86,8 @@
                             attrs="{'invisible': [('task_state', '!=', 'requested')]}" type="object"/>
                     <button name="action_done" string="Done" attrs="{'invisible': [('task_state', '!=', 'accepted')]}"
                             type="object"/>
+                    <button name="action_read" string="Read" type="object" 
+                            attrs="{'invisible': [('task_state', '!=', 'requested')]}"/>
                     <button name="action_draft" string="Return to Draft"
                             attrs="{'invisible': [('task_state', 'not in', ['requested','accepted'])]}" type="object"/>
                     <button name="action_cancel" string="Cancel" type="object"
