@@ -112,12 +112,7 @@ class Task(models.Model):
     report_done_required = fields.Boolean(
         string='Report done required',
     )
-<<<<<<< HEAD
-
-    preceding_tasks_ids = fields.Many2many(
-=======
     preceding_task_ids = fields.Many2many(
->>>>>>> b5d083d... [ADD] refactor
         string='Preceding tasks',
         comodel_name='project.task',
         relation='project_task_related_rel',
