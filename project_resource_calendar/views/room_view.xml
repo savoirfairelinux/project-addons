@@ -85,15 +85,7 @@
                         </page>
                          <page string="Groups">
                             <group>
-                                <field name="resource_group_ids">
-                                    <tree editable="bottom">
-                                        <field name="group_id"/>
-                                        <field name="has_access_create"/>
-                                        <field name="has_access_read"/>
-                                        <field name="has_access_write"/>
-                                        <field name="has_access_delete"/>
-                                    </tree>
-                                </field>
+                                <field name="group_ids"/>
                             </group>
                         </page>
                         <page string="Description">

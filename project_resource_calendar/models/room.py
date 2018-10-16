@@ -35,11 +35,6 @@ class Room(models.Model):
         string='Miscellaneous',
         comodel_name='resource.calendar.miscellaneous',
     )
-    resource_group_ids = fields.One2many(
-        'resource.group.access',
-        'resource_id',
-        string='Group Access',
-    )
 
     @api.model
     def create(self, values):
