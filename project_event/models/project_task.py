@@ -160,7 +160,7 @@ class Task(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals['is_from_template']:
+        if 'is_from_template' in vals and vals['is_from_template']:
             vals['message_follower_ids'] = None
         elif 'activity_task_type' in vals:
             if vals['activity_task_type'] == 'activity':
