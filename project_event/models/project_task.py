@@ -242,7 +242,7 @@ class Task(models.Model):
         self.write({'task_state': 'draft'})
         self.draft_resources_reservation()
 
-    def send_message(self, action):
+    def get_message_body(self, action):
         switcher = {
             "draft": "",
             "option": "The following are Optional and no longer on your calendars",
@@ -252,4 +252,21 @@ class Task(models.Model):
             "done": "",
             "canceled": "The following is canceled and no longer on your calendars"
         }
-        switcher.get(action)
+        return switcher.get(action)
+
+    def get_message(self, action):
+        return {
+            'body': self.get_message_body(action),
+            'channel_ids': [(6, 0, [5])],
+            'email_from': 'Administrator <admin@yourcompany.example.com>',
+            'message_type': 'notification',
+            'model': 'project.task',
+            'partner_ids': [(6, 0, [self.task_responsible_id.id])],
+            'record_name': self.name,
+            'reply_to': 'Administrator <admin@yourcompany.example.com>',
+            'res_id': self.id,
+            'subject': self.code
+        }
+
+    def send_message(self, action):
+        self.env['mail.message'].create(self.get_message(action))
