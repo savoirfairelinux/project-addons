@@ -162,8 +162,8 @@ class Task(models.Model):
     def action_option(self):
         if self.activity_task_type == 'task':
             self.draft_resources_reservation()
-        if self.task_state in ['requested', 'read', 'accepted']:
-            self.send_message("option")
+            if self.task_state in ['requested', 'read', 'accepted']:
+                self.send_message("option")
         self.write({'task_state': 'option'})
 
     @api.multi
@@ -245,19 +245,22 @@ class Task(models.Model):
     def get_message_body(self, action):
         switcher = {
             "draft": "",
-            "option": "The following are Optional and no longer on your calendars",
+            "option": "The following are Optional\
+                        and no longer on your calendars",
             "requested": "The following is requested",
             "accepted": "",
             "read": "",
             "done": "",
-            "canceled": "The following is canceled and no longer on your calendars"
+            "canceled": "The following is canceled\
+                         and no longer on your calendars"
         }
         return switcher.get(action)
 
     def get_message(self, action):
         return {
             'body': self.get_message_body(action),
-            'channel_ids': [(6, 0, [5])],
+            'channel_ids': [(6, 0, [self.env.ref
+                            ('project.mail_channel_project_task').id])],
             'email_from': 'Administrator <admin@yourcompany.example.com>',
             'message_type': 'notification',
             'model': 'project.task',
