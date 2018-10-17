@@ -37,7 +37,8 @@
                     </div>
                     <group>
                         <group>
-                            <field name="room_id"/>
+                             <field name="room_id"
+                                       attrs="{'required':[('category_type','=','consumable'),('category_type','=','instrument')], 'invisible':[('category_type','in',['equipment','service'])]}"/>
                             <field name="category_type"/>
                         </group>
                         <group>
