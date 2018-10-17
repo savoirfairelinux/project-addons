@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-16 15:34+0000\n"
-"PO-Revision-Date: 2018-10-16 11:36-0400\n"
+"POT-Creation-Date: 2018-10-17 15:21+0000\n"
+"PO-Revision-Date: 2018-10-17 11:26-0400\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -261,7 +261,12 @@ msgstr "Employés"
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_date_end
 msgid "Ending Date"
-msgstr ""
+msgstr "Date de Fin"
+
+#. module: project_event
+#: selection:project.task,resource_type:0
+msgid "Equip./Service"
+msgstr "Équip./Service"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_equipment_id
@@ -270,7 +275,6 @@ msgstr ""
 #: model:ir.ui.view,arch_db:project_event.activity_task_template_form
 #: model:ir.ui.view,arch_db:project_event.activity_task_template_tree
 #: model:ir.ui.view,arch_db:project_event.view_project_task_wizard
-#: selection:project.task,resource_type:0
 #: selection:project.task.wizard,resource_type:0
 #: selection:task.template,resource_type:0
 msgid "Equipment"
@@ -487,6 +491,12 @@ msgid "Option"
 msgstr "Option"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_task_preceding_task_ids
+#: model:ir.ui.view,arch_db:project_event.project_event_task_form
+msgid "Preceding tasks"
+msgstr ""
+
+#. module: project_event
 #: model:ir.model,name:project_event.model_project_project
 #: selection:project.project,project_type:0
 msgid "Project"
@@ -518,6 +528,11 @@ msgstr "Recherche de tâche de projet"
 #: selection:project.task,task_state:0
 msgid "Read"
 msgstr "Lu"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_task_report_done_required
+msgid "Report done required"
+msgstr ""
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
@@ -617,6 +632,12 @@ msgstr "Heure de début"
 #: model:ir.model.fields,field_description:project_event.field_project_project_state
 msgid "State"
 msgstr "Statut"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_task_succeeding_task_ids
+#: model:ir.ui.view,arch_db:project_event.project_event_task_form
+msgid "Succeeding tasks"
+msgstr ""
 
 #. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_project_event_task
@@ -749,3 +770,8 @@ msgstr "Wizard de création d'événement à partir d'un modèle"
 #: model:ir.model,name:project_event.model_project_task_wizard
 msgid "Wizard Event Task Creation from template"
 msgstr "Wizard de création de tâche d'événement à partir d'un modèle"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_task_form
+msgid "Workflow:"
+msgstr ""
