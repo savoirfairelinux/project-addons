@@ -85,7 +85,7 @@ class Task(models.Model):
     )
     resource_type = fields.Selection([
         ('user', 'Human'),
-        ('equipment', 'Equipment'),
+        ('equipment', 'Equip./Service'),
         ('room', 'Room')], string='Resource Type',
         default='room', required=True,
     )
