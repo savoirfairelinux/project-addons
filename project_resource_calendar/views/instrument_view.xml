@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_resource_instrument" model="ir.actions.act_window">
+        <field name="name">Instruments</field>
+        <field name="res_model">resource.calendar.instrument</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="instrument_sub_menu"
+              name="Instruments"
+              parent="resource.menu_resource_config"
+              action="action_resource_instrument"
+              sequence="16"/>
+    <record id="resource_instrument_tree" model="ir.ui.view">
+        <field name="name">Instrument Tree</field>
+        <field name="model">resource.calendar.instrument</field>
+        <field name="arch" type="xml">
+            <tree string="Instrument">
+                <field name="name"/>
+                <field name="room_id"/>
+                <field name="sku"/>
+                <field name="is_bookable"/>
+            </tree>
+        </field>
+    </record>
+    <record id="resource_calendar_instrument_form" model="ir.ui.view">
+        <field name="name">Instrument Form</field>
+        <field name="model">resource.calendar.instrument</field>
+        <field name="arch" type="xml">
+            <form string="Instrument">
+                <sheet>
+                    <field name="photo" widget="image" class="oe_avatar" />
+                    <div>
+                        <h1>
+                            <field name="name" placeholder="Name"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="room_id"/>
+                            <field name="category_type"/>
+                        </group>
+                        <group>
+                            <field name="sku"/>
+                            <field name="is_bookable"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Photos">
+                            <group>
+                                <field name="photo_1"
+                                   widget="image" />
+                            </group>
+                            <group>
+                                <field name="photo_2"
+                                   widget="image"
+                                   attrs="{'invisible': [('photo_1','=',False)]}"/>
+                            </group>
+                            <group>
+                                <field name="photo_3"
+                                   widget="image"
+                                   attrs="{'invisible': [('photo_2','=',False)]}"/>
+                                <field name="photo_4"
+                                   widget="image"
+                                   attrs="{'invisible': [('photo_3','=',False)]}"/>
+                            </group>
+                        </page>
+                        <page string="Pricing">
+                            <group>
+                                <field name="pricing_type"/>
+                                <field name="pricing"/>
+                            </group>
+                        </page>
+                        <page string="Description">
+                             <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
