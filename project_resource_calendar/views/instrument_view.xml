@@ -7,7 +7,7 @@
         <field name="view_mode">tree,form</field>
     </record>
     <menuitem id="instrument_sub_menu"
-              name="Instruments"
+              name="Equip./Service"
               parent="resource.menu_resource_config"
               action="action_resource_instrument"
               sequence="16"/>

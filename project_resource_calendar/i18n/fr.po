@@ -6,290 +6,431 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-24 18:59+0000\n"
-"PO-Revision-Date: 2018-09-24 15:06-0400\n"
-"Last-Translator: Luis Garcia<luis.garcia@savoirfairelinux.com>\n"
+"POT-Creation-Date: 2018-10-17 20:46+0000\n"
+"PO-Revision-Date: 2018-10-17 17:05-0400\n"
+"Last-Translator: Luis Garcia <luis.garcia@savoirfairelinux.com>\n"
 "Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: fr\n"
 "X-Generator: Poedit 2.0.6\n"
 
-#. module: resource_calendar
-#: model:ir.ui.menu,name:resource_calendar.resource_calendar_sub_menu
-msgid "Calendar"
-msgstr "Calendrier"
+#. module: project_resource_calendar
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_instrument_photo
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_instrument_photo_1
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_instrument_photo_2
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_instrument_photo_3
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_instrument_photo_4
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_room_photo
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_room_photo_1
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_room_photo_2
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_room_photo_3
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_room_photo_4
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_resource_photo
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_resource_photo_1
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_resource_photo_2
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_resource_photo_3
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_resource_photo_4
+msgid "Add Photo"
+msgstr "Ajouter Photo"
 
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_capacity
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_capacity
 msgid "Capacity"
 msgstr "Capacité"
 
-#. module: resource_calendar
-#: selection:resource.calendar.instrument,item_type:0
-msgid "Consumables"
+#. module: project_resource_calendar
+#: selection:resource.calendar.instrument,category_type:0
+#, fuzzy
+#| msgid "Consumables"
+msgid "Consumable"
 msgstr "Consommables"
 
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_instrument_create_uid
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_create_uid
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_type_create_uid
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_sector_create_uid
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_create_uid
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_create_uid
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_create_uid
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type_create_uid
+#: model:ir.model.fields,field_description:project_resource_calendar.field_sector_sector_create_uid
 msgid "Created by"
 msgstr "Créé par"
 
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_instrument_create_date
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_create_date
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_type_create_date
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_sector_create_date
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_create_date
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_create_date
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_create_date
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type_create_date
+#: model:ir.model.fields,field_description:project_resource_calendar.field_sector_sector_create_date
 msgid "Created on"
 msgstr "Créé le"
 
-#. module: resource_calendar
-#: model:ir.ui.view,arch_db:resource_calendar.resource_calendar_instrument_form
-#: model:ir.ui.view,arch_db:resource_calendar.resource_calendar_room_form
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_description
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_description
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_description
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_instrument_form
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_room_form
 msgid "Description"
 msgstr "Description"
 
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_instrument_display_name
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_display_name
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_type_display_name
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_sector_display_name
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_display_name
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_display_name
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_display_name
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type_display_name
+#: model:ir.model.fields,field_description:project_resource_calendar.field_sector_sector_display_name
 msgid "Display Name"
 msgstr "Nom à afficher"
 
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_description
-msgid "Dsescription"
-msgstr "Dsescription"
+#. module: project_resource_calendar
+#: model:ir.ui.menu,name:project_resource_calendar.instrument_sub_menu
+msgid "Equip./Service"
+msgstr "Équip./Service"
 
-#. module: resource_calendar
+#. module: project_resource_calendar
 #: selection:calendar.event,resource_type:0
-#: model:ir.model.fields,field_description:resource_calendar.field_calendar_event_equipment_ids
-#: selection:resource.calendar.instrument,item_type:0
+#: model:ir.model.fields,field_description:project_resource_calendar.field_calendar_event_equipment_ids
+#: selection:resource.calendar.instrument,category_type:0
 msgid "Equipment"
 msgstr "Équipement"
 
-#. module: resource_calendar
-#: model:ir.model,name:resource_calendar.model_calendar_event
+#. module: project_resource_calendar
+#: model:ir.model,name:project_resource_calendar.model_calendar_event
 msgid "Event"
-msgstr "Évènement"
+msgstr "Événement"
 
-#. module: resource_calendar
+#. module: project_resource_calendar
+#: selection:resource.calendar.instrument,pricing_type:0
+#: selection:resource.calendar.room,pricing_type:0
+#: selection:resource.resource,pricing_type:0
+msgid "Fixed Rate"
+msgstr "Tarif Fixe"
+
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_floor
+msgid "Floor"
+msgstr "Étage"
+
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_group_ids
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_group_ids
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_group_ids
+msgid "Group"
+msgstr "Groupe"
+
+#. module: project_resource_calendar
 #: selection:calendar.event,resource_type:0
 #: selection:resource.calendar.instrument,resource_type:0
 #: selection:resource.calendar.room,resource_type:0
 msgid "Human"
 msgstr "Human"
 
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_instrument_id
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_id
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_type_id
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_sector_id
-#: model:ir.ui.view,arch_db:resource_calendar.resource_calendar_room_form
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_id
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_id
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_id
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type_id
+#: model:ir.model.fields,field_description:project_resource_calendar.field_sector_sector_id
 msgid "ID"
 msgstr "ID"
 
-#. module: resource_calendar
-#: model:ir.ui.view,arch_db:resource_calendar.resource_calendar_instrument_form
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_instrument_form
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_instrument_tree
+#: selection:resource.calendar.instrument,category_type:0
 msgid "Instrument"
-msgstr "Réservable"
+msgstr "Instrument"
 
-#. module: resource_calendar
-#: model:ir.actions.act_window,name:resource_calendar.action_resource_instrument
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_instruments_ids
-#: model:ir.ui.menu,name:resource_calendar.instrument_sub_menu
-#: selection:resource.calendar.instrument,item_type:0
+#. module: project_resource_calendar
+#: model:ir.actions.act_window,name:project_resource_calendar.action_resource_instrument
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_instruments_ids
 msgid "Instruments"
 msgstr "Instruments"
 
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_is_bookable
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_is_bookable
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_is_bookable
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_is_bookable
 msgid "Is Bookable"
 msgstr "Réservable"
 
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_instrument___last_update
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room___last_update
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_type___last_update
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_sector___last_update
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument___last_update
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous___last_update
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room___last_update
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type___last_update
+#: model:ir.model.fields,field_description:project_resource_calendar.field_sector_sector___last_update
 msgid "Last Modified on"
 msgstr "Dernière modification le"
 
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_instrument_write_uid
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_type_write_uid
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_write_uid
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_sector_write_uid
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_write_uid
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_write_uid
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type_write_uid
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_write_uid
+#: model:ir.model.fields,field_description:project_resource_calendar.field_sector_sector_write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
 
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_instrument_write_date
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_type_write_date
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_write_date
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_sector_write_date
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_write_date
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_write_date
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type_write_date
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_write_date
+#: model:ir.model.fields,field_description:project_resource_calendar.field_sector_sector_write_date
 msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
 
-#. module: resource_calendar
+#. module: project_resource_calendar
 #: selection:resource.calendar.instrument,resource_type:0
 #: selection:resource.calendar.room,resource_type:0
 msgid "Material"
 msgstr "Matériel"
 
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_sector_name
-#: model:ir.ui.view,arch_db:resource_calendar.resource_calendar_instrument_form
-#: model:ir.ui.view,arch_db:resource_calendar.resource_calendar_room_form
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_miscellaneous
+msgid "Miscellaneous"
+msgstr "Divers"
+
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_name
+#: model:ir.model.fields,field_description:project_resource_calendar.field_sector_sector_name
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_instrument_form
 msgid "Name"
 msgstr "Nom"
 
-#. module: resource_calendar
-#: model:ir.ui.view,arch_db:resource_calendar.resource_calendar_instrument_form
-#: model:ir.ui.view,arch_db:resource_calendar.resource_calendar_room_form
+#. module: project_resource_calendar
+#: selection:resource.calendar.instrument,pricing_type:0
+#: selection:resource.calendar.room,pricing_type:0
+#: selection:resource.resource,pricing_type:0
+msgid "Per Hour"
+msgstr "Tarif Horaire"
+
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_photo
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_photo
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_photo
+msgid "Photo"
+msgstr "Photo"
+
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_photo_1
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_photo_1
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_photo_1
+msgid "Photo 1"
+msgstr "Photo 1"
+
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_photo_2
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_photo_2
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_photo_2
+msgid "Photo 2"
+msgstr "Photo 2"
+
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_photo_3
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_photo_3
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_photo_3
+msgid "Photo 3"
+msgstr "Photo 3"
+
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_photo_4
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_photo_4
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_photo_4
+msgid "Photo 4"
+msgstr "Photo 4"
+
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_instrument_form
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_room_form
+msgid "Photos"
+msgstr "Photos"
+
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_instrument_form
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_room_form
 msgid "Pricing"
 msgstr "Tarif"
 
-#. module: resource_calendar
-#: model:ir.actions.act_window,name:resource_calendar.action_resource_calendar
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_pricing
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_pricing
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_pricing
+msgid "Pricing ($)"
+msgstr "Tarif ($)"
+
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_pricing_type
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_pricing_type
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_pricing_type
+msgid "Pricing Type"
+msgstr "Tarification"
+
+#. module: project_resource_calendar
+#: model:ir.actions.act_window,name:project_resource_calendar.action_resource_calendar
 msgid "Resource Calendar"
 msgstr "Calendrier des ressources"
 
-#. module: resource_calendar
-#: model:ir.model,name:resource_calendar.model_resource_resource
+#. module: project_resource_calendar
+#: model:ir.model,name:project_resource_calendar.model_resource_calendar_instrument
+#, fuzzy
+#| msgid "resource.calendar.instrument"
+msgid "Resource Calendar Instrument"
+msgstr "resource.calendar.instrument"
+
+#. module: project_resource_calendar
+#: model:ir.model,name:project_resource_calendar.model_resource_resource
 msgid "Resource Detail"
 msgstr "Détail de la ressource"
 
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_calendar_event_resource_type
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_instrument_resource_type
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_resource_type
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_calendar_event_resource_type
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_resource_type
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_resource_type
 msgid "Resource Type"
 msgstr "Type de ressource"
 
-#. module: resource_calendar
-#: model:ir.ui.menu,name:resource_calendar.resource_calendar_menu_root
+#. module: project_resource_calendar
+#: model:ir.ui.menu,name:project_resource_calendar.resource_calendar_menu_root
 msgid "Resource calendar"
 msgstr "Calendrier des ressources"
 
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_instrument_resource_ids
-msgid "Resources"
-msgstr "Ressources"
-
-#. module: resource_calendar
+#. module: project_resource_calendar
 #: selection:calendar.event,resource_type:0
-#: model:ir.model.fields,field_description:resource_calendar.field_calendar_event_room_ids
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_instrument_room_id
-#: model:ir.ui.view,arch_db:resource_calendar.resource_calendar_room_form
-#: model:ir.ui.view,arch_db:resource_calendar.room_type_form
+#: model:ir.model.fields,field_description:project_resource_calendar.field_calendar_event_room_id
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_room_id
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_room_form
+#: model:ir.ui.view,arch_db:project_resource_calendar.room_type_form
 #: selection:resource.calendar.instrument,resource_type:0
 #: selection:resource.calendar.room,resource_type:0
 msgid "Room"
 msgstr "Salle"
 
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_room_code
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_room_form
+msgid "Room Code"
+msgstr "Code Salle"
+
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_room_code
 msgid "Room ID"
 msgstr "Salle ID"
 
-#. module: resource_calendar
-#: model:ir.actions.act_window,name:resource_calendar.action_resource_room_type
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_room_type_id
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_type_name
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_room_form
+#, fuzzy
+#| msgid "Room Type"
+msgid "Room Name"
+msgstr "Type de salle"
+
+#. module: project_resource_calendar
+#: model:ir.actions.act_window,name:project_resource_calendar.action_resource_room_type
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_room_type_id
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type_name
 msgid "Room Type"
 msgstr "Type de salle"
 
-#. module: resource_calendar
-#: model:ir.ui.menu,name:resource_calendar.room_type_sub_menu
+#. module: project_resource_calendar
+#: model:ir.ui.menu,name:project_resource_calendar.room_type_sub_menu
 msgid "Room Types"
 msgstr "Types de salles"
 
-#. module: resource_calendar
-#: model:ir.actions.act_window,name:resource_calendar.action_resource_room
-#: model:ir.ui.menu,name:resource_calendar.room_sub_menu
+#. module: project_resource_calendar
+#: model:ir.actions.act_window,name:project_resource_calendar.action_resource_room
+#: model:ir.ui.menu,name:project_resource_calendar.room_sub_menu
 msgid "Rooms"
 msgstr "Salles"
 
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_instrument_sku
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_sku
 msgid "SKU"
 msgstr "SKU"
 
-#. module: resource_calendar
-#: model:ir.actions.act_window,name:resource_calendar.action_resource_sector
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_room_sector_id
-#: model:ir.ui.view,arch_db:resource_calendar.sector_form
+#. module: project_resource_calendar
+#: model:ir.actions.act_window,name:project_resource_calendar.action_resource_sector
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_sector_id
+#: model:ir.ui.view,arch_db:project_resource_calendar.sector_form
 msgid "Sector"
 msgstr "Secteur"
 
-#. module: resource_calendar
-#: model:ir.ui.menu,name:resource_calendar.sector_sub_menu
+#. module: project_resource_calendar
+#: model:ir.ui.menu,name:project_resource_calendar.sector_sub_menu
 msgid "Sectors"
 msgstr "Secteurs"
 
-#. module: resource_calendar
-#: selection:resource.calendar.instrument,item_type:0
-msgid "Services"
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_room_form
+#, fuzzy
+#| msgid "Resources"
+msgid "Select Resources"
+msgstr "Ressources"
+
+#. module: project_resource_calendar
+#: selection:resource.calendar.instrument,category_type:0
+#, fuzzy
+#| msgid "Services"
+msgid "Service"
 msgstr "Services"
 
-#. module: resource_calendar
-#: model:ir.ui.view,arch_db:resource_calendar.resource_calendar_instrument_form
-#: model:ir.ui.view,arch_db:resource_calendar.resource_calendar_room_form
-msgid "Tasks"
-msgstr "Tâches"
-
-#. module: resource_calendar
-#: model:ir.model.fields,field_description:resource_calendar.field_resource_calendar_instrument_item_type
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_category_type
 msgid "Type"
 msgstr "Type"
 
-#. module: resource_calendar
-#: model:ir.ui.view,arch_db:resource_calendar.resource_instrument_tree
-msgid "instrument"
-msgstr "instrument"
-
-#. module: resource_calendar
-#: model:ir.ui.view,arch_db:resource_calendar.resource_calendar_tree
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_tree
 msgid "resource calendar"
 msgstr "Calendrier des ressources"
 
-#. module: resource_calendar
-#: model:ir.model,name:resource_calendar.model_resource_calendar_instrument
-msgid "resource.calendar.instrument"
-msgstr "resource.calendar.instrument"
+#. module: project_resource_calendar
+#: model:ir.model,name:project_resource_calendar.model_resource_calendar_miscellaneous
+#, fuzzy
+#| msgid "resource.calendar.sector"
+msgid "resource.calendar.miscellaneous"
+msgstr "resource.calendar.sector"
 
-#. module: resource_calendar
-#: model:ir.model,name:resource_calendar.model_resource_calendar_room
+#. module: project_resource_calendar
+#: model:ir.model,name:project_resource_calendar.model_resource_calendar_room
 msgid "resource.calendar.room"
 msgstr "resource.calendar.room"
 
-#. module: resource_calendar
-#: model:ir.model,name:resource_calendar.model_resource_calendar_room_type
+#. module: project_resource_calendar
+#: model:ir.model,name:project_resource_calendar.model_resource_calendar_room_type
 msgid "resource.calendar.room.type"
 msgstr "resource.calendar.room.type"
 
-#. module: resource_calendar
-#: model:ir.model,name:resource_calendar.model_resource_calendar_sector
-msgid "resource.calendar.sector"
-msgstr "resource.calendar.sector"
-
-#. module: resource_calendar
-#: model:ir.ui.view,arch_db:resource_calendar.resource_room_tree
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_room_tree
 msgid "room"
 msgstr "salle"
 
-#. module: resource_calendar
-#: model:ir.ui.view,arch_db:resource_calendar.resource_room_type_tree
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_room_type_tree
 msgid "room_type"
 msgstr "room_type"
 
-#. module: resource_calendar
-#: model:ir.ui.view,arch_db:resource_calendar.resource_sector_tree
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_sector_tree
 msgid "sector"
 msgstr "secteur"
+
+#. module: project_resource_calendar
+#: model:ir.model,name:project_resource_calendar.model_sector_sector
+#, fuzzy
+#| msgid "sector"
+msgid "sector.sector"
+msgstr "secteur"
+
+#~ msgid "Calendar"
+#~ msgstr "Calendrier"
+
+#~ msgid "Dsescription"
+#~ msgstr "Dsescription"
+
+#~ msgid "Tasks"
+#~ msgstr "Tâches"
+
+#~ msgid "instrument"
+#~ msgstr "instrument"
