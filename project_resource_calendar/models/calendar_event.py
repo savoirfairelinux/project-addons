@@ -1,7 +1,8 @@
 # Copyright 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import fields, models
+from odoo import fields, models, api, _
+from odoo.exceptions import ValidationError
 
 
 class CalendarEvent(models.Model):
@@ -33,3 +34,43 @@ class CalendarEvent(models.Model):
         readonly=True,
         track_visibility='onchange',
         default='draft')
+
+    @api.multi
+    @api.constrains('room_id', 'start', 'stop', 'equipment_ids')
+    def _check_room_id_double_book(self):
+
+        for record in self:
+
+            if record._event_in_past() or record.state == 'draft':
+                continue
+
+            room = record.room_id.filtered(
+                lambda s: s.allow_double_book is False
+            )
+            equipment = record.equipment_ids.filtered(
+                lambda s: s.allow_double_book is False
+            )
+
+            if not any(room) and not any(equipment):
+                continue
+
+            overlaps = self.env['calendar.event'].search([
+                ('id', '!=', record.id),
+                ('start', '<', record.stop),
+                ('stop', '>', record.start),
+            ])
+
+            for resource in overlaps.mapped(lambda s: s.room_id):
+                raise ValidationError(
+                    _(
+                        'The room cannot be double-booked '
+                        'with any overlapping meetings or events.',
+                    )
+                )
+            for resource in overlaps.mapped(lambda s: s.equipment_ids):
+                raise ValidationError(
+                    _(
+                        'The resource cannot be double-booked '
+                        'with any overlapping meetings or events.',
+                    )
+                )
