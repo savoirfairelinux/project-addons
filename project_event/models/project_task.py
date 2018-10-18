@@ -172,30 +172,36 @@ class Task(models.Model):
 
     @api.model
     def create(self, vals):
-        if 'is_from_template' in vals and vals['is_from_template']:
-            vals['message_follower_ids'] = None
-        elif 'activity_task_type' in vals:
+        if 'activity_task_type' in vals:
             if vals['activity_task_type'] == 'activity':
-                vals['code'] = self.env['ir.sequence'] \
-                    .next_by_code('project.task.activity')
-                return_create = super(Task, self).create(vals)
-                vals['parent_id'] = return_create.id
-                vals['message_follower_ids'] = None
-                vals['project_id'] = None
-                self.create_main_task(vals)
+                return_create = self.create_new_activity(vals)
+                if not (
+                            'is_from_template' in vals and
+                            vals['is_from_template']
+                ):
+                    vals['parent_id'] = return_create.id
+                    vals['message_follower_ids'] = None
+                    vals['project_id'] = None
+                    vals['activity_task_type'] = 'task'
+                    self.create_new_task(vals)
             elif vals['activity_task_type'] == 'task':
-                vals['code'] = self.env['ir.sequence'] \
-                    .next_by_code('project.task.task')
-                return_create = super(Task, self).create(vals)
+                if 'is_from_template' in vals and vals['is_from_template']:
+                    vals['message_follower_ids'] = None
+                    return_create = self.create_new_task(vals)
         else:
             return super(Task, self).create(vals)
         return return_create
 
     @api.multi
-    def create_main_task(self, vals):
-        vals['activity_task_type'] = 'task'
+    def create_new_task(self, vals):
         vals['code'] = self.env['ir.sequence'] \
             .next_by_code('project.task.task')
+        return super(Task, self).create(vals)
+
+    @api.multi
+    def create_new_activity(self, vals):
+        vals['code'] = self.env['ir.sequence'] \
+            .next_by_code('project.task.activity')
         return super(Task, self).create(vals)
 
     @api.model
