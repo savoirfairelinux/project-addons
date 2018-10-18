@@ -1,7 +1,7 @@
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from datetime import datetime
 
 
@@ -244,15 +244,15 @@ class Task(models.Model):
 
     def get_message_body(self, action):
         switcher = {
-            "draft": "",
-            "option": "The following are Optional\
-                        and no longer on your calendars",
-            "requested": "The following is requested",
-            "accepted": "",
-            "read": "",
-            "done": "",
-            "canceled": "The following is canceled\
-                         and no longer on your calendars"
+            'draft': ' ',
+            'option': _('The following are Optional\
+                        and no longer on your calendars'),
+            'requested': _('The following is requested'),
+            'accepted': ' ',
+            'read': ' ',
+            'done': ' ',
+            'canceled': _('The following is canceled\
+                         and no longer on your calendars')
         }
         return switcher.get(action)
 
