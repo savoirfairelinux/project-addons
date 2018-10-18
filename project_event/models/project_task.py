@@ -1,7 +1,7 @@
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 from datetime import datetime
 
 
@@ -239,6 +239,8 @@ class Task(models.Model):
     def action_option(self):
         if self.activity_task_type == 'task':
             self.draft_resources_reservation()
+            if self.task_state in ['requested', 'read', 'accepted']:
+                self.send_message("option")
         self.write({'task_state': 'option'})
 
     @api.multi
@@ -316,3 +318,35 @@ class Task(models.Model):
     def action_draft(self):
         self.write({'task_state': 'draft'})
         self.draft_resources_reservation()
+
+    def get_message_body(self, action):
+        switcher = {
+            'draft': ' ',
+            'option': _('The following are Optional\
+                        and no longer on your calendars'),
+            'requested': _('The following is requested'),
+            'accepted': ' ',
+            'read': ' ',
+            'done': ' ',
+            'canceled': _('The following is canceled\
+                         and no longer on your calendars')
+        }
+        return switcher.get(action)
+
+    def get_message(self, action):
+        return {
+            'body': self.get_message_body(action),
+            'channel_ids': [(6, 0, [self.env.ref
+                            ('project.mail_channel_project_task').id])],
+            'email_from': 'Administrator <admin@yourcompany.example.com>',
+            'message_type': 'notification',
+            'model': 'project.task',
+            'partner_ids': [(6, 0, [self.task_responsible_id.id])],
+            'record_name': self.name,
+            'reply_to': 'Administrator <admin@yourcompany.example.com>',
+            'res_id': self.id,
+            'subject': self.code
+        }
+
+    def send_message(self, action):
+        self.env['mail.message'].create(self.get_message(action))
