@@ -159,7 +159,8 @@
         <field name="name">project.activity.task.calendar</field>
         <field name="model">project.task</field>
         <field name="arch" type="xml">
-            <calendar string="Calendar View" date_start="date_start">
+            <calendar string="Calendar View" date_start="date_start"
+                      date_stop="date_end">
                 <field name="name"/>
                 <field name="code"/>
                 <field name="project_id" string="Event"/>
@@ -172,7 +173,8 @@
         <field name="name">project.activity.task.calendar</field>
         <field name="model">project.task</field>
         <field name="arch" type="xml">
-            <calendar string="Calendar View" date_start="date_start">
+            <calendar string="Calendar View" date_start="date_start"
+                      date_stop="date_end">
                 <field name="name"/>
                 <field name="code"/>
                 <field name="parent_id" string="Activity"/>
