@@ -156,10 +156,11 @@
         </field>
     </record>
     <record model="ir.ui.view" id="project_event_activity_calendar">
-        <field name="name">project.activity.task.calendar</field>
+        <field name="name">project.event.activity.calendar</field>
         <field name="model">project.task</field>
         <field name="arch" type="xml">
-            <calendar string="Calendar View" date_start="date_start">
+            <calendar string="Calendar View" date_start="date_start"
+                      date_stop="date_end">
                 <field name="name"/>
                 <field name="code"/>
                 <field name="project_id" string="Event"/>
@@ -169,10 +170,11 @@
         </field>
     </record>
     <record model="ir.ui.view" id="project_event_task_calendar">
-        <field name="name">project.activity.task.calendar</field>
+        <field name="name">project.event.task.calendar</field>
         <field name="model">project.task</field>
         <field name="arch" type="xml">
-            <calendar string="Calendar View" date_start="date_start">
+            <calendar string="Calendar View" date_start="date_start"
+                      date_stop="date_end">
                 <field name="name"/>
                 <field name="code"/>
                 <field name="parent_id" string="Activity"/>
