@@ -187,7 +187,7 @@ class Task(models.Model):
             elif vals['activity_task_type'] == 'task':
                 if 'is_from_template' in vals and vals['is_from_template']:
                     vals['message_follower_ids'] = None
-                    return_create = self.create_new_task(vals)
+                return_create = self.create_new_task(vals)
         else:
             return super(Task, self).create(vals)
         return return_create
