@@ -30,7 +30,7 @@
                     <button name="action_option" string="Option" attrs="{'invisible': [('state', '!=', 'draft')]}" type="object"/>
                     <button name="action_accept" string="Accept" attrs="{'invisible': [('state', 'in', ['accepted','canceled'])]}" type="object"/>
                     <button name="action_draft" string="Return to Draft" attrs="{'invisible': [('state', 'in', ['draft','canceled'])]}" type="object"/>
-                    <button name="action_cancel" string="Cancel" type="object" attrs="{'invisible': [('state', '!=', 'canceled')]}"/>
+                    <button name="action_cancel" string="Cancel" type="object" attrs="{'invisible': [('state', 'in', ['draft','canceled','postponed'])]}"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,option,accepted,canceled"/>
                 </header>
                 <sheet>

@@ -94,6 +94,7 @@ class Task(models.Model):
         ('option', 'Option'),
         ('requested', 'Requested'),
         ('read', 'Read'),
+        ('postponed', 'Postponed'),
         ('accepted', 'Accepted'),
         ('done', 'Done'),
         ('canceled', 'Canceled')],
@@ -327,6 +328,8 @@ class Task(models.Model):
             'requested': _('The following is requested'),
             'accepted': ' ',
             'read': ' ',
+            'postponed': _('The following are postponed \
+                        and no longer appear on your calendars'),
             'done': ' ',
             'canceled': _('The following is canceled\
                          and no longer on your calendars')
