@@ -96,6 +96,7 @@ class Task(models.Model):
         ('read', 'Read'),
         ('postponed', 'Postponed'),
         ('accepted', 'Accepted'),
+        ('approved', 'Approved'),
         ('done', 'Done'),
         ('canceled', 'Canceled')],
         string='Task State',
@@ -247,6 +248,8 @@ class Task(models.Model):
                 self.send_message('option')
         if self.activity_task_type == 'activity':
             if self.task_state == 'accepted':
+                for child in self.child_ids:
+                    child.action_option()
                 self.send_message('option')
         self.write({'task_state': 'option'})
 
@@ -315,7 +318,12 @@ class Task(models.Model):
                 self.send_message('canceled')
         elif self.activity_task_type == 'activity':
             if self.task_state == 'accepted':
+                for child in self.child_ids:
+                    child.action_cancel()
                 self.send_message('canceled')
+            elif self.task_state == 'option':
+                for child in self.child_ids:
+                    child.action_cancel()
         self.write({'task_state': 'canceled'})
 
     @api.multi
@@ -323,6 +331,8 @@ class Task(models.Model):
         self.request_reservation()
         if self.activity_task_type == 'activity':
             if self.task_state in ['draft', 'option', 'postponed', 'canceled']:
+                for child in self.child_ids:
+                    child.action_accept()
                 self.send_message('accepted')
         self.write({'task_state': 'accepted'})
 
@@ -342,7 +352,13 @@ class Task(models.Model):
             self.send_message('postponed')
         elif self.activity_task_type == 'activity':
             if self.task_state == 'accepted':
+                for child in self.child_ids:
+                    child.action_postpone()
                 self.send_message('postponed')
+            elif self.task_state == 'option':
+                for child in self.child_ids:
+                    child.action_postpone()
+
         self.write({'state': 'postponed'})
 
     def get_message_body(self, action):
