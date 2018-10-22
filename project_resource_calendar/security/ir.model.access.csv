@@ -1,7 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_room,access_room,model_resource_calendar_room,base.group_user,1,1,1,1
 access_instrument,access_instrument,model_resource_calendar_instrument,base.group_user,1,1,1,1
-access_sector,access_sector,model_sector_sector,base.group_user,1,1,1,1
 access_room_type,access_room_type,model_resource_calendar_room_type,base.group_user,1,1,1,1
 access_miscellaneous,access_miscellaneous,model_resource_calendar_miscellaneous,base.group_user,1,1,1,1
 

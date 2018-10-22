@@ -14,6 +14,7 @@
         'calendar_resource',
         'resource',
         'calendar',
+        'hr',
     ],
     'external_dependencies': {
         'python': [],
@@ -23,7 +24,6 @@
         'views/room_type_view.xml',
         'views/equipment_calendar_view.xml',
         'views/resource_view.xml',
-        'views/sector_view.xml',
         'views/room_view.xml',
         'views/instrument_view.xml',
     ],
