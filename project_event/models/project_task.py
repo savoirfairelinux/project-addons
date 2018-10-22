@@ -79,15 +79,17 @@ class Task(models.Model):
         ondelete='set null',
     )
     equipment_id = fields.Many2one(
-        string='Equipment',
+        string='Equip./Service',
         comodel_name='resource.calendar.instrument',
         ondelete='set null',
     )
     resource_type = fields.Selection([
         ('user', 'Human'),
         ('equipment', 'Equip./Service'),
-        ('room', 'Room')], string='Resource Type',
-        default='room', required=True,
+        ('room', 'Room')],
+        string='Resource Type',
+        default='room',
+        required=True,
     )
     task_state = fields.Selection([
         ('draft', 'Draft'),
