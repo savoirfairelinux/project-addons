@@ -349,6 +349,7 @@ class Task(models.Model):
     def action_postpone(self):
         if self.activity_task_type == 'task' and \
                 self.task_state in ['requested', 'read', 'canceled', 'accepted']:
+            self.draft_resources_reservation()
             self.send_message('postponed')
         elif self.activity_task_type == 'activity':
             if self.task_state == 'accepted':
