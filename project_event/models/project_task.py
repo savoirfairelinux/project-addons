@@ -234,6 +234,9 @@ class Task(models.Model):
     @api.multi
     def action_request(self):
         self.draft_resources_reservation()
+        if self.activity_task_type == 'task' and \
+                self.task_state in ['draft', 'option', 'postponed', 'canceled']:
+            self.send_message('requested')
         self.write({'task_state': 'requested'})
 
     @api.multi
@@ -241,7 +244,10 @@ class Task(models.Model):
         if self.activity_task_type == 'task':
             self.draft_resources_reservation()
             if self.task_state in ['requested', 'read', 'accepted']:
-                self.send_message("option")
+                self.send_message('option')
+        if self.activity_task_type == 'activity':
+            if self.task_state == 'accepted':
+                self.send_message('option')
         self.write({'task_state': 'option'})
 
     @api.multi
@@ -303,12 +309,21 @@ class Task(models.Model):
 
     @api.multi
     def action_cancel(self):
-        self.write({'task_state': 'canceled'})
         self.cancel_resources_reservation()
+        if self.activity_task_type == 'task' and \
+                self.task_state in ['requested', 'read', 'postponed', 'accepted']:
+                self.send_message('canceled')
+        elif self.activity_task_type == 'activity':
+            if self.task_state == 'accepted':
+                self.send_message('canceled')
+        self.write({'task_state': 'canceled'})
 
     @api.multi
     def action_accept(self):
         self.request_reservation()
+        if self.activity_task_type == 'activity':
+            if self.task_state in ['draft', 'option', 'postponed', 'canceled']:
+                self.send_message('accepted')
         self.write({'task_state': 'accepted'})
 
     @api.multi
@@ -322,6 +337,12 @@ class Task(models.Model):
 
     @api.multi
     def action_postpone(self):
+        if self.activity_task_type == 'task' and \
+                self.task_state in ['requested', 'read', 'canceled', 'accepted']:
+            self.send_message('postponed')
+        elif self.activity_task_type == 'activity':
+            if self.task_state == 'accepted':
+                self.send_message('postponed')
         self.write({'state': 'postponed'})
 
     def get_message_body(self, action):

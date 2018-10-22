@@ -57,14 +57,20 @@ class Project(models.Model):
 
     @api.multi
     def action_cancel(self):
+        if self.task_state == 'accepted':
+            self.send_message('canceled')
         self.write({'state': 'canceled'})
 
     @api.multi
     def action_accept(self):
+        if self.task_state in ['draft', 'option', 'postponed', 'canceled']:
+            self.send_message('accepted')
         self.write({'state': 'accepted'})
 
     @api.multi
     def action_option(self):
+        if self.task_state == 'accepted':
+            self.send_message('option')
         self.write({'state': 'option'})
 
     @api.multi
@@ -73,6 +79,8 @@ class Project(models.Model):
 
     @api.multi
     def action_postpone(self):
+        if self.task_state == 'accepted':
+            self.send_message('postponed')
         self.write({'state': 'postponed'})
 
     @api.model
@@ -96,10 +104,10 @@ class Project(models.Model):
     def get_message_body(self, action):
         switcher = {
             'draft': ' ',
-            'option': _('The following are Optional\
-                        and appear and are hatched on the calendar'),
-            'accepted': _('The following are approved'),
-            'postponed': _('The following are postponed \
+            'option': _('The following is Optional\
+                        and appear and is hatched on the calendar'),
+            'accepted': _('The following is approved'),
+            'postponed': _('The following is postponed \
                         and no longer appear on your calendars'),
             'canceled': _('The following is canceled\
                          and no longer on your calendars')
