@@ -327,12 +327,12 @@ class Task(models.Model):
     def get_message_body(self, action):
         switcher = {
             'draft': ' ',
-            'option': _('The following are Optional\
+            'option': _('The following is Optional\
                         and no longer on your calendars'),
             'requested': _('The following is requested'),
-            'accepted': ' ',
+            'accepted':  _('The following is approved'),
             'read': ' ',
-            'postponed': _('The following are postponed \
+            'postponed': _('The following is postponed \
                         and no longer appear on your calendars'),
             'done': ' ',
             'canceled': _('The following is canceled\

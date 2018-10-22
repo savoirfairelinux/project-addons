@@ -98,7 +98,7 @@ class Project(models.Model):
             'draft': ' ',
             'option': _('The following are Optional\
                         and appear and are hatched on the calendar'),
-            'accepted': ' ',
+            'accepted': _('The following are approved'),
             'postponed': _('The following are postponed \
                         and no longer appear on your calendars'),
             'canceled': _('The following is canceled\
