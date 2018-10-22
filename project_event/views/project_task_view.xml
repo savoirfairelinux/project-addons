@@ -7,14 +7,14 @@
         <field name="arch" type="xml">
             <form string="Activity">
                 <header>
-                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', '!=', 'draft')]}"
+                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', '=', 'option')]}"
                             type="object"/>
                     <button name="action_accept" string="Accept"
-                            attrs="{'invisible': [('task_state', 'in', ['accepted','canceled'])]}" type="object"/>
-                    <button name="action_draft" string="Return to Draft"
-                            attrs="{'invisible': [('task_state', 'in', ['draft','canceled'])]}" type="object"/>
+                            attrs="{'invisible': [('task_state', '=', 'accepted')]}" type="object"/>
+                    <button name="action_postponed" string="Postpone" type="object"
+                            attrs="{'invisible': [('task_state', 'in', ['draft','postponed','canceled'])]}"/>       
                     <button name="action_cancel" string="Cancel" type="object"
-                            attrs="{'invisible': [('task_state', '!=', 'canceled')]}"/>
+                            attrs="{'invisible': [('task_state', 'not in', ['option','accepted'])]}"/>
                     <field name="task_state" widget="statusbar" statusbar_visible="draft,option,accepted,canceled"/>
                 </header>
                 <sheet>
@@ -106,20 +106,20 @@
         <field name="arch" type="xml">
             <form string="Task">
                 <header>
-                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', 'not in', ['draft', 'requested'])]}"
+                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', 'in', ['option', 'done'])]}"
                             type="object"/>
                     <button name="action_request" string="Request"
-                            attrs="{'invisible': [('task_state', 'not in', ['draft','option'])]}" type="object"/>
+                            attrs="{'invisible': [('task_state', 'in', ['requested','accepted','done'])]}" type="object"/>
                     <button name="action_accept" string="Accept"
-                            attrs="{'invisible': [('task_state', '!=', 'requested')]}" type="object"/>
-                    <button name="action_done" string="Done" attrs="{'invisible': [('task_state', '!=', 'accepted')]}"
+                            attrs="{'invisible': [('task_state', 'not in', ['requested','read'])]}" type="object"/>
+                    <button name="action_done" string="Done" attrs="{'invisible': [('task_state', 'not in', ['accepted','read'])]}"
                             type="object"/>
                     <button name="action_read" string="Read" type="object" 
                             attrs="{'invisible': [('task_state', '!=', 'requested')]}"/>
-                    <button name="action_draft" string="Return to Draft"
-                            attrs="{'invisible': [('task_state', 'not in', ['requested','accepted'])]}" type="object"/>
+                    <button name="action_postpone" string="Postpone"
+                            attrs="{'invisible': [('task_state', 'in', ['draft','done','postponed'])]}" type="object"/>
                     <button name="action_cancel" string="Cancel" type="object"
-                            attrs="{'invisible': [('task_state', 'in', ['done','canceled'])]}"/>
+                            attrs="{'invisible': [('task_state', 'in', ['draft','done','canceled'])]}"/>
                     <field name="task_state" widget="statusbar"/>
                 </header>
                 <sheet>
