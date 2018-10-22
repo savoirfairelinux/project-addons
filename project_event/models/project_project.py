@@ -59,18 +59,24 @@ class Project(models.Model):
     def action_cancel(self):
         if self.task_state == 'accepted':
             self.send_message('canceled')
+        for activity in self.tasks_ids:
+                activity.action_cancel()
         self.write({'state': 'canceled'})
 
     @api.multi
     def action_accept(self):
         if self.task_state in ['draft', 'option', 'postponed', 'canceled']:
             self.send_message('accepted')
+            for activity in self.tasks_ids:
+                activity.action_accept()
         self.write({'state': 'accepted'})
 
     @api.multi
     def action_option(self):
         if self.task_state == 'accepted':
             self.send_message('option')
+        for activity in self.tasks_ids:
+                activity.action_option()
         self.write({'state': 'option'})
 
     @api.multi
@@ -81,6 +87,8 @@ class Project(models.Model):
     def action_postpone(self):
         if self.task_state == 'accepted':
             self.send_message('postponed')
+        for activity in self.tasks_ids:
+                activity.action_postpone()
         self.write({'state': 'postponed'})
 
     @api.model
