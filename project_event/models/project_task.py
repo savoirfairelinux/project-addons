@@ -320,6 +320,10 @@ class Task(models.Model):
         self.write({'task_state': 'draft'})
         self.draft_resources_reservation()
 
+    @api.multi
+    def action_postpone(self):
+        self.write({'state': 'postponed'})
+
     def get_message_body(self, action):
         switcher = {
             'draft': ' ',

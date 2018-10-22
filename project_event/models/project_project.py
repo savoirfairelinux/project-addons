@@ -71,6 +71,10 @@ class Project(models.Model):
     def action_draft(self):
         self.write({'state': 'draft'})
 
+    @api.multi
+    def action_postpone(self):
+        self.write({'state': 'postponed'})
+
     @api.model
     def create(self, vals):
         if 'project_type' in vals:
