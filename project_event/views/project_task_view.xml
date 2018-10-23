@@ -11,7 +11,7 @@
                             type="object"/>
                     <button name="action_accept" string="Accept"
                             attrs="{'invisible': [('task_state', '=', 'accepted')]}" type="object"/>
-                    <button name="action_postponed" string="Postpone" type="object"
+                    <button name="action_postpone" string="Postpone" type="object"
                             attrs="{'invisible': [('task_state', 'in', ['draft','postponed','canceled'])]}"/>       
                     <button name="action_cancel" string="Cancel" type="object"
                             attrs="{'invisible': [('task_state', 'not in', ['option','accepted'])]}"/>

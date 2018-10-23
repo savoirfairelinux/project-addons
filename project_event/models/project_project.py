@@ -57,25 +57,25 @@ class Project(models.Model):
 
     @api.multi
     def action_cancel(self):
-        if self.task_state == 'accepted':
+        if self.state == 'accepted':
             self.send_message('canceled')
-        for activity in self.tasks_ids:
+        for activity in self.task_ids:
                 activity.action_cancel()
         self.write({'state': 'canceled'})
 
     @api.multi
     def action_accept(self):
-        if self.task_state in ['draft', 'option', 'postponed', 'canceled']:
+        if self.state in ['draft', 'option', 'postponed', 'canceled']:
             self.send_message('accepted')
-            for activity in self.tasks_ids:
+            for activity in self.task_ids:
                 activity.action_accept()
         self.write({'state': 'accepted'})
 
     @api.multi
     def action_option(self):
-        if self.task_state == 'accepted':
+        if self.state == 'accepted':
             self.send_message('option')
-        for activity in self.tasks_ids:
+        for activity in self.task_ids:
                 activity.action_option()
         self.write({'state': 'option'})
 
@@ -85,9 +85,9 @@ class Project(models.Model):
 
     @api.multi
     def action_postpone(self):
-        if self.task_state == 'accepted':
+        if self.state == 'accepted':
             self.send_message('postponed')
-        for activity in self.tasks_ids:
+        for activity in self.task_ids:
                 activity.action_postpone()
         self.write({'state': 'postponed'})
 
@@ -130,7 +130,7 @@ class Project(models.Model):
             'email_from': 'Administrator <admin@yourcompany.example.com>',
             'message_type': 'notification',
             'model': 'project.task',
-            'partner_ids': [(6, 0, [self.task_responsible_id.id])],
+            'partner_ids': [(6, 0, [self.responsible_id.id])],
             'record_name': self.name,
             'reply_to': 'Administrator <admin@yourcompany.example.com>',
             'res_id': self.id,

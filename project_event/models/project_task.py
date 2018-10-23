@@ -359,7 +359,7 @@ class Task(models.Model):
             elif self.task_state == 'option':
                 for child in self.child_ids:
                     child.action_postpone()
-        self.write({'state': 'postponed'})
+        self.write({'task_state': 'postponed'})
 
     def get_message_body(self, action):
         switcher = {
