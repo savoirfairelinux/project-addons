@@ -66,16 +66,26 @@
                     <notebook>
                         <page string="Activities">
                             <field name="task_ids" string="Activity" context="{
-                            'form_view_ref':'project_event.project_event_activity_form',
-                            'tree_view_ref':'project_event.project_event_activity_tree',
-                            'default_activity_task_type':'activity',
-                            'default_project_id': active_id,
-                        }" domain="[('activity_task_type','=', 'activity')]"/>
+							'form_view_ref':'project_event.project_event_activity_form',
+							'tree_view_ref':'project_event.project_event_activity_tree',
+							'default_activity_task_type':'activity',
+							'default_project_id': active_id,
+							}" domain="[('activity_task_type','=', 'activity')]">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="project_id" string="Event"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="task_order" invisible="1"/>
+                                    <field name="task_state" string="State"/>
+                                </tree>
+                            </field>
                         </page>
-                          <page string="Description">
+                        <page string="Description">
                             <field name="description"/>
                         </page>
-                         <page string="Notes">
+                        <page string="Notes">
                             <field name="notes"/>
                         </page>
                     </notebook>
