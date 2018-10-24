@@ -42,7 +42,6 @@ class Task(models.Model):
     responsible_id = fields.Many2one(
         'res.partner',
         related='project_id.responsible_id',
-        readonly=True,
         string='Responsible',
         store=True,
     )
@@ -51,12 +50,10 @@ class Task(models.Model):
         related='project_id.partner_id',
         string='Client',
         store=True,
-        readonly=True,
     )
     task_responsible_id = fields.Many2one(
         'res.partner',
         related='parent_id.responsible_id',
-        readonly=True,
         string='Responsible',
         store=True,
     )
@@ -65,7 +62,6 @@ class Task(models.Model):
         related='parent_id.partner_id',
         string='Client',
         store=True,
-        readonly=True,
     )
     task_order = fields.Integer(
         string='Task order',
