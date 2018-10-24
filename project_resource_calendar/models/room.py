@@ -21,9 +21,9 @@ class Room(models.Model):
         comodel_name='resource.calendar.room.type',
         ondelete='set null',
     )
-    sector_id = fields.Many2one(
-        string='Sector',
-        comodel_name='sector.sector',
+    department_id = fields.Many2one(
+        string='Department',
+        comodel_name='hr.department',
         ondelete='set null',
     )
     instruments_ids = fields.One2many(
