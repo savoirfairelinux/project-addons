@@ -378,14 +378,26 @@ class Task(models.Model):
         return switcher.get(action)
 
     def get_message(self, action):
+        message = '<br>'
+        responsible = self.responsible_id.id
+        if self.activity_task_type == 'activity':
+            message += _('Avtivity: <br>') + self.name + '<br>'
+            message += _('Tasks: <br>')
+            for indx, task in enumerate(self.child_ids):
+                message += task.name
+                if indx < len(self.child_ids)-1:
+                    message += ', '
+        elif self.activity_task_type == 'task':
+            responsible = self.task_responsible_id.id
+            message += _('Task: <br>') + self.name
         return {
-            'body': self.get_message_body(action),
+            'body': self.get_message_body(action) + message,
             'channel_ids': [(6, 0, [self.env.ref
                             ('project.mail_channel_project_task').id])],
             'email_from': 'Administrator <admin@yourcompany.example.com>',
             'message_type': 'notification',
             'model': 'project.task',
-            'partner_ids': [(6, 0, [self.task_responsible_id.id])],
+            'partner_ids': [(6, 0, [responsible])],
             'record_name': self.name,
             'reply_to': 'Administrator <admin@yourcompany.example.com>',
             'res_id': self.id,

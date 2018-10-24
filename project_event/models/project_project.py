@@ -123,8 +123,18 @@ class Project(models.Model):
         return switcher.get(action)
 
     def get_message(self, action):
+        message = '<br>'
+        message += _('Event: <br>') + self.name + '<br>'
+        for activity in self.task_ids:
+            message += _('Activity: ') + activity.name + '<br> Tasks:'
+            for index, task in enumerate(activity.child_ids):
+                message += task.name
+                if index < len(activity.child_ids)-1:
+                    message += ', '
+                else:
+                    message += '<br>'
         return {
-            'body': self.get_message_body(action),
+            'body': self.get_message_body(action) + message,
             'channel_ids': [(6, 0, [self.env.ref
                             ('project.mail_channel_project_task').id])],
             'email_from': 'Administrator <admin@yourcompany.example.com>',
