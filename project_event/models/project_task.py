@@ -379,13 +379,13 @@ class Task(models.Model):
 
     def get_message(self, action):
         message = '<br>'
-        responsible = self.responsible_id.id
         if self.activity_task_type == 'activity':
-            message += _('Avtivity: <br>') + self.name + '<br>'
+            responsible = self.responsible_id.id
+            message += _('Activity: <br>') + self.name + '<br>'
             message += _('Tasks: <br>')
-            for indx, task in enumerate(self.child_ids):
+            for index_task, task in enumerate(self.child_ids):
                 message += task.name
-                if indx < len(self.child_ids)-1:
+                if index_task < len(self.child_ids) - 1:
                     message += ', '
         elif self.activity_task_type == 'task':
             responsible = self.task_responsible_id.id

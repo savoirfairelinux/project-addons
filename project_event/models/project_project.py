@@ -126,10 +126,10 @@ class Project(models.Model):
         message = '<br>'
         message += _('Event: <br>') + self.name + '<br>'
         for activity in self.task_ids:
-            message += _('Activity: ') + activity.name + '<br> Tasks:'
-            for index, task in enumerate(activity.child_ids):
+            message += _('Activity: ') + activity.name + _('<br> Tasks: ')
+            for index_task, task in enumerate(activity.child_ids):
                 message += task.name
-                if index < len(activity.child_ids)-1:
+                if index_task < len(activity.child_ids) - 1:
                     message += ', '
                 else:
                     message += '<br>'
@@ -139,7 +139,7 @@ class Project(models.Model):
                             ('project.mail_channel_project_task').id])],
             'email_from': 'Administrator <admin@yourcompany.example.com>',
             'message_type': 'notification',
-            'model': 'project.task',
+            'model': 'project.project',
             'partner_ids': [(6, 0, [self.responsible_id.id])],
             'record_name': self.name,
             'reply_to': 'Administrator <admin@yourcompany.example.com>',
