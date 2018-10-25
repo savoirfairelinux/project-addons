@@ -130,6 +130,10 @@ class Task(models.Model):
         string='Project Task Logs',
         compute='_compute_project_task_log',
     )
+    asterisk_validate_record = fields.Char(
+        string='*',
+        compute='_compute_asterisk_column',
+    )
 
     def _compute_project_task_log(self):
         for rec in self:
@@ -138,6 +142,13 @@ class Task(models.Model):
                     'project.model_project_task').id),
                 ('res_id', '=', rec.id)
             ])
+
+    def _compute_asterisk_column(self):
+        for rec in self:
+            if rec.report_done_required is True:
+                rec.asterisk_validate_record = "*"
+            else:
+                rec.asterisk_validate_record = " "
 
     @api.onchange('succeeding_task_ids')
     def update_preceding(self):
@@ -176,8 +187,8 @@ class Task(models.Model):
             if vals['activity_task_type'] == 'activity':
                 return_create = self.create_new_activity(vals)
                 if not (
-                            'is_from_template' in vals and
-                            vals['is_from_template']
+                        'is_from_template' in vals and
+                        vals['is_from_template']
                 ):
                     vals['parent_id'] = return_create.id
                     vals['message_follower_ids'] = None
@@ -222,9 +233,9 @@ class Task(models.Model):
                     activity_date_start = task.parent_id.date_start
                     fmt = '%Y-%m-%d %H:%M:%S'
                     time_difference = \
-                        datetime.strptime(task.date_start, fmt)\
+                        datetime.strptime(task.date_start, fmt) \
                         - datetime.strptime(activity_date_start, fmt)
-                    task.task_order = time_difference.days * 24 * 60\
+                    task.task_order = time_difference.days * 24 * 60 \
                         + time_difference.seconds / 60
 
     def action_done(self):
@@ -313,7 +324,7 @@ class Task(models.Model):
         self.cancel_resources_reservation()
         if self.activity_task_type == 'task' and \
                 self.task_state in ['requested', 'read', 'postponed', 'accepted']:
-                self.send_message('canceled')
+            self.send_message('canceled')
         elif self.activity_task_type == 'activity':
             if self.task_state == 'accepted':
                 for child in self.child_ids:
@@ -365,7 +376,7 @@ class Task(models.Model):
             'option': _('The following is Optional\
                         and no longer on your calendars'),
             'requested': _('The following is requested'),
-            'accepted':  _('The following is approved'),
+            'accepted': _('The following is approved'),
             'read': ' ',
             'postponed': _('The following is postponed \
                         and no longer appear on your calendars'),
@@ -379,7 +390,7 @@ class Task(models.Model):
         return {
             'body': self.get_message_body(action),
             'channel_ids': [(6, 0, [self.env.ref
-                            ('project.mail_channel_project_task').id])],
+                                    ('project.mail_channel_project_task').id])],
             'email_from': 'Administrator <admin@yourcompany.example.com>',
             'message_type': 'notification',
             'model': 'project.task',
