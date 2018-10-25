@@ -334,8 +334,8 @@ class Task(models.Model):
         if self.activity_task_type == 'activity':
             if self.task_state in ['draft', 'option', 'postponed', 'canceled']:
                 for child in self.child_ids:
-                    child.action_accept()
-                self.send_message('accepted')
+                    child.action_request()
+                self.send_message('requested')
         self.write({'task_state': 'accepted'})
 
     @api.multi
