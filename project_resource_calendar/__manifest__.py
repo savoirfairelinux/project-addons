@@ -21,6 +21,7 @@
     },
     'data': [
         'security/ir.model.access.csv',
+        'security/security_access.xml',
         'views/room_type_view.xml',
         'views/equipment_calendar_view.xml',
         'views/resource_view.xml',
