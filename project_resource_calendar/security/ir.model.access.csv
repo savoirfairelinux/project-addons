@@ -3,4 +3,3 @@ access_room,access_room,model_resource_calendar_room,base.group_user,1,1,1,1
 access_instrument,access_instrument,model_resource_calendar_instrument,base.group_user,1,1,1,1
 access_room_type,access_room_type,model_resource_calendar_room_type,base.group_user,1,1,1,1
 access_miscellaneous,access_miscellaneous,model_resource_calendar_miscellaneous,base.group_user,1,1,1,1
-

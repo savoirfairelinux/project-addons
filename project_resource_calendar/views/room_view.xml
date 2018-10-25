@@ -83,6 +83,11 @@
                                 <field name="pricing"/>
                             </group>
                         </page>
+                         <page string="Groups">
+                            <group>
+                                <field name="group_ids"/>
+                            </group>
+                        </page>
                         <page string="Description">
                             <field name="description"/>
                         </page>
