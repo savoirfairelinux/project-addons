@@ -22,6 +22,7 @@
     },
     'data': [
         'data/auditlog_rule.xml',
+        'data/channels.xml',
         'data/ir_sequence_data.xml',
         'security/ir.model.access.csv',
         'security/project_security.xml',
