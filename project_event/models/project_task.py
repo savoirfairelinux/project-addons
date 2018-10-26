@@ -134,6 +134,10 @@ class Task(models.Model):
         string='*',
         compute='_compute_asterisk_column',
     )
+    is_main_task = fields.Boolean(
+        string='Is it main Task',
+        default=False,
+    )
 
     def _compute_project_task_log(self):
         for rec in self:
@@ -194,6 +198,7 @@ class Task(models.Model):
                     vals['message_follower_ids'] = None
                     vals['project_id'] = None
                     vals['activity_task_type'] = 'task'
+                    vals['is_main_task'] = True
                     self.create_new_task(vals)
             elif vals['activity_task_type'] == 'task':
                 if 'is_from_template' in vals and vals['is_from_template']:
@@ -215,6 +220,31 @@ class Task(models.Model):
             .next_by_code('project.task.activity')
         return super(Task, self).create(vals)
 
+    @api.multi
+    def write(self, vals):
+        if self.activity_task_type == 'activity':
+            self.write_task(vals)
+            self.write_activity(vals)
+        elif self.activity_task_type == 'task':
+            return super(Task, self).write(vals)
+        else:
+            return super(Task, self).write(vals)
+
+    @api.multi
+    def write_activity(self, vals):
+        return super(Task, self).write(vals)
+
+    @api.multi
+    def write_task(self, vals):
+        main_task = self.get_main_task()
+        return main_task.write(vals)
+
+    def get_main_task(self):
+        return self.env['project.task'].search([
+            ('parent_id', '=', self.id),
+            ('is_main_task', '=', True)]
+        )
+
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
         args = args or []
@@ -233,9 +263,10 @@ class Task(models.Model):
                     activity_date_start = task.parent_id.date_start
                     fmt = '%Y-%m-%d %H:%M:%S'
                     time_difference = \
-                        datetime.strptime(task.date_start, fmt) \
+                        datetime.strptime(task.date_start, fmt)\
                         - datetime.strptime(activity_date_start, fmt)
-                    task.task_order = time_difference.days * 24 * 60 \
+                    task.task_order = \
+                        time_difference.days * 24 * 60 \
                         + time_difference.seconds / 60
 
     def action_done(self):
