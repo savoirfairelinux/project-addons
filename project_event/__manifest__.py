@@ -11,6 +11,7 @@
     'category': 'Project Management',
     'summary': 'Project Event module',
     'depends': [
+        'base',
         'auditlog',
         'project',
         'mail',
