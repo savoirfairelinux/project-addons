@@ -321,19 +321,21 @@ class Task(models.Model):
 
     @api.multi
     def action_cancel(self):
-        self.cancel_resources_reservation()
         if self.activity_task_type == 'task' and \
                 self.task_state in ['requested', 'read', 'postponed', 'accepted']:
             self.send_message('canceled')
+            self.cancel_resources_reservation()
+            self.write({'task_state': 'canceled'})
         elif self.activity_task_type == 'activity':
             if self.task_state == 'accepted':
                 for child in self.child_ids:
                     child.action_cancel()
                 self.send_message('canceled')
+                self.write({'task_state': 'canceled'})
             elif self.task_state == 'option':
                 for child in self.child_ids:
                     child.action_cancel()
-        self.write({'task_state': 'canceled'})
+                self.write({'task_state': 'canceled'})
 
     @api.multi
     def action_accept(self):
