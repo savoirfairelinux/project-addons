@@ -253,13 +253,12 @@ class Task(models.Model):
     def action_option(self):
         if self.activity_task_type == 'task':
             self.draft_resources_reservation()
-            if self.task_state in ['requested', 'read', 'accepted']:
+            if self.task_state not in ['option', 'done']:
                 self.send_message('option')
         if self.activity_task_type == 'activity':
-            if self.task_state == 'accepted':
-                for child in self.child_ids:
-                    child.action_option()
-                self.send_message('option')
+            for child in self.child_ids:
+                child.action_option()
+            self.send_message('option')
         self.write({'task_state': 'option'})
 
     @api.multi
