@@ -339,7 +339,6 @@ class Task(models.Model):
 
     @api.multi
     def action_accept(self):
-        self.request_reservation()
         if self.activity_task_type == 'activity':
             if self.task_state in ['draft', 'option', 'postponed', 'canceled']:
                 for child in self.child_ids:
