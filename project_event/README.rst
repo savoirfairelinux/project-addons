@@ -6,8 +6,11 @@ Contributors
 ------------
 Jananjoy Rajkumar <jananjoy.rajkumar@savoirfairelinux.com>
 João Alfredo Gama Batista <joao.gama@savoirfairelinux.com>
-LUIS GARCIA (luis.garcia@savoirfairelinux.com)
-Rim BEN DHAOU <rim.bendhaou@savoirfairelinux.com>
+Luis Garcia(luis.garcia@savoirfairelinux.com)
+Rim Ben Dhaou <rim.bendhaou@savoirfairelinux.com>
+Larbi Gharib <larbi.gharib@savoirfairelinux.com>
+Pierre Gault <pierre.gault@savoirfairelinux.com>
+William Beverly <william.beverly@savoirfairelinux.com>
 
 More information
 ----------------
