@@ -136,7 +136,7 @@ class Project(models.Model):
         return {
             'body': self.get_message_body(action) + message,
             'channel_ids': [(6, 0, [self.env.ref
-                            ('project.mail_channel_project_task').id])],
+                            ('project.mail_channel_project_task_event').id])],
             'email_from': 'Administrator <admin@yourcompany.example.com>',
             'message_type': 'notification',
             'model': 'project.project',
