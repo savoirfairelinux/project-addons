@@ -20,6 +20,7 @@ class Resource(models.Model):
     )
     is_bookable = fields.Boolean(
         string='Is Bookable',
+        default=True,
     )
     group_ids = fields.Many2many(
         'res.groups',
