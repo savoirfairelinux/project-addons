@@ -105,6 +105,7 @@
                 <field name="code" string="Event Number"/>
                 <field name="partner_id"/>
                 <field name="name" string="Event Title"/>
+                <field name="state"/>
             </tree>
         </field>
     </record>
