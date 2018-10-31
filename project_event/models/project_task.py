@@ -270,6 +270,7 @@ class Task(models.Model):
                         + time_difference.seconds / 60
 
     def action_done(self):
+        self.open_resources_reservation()
         self.write({'task_state': 'done'})
 
     @api.multi
@@ -278,6 +279,7 @@ class Task(models.Model):
         if self.activity_task_type == 'task' and \
                 self.task_state in ['draft', 'option', 'postponed', 'canceled']:
             self.send_message('requested')
+        self.open_resources_reservation()
         self.write({'task_state': 'requested'})
 
     @api.multi
@@ -350,6 +352,17 @@ class Task(models.Model):
         )
 
     @api.multi
+    def open_resources_reservation(self):
+        self.ensure_one()
+        reservation_event = self.env['calendar.event'].browse(
+            self.reservation_event_id)
+        reservation_event.write(
+            {
+                'state': 'open'
+            }
+        )
+
+    @api.multi
     def action_cancel(self):
         if self.activity_task_type == 'task' and \
                 self.task_state in ['requested', 'read', 'postponed', 'accepted']:
@@ -374,10 +387,12 @@ class Task(models.Model):
                 for child in self.child_ids:
                     child.action_request()
                 self.send_message('requested')
+        self.open_resources_reservation()
         self.write({'task_state': 'accepted'})
 
     @api.multi
     def action_read(self):
+        self.open_resources_reservation()
         self.write({'task_state': 'read'})
 
     @api.multi
