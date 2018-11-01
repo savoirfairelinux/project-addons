@@ -112,8 +112,8 @@ class Project(models.Model):
     def get_message_body(self, action):
         switcher = {
             'draft': ' ',
-            'option': _('The following is Optional\
-                        and appear and is hatched on the calendar'),
+            'option': _('The following is Optional and \
+                        appears as crosshatched on your calendar'),
             'accepted': _('The following is approved'),
             'postponed': _('The following is postponed \
                         and no longer appear on your calendars'),
