@@ -98,6 +98,7 @@
                 <field name="project_id" string="Event"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
+                 <field name="task_state"/>
             </tree>
         </field>
     </record>
