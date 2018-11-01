@@ -666,8 +666,6 @@ msgstr "Heure de début"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_date_start
-#, fuzzy
-#| msgid "Start Time"
 msgid "Starting Date"
 msgstr "Heure de début"
 
@@ -675,7 +673,7 @@ msgstr "Heure de début"
 #: model:ir.model.fields,field_description:project_event.field_project_project_state
 #: model:ir.ui.view,arch_db:project_event.project_event_form
 msgid "State"
-msgstr "Statut"
+msgstr "État"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_succeeding_task_ids
@@ -877,4 +875,4 @@ msgstr "Wizard de création de tâche d'événement à partir d'un modèle"
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
 msgid "Workflow:"
-msgstr ""
+msgstr "Workflow:"

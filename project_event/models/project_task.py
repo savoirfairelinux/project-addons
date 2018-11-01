@@ -3,6 +3,7 @@
 
 from odoo import api, fields, models, _
 from datetime import datetime
+from odoo.exceptions import ValidationError
 
 
 class Task(models.Model):
@@ -178,6 +179,32 @@ class Task(models.Model):
     def _onchange_resource_type(self):
         self.room_id = None
         self.equipment_id = None
+
+    @api.onchange('room_id')
+    def _onchange_room_id(self):
+        self.verify_room_bookable()
+
+    @api.onchange('equipment_id')
+    def _onchange_equipment_id(self):
+        self.verify_equipment_bookable()
+
+    def verify_room_bookable(self):
+        if self.room_id:
+            if not self.room_id.is_bookable:
+                raise ValidationError(
+                        _(
+                            'This room is not bookable'
+                        )
+                    )
+
+    def verify_equipment_bookable(self):
+        if self.equipment_id:
+            if not self.equipment_id.is_bookable:
+                raise ValidationError(
+                        _(
+                            'This resource is not bookable'
+                        )
+                    )
 
     @api.constrains('parent_id')
     def _check_subtask_project(self):
@@ -419,8 +446,8 @@ class Task(models.Model):
     def get_message_body(self, action):
         switcher = {
             'draft': ' ',
-            'option': _('The following is Optional\
-                        and no longer on your calendars'),
+            'option': _('The following is Optional and \
+                        appears as crosshatched on your calendar'),
             'requested': _('The following is requested'),
             'accepted': _('The following is approved'),
             'read': ' ',
