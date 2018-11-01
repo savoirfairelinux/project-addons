@@ -97,32 +97,43 @@ class TestProjectEventTask(TestProjectEventCommon):
             reservation_event.equipment_ids.ids,
             self.activity_1.child_ids.get_equipment_ids_inside())
         self.activity_1.child_ids.action_request()
+
         self.assertEqual(
             self.activity_1.child_ids.task_state,
             'requested')
-        #the commented code didnt work because when we accept a task,
-        # it creates a new calendar event but it
-        #  should only update the old calendar event
-        # self.activity_1.child_ids.action_accept()
-        # self.assertEqual(
-        #     self.activity_1.child_ids.task_state,
-        #     'accepted')
-        # self.assertEqual(
-        #     reservation_event.state,
-        #     'open')
-        # self.activity_1.child_ids.action_read()
-        # self.assertEqual(
-        #     self.activity_1.child_ids.task_state,
-        #     'read')
-        # self.activity_1.child_ids.action_done()
-        # self.assertEqual(
-        #     self.activity_1.child_ids.task_state,
-        #     'done')
-        #
-        # self.activity_1.child_ids.action_cancel()
-        # self.assertEqual(
-        #     self.activity_1.child_ids.task_state,
-        #     'canceled')
-        # self.assertEqual(
-        #     reservation_event.state,
-        #     'cancelled')
+
+        self.assertEqual(
+            reservation_event.state,
+            'open')
+
+        self.activity_1.child_ids.action_accept()
+        self.assertEqual(
+            self.activity_1.child_ids.task_state,
+            'accepted')
+
+        self.activity_1.child_ids.action_read()
+        self.assertEqual(
+            self.activity_1.child_ids.task_state,
+            'read')
+
+        self.activity_1.child_ids.action_done()
+        self.assertEqual(
+            self.activity_1.child_ids.task_state,
+            'done')
+
+    def test_060_cancel_action(self):
+        self.activity_1.child_ids.action_request()
+        self.assertEqual(
+            self.activity_1.child_ids.task_state,
+            'requested')
+        event_id = self.activity_1.child_ids.reservation_event_id
+        calendar_event = self.env['calendar.event'].browse(
+            event_id)
+        self.assertEqual(calendar_event.state, 'open')
+        self.activity_1.child_ids.action_cancel()
+        self.assertEqual(
+            self.activity_1.child_ids.task_state,
+            'canceled')
+        self.assertEqual(
+            calendar_event.state,
+            'cancelled')
