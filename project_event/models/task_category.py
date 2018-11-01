@@ -17,3 +17,4 @@ class TaskCategory(models.Model):
     sequence = fields.Integer(
         string='Sequence',
     )
+    color = fields.Char()

@@ -157,6 +157,7 @@
                                    options="{'no_create_edit': True}"
                                    domain="[('activity_task_type','=','activity')]"/>
                             <field name="task_category_id"/>
+                            <field name="color" widget="color"/>
                             <field name="activity_task_type" invisible="1"/>
                             <field name="report_done_required"/>
                         </group>
@@ -268,12 +269,24 @@
             </calendar>
         </field>
     </record>
+    <!-- The parameter form_view_id and readonly define the view that is going to 
+      be used to open the task in mode popup
+    -->
+    <!--To use js_class needs to use the patch in
+	   https://github.com/odoo/odoo/pull/26750
+    -->
     <record model="ir.ui.view" id="project_event_task_calendar">
         <field name="name">project.event.task.calendar</field>
         <field name="model">project.task</field>
         <field name="arch" type="xml">
             <calendar string="Calendar View" date_start="date_start"
-                      date_stop="date_end">
+                      date_stop="date_end"
+                      js_class = "calendar_colour"
+                      color = "color"
+                      form_view_id = "%(project_event.project_event_task_form)s"
+                      readonly_form_view_id = "%(project_event.project_event_task_form)s"
+                      quick_add = "False"
+                      event_open_popup = "True">
                 <field name="name"/>
                 <field name="code"/>
                 <field name="parent_id" string="Activity"/>
@@ -322,3 +335,4 @@
               action="action_project_event_task"
               sequence="30"/>
 </odoo>
+
