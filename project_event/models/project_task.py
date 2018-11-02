@@ -30,6 +30,7 @@ class Task(models.Model):
     task_category_id = fields.Many2one(
         'task.category',
         string='Category',
+        default=lambda self: self.env.ref('task_category_uncategorized').id,
     )
     department_id = fields.Many2one(
         'hr.department',
@@ -139,6 +140,7 @@ class Task(models.Model):
         string='Is it main Task',
         default=False,
     )
+    color = fields.Char(related='task_category_id.color')
 
     def _compute_project_task_log(self):
         for rec in self:
