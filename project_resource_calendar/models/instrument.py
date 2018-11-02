@@ -25,5 +25,5 @@ class Instrument(models.Model):
         ],
         string='Type',
         index=True,
-        default='equipment',
+        default='instrument',
     )
