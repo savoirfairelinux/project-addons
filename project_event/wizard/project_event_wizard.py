@@ -139,7 +139,7 @@ class ProjectEventWizard(models.TransientModel):
                      {
                          'name': task.task_name,
                          'activity_task_type': 'task',
-                         'task_responsible_id': task.task_resp_id.id,
+                         'responsible_id': task.task_resp_id.id,
                          'task_category_id': task.task_category_id.id,
                          'department_id': task.department_id.id,
                          'resource_type': task.resource_type,

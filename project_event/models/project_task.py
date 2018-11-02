@@ -43,27 +43,11 @@ class Task(models.Model):
     )
     responsible_id = fields.Many2one(
         'res.partner',
-        related='project_id.responsible_id',
         string='Responsible',
-        store=True,
     )
     partner_id = fields.Many2one(
         'res.partner',
-        related='project_id.partner_id',
         string='Client',
-        store=True,
-    )
-    task_responsible_id = fields.Many2one(
-        'res.partner',
-        related='parent_id.responsible_id',
-        string='Responsible',
-        store=True,
-    )
-    task_partner_id = fields.Many2one(
-        'res.partner',
-        related='parent_id.partner_id',
-        string='Client',
-        store=True,
     )
     task_order = fields.Integer(
         string='Task order',
@@ -472,7 +456,7 @@ class Task(models.Model):
                 if index_task < len(self.child_ids) - 1:
                     message += ', '
         elif self.activity_task_type == 'task':
-            responsible = self.task_responsible_id.id
+            responsible = self.responsible_id.id
             message += _('Task: <br>') + self.name
         return {
             'body': self.get_message_body(action) + message,
