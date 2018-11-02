@@ -30,7 +30,6 @@ class Task(models.Model):
     task_category_id = fields.Many2one(
         'task.category',
         string='Category',
-        default=lambda self: self.env.ref('task_category_uncategorized').id,
     )
     department_id = fields.Many2one(
         'hr.department',
