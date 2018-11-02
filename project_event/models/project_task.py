@@ -26,6 +26,7 @@ class Task(models.Model):
     activity_category_id = fields.Many2one(
         'activity.category',
         string='Category',
+        required=True,
     )
     task_category_id = fields.Many2one(
         'task.category',

@@ -16,7 +16,8 @@
         'project',
         'mail',
         'hr',
-        'project_resource_calendar'
+        'project_resource_calendar',
+        'web_widget_color',
     ],
     'external_dependencies': {
         'python': [],
