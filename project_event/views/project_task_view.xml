@@ -151,9 +151,9 @@
                     <group>
                         <group>
                             <field name="project_id" invisible="1"/>
-                            <field name="task_responsible_id" attrs="{'readonly': [('task_state', '=', 'requested')]}"/>
-                            <field name="task_partner_id" attrs="{'readonly': [('task_state', '=', 'requested')]}"/>
-                            <field name="parent_id" string="Activity" required="1"
+                            <field name="responsible_id" attrs="{'readonly': [('task_state', '=', 'requested')]}"/>
+                            <field name="partner_id" attrs="{'readonly': [('task_state', '=', 'requested')]}"/>
+                            <field name="parent_id" string="Activity"
                                    options="{'no_create_edit': True}"
                                    domain="[('activity_task_type','=','activity')]"/>
                             <field name="task_category_id"/>
@@ -234,8 +234,8 @@
                 <field name="name"/>
                 <field name="code"/>
                 <field name="project_id" string="Event" eval="ref('project_event_activity_form')"/>
-                <field name="task_responsible_id" string="Task Responsible"/>
-                <field name="task_partner_id" string="Task Client"/>
+                <field name="responsible_id" string="Task Responsible"/>
+                <field name="partner_id" string="Task Client"/>
             </search>
         </field>
     </record>
@@ -249,8 +249,8 @@
                 <field name="name"/>
                 <field name="code"/>
                 <field name="parent_id" string="Activity"/>
-                <field name="task_responsible_id" string="Task Responsible"/>
-                <field name="task_partner_id" string="Task Client"/>
+                <field name="responsible_id" string="Task Responsible"/>
+                <field name="partner_id" string="Task Client"/>
             </search>
         </field>
     </record>
