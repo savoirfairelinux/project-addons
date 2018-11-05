@@ -114,9 +114,9 @@
         <field name="model">project.project</field>
         <field name="arch" type="xml">
             <search string="Search">
-                <field name="code"/>
-                <field name="name"/>
-                <field name="partner_id"/>
+                <field name="code" string="Event Number"/>
+                <field name="name" string="Event Title"/>
+                <field name="partner_id" string="Client"/>
             </search>
         </field>
     </record>

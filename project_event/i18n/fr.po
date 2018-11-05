@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-11-01 22:00+0000\n"
-"PO-Revision-Date: 2018-11-01 18:03-0400\n"
+"POT-Creation-Date: 2018-11-05 19:12+0000\n"
+"PO-Revision-Date: 2018-11-05 14:22-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -121,7 +121,7 @@ msgid "Activity: "
 msgstr "Activité: "
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:439
+#: code:addons/project_event/models/project_task.py:451
 #, python-format
 msgid "Activity: <br>"
 msgstr "Activité: <br>"
@@ -190,9 +190,14 @@ msgstr "Supprimer tout"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_event_wizard_event_partner_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_task_partner_id
+#: model:ir.ui.view,arch_db:project_event.view_project_project_search
 msgid "Client"
 msgstr "Client"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_task_category_color
+msgid "Color"
+msgstr ""
 
 #. module: project_event
 #: model:ir.ui.menu,name:project_event.project_event_configuration_menu
@@ -336,6 +341,7 @@ msgstr "Journaux"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_tree
+#: model:ir.ui.view,arch_db:project_event.view_project_project_search
 msgid "Event Number"
 msgstr "Numéro d'événement"
 
@@ -367,6 +373,7 @@ msgstr "Modèles d'événements"
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_event_wizard_name
 #: model:ir.ui.view,arch_db:project_event.project_event_tree
+#: model:ir.ui.view,arch_db:project_event.view_project_project_search
 msgid "Event Title"
 msgstr "Titre d'événement"
 
@@ -623,7 +630,6 @@ msgstr "Ressources"
 #: model:ir.model.fields,field_description:project_event.field_project_event_wizard_event_resp_id
 #: model:ir.model.fields,field_description:project_event.field_project_project_responsible_id
 #: model:ir.model.fields,field_description:project_event.field_project_task_responsible_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_task_responsible_id
 #: model:ir.model.fields,field_description:project_event.field_project_task_wizard_task_resp_id
 #: model:ir.model.fields,field_description:project_event.field_task_template_temp_resp_id
 msgid "Responsible"
@@ -755,7 +761,7 @@ msgid "Task order"
 msgstr "Ordre de tâche"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:447
+#: code:addons/project_event/models/project_task.py:459
 #, python-format
 msgid "Task: <br>"
 msgstr "Tâche: <br>"
@@ -783,7 +789,7 @@ msgid "Tasks to Edit"
 msgstr "Tâches à modifier"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:440
+#: code:addons/project_event/models/project_task.py:452
 #, python-format
 msgid "Tasks: <br>"
 msgstr "Tâches: <br>"
@@ -801,30 +807,23 @@ msgstr "Modèle d'événement"
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:115
+#: code:addons/project_event/models/project_task.py:434
 #, python-format
 msgid ""
-"The following is Optional                        and appear and is hatched "
-"on the calendar"
-msgstr ""
-
-#. module: project_event
-#: code:addons/project_event/models/project_task.py:422
-#, python-format
-msgid ""
-"The following is Optional                        and no longer on your "
-"calendars"
+"The following is Optional and                         appears as "
+"crosshatched on your calendar"
 msgstr ""
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:117
-#: code:addons/project_event/models/project_task.py:425
+#: code:addons/project_event/models/project_task.py:437
 #, python-format
 msgid "The following is approved"
 msgstr ""
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:120
-#: code:addons/project_event/models/project_task.py:430
+#: code:addons/project_event/models/project_task.py:442
 #, python-format
 msgid ""
 "The following is canceled                         and no longer on your "
@@ -833,7 +832,7 @@ msgstr ""
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:118
-#: code:addons/project_event/models/project_task.py:427
+#: code:addons/project_event/models/project_task.py:439
 #, python-format
 msgid ""
 "The following is postponed                         and no longer appear on "
@@ -841,9 +840,21 @@ msgid ""
 msgstr ""
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:424
+#: code:addons/project_event/models/project_task.py:436
 #, python-format
 msgid "The following is requested"
+msgstr ""
+
+#. module: project_event
+#: code:addons/project_event/models/project_task.py:189
+#, python-format
+msgid "This resource is not bookable"
+msgstr ""
+
+#. module: project_event
+#: code:addons/project_event/models/project_task.py:180
+#, python-format
+msgid "This room is not bookable"
 msgstr ""
 
 #. module: project_event
@@ -851,6 +862,11 @@ msgstr ""
 #: model:ir.model.fields,field_description:project_event.field_project_task_activity_task_type
 msgid "Type"
 msgstr "Type"
+
+#. module: project_event
+#: model:task.category,name:project_event.task_category_uncategorized
+msgid "Uncategorized"
+msgstr ""
 
 #. module: project_event
 #: model:ir.ui.menu,name:project_event.project_event_wizard_menu
