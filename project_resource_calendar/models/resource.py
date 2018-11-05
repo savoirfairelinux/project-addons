@@ -60,3 +60,11 @@ class Resource(models.Model):
         string='Pricing Type',
         default='fixed',
     )
+    allow_double_book = fields.Boolean(
+        string='Allow Double Booking',
+        help='Check if this resource '
+             'can be booked in more than '
+             'one meeting or event at the same '
+             'time.',
+        default=True,
+    )

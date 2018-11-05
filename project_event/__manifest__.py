@@ -39,6 +39,7 @@
         'views/task_template_view.xml',
         'templates/assets.xml',
         'wizard/project_event_wizard_view.xml',
+        'wizard/reservation_validation_wiz_view.xml',
     ],
     'installable': True,
     'application': False,
