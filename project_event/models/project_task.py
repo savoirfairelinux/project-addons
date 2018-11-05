@@ -28,6 +28,19 @@ class Task(models.Model):
         string='Category',
         required=True,
     )
+    date_start = fields.Datetime(
+        string='Starting Date',
+        default=fields.Datetime.now,
+        index=True,
+        copy=False,
+        track_visibility='always',
+    )
+    date_end = fields.Datetime(
+        string='Ending Date',
+        index=True,
+        copy=False,
+        track_visibility='always',
+    )
     task_category_id = fields.Many2one(
         'task.category',
         string='Category',
