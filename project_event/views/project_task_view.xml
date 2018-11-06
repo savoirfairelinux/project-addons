@@ -260,7 +260,9 @@
         <field name="model">project.task</field>
         <field name="arch" type="xml">
             <calendar string="Calendar View" date_start="date_start"
-                      date_stop="date_end">
+                      date_stop="date_end"
+                      js_class = "calendar_colour"
+                      color = "color">
                 <field name="name"/>
                 <field name="code"/>
                 <field name="project_id" string="Event"/>
