@@ -36,6 +36,18 @@ class CalendarEvent(models.Model):
         default='draft')
 
     @api.multi
+    def action_draft(self):
+        self.write({'state': 'draft'})
+
+    @api.multi
+    def action_open(self):
+        self.write({'state': 'open'})
+
+    @api.multi
+    def action_cancel(self):
+        self.write({'state': 'cancelled'})
+
+    @api.multi
     @api.constrains('room_id', 'start', 'stop', 'equipment_ids')
     def _check_room_id_double_book(self):
 
