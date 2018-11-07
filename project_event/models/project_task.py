@@ -43,6 +43,7 @@ class Task(models.Model):
     responsible_id = fields.Many2one(
         'res.partner',
         string='Responsible',
+        required=True,
     )
     partner_id = fields.Many2one(
         'res.partner',
@@ -457,6 +458,13 @@ class Task(models.Model):
         elif self.activity_task_type == 'task':
             responsible = self.responsible_id.id
             message += _('Task: <br>') + self.name
+        # At this moment, there is no requirement to whom the message
+        # will be sent
+        if not responsible:
+            if self.partner_id:
+                responsible = self.partner_id
+            else:
+                responsible = self.env['res.partner'].browse(1)
         return {
             'body': self.get_message_body(action) + message,
             'channel_ids': [(6, 0, [self.env.ref
