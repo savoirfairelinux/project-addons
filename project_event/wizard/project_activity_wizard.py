@@ -25,7 +25,7 @@ class ProjectActivityWizard(models.TransientModel):
         string='Responsible',
     )
     activity_category_id = fields.Many2one(
-        'activity.category',
+        'task.category',
         string='Category',
     )
     room_id = fields.Many2one(

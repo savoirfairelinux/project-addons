@@ -56,6 +56,21 @@ class Project(models.Model):
             ])
 
     @api.multi
+    def write(self, vals):
+        super(Project, self).write(vals)
+        if self.project_type == 'event':
+            for activitiy in self.task_ids:
+                activitiy.write({
+                    'responsible_id': self.responsible_id.id,
+                    'partner_id': self.partner_id.id
+                })
+                for task in activitiy.child_ids:
+                    task.write({
+                        'responsible_id': self.responsible_id.id,
+                        'partner_id': self.partner_id.id
+                    })
+
+    @api.multi
     def action_cancel(self):
         if self.state == 'accepted':
             self.send_message('canceled')

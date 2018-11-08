@@ -44,7 +44,7 @@
                             <field name="project_id" string="Event" options="{'no_create_edit': True}"/>
                             <field name="responsible_id"/>
                             <field name="partner_id"/>
-                            <field name="activity_category_id"/>
+                            <field name="category_id" required="1"/>
                             <field name="room_id"/>
                             <field name="activity_task_type" invisible="1"/>
                         </group>
@@ -98,7 +98,7 @@
                 <field name="project_id" string="Event"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
-                 <field name="task_state"/>
+                <field name="task_state"/>
             </tree>
         </field>
     </record>
@@ -156,7 +156,7 @@
                             <field name="parent_id" string="Activity"
                                    options="{'no_create_edit': True}"
                                    domain="[('activity_task_type','=','activity')]"/>
-                            <field name="task_category_id"/>
+                            <field name="category_id" required="1"/>
                             <field name="color" widget="color"/>
                             <field name="activity_task_type" invisible="1"/>
                             <field name="report_done_required"/>
@@ -281,12 +281,12 @@
         <field name="arch" type="xml">
             <calendar string="Calendar View" date_start="date_start"
                       date_stop="date_end"
-                      js_class = "calendar_colour"
-                      color = "color"
-                      form_view_id = "%(project_event.project_event_task_form)s"
-                      readonly_form_view_id = "%(project_event.project_event_task_form)s"
-                      quick_add = "False"
-                      event_open_popup = "True">
+                      js_class="calendar_colour"
+                      color="color"
+                      form_view_id="%(project_event.project_event_task_form)s"
+                      readonly_form_view_id="%(project_event.project_event_task_form)s"
+                      quick_add="False"
+                      event_open_popup="True">
                 <field name="name"/>
                 <field name="code"/>
                 <field name="parent_id" string="Activity"/>

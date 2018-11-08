@@ -18,6 +18,8 @@ class TestProjectEventTask(TestProjectEventCommon):
             'name': 'Test Activity 1',
             'activity_task_type': 'activity',
             'project_id': self.project_1.id,
+            'responsible_id': self.project_1.responsible_id.id,
+            'partner_id': self.project_1.partner_id.id,
             'room_id': self.room_1.id,
             'date_start': fields.Datetime.to_string(datetime.today()),
             'date_end': fields.Datetime.to_string(datetime.today() + timedelta(hours=4)),
@@ -68,7 +70,9 @@ class TestProjectEventTask(TestProjectEventCommon):
             120)
 
     def test_050_workflow_actions(self):
-        self.activity_1.child_ids.action_option()
+        res = self.activity_1.child_ids.action_option()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_reservation()
         self.assertEqual(
             self.activity_1.child_ids.task_state,
             'option')
