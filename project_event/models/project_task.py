@@ -138,6 +138,21 @@ class Task(models.Model):
             else:
                 rec.asterisk_validate_record = " "
 
+    @api.onchange('project_id')
+    def onchange_project_id(self):
+        self._onchange_project()
+        if self.project_id:
+            if self.project_id.responsible_id:
+                self.responsible_id = self.project_id.responsible_id
+
+    @api.onchange('parent_id')
+    def onchange_parent_id(self):
+        if self.parent_id:
+            if self.parent_id.responsible_id:
+                self.responsible_id = self.parent_id.responsible_id
+            if self.parent_id.partner_id:
+                self.partner_id = self.parent_id.partner_id
+
     @api.onchange('succeeding_task_ids')
     def update_preceding(self):
         self.clean_preceding()
@@ -235,6 +250,9 @@ class Task(models.Model):
         if self.activity_task_type == 'activity':
             self.write_task(vals)
             self.write_activity(vals)
+            for task in self.child_ids:
+                task.write({'responsible_id': self.responsible_id.id,
+                           'partner_id': self.partner_id.id})
         elif self.activity_task_type == 'task':
             return super(Task, self).write(vals)
         else:
