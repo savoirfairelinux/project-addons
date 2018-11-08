@@ -55,6 +55,7 @@ class Task(models.Model):
         string='Room',
         comodel_name='resource.calendar.room',
         ondelete='set null',
+        track_visibility='onchange',
     )
     equipment_id = fields.Many2one(
         string='Equip./Service',
