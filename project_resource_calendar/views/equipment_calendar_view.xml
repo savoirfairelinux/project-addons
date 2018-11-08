@@ -4,70 +4,50 @@
         <field name="name">calendar.event.form</field>
         <field name="model">calendar.event</field>
         <field name="arch" type="xml">
-             <header>
-				<button name="action_draft" string="Unconfirm" attrs="{'invisible': [('state', '=', 'draft')]}"
-						type="object"/>
-				<button name="action_open" string="Confirm" attrs="{'invisible': [('state', '=', 'open')]}"
-						type="object"/>
-				<button name="action_cancel" string="Cancel" type="object"
-						attrs="{'invisible': [('state', 'not in', ['draft','open'])]}"/>
-				<field name="state" widget="statusbar" statusbar_visible="draft,open,canceled"/>
-			</header>
-
             <xpath expr="//div[@class='oe_title']" position="inside">
-                <label for="resource_ids" class="oe_edit_only" invisible="1"/>
+                <label for="resource_ids" class="oe_edit_only" invisible="1" />
                 <h2>
                     <field name="resource_ids"
                            widget="many2many_tags"
                            placeholder="Select Resources"
-                           class="oe_inline"
+                           class="oe_inline" 
                            invisible="1"/>
                 </h2>
-                <label for="room_id" class="oe_edit_only"/>
+                <label for="room_id" class="oe_edit_only" />
                 <h2>
-                    <field name="room_id"
-                           placeholder="Select Room"
-                           class="oe_inline"/>
+                <field name="room_id"
+                       placeholder="Select Room"
+                       class="oe_inline" />
                 </h2>
-                <label for="equipment_ids" class="oe_edit_only"/>
+                <label for="equipment_ids" class="oe_edit_only" />
                 <h2>
-                    <field name="equipment_ids"
-                           widget="many2many_tags"
-                           placeholder="Select Equipment"
-                           class="oe_inline"/>
+                <field name="equipment_ids" 
+                       widget="many2many_tags"
+                       placeholder="Select Equipment"
+                       class="oe_inline" />
                 </h2>
             </xpath>
-
         </field>
     </record>
     <record id="view_calendar_event_form_popup" model="ir.ui.view">
         <field name="name">view.calendar.event.form.popup</field>
         <field name="model">calendar.event</field>
-        <field name="inherit_id" ref="calendar_resource.view_calendar_event_form_popup"/>
+        <field name="inherit_id" ref="calendar_resource.view_calendar_event_form_popup" />
         <field name="arch" type="xml">
-            <header>
-				<button name="action_draft" string="Unconfirm" attrs="{'invisible': [('state', '=', 'draft')]}"
-						type="object"/>
-				<button name="action_open" string="Confirm" attrs="{'invisible': [('state', '=', 'open')]}"
-						type="object"/>
-				<button name="action_cancel" string="Cancel" type="object"
-						attrs="{'invisible': [('state', 'not in', ['draft','open'])]}"/>
-				<field name="state" widget="statusbar" statusbar_visible="draft,open,canceled"/>
-			</header>
             <field name="partner_ids" position="after">
                 <field name="resource_type"/>
                 <field name="room_id"
-                       attrs="{'required':[('resource_type','=','room')]}"/>
-                <field name="equipment_ids"
-                       attrs="{'required':[('resource_type','=','equipment')]}"
-                       widget="many2many_tags"/>
-            </field>
+                   attrs="{'required':[('resource_type','=','room')]}"/>
+                <field name="equipment_ids" 
+                   attrs="{'required':[('resource_type','=','equipment')]}"
+                   widget="many2many_tags"/>
+          </field>
         </field>
     </record>
     <record id="view_calendar_event_calendar" model="ir.ui.view">
         <field name="name">calendar.event.calendar</field>
         <field name="model">calendar.event</field>
-        <field name="inherit_id" ref="calendar.view_calendar_event_calendar"/>
+        <field name="inherit_id" ref="calendar.view_calendar_event_calendar" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_ids']" position="replace"/>
             <calendar>
@@ -78,7 +58,7 @@
     <record id="view_calendar_event_search" model="ir.ui.view">
         <field name="name">calendar.event.search</field>
         <field name="model">calendar.event</field>
-        <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
+        <field name="inherit_id" ref="calendar.view_calendar_event_search" />
         <field name="arch" type="xml">
             <xpath expr="//field[@name='categ_ids']" position="replace">
                 <field name="equipment_ids"/>
