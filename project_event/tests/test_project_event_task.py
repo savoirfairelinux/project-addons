@@ -70,7 +70,9 @@ class TestProjectEventTask(TestProjectEventCommon):
             120)
 
     def test_050_workflow_actions(self):
-        self.activity_1.child_ids.action_option()
+        res = self.activity_1.child_ids.action_option()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_reservation()
         self.assertEqual(
             self.activity_1.child_ids.task_state,
             'option')
