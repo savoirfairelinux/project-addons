@@ -464,7 +464,11 @@ class Task(models.Model):
             if self.partner_id:
                 responsible = self.partner_id
             else:
-                responsible = self.env['res.partner'].browse(1)
+                raise ValidationError(
+                    _(
+                        'There must be a responsible or a client ',
+                    )
+                )
         return {
             'body': self.get_message_body(action) + message,
             'channel_ids': [(6, 0, [self.env.ref
