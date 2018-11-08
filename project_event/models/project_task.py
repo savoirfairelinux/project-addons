@@ -43,11 +43,13 @@ class Task(models.Model):
     department_id = fields.Many2one(
         'hr.department',
         string='Department',
+        track_visibility='onchange',
     )
     employee_ids = fields.Many2many(
         'hr.employee', 'task_emp_rel',
         'task_id', 'employee_id',
         string='Employees',
+        track_visibility='onchange',
     )
     responsible_id = fields.Many2one(
         'res.partner',
