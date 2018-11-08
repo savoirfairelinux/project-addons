@@ -23,11 +23,7 @@ class Task(models.Model):
         ],
         string='Type',
     )
-    activity_category_id = fields.Many2one(
-        'activity.category',
-        string='Category',
-    )
-    task_category_id = fields.Many2one(
+    category_id = fields.Many2one(
         'task.category',
         string='Category',
     )
@@ -123,7 +119,7 @@ class Task(models.Model):
         string='Is it main Task',
         default=False,
     )
-    color = fields.Char(related='task_category_id.color')
+    color = fields.Char(related='category_id.color')
 
     def _compute_project_task_log(self):
         for rec in self:

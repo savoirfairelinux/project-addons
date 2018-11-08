@@ -1,6 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_activity_category,access_activity_category,model_activity_category,base.group_user,1,0,0,0
-access_activity_category_manager,access_activity_category_manager,model_activity_category,project.group_project_manager,1,1,1,1
 access_task_category,access_task_category,model_task_category,base.group_user,1,0,0,0
 access_task_category_manager,access_task_category_manager,model_task_category,project.group_project_manager,1,1,1,1
 access_event_template,access_event_template_group,model_event_template,base.group_user,1,1,1,1

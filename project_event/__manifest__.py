@@ -32,8 +32,6 @@
         'views/auditlog_log.xml',
         'views/project_project_view.xml',
         'views/project_task_view.xml',
-        'views/activity_category_view.xml',
-        'views/task_category_view.xml',
         'views/event_template_view.xml',
         'views/activity_template_view.xml',
         'views/task_template_view.xml',
