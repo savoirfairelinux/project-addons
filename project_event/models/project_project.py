@@ -28,7 +28,10 @@ class Project(models.Model):
         string='Type',
         default='project',
     )
-    notes = fields.Html(string='Notes')
+    notes = fields.Html(
+        string='Notes',
+        track_visibility='onchange',
+    )
     description = fields.Html(string='Description')
     state = fields.Selection(
         [

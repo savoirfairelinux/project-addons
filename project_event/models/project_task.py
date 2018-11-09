@@ -99,7 +99,10 @@ class Task(models.Model):
         default='draft',
         track_visibility='onchange',
     )
-    notes = fields.Html(string='Notes')
+    notes = fields.Html(
+        string='Notes',
+        track_visibility='onchange',
+    )
     is_from_template = fields.Boolean(
         string='Is Created From Template',
         default=False,
