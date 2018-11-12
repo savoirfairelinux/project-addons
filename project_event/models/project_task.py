@@ -559,3 +559,14 @@ class Task(models.Model):
             if len(overlaps_equipment) > 0:
                 return True
         return False
+
+    @api.multi
+    def copy(self, default=None):
+        if default is None:
+            default = {}
+        if not default.get('name'):
+            default['name'] = _("%s (copy)") % self.name
+        if 'remaining_hours' not in default:
+            default['remaining_hours'] = self.planned_hours
+        default['task_state'] = 'draft'
+        return super(Task, self).copy(default)
