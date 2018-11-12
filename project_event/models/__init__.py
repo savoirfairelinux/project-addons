@@ -10,3 +10,4 @@ from . import task_template
 from . import account_analytic_account
 from . import mail_thread
 from . import calendar_event
+from . import mail_tracking_value
