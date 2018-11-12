@@ -142,7 +142,7 @@
                     </div>
                     <div>
                         <h1>
-                            <field name="name"/>
+                            <field name="name" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
                         </h1>
                     </div>
                     <div align="right">
@@ -151,28 +151,28 @@
                         </h1>
                     </div>
                     <group>
-                        <group>
+                        <group >
                             <field name="project_id" invisible="1"/>
-                            <field name="responsible_id" attrs="{'readonly': [('task_state', '=', 'requested')]}"/>
-                            <field name="partner_id" attrs="{'readonly': [('task_state', '=', 'requested')]}"/>
+                            <field name="responsible_id" attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
+                            <field name="partner_id" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
                             <field name="parent_id" string="Activity"
                                    options="{'no_create_edit': True}"
-                                   domain="[('activity_task_type','=','activity')]"/>
-                            <field name="category_id" required="1"/>
-                            <field name="color" widget="color" readonly="1"/>
-                            <field name="activity_task_type" invisible="1"/>
-                            <field name="report_done_required"/>
+                                   domain="[('activity_task_type','=','activity')]" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                            <field name="category_id" required="1"  attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                            <field name="color" widget="color" readonly="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                            <field name="activity_task_type" invisible="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                            <field name="report_done_required" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
                         </group>
                         <group>
-                            <field name="date_start" required="1"/>
-                            <field name="date_end" required="1"/>
+                            <field name="date_start" required="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                            <field name="date_end" required="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
                         </group>
                         <group>
                             <div>
                                 <h3>Assigned to:</h3>
                             </div>
-                            <field name="department_id" required="1"/>
-                            <field name="employee_ids" widget="many2many_tags"/>
+                            <field name="department_id" required="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                            <field name="employee_ids" widget="many2many_tags" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
                         </group>
                         <group attrs="{'invisible':[('report_done_required', '!=', True )]}">
                             <div>
@@ -180,27 +180,29 @@
                             </div>
                             <field name="preceding_task_ids"
                                    domain="[('activity_task_type', '=','task'),('id', '!=',id)]"
-                                   string="Preceding tasks"/>
+                                   string="Preceding tasks"
+                                   attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
                             <field name="succeeding_task_ids"
                                    domain="[('activity_task_type', '=','task'),('id', '!=',id)]"
-                                   string="Succeeding tasks"/>
+                                   string="Succeeding tasks"
+                                   attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Resources">
                             <group>
-                                <field name="resource_type" attrs="{'readonly': [('task_state', '=', 'requested')]}"/>
+                                <field name="resource_type" attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
                                 <field name="room_id"
-                                       attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])], 'readonly': [('task_state', '=', 'requested')]}"/>
+                                       attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])], 'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
                                 <field name="equipment_id"
-                                       attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])], 'readonly': [('task_state', '=', 'requested')]}"/>
+                                       attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])], 'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
                             </group>
                         </page>
                         <page string="Description">
-                            <field name="description"/>
+                            <field name="description" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
                         </page>
                         <page string="Notes">
-                            <field name="notes"/>
+                            <field name="notes" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
                         </page>
                     </notebook>
                 </sheet>
