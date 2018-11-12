@@ -17,9 +17,10 @@
         <field name="arch" type="xml">
             <tree string="Equip./Service">
                 <field name="name"/>
-                <field name="room_id"/>
-                <field name="sku"/>
+                <field name="category_type"/>
                 <field name="is_bookable"/>
+                <field name="sku"/>
+                <field name="room_id"/>
             </tree>
         </field>
     </record>
