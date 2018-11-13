@@ -228,6 +228,8 @@
                 <field name="asterisk_validate_record"/>
                 <field name="task_order" invisible="1"/>
                 <field name="task_state"/>
+                <field name="department_id"/>
+                <field name="employee_ids"/>
             </tree>
         </field>
     </record>
