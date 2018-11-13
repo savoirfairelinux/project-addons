@@ -26,7 +26,7 @@ class ActivityTemplate(models.Model):
         store=True,
     )
     activity_category_id = fields.Many2one(
-        'activity.category',
+        'task.category',
         string='Category',
     )
     room_id = fields.Many2one(
