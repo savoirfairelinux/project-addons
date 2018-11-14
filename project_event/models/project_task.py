@@ -54,7 +54,6 @@ class Task(models.Model):
     responsible_id = fields.Many2one(
         'res.partner',
         string='Responsible',
-        required=True,
     )
     partner_id = fields.Many2one(
         'res.partner',
