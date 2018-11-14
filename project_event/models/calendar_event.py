@@ -17,6 +17,5 @@ class CalendarEvent(models.Model):
     category_id = fields.Many2one(
         'task.category',
         string='Category',
-        required=True,
         default=default_category_id,
     )
