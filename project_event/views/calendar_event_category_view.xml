@@ -21,7 +21,7 @@
         <field name="arch" type="xml">
           <xpath expr="//calendar" position="attributes">
             <attribute name="js_class">calendar_colour</attribute>
-            <attribute name="color">category_id.color</attribute>
+            <attribute name="color">color</attribute>
             <attribute name="quick_add">False</attribute>
           </xpath>
         </field>
