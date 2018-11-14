@@ -97,6 +97,7 @@
             <tree string="Activity" default_order="date_start asc">
                 <field name="name"/>
                 <field name="code"/>
+                <field name="room_id"/>
                 <field name="project_id" string="Event"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
