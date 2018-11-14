@@ -4,6 +4,11 @@
         <field name="name">calendar.event.form</field>
         <field name="model">calendar.event</field>
         <field name="arch" type="xml">
+            <xpath expr="//div[@class='oe_title']" position="before">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,cancelled"/>
+                </header>
+            </xpath>
             <xpath expr="//div[@class='oe_title']" position="inside">
                 <label for="resource_ids" class="oe_edit_only" invisible="1" />
                 <h2>
@@ -34,6 +39,11 @@
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar_resource.view_calendar_event_form_popup" />
         <field name="arch" type="xml">
+            <xpath expr="//form/group[1]" position="before">
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,open,cancelled"/>
+                </header>
+            </xpath>
             <field name="partner_ids" position="after">
                 <field name="resource_type"/>
                 <field name="room_id"
@@ -68,5 +78,17 @@
             </xpath>
         </field>
     </record>
+
+    <record id="project_resource_calendar.view_calendar_event_tree" model="ir.ui.view">
+        <field name="name">calendar.event.tree</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
+        <field name="arch" type="xml">
+           <xpath expr="//field[@name='message_needaction']" position="after">
+                <field name="state"/>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>
 
