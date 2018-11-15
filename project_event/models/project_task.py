@@ -265,7 +265,10 @@ class Task(models.Model):
     @api.multi
     def write(self, vals):
         if self.activity_task_type == 'activity':
-            self.write_task(vals)
+            if 'task_state' in vals:
+                state = vals.pop('task_state')
+            self.write_main_task(vals)
+            vals['task_state'] = state
             self.write_activity(vals)
             for task in self.child_ids:
                 task.write({'responsible_id': self.responsible_id.id,
@@ -280,7 +283,7 @@ class Task(models.Model):
         return super(Task, self).write(vals)
 
     @api.multi
-    def write_task(self, vals):
+    def write_main_task(self, vals):
         main_task = self.get_main_task()
         return main_task.write(vals)
 
