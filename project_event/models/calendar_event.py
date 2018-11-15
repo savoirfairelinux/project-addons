@@ -19,3 +19,5 @@ class CalendarEvent(models.Model):
         string='Category',
         default=default_category_id,
     )
+
+    color = fields.Char(related='category_id.color')
