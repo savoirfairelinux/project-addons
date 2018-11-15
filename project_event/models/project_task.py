@@ -267,8 +267,10 @@ class Task(models.Model):
         if self.activity_task_type == 'activity':
             if 'task_state' in vals:
                 state = vals.pop('task_state')
-            self.write_main_task(vals)
-            vals['task_state'] = state
+                self.write_main_task(vals)
+                vals['task_state'] = state
+            else:
+                self.write_main_task(vals)
             self.write_activity(vals)
             for task in self.child_ids:
                 task.write({'responsible_id': self.responsible_id.id,
