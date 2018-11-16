@@ -25,7 +25,7 @@ class Task(models.Model):
     )
     date_start = fields.Datetime(
         string='Starting Date',
-        default=fields.Datetime.now,
+        default=None,
         index=True,
         copy=False,
         track_visibility='always',
@@ -265,8 +265,8 @@ class Task(models.Model):
     @api.multi
     def write(self, vals):
         if self.activity_task_type == 'activity':
-            self.write_task(vals)
             self.write_activity(vals)
+            self.write_task(vals)
             for task in self.child_ids:
                 task.write({'responsible_id': self.responsible_id.id,
                            'partner_id': self.partner_id.id})
@@ -282,6 +282,8 @@ class Task(models.Model):
     @api.multi
     def write_task(self, vals):
         main_task = self.get_main_task()
+        if 'child_ids' in vals:
+            del vals['child_ids']
         return main_task.write(vals)
 
     def get_main_task(self):
