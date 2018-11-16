@@ -26,7 +26,18 @@ odoo.define('project_event.calendar_colour', function (require) {
 
             this.modelName = params.modelName;
             this.fields = params.fields;
-            this.fieldNames = params.fieldNames.concat("task_state");
+
+            switch(params.modelName){
+                case 'calendar.event':
+                    this.fieldNames = params.fieldNames.concat("state");
+                    break;
+                case 'project.task':
+                    this.fieldNames = params.fieldNames.concat("task_state");
+                    break;
+                default:
+                    this.fieldNames = params.fieldNames;
+            }
+
             this.fieldsInfo = params.fieldsInfo;
             this.mapping = params.mapping;
             this.mode = params.mode;       // one of month, week or day
@@ -87,7 +98,7 @@ odoo.define('project_event.calendar_colour', function (require) {
                         */
                         event.color = _.isArray(value) ? value[0] : value;
 
-                        if(event.record["task_state"] === 'option' ) {
+                        if((typeof event.record["task_state"] != 'undefined' && event.record["task_state"] === 'option') || (typeof event.record["state"] != 'undefined' && event.record["state"] === 'draft')) {
                             event.className = 'calendar_hatched_background';
                             event.textColor = 'black';
                         }
