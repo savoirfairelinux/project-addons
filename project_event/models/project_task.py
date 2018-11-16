@@ -266,7 +266,7 @@ class Task(models.Model):
     def write(self, vals):
         if self.activity_task_type == 'activity':
             self.write_activity(vals)
-            self.write_task(vals)
+            self.write_main_task(vals)
             for task in self.child_ids:
                 task.write({'responsible_id': self.responsible_id.id,
                            'partner_id': self.partner_id.id})
@@ -334,16 +334,7 @@ class Task(models.Model):
     @api.multi
     def action_option(self):
         self.ensure_one()
-        res = ''
-        if self.activity_task_type == 'task':
-            if self.check_resource_booked():
-                res += self.room_id.name + '<br>' if (
-                    self.room_id) else self.equipment_id.name + '<br>'
-        if self.activity_task_type == 'activity':
-            for child in self.child_ids:
-                if child.check_resource_booked():
-                    res += child.room_id.name + '<br>' if (
-                        child.room_id) else child.equipment_id.name + '<br>'
+        res = self.get_booked_resources()
         if res != '':
             res = _('The Following resources are already booked:<br>') + res
         message = _('Please Confirm your reservation.<br>') + res + _(
@@ -364,6 +355,26 @@ class Task(models.Model):
             'target': 'new',
             'res_id': new_wizard.id,
         }
+
+    def get_booked_resources(self):
+        res = ''
+        if self.activity_task_type == 'task':
+            if self.is_resource_booked():
+                res += self.room_id.name + '<br>' if (
+                    self.room_id) else self.equipment_id.name + '<br>'
+        if self.activity_task_type == 'activity':
+            for child in self.child_ids:
+                if child.is_resource_booked():
+                    res += child.room_id.name + \
+                           ' - ' + child.date_start + \
+                           ' - ' + child.date_end + \
+                           ' - ' + child.code + \
+                           '<br>' if child.room_id else (
+                        child.equipment_id.name + ' - ' +
+                        child.date_start + ' - ' + child.date_end +
+                        ' - ' + child.code + '<br>'
+                    )
+        return res
 
     @api.multi
     def request_reservation(self):
@@ -432,6 +443,22 @@ class Task(models.Model):
                 'state': 'open'
             }
         )
+
+    @api.multi
+    def do_reservation(self):
+        self.ensure_one()
+        if self.activity_task_type == 'task':
+            self.draft_resources_reservation()
+            if self.task_state not in ['option', 'done']:
+                self.send_message('option')
+        if self.activity_task_type == 'activity':
+            for child in self.child_ids:
+                child.draft_resources_reservation()
+                if child.task_state not in ['option', 'done']:
+                    child.send_message('option')
+                child.write({'task_state': 'option'})
+            self.send_message('option')
+        self.write({'task_state': 'option'})
 
     @api.multi
     def action_cancel(self):
@@ -544,7 +571,7 @@ class Task(models.Model):
     def send_message(self, action):
         self.env['mail.message'].create(self.get_message(action))
 
-    def check_resource_booked(self):
+    def is_resource_booked(self):
         if self.room_id:
             overlaps = self.env['calendar.event'].search([
                 ('room_id', '=', self.room_id.id),

@@ -21,23 +21,7 @@ class TestProjectEvent(TestProjectEventCommon):
         self.project_1.name = 'Test Event Project 1'
         self.assertEqual(self.project_1.event_log_count, 4)
 
-    def test_020_action_cancel(self):
-        self.project_1.action_cancel()
-        self.assertEqual(self.project_1.state, 'canceled')
-
-    def test_030_action_accept(self):
-        self.project_1.action_accept()
-        self.assertEqual(self.project_1.state, 'accepted')
-
-    def test_040_action_accept(self):
-        self.project_1.action_option()
-        self.assertEqual(self.project_1.state, 'option')
-
-    def test_050_action_draft(self):
-        self.project_1.action_draft()
-        self.assertEqual(self.project_1.state, 'draft')
-
-    def test_060_name_search(self):
+    def test_020_name_search(self):
         project_ids = self.Projects.name_search(
             name="Test Project 1",
             operator='ilike',
