@@ -29,6 +29,8 @@
         'templates/assets.xml',
         'report/calendar_event_report_view.xml',
         'report/calendar_event_templates.xml',
+        'report/calendar_event_report.xml',
+        'report/calendar_event_print_template.xml',
     ],
     'installable': True,
     'application': True,

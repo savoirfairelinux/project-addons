@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <template id="reports_style" inherit_id="web.report_assets_pdf">
-    <xpath expr=".">
-      <link href="/project_resource_calendar/static/src/css/reports_style.css"
-            rel="stylesheet"/>
-    </xpath>
-  </template>
+
+    <template id="reports_style" inherit_id="web.report_assets_pdf">
+        <xpath expr=".">
+            <link href="/project_resource_calendar/static/src/css/reports_style.css"
+                  rel="stylesheet"/>
+        </xpath>
+    </template>
+
 </odoo>

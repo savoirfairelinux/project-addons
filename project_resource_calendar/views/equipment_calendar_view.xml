@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
     <record id="calendar_resource.view_calendar_event_form" model="ir.ui.view">
         <field name="name">calendar.event.form</field>
         <field name="model">calendar.event</field>
@@ -10,6 +11,9 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,open,cancelled"/>
                     <field name="is_task_event" invisible="1"/>
                 </header>
+                <div align="right">
+                    <button string="Print Report" type="object" icon="fa-print" name="print_calendar_report"/>
+                </div>
                 <div align="right">
                     <h2>
                         <field name="event_task_id" readonly="1" context="{
@@ -25,34 +29,37 @@
             <xpath expr="//field[@name='partner_ids']" position="attributes">
                 <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
             </xpath>
+
             <xpath expr="//div[@class='oe_title']" position="inside">
                 <label for="resource_ids" class="oe_edit_only" invisible="1"/>
                 <h2>
                     <field name="resource_ids"
                            widget="many2many_tags"
                            placeholder="Select Resources"
-                           class="oe_inline" 
+                           class="oe_inline"
                            invisible="1" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 </h2>
                 <label for="room_id" class="oe_edit_only"/>
                 <h2>
-                <field name="room_id"
-                       placeholder="Select Room"
-                       class="oe_inline" attrs="{'readonly': [('is_task_event','=',True)]}"/>
+                    <field name="room_id"
+                           placeholder="Select Room"
+                           class="oe_inline" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 </h2>
                 <label for="equipment_ids" class="oe_edit_only"/>
                 <h2>
-                <field name="equipment_ids" 
-                       widget="many2many_tags"
-                       placeholder="Select Equipment"
-                       class="oe_inline" attrs="{'readonly': [('is_task_event','=',True)]}"/>
+                    <field name="equipment_ids"
+                           widget="many2many_tags"
+                           placeholder="Select Equipment"
+                           class="oe_inline" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 </h2>
             </xpath>
             <xpath expr="//field[@name='start_datetime']" position="attributes">
-                <attribute name="readonly">[('id', '!=', False), ('recurrency','=',True), ('is_task_event','=',True)]</attribute>
+                <attribute name="readonly">[('id', '!=', False), ('recurrency','=',True), ('is_task_event','=',True)]
+                </attribute>
             </xpath>
             <xpath expr="//field[@name='duration']" position="attributes">
-                <attribute name="readonly">[('id', '!=', False), ('recurrency','=',True), ('is_task_event','=',True)]</attribute>
+                <attribute name="readonly">[('id', '!=', False), ('recurrency','=',True), ('is_task_event','=',True)]
+                </attribute>
             </xpath>
         </field>
     </record>
@@ -69,6 +76,9 @@
                     <field name="is_task_event" invisible="1"/>
                 </header>
                 <div align="right">
+                    <button string="Print Report" type="object" icon="fa-print" name="print_calendar_report"/>
+                </div>
+                <div align="right">
                     <h2>
                         <field name="event_task_id" readonly="1" context="{
 							'form_view_ref':'project_event.project_event_task_form',
@@ -80,10 +90,10 @@
             <field name="partner_ids" position="after">
                 <field name="resource_type" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 <field name="room_id"
-                   attrs="{'required':[('resource_type','=','room')], 'readonly': [('is_task_event','=',True)]}"/>
-                <field name="equipment_ids" 
-                   attrs="{'required':[('resource_type','=','equipment')], 'readonly': [('is_task_event','=',True)]}"
-                   widget="many2many_tags"/>
+                       attrs="{'required':[('resource_type','=','room')], 'readonly': [('is_task_event','=',True)]}"/>
+                <field name="equipment_ids"
+                       attrs="{'required':[('resource_type','=','equipment')], 'readonly': [('is_task_event','=',True)]}"
+                       widget="many2many_tags"/>
             </field>
             <xpath expr="//field[@name='partner_ids']" position="attributes">
                 <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
@@ -96,10 +106,11 @@
             </xpath>
         </field>
     </record>
+
     <record id="view_calendar_event_calendar" model="ir.ui.view">
         <field name="name">calendar.event.calendar</field>
         <field name="model">calendar.event</field>
-        <field name="inherit_id" ref="calendar.view_calendar_event_calendar" />
+        <field name="inherit_id" ref="calendar.view_calendar_event_calendar"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_ids']" position="replace"/>
             <calendar>
@@ -107,10 +118,11 @@
             </calendar>
         </field>
     </record>
+
     <record id="view_calendar_event_search" model="ir.ui.view">
         <field name="name">calendar.event.search</field>
         <field name="model">calendar.event</field>
-        <field name="inherit_id" ref="calendar.view_calendar_event_search" />
+        <field name="inherit_id" ref="calendar.view_calendar_event_search"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='categ_ids']" position="replace">
                 <field name="equipment_ids"/>
@@ -126,11 +138,10 @@
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
         <field name="arch" type="xml">
-           <xpath expr="//field[@name='message_needaction']" position="after">
+            <xpath expr="//field[@name='message_needaction']" position="after">
                 <field name="state"/>
                 <field name="weekday"/>
             </xpath>
         </field>
     </record>
 </odoo>
-

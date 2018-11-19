@@ -16,6 +16,24 @@
     text-align: center;
 }
 
+.dt-left_align {
+    width: 30%;
+    float: left;
+    text-align: left;
+}
+
+.dt-center_align {
+    width: 30%;
+    float: left;
+    text-align: center;
+}
+
+.dt-right_align {
+    width: 50%;
+    float: left;
+    text-align: right;
+}
+
 .h3-report{
     color: white;
     background-color: #000000;
