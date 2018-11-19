@@ -280,10 +280,12 @@ class Task(models.Model):
         return super(Task, self).write(vals)
 
     @api.multi
-    def write_task(self, vals):
+    def write_main_task(self, vals):
         main_task = self.get_main_task()
         if 'child_ids' in vals:
             del vals['child_ids']
+        if 'task_state' in vals:
+            del vals['task_state']
         return main_task.write(vals)
 
     def get_main_task(self):
