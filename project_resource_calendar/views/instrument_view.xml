@@ -45,6 +45,7 @@
                         <group>
                             <field name="sku"/>
                             <field name="is_bookable"/>
+                            <field name="allow_double_book"/>
                         </group>
                     </group>
                     <notebook>
