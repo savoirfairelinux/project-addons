@@ -36,12 +36,9 @@ class TaskTemplate(models.Model):
     )
     temp_resp_id = fields.Many2one(
         'res.partner',
-        related='activity_template_id.temp_resp_id',
-        readonly=True,
         string='Responsible',
-        store=True,
     )
-    task_category_id = fields.Many2one(
+    category_id = fields.Many2one(
         'task.category',
         string='Category',
     )

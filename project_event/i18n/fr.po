@@ -174,12 +174,11 @@ msgid "Canceled"
 msgstr "Annulé"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_activity_category_id
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_activity_category_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_activity_category_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_task_category_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_task_category_id
-#: model:ir.model.fields,field_description:project_event.field_task_template_task_category_id
+#: model:ir.model.fields,field_description:project_event.field_activity_template_category_id
+#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_category_id
+#: model:ir.model.fields,field_description:project_event.field_project_task_category_id
+#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_category_id
+#: model:ir.model.fields,field_description:project_event.field_task_template_category_id
 msgid "Category"
 msgstr "Catégorie"
 
@@ -414,13 +413,12 @@ msgid "Human"
 msgstr "Humain"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_category_id
+#: model:ir.model.fields,field_description:project_event.field_category_id
 #: model:ir.model.fields,field_description:project_event.field_activity_template_id
 #: model:ir.model.fields,field_description:project_event.field_event_template_id
 #: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_id
 #: model:ir.model.fields,field_description:project_event.field_project_event_wizard_id
 #: model:ir.model.fields,field_description:project_event.field_project_task_wizard_id
-#: model:ir.model.fields,field_description:project_event.field_task_category_id
 #: model:ir.model.fields,field_description:project_event.field_task_template_id
 msgid "ID"
 msgstr "ID"

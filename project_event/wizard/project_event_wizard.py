@@ -52,7 +52,7 @@ class ProjectEventWizard(models.TransientModel):
                 'event_wizard_id': self.id,
                 'room_id': act.room_id.id,
                 'activity_resp_id': act.temp_resp_id.id,
-                'activity_category_id': act.activity_category_id.id,
+                'category_id': act.category_id.id,
                 'notes': act.notes,
             }
             self.env['project.activity.wizard'].create(activity_vals)
@@ -83,7 +83,7 @@ class ProjectEventWizard(models.TransientModel):
                     'activity_wiz_id': act.id,
                     'task_name': task.name,
                     'task_resp_id': task.temp_resp_id.id,
-                    'task_category_id': task.task_category_id.id,
+                    'category_id': task.category_id.id,
                     'resource_type': task.resource_type,
                     'equipment_id': task.equipment_id.id,
                     'room_id': task.room_id.id,
@@ -122,11 +122,12 @@ class ProjectEventWizard(models.TransientModel):
                 ('event_wizard_id', '=', self.id),
                 ('activity_wiz_id', '=', act.id),
             ])
+            print ('categ act:::', act.category_id.name)
             activity_vals = {
                 'name': act.name,
                 'project_id': event.id,
                 'responsible_id': act.activity_resp_id.id,
-                'activity_category_id': act.activity_category_id.id,
+                'category_id': act.category_id.id,
                 'activity_task_type': 'activity',
                 'room_id': act.room_id.id,
                 'date_start': act.date_start,
@@ -140,7 +141,7 @@ class ProjectEventWizard(models.TransientModel):
                          'name': task.task_name,
                          'activity_task_type': 'task',
                          'responsible_id': task.task_resp_id.id,
-                         'task_category_id': task.task_category_id.id,
+                         'category_id': task.category_id.id,
                          'department_id': task.department_id.id,
                          'resource_type': task.resource_type,
                          'equipment_id': task.equipment_id.id,

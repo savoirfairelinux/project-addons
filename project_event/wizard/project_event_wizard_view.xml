@@ -37,7 +37,7 @@
                             <field name="template_id" invisible="1"/>
                             <field name="name"/>
                             <field name="activity_resp_id"/>
-                            <field name="activity_category_id"/>
+                            <field name="category_id"/>
                             <field name="room_id"/>
                             <field name="date_start"/>
                             <field name="date_end"/>
@@ -48,7 +48,7 @@
                                 <field name="template_id" invisible="1"/>
                                 <field name="name"/>
                                 <field name="activity_resp_id"/>
-                                <field name="activity_category_id"/>
+                                <field name="category_id"/>
                                 <field name="room_id"/>
                                 <field name="date_start"/>
                                 <field name="date_end"/>
@@ -80,7 +80,7 @@
                             <field name="room_id" string="Room" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
                             <field name="task_name"/>
                             <field name="task_resp_id"/>
-                            <field name="task_category_id"/>
+                            <field name="category_id"/>
                             <field name="department_id"/>
                             <field name="duration"/>
                             <field name="start_time"/>
@@ -95,7 +95,7 @@
                                 <field name="room_id" string="Room" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
                                 <field name="task_name"/>
                                 <field name="task_resp_id"/>
-                                <field name="task_category_id"/>
+                                <field name="category_id"/>
                                 <field name="department_id"/>
                                 <field name="duration"/>
                                 <field name="start_time"/>
