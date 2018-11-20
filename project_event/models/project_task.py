@@ -266,7 +266,7 @@ class Task(models.Model):
     def write(self, vals):
         if self.activity_task_type == 'activity':
             self.write_activity(vals)
-            self.write_task(vals)
+            self.write_main_task(vals)
             for task in self.child_ids:
                 task.write({'responsible_id': self.responsible_id.id,
                            'partner_id': self.partner_id.id})
