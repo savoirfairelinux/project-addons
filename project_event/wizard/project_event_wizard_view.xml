@@ -33,7 +33,7 @@
             <form string="Activity Wizard">
                 <group>
                     <field name="activity_ids" nolabel="1">
-                        <tree>
+                        <tree create="0">
                             <field name="template_id" invisible="1"/>
                             <field name="name"/>
                             <field name="activity_resp_id"/>
@@ -72,7 +72,7 @@
             <form string="Task Wizard">
                 <group>
                     <field name="task_line_ids" nolabel="1">
-                        <tree>
+                        <tree create="0">
                             <field name="activity_wiz_id" readonly="1"/>
                             <field name="template_id" invisible="1"/>
                             <field name="resource_type"/>
