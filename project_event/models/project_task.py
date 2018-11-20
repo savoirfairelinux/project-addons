@@ -94,7 +94,7 @@ class Task(models.Model):
         ('approved', 'Approved'),
         ('done', 'Done'),
         ('canceled', 'Canceled')],
-        string='Task State',
+        string='State',
         default='draft',
         track_visibility='onchange',
     )
