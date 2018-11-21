@@ -34,6 +34,15 @@ class CalendarEvent(models.Model):
         readonly=True,
         track_visibility='onchange',
         default='draft')
+    event_task_id = fields.Many2one(
+        string='Task',
+        comodel_name='project.task',
+        ondelete='set null',
+    )
+    is_task_event = fields.Boolean(
+        string='Is Created From Task',
+        default=False,
+    )
 
     @api.multi
     @api.constrains('room_id', 'start', 'stop', 'equipment_ids')
