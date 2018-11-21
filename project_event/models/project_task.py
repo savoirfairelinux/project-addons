@@ -326,12 +326,13 @@ class Task(models.Model):
                 if task.parent_id and task.parent_id.date_start:
                     activity_date_start = task.parent_id.date_start
                     fmt = '%Y-%m-%d %H:%M:%S'
-                    time_difference = \
-                        datetime.strptime(task.date_start, fmt)\
-                        - datetime.strptime(activity_date_start, fmt)
-                    task.task_order = \
-                        time_difference.days * 24 * 60 \
-                        + time_difference.seconds / 60
+                    if task.date_start:
+                        time_difference = \
+                            datetime.strptime(task.date_start, fmt)\
+                            - datetime.strptime(activity_date_start, fmt)
+                        task.task_order = \
+                            time_difference.days * 24 * 60 \
+                            + time_difference.seconds / 60
 
     def action_done(self):
         self.open_resources_reservation()
