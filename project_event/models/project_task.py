@@ -8,6 +8,7 @@ from odoo.exceptions import ValidationError
 
 class Task(models.Model):
     _inherit = ['project.task']
+    _rec_name = 'complete_name'
 
     name = fields.Char(
         string='Title',
@@ -15,6 +16,11 @@ class Task(models.Model):
     )
     code = fields.Char(
         string='Number',
+    )
+    complete_name = fields.Char(
+        'Complete Name',
+        compute='_compute_complete_name',
+        store=True
     )
     activity_task_type = fields.Selection(
         [
@@ -139,6 +145,14 @@ class Task(models.Model):
         default=False,
     )
     color = fields.Char(related='category_id.color')
+
+    @api.depends('name', 'code')
+    def _compute_complete_name(self):
+        for task in self:
+            if task.activity_task_type == 'task':
+                task.complete_name = '%s / %s' % (task.code, task.name)
+            else:
+                task.complete_name = task.name
 
     def _compute_project_task_log(self):
         for rec in self:
@@ -387,7 +401,9 @@ class Task(models.Model):
             'resource_type': self.resource_type,
             'room_id': self.room_id.id if self.room_id else None,
             'equipment_ids': [(4, self.equipment_id.id, 0)] if self.equipment_id else None,
-            'state': 'open'
+            'state': 'open',
+            'event_task_id': self.id,
+            'is_task_event': True,
         }
         new_event = calendar_event.create(values)
         self.reservation_event_id = new_event.id
