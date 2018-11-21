@@ -3,3 +3,4 @@
 
 from . import test_project_event
 from . import test_project_event_task
+from . import test_project_event_reservation

@@ -93,9 +93,29 @@ class Project(models.Model):
     def action_option(self):
         if self.state == 'accepted':
             self.send_message('option')
+        res = ''
         for activity in self.task_ids:
-                activity.action_option()
-        self.write({'state': 'option'})
+            res += activity.get_booked_resources()
+        if res != '':
+            res = _('The Following resources are already booked:<br>') + res
+        message = _('Please Confirm your reservation.<br>') + res + _(
+            'Do you want to continue?')
+        new_wizard = self.env['reservation.validation.wiz'].create(
+            {
+                'event_id': self.id,
+                'message': message
+            }
+        )
+
+        return {
+            'name': 'Confirm reservation',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'reservation.validation.wiz',
+            'target': 'new',
+            'res_id': new_wizard.id,
+        }
 
     @api.multi
     def action_draft(self):

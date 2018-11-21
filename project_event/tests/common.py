@@ -38,3 +38,14 @@ class TestProjectEventCommon(common.TransactionCase):
             'room_id': self.room_1.id,
             'allow_double_book': True,
         })
+        self.room_2 = self.Rooms.create({
+            'name': 'Test Room 2',
+            'resource_type': 'room',
+            'allow_double_book': True,
+        })
+        self.instrument_2 = self.Instruments.create({
+            'name': 'Test Room 2',
+            'resource_type': 'material',
+            'room_id': self.room_1.id,
+            'allow_double_book': True,
+        })
