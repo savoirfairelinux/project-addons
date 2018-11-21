@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<odoo noupdate="1">
+<odoo>
+    <data noupdate="1">
     <record id="task_category_uncategorized" model="task.category">
       <field name="name">Uncategorized</field>
       <field name="color">#FFFFFF</field>
+      <field name="is_default">True</field>
     </record>
+    </data>
 </odoo>
