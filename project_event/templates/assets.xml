@@ -8,4 +8,10 @@
             rel="stylesheet"/>
     </xpath>
   </template>
+  <template id="assets_backend" inherit_id="web.login">
+    <xpath expr=".">
+      <script type="text/javascript"
+              src="/project_event/static/src/js/saml_error_handler.js"/>
+    </xpath>
+  </template>
 </odoo>
