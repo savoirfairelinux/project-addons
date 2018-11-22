@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <report id="project_resource_calendar_report"
+            model="calendar.event"
+            string="Weekly Events"
+            report_type="qweb-pdf"
+            name="project_resource_calendar.report_events"
+            file="project_resource_calendar.report_events"
+            attachment_use="True"
+    />
+</odoo>

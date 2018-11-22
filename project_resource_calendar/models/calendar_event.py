@@ -3,6 +3,7 @@
 
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
+from datetime import datetime
 
 
 class CalendarEvent(models.Model):
@@ -34,11 +35,35 @@ class CalendarEvent(models.Model):
         readonly=True,
         track_visibility='onchange',
         default='draft')
+    weekday = fields.Char(
+        string='Weekday',
+        compute='_get_weekday',
+        store=True
+    )
+
+    @api.one
+    @api.depends('start_datetime')
+    def _get_weekday(self):
+        weekdays = {
+            '0': _('Monday'),
+            '1': _('Tuesday'),
+            '2': _('Wednesday'),
+            '3': _('Thursday'),
+            '4': _('Friday'),
+            '5': _('Saturday'),
+            '6': _('Sunday'),
+        }
+        if self.start_datetime:
+            start_datetime = str(datetime.strptime(self.start_datetime, '%Y-%m-%d %H:%M:%S').weekday())
+            for day in weekdays:
+                if day == start_datetime:
+                    self.weekday = str(weekdays[day])
+        else:
+            return False
 
     @api.multi
     @api.constrains('room_id', 'start', 'stop', 'equipment_ids')
     def _check_room_id_double_book(self):
-
         for record in self:
 
             if record._event_in_past() or record.state == 'draft':

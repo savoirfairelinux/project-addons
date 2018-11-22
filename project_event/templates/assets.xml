@@ -4,7 +4,7 @@
     <xpath expr=".">
       <script type="text/javascript"
               src="/project_event/static/src/js/web_calendar_colour.js"/>
-      <link href="/project_event/static/src//css/calendar_style.css"
+      <link href="/project_event/static/src/css/calendar_style.css"
             rel="stylesheet"/>
     </xpath>
   </template>
