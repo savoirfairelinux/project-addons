@@ -182,11 +182,31 @@
                             <field name="preceding_task_ids"
                                    domain="[('activity_task_type', '=','task'),('id', '!=',id)]"
                                    string="Preceding tasks"
-                                   attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                                   attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"
+                                   context="{'form_view_ref':'project_event.project_event_task_form',
+                                   'tree_view_ref':'project_event.project_event_task_tree'}">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="department_id"/>
+                                        <field name="employee_ids"/>
+                                        <field name="task_state"/>
+                                    </tree>
+                            </field>
                             <field name="succeeding_task_ids"
                                    domain="[('activity_task_type', '=','task'),('id', '!=',id)]"
                                    string="Succeeding tasks"
-                                   attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                                   attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"
+                                   context="{'form_view_ref':'project_event.project_event_task_form',
+                                   'tree_view_ref':'project_event.project_event_task_tree'}">
+                                    <tree>
+                                        <field name="name"/>
+                                        <field name="code"/>
+                                        <field name="department_id"/>
+                                        <field name="employee_ids"/>
+                                        <field name="task_state"/>
+                                    </tree>
+                            </field>
                         </group>
                     </group>
                     <notebook>
