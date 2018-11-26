@@ -24,7 +24,7 @@ class ProjectActivityWizard(models.TransientModel):
         'res.partner',
         string='Responsible',
     )
-    activity_category_id = fields.Many2one(
+    category_id = fields.Many2one(
         'task.category',
         string='Category',
     )

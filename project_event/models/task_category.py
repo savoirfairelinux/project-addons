@@ -1,7 +1,8 @@
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import fields, models
+from odoo import fields, models, api, _
+from odoo.exceptions import ValidationError
 
 
 class TaskCategory(models.Model):
@@ -18,3 +19,26 @@ class TaskCategory(models.Model):
         string='Sequence',
     )
     color = fields.Char()
+    is_default = fields.Boolean(
+        string='Default',
+    )
+
+    @api.constrains('is_default')
+    def _change_is_default(self):
+        if self.is_default:
+            task_categories = self.env['task.category'].search([('id', '!=', self.id)])
+            for task_category in task_categories:
+                task_category.is_default = False
+
+    @api.multi
+    def unlink(self):
+        for record in self:
+            if record.is_default:
+                raise ValidationError(
+                        _(
+                            'The default category cannot be \
+                            deleted: \n Default category: '
+                            + record.name,
+                        )
+                    )
+        return super(TaskCategory, self).unlink()

@@ -4,56 +4,96 @@
         <field name="name">calendar.event.form</field>
         <field name="model">calendar.event</field>
         <field name="arch" type="xml">
-            <xpath expr="//button[@class='oe_stat_button pull-right']" position="replace" />
+            <xpath expr="//button[@class='oe_stat_button pull-right']" position="replace"/>
             <xpath expr="//div[@class='oe_title']" position="before">
                 <header>
                     <field name="state" widget="statusbar" statusbar_visible="draft,open,cancelled"/>
+                    <field name="is_task_event" invisible="1"/>
                 </header>
+                <div align="right">
+                    <h2>
+                        <field name="event_task_id" readonly="1" context="{
+							'form_view_ref':'project_event.project_event_task_form',
+							'tree_view_ref':'project_event.project_event_task_tree'
+							}"/>
+                    </h2>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_ids']" position="attributes">
+                <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
             </xpath>
             <xpath expr="//div[@class='oe_title']" position="inside">
-                <label for="resource_ids" class="oe_edit_only" invisible="1" />
+                <label for="resource_ids" class="oe_edit_only" invisible="1"/>
                 <h2>
                     <field name="resource_ids"
                            widget="many2many_tags"
                            placeholder="Select Resources"
                            class="oe_inline" 
-                           invisible="1"/>
+                           invisible="1" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 </h2>
-                <label for="room_id" class="oe_edit_only" />
+                <label for="room_id" class="oe_edit_only"/>
                 <h2>
                 <field name="room_id"
                        placeholder="Select Room"
-                       class="oe_inline" />
+                       class="oe_inline" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 </h2>
-                <label for="equipment_ids" class="oe_edit_only" />
+                <label for="equipment_ids" class="oe_edit_only"/>
                 <h2>
                 <field name="equipment_ids" 
                        widget="many2many_tags"
                        placeholder="Select Equipment"
-                       class="oe_inline" />
+                       class="oe_inline" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 </h2>
+            </xpath>
+            <xpath expr="//field[@name='start_datetime']" position="attributes">
+                <attribute name="readonly">[('id', '!=', False), ('recurrency','=',True), ('is_task_event','=',True)]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='duration']" position="attributes">
+                <attribute name="readonly">[('id', '!=', False), ('recurrency','=',True), ('is_task_event','=',True)]</attribute>
             </xpath>
         </field>
     </record>
+
     <record id="view_calendar_event_form_popup" model="ir.ui.view">
         <field name="name">view.calendar.event.form.popup</field>
         <field name="model">calendar.event</field>
-        <field name="inherit_id" ref="calendar_resource.view_calendar_event_form_popup" />
+        <field name="inherit_id" ref="calendar_resource.view_calendar_event_form_popup"/>
         <field name="arch" type="xml">
-            <xpath expr="//button[@class='oe_stat_button pull-right']" position="replace" />
+            <xpath expr="//button[@class='oe_stat_button pull-right']" position="replace"/>
             <xpath expr="//form/group[1]" position="before">
                 <header>
                     <field name="state" widget="statusbar" statusbar_visible="draft,open,cancelled"/>
+                    <field name="is_task_event" invisible="1"/>
                 </header>
+                <div align="right">
+                    <h2>
+                        <field name="event_task_id" readonly="1" context="{
+							'form_view_ref':'project_event.project_event_task_form',
+							'tree_view_ref':'project_event.project_event_task_tree'
+							}"/>
+                    </h2>
+                </div>
             </xpath>
             <field name="partner_ids" position="after">
-                <field name="resource_type"/>
+                <field name="resource_type" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 <field name="room_id"
-                   attrs="{'required':[('resource_type','=','room')]}"/>
+                   attrs="{'required':[('resource_type','=','room')], 'readonly': [('is_task_event','=',True)]}"/>
                 <field name="equipment_ids" 
-                   attrs="{'required':[('resource_type','=','equipment')]}"
+                   attrs="{'required':[('resource_type','=','equipment')], 'readonly': [('is_task_event','=',True)]}"
                    widget="many2many_tags"/>
-          </field>
+            </field>
+            <xpath expr="//field[@name='partner_ids']" position="attributes">
+                <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='start_datetime']" position="attributes">
+                <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
+            </xpath>
+            <xpath expr="//field[@name='duration']" position="attributes">
+                <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
+            </xpath>
         </field>
     </record>
     <record id="view_calendar_event_calendar" model="ir.ui.view">

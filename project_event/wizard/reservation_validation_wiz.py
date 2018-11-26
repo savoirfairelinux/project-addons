@@ -13,21 +13,19 @@ class ReservationValidationWiz(models.TransientModel):
         'project.task',
         string='Task',
     )
+    event_id = fields.Many2one(
+        'project.project',
+        string='Event',
+    )
     message = fields.Html(
         string='Message',
     )
 
     @api.multi
     def confirm_reservation(self):
-        self.ensure_one()
-        if self.task_id.activity_task_type == 'task':
-            self.task_id.draft_resources_reservation()
-            if self.task_id.task_state not in ['option', 'done']:
-                self.task_id.send_message('option')
-        if self.task_id.activity_task_type == 'activity':
-            for child in self.task_id.child_ids:
-                child.draft_resources_reservation()
-                if child.task_state not in ['option', 'done']:
-                    child.send_message('option')
-            self.task_id.send_message('option')
-        self.task_id.write({'task_state': 'option'})
+        if self.task_id:
+            self.task_id.do_reservation()
+        else:
+            for activity in self.event_id.task_ids:
+                activity.do_reservation()
+            self.event_id.write({'state': 'option'})

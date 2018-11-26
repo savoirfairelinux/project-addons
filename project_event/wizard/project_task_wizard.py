@@ -28,7 +28,7 @@ class ProjectTaskWizard(models.TransientModel):
         'res.partner',
         string='Responsible',
     )
-    task_category_id = fields.Many2one(
+    category_id = fields.Many2one(
         'task.category',
         string='Category',
     )

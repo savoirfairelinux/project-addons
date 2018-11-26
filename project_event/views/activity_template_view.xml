@@ -15,7 +15,7 @@
                         <group>
                             <field name="temp_resp_id"/>
                             <field name="event_template_id" string="Template Event"/>
-                            <field name="activity_category_id"/>
+                            <field name="category_id"/>
                         </group>
                         <group>
                             <field name="room_id"/>
@@ -43,7 +43,7 @@
                 <field name="name"/>
                 <field name="event_template_id" string="Template Event"/>
                 <field name="temp_resp_id"/>
-                <field name="activity_category_id"/>
+                <field name="category_id"/>
                 <field name="room_id"/>
             </tree>
         </field>

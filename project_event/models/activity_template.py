@@ -20,12 +20,9 @@ class ActivityTemplate(models.Model):
     )
     temp_resp_id = fields.Many2one(
         'res.partner',
-        related='event_template_id.temp_resp_id',
-        readonly=True,
         string='Responsible',
-        store=True,
     )
-    activity_category_id = fields.Many2one(
+    category_id = fields.Many2one(
         'task.category',
         string='Category',
     )

@@ -40,6 +40,15 @@ class CalendarEvent(models.Model):
         compute='_get_weekday',
         store=True
     )
+    event_task_id = fields.Many2one(
+        string='Task',
+        comodel_name='project.task',
+        ondelete='set null',
+    )
+    is_task_event = fields.Boolean(
+        string='Is Created From Task',
+        default=False,
+    )
 
     @api.one
     @api.depends('start_datetime')

@@ -18,7 +18,7 @@
                             <field name="room_id" string="Room" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
                             <field name="activity_template_id" string="Activity Template"/>
                             <field name="temp_resp_id"/>
-                            <field name="task_category_id"/>
+                            <field name="category_id"/>
                         </group>
                         <group>
                             <field name="duration"/>
@@ -51,7 +51,7 @@
                 <field name="room_id" string="Room"/>
                 <field name="name"/>
                 <field name="activity_template_id"/>
-                <field name="task_category_id"/>
+                <field name="category_id"/>
                 <field name="temp_resp_id"/>
                 <field name="department_id"/>
             </tree>
