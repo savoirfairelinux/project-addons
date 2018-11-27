@@ -88,6 +88,7 @@ class ProjectEventWizard(models.TransientModel):
                     'equipment_id': task.equipment_id.id,
                     'room_id': task.room_id.id,
                     'department_id': task.department_id.id,
+                    'employee_ids': [(4, e.id) for e in task.employee_ids],
                     'duration': task.duration,
                     'start_time': task.start_time,
                     'notes': task.notes,
@@ -122,7 +123,6 @@ class ProjectEventWizard(models.TransientModel):
                 ('event_wizard_id', '=', self.id),
                 ('activity_wiz_id', '=', act.id),
             ])
-            print ('categ act:::', act.category_id.name)
             activity_vals = {
                 'name': act.name,
                 'project_id': event.id,
@@ -143,6 +143,7 @@ class ProjectEventWizard(models.TransientModel):
                          'responsible_id': task.task_resp_id.id,
                          'category_id': task.category_id.id,
                          'department_id': task.department_id.id,
+                         'employee_ids': [(4, e.id) for e in task.employee_ids],
                          'resource_type': task.resource_type,
                          'equipment_id': task.equipment_id.id,
                          'room_id': task.room_id.id,

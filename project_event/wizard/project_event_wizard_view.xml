@@ -82,6 +82,7 @@
                             <field name="task_resp_id"/>
                             <field name="category_id"/>
                             <field name="department_id"/>
+                            <field name="employee_ids"/>
                             <field name="duration"/>
                             <field name="start_time"/>
                             <field name="notes"/>
@@ -97,6 +98,7 @@
                                 <field name="task_resp_id"/>
                                 <field name="category_id"/>
                                 <field name="department_id"/>
+                                <field name="employee_ids"/>
                                 <field name="duration"/>
                                 <field name="start_time"/>
                                 <field name="notes"/>
