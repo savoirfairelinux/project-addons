@@ -7,9 +7,12 @@
             <form string="Validation Wizard">
                 <div>
                     <field name="message" readonly="1"/>
+                    <field name="action" invisible="1"/>
                 </div>
                 <footer>
-                    <button name="confirm_reservation" string="Ok" type="object" class="btn-primary"/>
+                    <button name="confirm_reservation" string="Ok" attrs="{'invisible': [('action','!=', 'option')]}" type="object" class="btn-primary"/>
+                    <button name="confirm_request_reservation" attrs="{'invisible': [('action','!=', 'request')]}" string="Ok" type="object" class="btn-primary"/>
+                    <button name="confirm_accept_reservation" attrs="{'invisible': [('action','!=', 'accept')]}" string="Ok" type="object" class="btn-primary"/>
                     <button string="Cancel" class="btn-default" special="cancel"/>
                 </footer>
             </form>

@@ -100,8 +100,9 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.assertEqual(
             reservation_event.equipment_ids.ids,
             self.activity_1.child_ids.get_equipment_ids_inside())
-        self.activity_1.child_ids.action_request()
-
+        res = self.activity_1.child_ids.action_request()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_request_reservation()
         self.assertEqual(
             self.activity_1.child_ids.task_state,
             'requested')
@@ -110,7 +111,9 @@ class TestProjectEventTask(TestProjectEventCommon):
             reservation_event.state,
             'open')
 
-        self.activity_1.child_ids.action_accept()
+        res = self.activity_1.child_ids.action_accept()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_accept_reservation()
         self.assertEqual(
             self.activity_1.child_ids.task_state,
             'accepted')
@@ -126,7 +129,9 @@ class TestProjectEventTask(TestProjectEventCommon):
             'done')
 
     def test_060_cancel_action(self):
-        self.activity_1.child_ids.action_request()
+        res = self.activity_1.child_ids.action_request()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_request_reservation()
         self.assertEqual(
             self.activity_1.child_ids.task_state,
             'requested')

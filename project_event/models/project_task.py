@@ -340,37 +340,11 @@ class Task(models.Model):
 
     @api.multi
     def action_request(self):
-        self.draft_resources_reservation()
-        if self.activity_task_type == 'task' and \
-                self.task_state in ['draft', 'option', 'postponed', 'canceled']:
-            self.send_message('requested')
-        self.open_resources_reservation()
-        self.write({'task_state': 'requested'})
+        return self.get_confirmation_wizard('request')
 
     @api.multi
     def action_option(self):
-        self.ensure_one()
-        res = self.get_booked_resources()
-        if res != '':
-            res = _('The Following resources are already booked:<br>') + res
-        message = _('Please Confirm your reservation.<br>') + res + _(
-            'Do you want to continue?')
-        new_wizard = self.env['reservation.validation.wiz'].create(
-            {
-                'task_id': self.id,
-                'message': message
-            }
-        )
-
-        return {
-            'name': 'Confirm reservation',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'reservation.validation.wiz',
-            'target': 'new',
-            'res_id': new_wizard.id,
-        }
+        return self.get_confirmation_wizard('option')
 
     def get_booked_resources(self):
         res = ''
@@ -498,13 +472,7 @@ class Task(models.Model):
 
     @api.multi
     def action_accept(self):
-        if self.activity_task_type == 'activity':
-            if self.task_state in ['draft', 'option', 'postponed', 'canceled']:
-                for child in self.child_ids:
-                    child.action_request()
-                self.send_message('requested')
-        self.open_resources_reservation()
-        self.write({'task_state': 'accepted'})
+        return self.get_confirmation_wizard('accept')
 
     @api.multi
     def action_read(self):
@@ -618,3 +586,29 @@ class Task(models.Model):
             default['remaining_hours'] = self.planned_hours
         default['task_state'] = 'draft'
         return super(Task, self).copy(default)
+
+    @api.multi
+    def get_confirmation_wizard(self, action):
+        self.ensure_one()
+        res = self.get_booked_resources()
+        if res != '':
+            res = _('The Following resources are already booked:<br>') + res
+        message = _('Please Confirm your reservation.<br>') + res + _(
+            'Do you want to continue?')
+        new_wizard = self.env['reservation.validation.wiz'].create(
+            {
+                'task_id': self.id,
+                'message': message,
+                'action': action,
+            }
+        )
+
+        return {
+            'name': 'Confirm reservation',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'reservation.validation.wiz',
+            'target': 'new',
+            'res_id': new_wizard.id,
+        }

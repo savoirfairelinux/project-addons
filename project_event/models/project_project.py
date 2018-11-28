@@ -85,37 +85,13 @@ class Project(models.Model):
     def action_accept(self):
         if self.state in ['draft', 'option', 'postponed', 'canceled']:
             self.send_message('accepted')
-            for activity in self.task_ids:
-                activity.action_accept()
-        self.write({'state': 'accepted'})
+            return self.get_confirmation_wizard('accept')
 
     @api.multi
     def action_option(self):
         if self.state == 'accepted':
             self.send_message('option')
-        res = ''
-        for activity in self.task_ids:
-            res += activity.get_booked_resources()
-        if res != '':
-            res = _('The Following resources are already booked:<br>') + res
-        message = _('Please Confirm your reservation.<br>') + res + _(
-            'Do you want to continue?')
-        new_wizard = self.env['reservation.validation.wiz'].create(
-            {
-                'event_id': self.id,
-                'message': message
-            }
-        )
-
-        return {
-            'name': 'Confirm reservation',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'reservation.validation.wiz',
-            'target': 'new',
-            'res_id': new_wizard.id,
-        }
+        return self.get_confirmation_wizard('option')
 
     @api.multi
     def action_draft(self):
@@ -187,3 +163,29 @@ class Project(models.Model):
 
     def send_message(self, action):
         self.env['mail.message'].create(self.get_message(action))
+
+    def get_confirmation_wizard(self, action):
+        res = ''
+        for activity in self.task_ids:
+            res += activity.get_booked_resources()
+        if res != '':
+            res = _('The Following resources are already booked:<br>') + res
+        message = _('Please Confirm your reservation.<br>') + res + _(
+            'Do you want to continue?')
+        new_wizard = self.env['reservation.validation.wiz'].create(
+            {
+                'event_id': self.id,
+                'message': message,
+                'action': action,
+            }
+        )
+
+        return {
+            'name': 'Confirm reservation',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'reservation.validation.wiz',
+            'target': 'new',
+            'res_id': new_wizard.id,
+        }

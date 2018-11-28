@@ -89,7 +89,9 @@ class TestProjectEventReservation(TestProjectEventCommon):
                 'draft')
 
     def test_020_event_action_accept(self):
-        self.project_1.action_accept()
+        res = self.project_1.action_accept()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_accept_reservation()
         self.assertEqual(
             self.project_1.state,
             'accepted')
@@ -111,7 +113,9 @@ class TestProjectEventReservation(TestProjectEventCommon):
                 'open')
 
     def test_030_action_cancel(self):
-        self.project_1.action_accept()
+        res = self.project_1.action_accept()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_accept_reservation()
         self.project_1.action_cancel()
         self.assertEqual(self.project_1.state, 'canceled')
         for activity in self.project_1.task_ids:
