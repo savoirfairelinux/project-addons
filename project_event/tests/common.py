@@ -12,6 +12,7 @@ class TestProjectEventCommon(common.TransactionCase):
         # Usefull models
         self.Partners = self.env['res.partner']
         self.Projects = self.env['project.project']
+        self.Tasks = self.env['project.task']
         self.Rooms = self.env['resource.calendar.room']
         self.Instruments = self.env['resource.calendar.instrument']
 
@@ -33,7 +34,7 @@ class TestProjectEventCommon(common.TransactionCase):
             'allow_double_book': True,
         })
         self.instrument_1 = self.Instruments.create({
-            'name': 'Test Room 1',
+            'name': 'Test Intrument Room 1',
             'resource_type': 'material',
             'room_id': self.room_1.id,
             'allow_double_book': True,
@@ -44,8 +45,8 @@ class TestProjectEventCommon(common.TransactionCase):
             'allow_double_book': True,
         })
         self.instrument_2 = self.Instruments.create({
-            'name': 'Test Room 2',
+            'name': 'Test Instrument Room 2',
             'resource_type': 'material',
-            'room_id': self.room_1.id,
+            'room_id': self.room_2.id,
             'allow_double_book': True,
         })

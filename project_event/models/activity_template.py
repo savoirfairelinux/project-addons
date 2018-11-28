@@ -35,7 +35,7 @@ class ActivityTemplate(models.Model):
         'activity_template_id',
         string='Tasks Template',
     )
-    notes = fields.Text(
+    notes = fields.Html(
         string='Notes',
     )
 

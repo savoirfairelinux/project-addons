@@ -21,6 +21,6 @@ class EventTemplate(models.Model):
         'event_template_id',
         string='Activity Template',
     )
-    notes = fields.Text(
+    notes = fields.Html(
         string='Notes',
     )

@@ -57,7 +57,7 @@ class TaskTemplate(models.Model):
     start_time = fields.Float(
         string='Start Time',
     )
-    notes = fields.Text(
+    notes = fields.Html(
         string='Notes',
     )
 
