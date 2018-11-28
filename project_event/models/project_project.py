@@ -123,6 +123,26 @@ class Project(models.Model):
         return super(Project, self).search(
             domain + args, limit=limit).name_get()
 
+    @api.multi
+    def confirm_accept_reservation(self):
+        for activity in self.task_ids:
+            if activity.task_state in [
+                        'draft', 'option', 'postponed', 'canceled']:
+                for child in activity.child_ids:
+                    self.child_reservation(child)
+                activity.send_message('requested')
+            activity.open_resources_reservation()
+            activity.write({'task_state': 'accepted'})
+        self.write({'state': 'accepted'})
+
+    def child_reservation(self, child):
+        child.draft_resources_reservation()
+        if child.task_state in ['draft', 'option', 'postponed',
+                                'canceled']:
+            child.send_message('requested')
+        child.open_resources_reservation()
+        child.write({'task_state': 'requested'})
+
     def get_message_body(self, action):
         switcher = {
             'draft': ' ',
