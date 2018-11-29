@@ -1,4 +1,5 @@
 # Translation of Odoo Server.
+# Translation of Odoo Server.
 # This file contains the translation of the following modules:
 # 	* resource_calendar
 #
@@ -6,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-30 17:17+0000\n"
-"PO-Revision-Date: 2018-10-30 13:18-0400\n"
+"POT-Creation-Date: 2018-11-29 22:30+0000\n"
+"PO-Revision-Date: 2018-11-29 17:33-0500\n"
 "Last-Translator: Luis Garcia <luis.garcia@savoirfairelinux.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -36,9 +37,28 @@ msgid "Add Photo"
 msgstr "Ajouter Photo"
 
 #. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_allow_double_book
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_allow_double_book
+msgid "Allow Double Booking"
+msgstr ""
+
+#. module: project_resource_calendar
+#: model:ir.actions.report,name:project_resource_calendar.calendar_event_report
+msgid "Calendar Event Report"
+msgstr ""
+
+#. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_capacity
 msgid "Capacity"
 msgstr "Capacité"
+
+#. module: project_resource_calendar
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_instrument_allow_double_book
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_room_allow_double_book
+msgid ""
+"Check if this resource can be booked in more than one meeting or event at "
+"the same time."
+msgstr ""
 
 #. module: project_resource_calendar
 #: selection:resource.calendar.instrument,category_type:0
@@ -118,6 +138,18 @@ msgid "Floor"
 msgstr "Étage"
 
 #. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:61
+#: model:ir.ui.view,arch_db:project_resource_calendar.report_events
+#, python-format
+msgid "Friday"
+msgstr ""
+
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.calendar_event_report_view
+msgid "From:"
+msgstr "De:"
+
+#. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_group_ids
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_group_ids
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_group_ids
@@ -157,6 +189,13 @@ msgid "Is Bookable"
 msgstr "Réservable"
 
 #. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_calendar_event_is_task_event
+#, fuzzy
+#| msgid "Created on"
+msgid "Is Created From Task"
+msgstr "Créé le"
+
+#. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument___last_update
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous___last_update
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room___last_update
@@ -190,6 +229,13 @@ msgstr "Matériel"
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_miscellaneous
 msgid "Miscellaneous"
 msgstr "Divers"
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:57
+#: model:ir.ui.view,arch_db:project_resource_calendar.report_events
+#, python-format
+msgid "Monday"
+msgstr ""
 
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_name
@@ -264,6 +310,16 @@ msgstr "Tarif ($)"
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_pricing_type
 msgid "Pricing Type"
 msgstr "Tarification"
+
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.view_calendar_event_form_popup
+msgid "Print Report"
+msgstr ""
+
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.report_events
+msgid "Reservations Booking Schedule:"
+msgstr ""
 
 #. module: project_resource_calendar
 #: model:ir.actions.act_window,name:project_resource_calendar.action_resource_calendar
@@ -346,6 +402,13 @@ msgid "SKU"
 msgstr "SKU"
 
 #. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:62
+#: model:ir.ui.view,arch_db:project_resource_calendar.report_events
+#, python-format
+msgid "Saturday"
+msgstr ""
+
+#. module: project_resource_calendar
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_room_form
 #, fuzzy
 #| msgid "Resources"
@@ -360,21 +423,71 @@ msgid "Service"
 msgstr "Services"
 
 #. module: project_resource_calendar
-#: code:addons/project_resource_calendar/models/calendar_event.py:72
+#: code:addons/project_resource_calendar/models/calendar_event.py:63
+#: model:ir.ui.view,arch_db:project_resource_calendar.report_events
 #, python-format
-msgid "The resource cannot be double-booked with any overlapping meetings or events."
+msgid "Sunday"
 msgstr ""
 
 #. module: project_resource_calendar
-#: code:addons/project_resource_calendar/models/calendar_event.py:65
+#: model:ir.model.fields,field_description:project_resource_calendar.field_calendar_event_event_task_id
+msgid "Task"
+msgstr ""
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:106
 #, python-format
-msgid "The room cannot be double-booked with any overlapping meetings or events."
+msgid ""
+"The resource cannot be double-booked with any overlapping meetings or events."
+msgstr ""
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:99
+#, python-format
+msgid ""
+"The room cannot be double-booked with any overlapping meetings or events."
+msgstr ""
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:60
+#: model:ir.ui.view,arch_db:project_resource_calendar.report_events
+#, python-format
+msgid "Thursday"
+msgstr ""
+
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.calendar_event_report_view
+msgid "To:"
+msgstr "À:"
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:58
+#: model:ir.ui.view,arch_db:project_resource_calendar.report_events
+#, python-format
+msgid "Tuesday"
 msgstr ""
 
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_category_type
 msgid "Type"
 msgstr "Type"
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:59
+#: model:ir.ui.view,arch_db:project_resource_calendar.report_events
+#, python-format
+msgid "Wednesday"
+msgstr ""
+
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_calendar_event_weekday
+msgid "Weekday"
+msgstr ""
+
+#. module: project_resource_calendar
+#: model:ir.actions.report,name:project_resource_calendar.project_resource_calendar_report
+msgid "Weekly Events"
+msgstr ""
 
 #. module: project_resource_calendar
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_tree

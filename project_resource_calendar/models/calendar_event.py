@@ -108,3 +108,6 @@ class CalendarEvent(models.Model):
                         'with any overlapping meetings or events.',
                     )
                 )
+
+    def print_calendar_report(self):
+        return self.env.ref('project_resource_calendar.calendar_event_report').report_action(self)
