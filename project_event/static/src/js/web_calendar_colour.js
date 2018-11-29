@@ -6,6 +6,25 @@ odoo.define('project_event.calendar_colour', function (require) {
     var CalendarRenderer = require('web.CalendarRenderer');
     var CalendarController = require('web.CalendarController');
     var viewRegistry = require('web.view_registry');
+    var rpc = require('web.rpc');
+
+    rpc.query({
+             model: 'task.category',
+             method: 'get_category_list'
+    }).then(function (category_list) {
+        var style = document.createElement('style');
+        style.type = 'text/css';
+        style.innerHTML = '';
+        for(var i = 0; i < category_list.length; i++)
+        {
+            if(category_list[i]["color"] != false){
+                style.innerHTML = style.innerHTML + " .o_underline_color_category_"+category_list[i]["id"]+" { border-bottom: 4px solid "+category_list[i]["color"] + "; } ";
+            }else {
+                style.innerHTML = style.innerHTML + " .o_underline_color_category_"+category_list[i]["id"]+" { border-bottom: 4px solid #3a87ad; } ";
+            }
+        }
+        document.getElementsByTagName('head')[0].appendChild(style);
+    });
 
     var CalendarColourRenderer = CalendarRenderer.extend({
         /* Je n'ai rien changé ici mais je voulais montrer la methode que fait le
@@ -29,10 +48,10 @@ odoo.define('project_event.calendar_colour', function (require) {
 
             switch(params.modelName){
                 case 'calendar.event':
-                    this.fieldNames = params.fieldNames.concat("state");
+                    this.fieldNames = params.fieldNames.concat("state").concat("color");
                     break;
                 case 'project.task':
-                    this.fieldNames = params.fieldNames.concat("task_state");
+                    this.fieldNames = params.fieldNames.concat("task_state").concat("color");
                     break;
                 default:
                     this.fieldNames = params.fieldNames;
@@ -85,18 +104,14 @@ odoo.define('project_event.calendar_colour', function (require) {
 
             return this.preload_def.then(this._loadCalendar.bind(this));
         },
-        /* La logique qu'on cherchait etait dans le model et pas dans le renderer */
+
         _loadColors: function (element, events) {
                 if (this.fieldColor) {
                     var fieldName = this.fieldColor;
                     _.each(events, function (event) {
                         var value = event.record[fieldName];
-                        event.color_index = _.isArray(value) ? value[0] : value;
-                        /* La librairie fullCalendar s'attend à avoir un champ colour avec
-                           la valeur CSS de la couleur mais Odoo utilise un autre champ (color_index)
-                           donc ici va juste ignorer le color_index et ajouter le champ colour
-                        */
-                        event.color = _.isArray(value) ? value[0] : value;
+                        event.color_index = event.record["color"];
+                        event.color = event.record["color"];
 
                         if((typeof event.record["task_state"] != 'undefined' && event.record["task_state"] === 'option') || (typeof event.record["state"] != 'undefined' && event.record["state"] === 'draft')) {
                             event.className = 'calendar_hatched_background';

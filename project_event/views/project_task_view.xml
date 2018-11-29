@@ -289,7 +289,7 @@
             <calendar string="Calendar View" date_start="date_start"
                       date_stop="date_end"
                       js_class = "calendar_colour"
-                      color = "color">
+                      color = "category_id">
                 <field name="name"/>
                 <field name="code"/>
                 <field name="project_id" string="Event"/>
@@ -311,7 +311,7 @@
             <calendar string="Calendar View" date_start="date_start"
                       date_stop="date_end"
                       js_class="calendar_colour"
-                      color="color"
+                      color="category_id"
                       form_view_id="%(project_event.project_event_task_form)s"
                       readonly_form_view_id="%(project_event.project_event_task_form)s"
                       quick_add="False"
