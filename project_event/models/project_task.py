@@ -360,10 +360,10 @@ class Task(models.Model):
                            ' - ' + child.date_end + \
                            ' - ' + child.code + \
                            '<br>' if child.room_id else (
-                        child.equipment_id.name + ' - ' +
-                        child.date_start + ' - ' + child.date_end +
-                        ' - ' + child.code + '<br>'
-                    )
+                            child.equipment_id.name + ' - ' +
+                            child.date_start + ' - ' + child.date_end +
+                            ' - ' + child.code + '<br>'
+                            )
         return res
 
     @api.multi
@@ -499,6 +499,34 @@ class Task(models.Model):
                 for child in self.child_ids:
                     child.action_postpone()
         self.write({'task_state': 'postponed'})
+
+    @api.multi
+    def confirm_reservation(self):
+        self.draft_resources_reservation()
+        if self.activity_task_type == 'task' and self.task_state in [
+                'draft', 'option', 'postponed', 'canceled']:
+            self.send_message('requested')
+        self.open_resources_reservation()
+        self.write({'task_state': 'requested'})
+
+    @api.multi
+    def confirm_accept_reservation(self):
+        if self.activity_task_type == 'activity':
+            if self.task_state in [
+                    'draft', 'option', 'postponed', 'canceled']:
+                for child in self.child_ids:
+                    self.child_reservation(child)
+                self.send_message('requested')
+        self.open_resources_reservation()
+        self.write({'task_state': 'accepted'})
+
+    def child_reservation(self, child):
+        child.draft_resources_reservation()
+        if child.task_state in ['draft', 'option', 'postponed',
+                                'canceled']:
+            child.send_message('requested')
+        child.open_resources_reservation()
+        child.write({'task_state': 'requested'})
 
     def get_message_body(self, action):
         switcher = {
