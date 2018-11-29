@@ -52,6 +52,11 @@ class ProjectTaskWizard(models.TransientModel):
         'hr.department',
         string='Department',
     )
+    employee_ids = fields.Many2many(
+        'hr.employee', 'task_template_wiz_emp_rel',
+        'project_task_wizard_id', 'employee_id',
+        string='Employees',
+    )
     duration = fields.Integer(
         string='Duration',
     )

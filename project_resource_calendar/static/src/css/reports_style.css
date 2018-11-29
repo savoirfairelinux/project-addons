@@ -1,0 +1,22 @@
+.dt-report-10{
+    width: 10%;
+    float: left;
+    text-align: center;
+}
+
+.dt-report-50{
+    width: 50%;
+    float: left;
+    text-align: center;
+}
+
+.dt-report-20{
+    width: 20%;
+    float: left;
+    text-align: center;
+}
+
+.h3-report{
+    color: white;
+    background-color: #000000;
+}
