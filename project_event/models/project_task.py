@@ -83,6 +83,11 @@ class Task(models.Model):
         comodel_name='resource.calendar.instrument',
         ondelete='set null',
     )
+    client_type = fields.Many2one(
+        'res.partner.category.type',
+        string='Client Type',
+        track_visibility='onchange',
+    )
     resource_type = fields.Selection([
         ('user', 'Human'),
         ('equipment', 'Equip./Service'),
@@ -222,19 +227,19 @@ class Task(models.Model):
         if self.room_id:
             if not self.room_id.is_bookable:
                 raise ValidationError(
-                        _(
-                            'This room is not bookable'
-                        )
+                    _(
+                        'This room is not bookable'
                     )
+                )
 
     def verify_equipment_bookable(self):
         if self.equipment_id:
             if not self.equipment_id.is_bookable:
                 raise ValidationError(
-                        _(
-                            'This resource is not bookable'
-                        )
+                    _(
+                        'This resource is not bookable'
                     )
+                )
 
     @api.constrains('parent_id')
     def _check_subtask_project(self):
@@ -333,7 +338,7 @@ class Task(models.Model):
                     fmt = '%Y-%m-%d %H:%M:%S'
                     if task.date_start:
                         time_difference = \
-                            datetime.strptime(task.date_start, fmt)\
+                            datetime.strptime(task.date_start, fmt) \
                             - datetime.strptime(activity_date_start, fmt)
                         task.task_order = \
                             time_difference.days * 24 * 60 \

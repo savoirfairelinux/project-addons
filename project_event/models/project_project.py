@@ -8,6 +8,11 @@ class Project(models.Model):
     _name = 'project.project'
     _inherit = ['project.project', 'mail.thread']
 
+    client_type = fields.Many2one(
+        'res.partner.category.type',
+        string='Client Type',
+        track_visibility='onchange',
+    )
     code = fields.Char(
         string='Number',
     )
