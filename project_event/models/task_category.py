@@ -42,3 +42,10 @@ class TaskCategory(models.Model):
                         )
                     )
         return super(TaskCategory, self).unlink()
+
+    @api.model
+    def get_category_list(self):
+        return list(map(lambda category: {"id": category.id,
+                                          "name": category.name,
+                                          "color": category.color},
+                        self.env['task.category'].search([])))

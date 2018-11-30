@@ -41,6 +41,9 @@
         'views/calendar_event_category_view.xml',
         'wizard/reservation_validation_wiz_view.xml',
     ],
+    'qweb': [
+        'views/calendar_sidebar.xml',
+    ],
     'installable': True,
     'application': False,
 }
