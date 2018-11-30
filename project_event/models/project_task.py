@@ -288,13 +288,13 @@ class Task(models.Model):
     def write_activity(self, vals):
         self.write_main_task(vals)
         task_vals = {}
+        if 'responsible_id' in vals:
+            task_vals['responsible_id'] = vals['responsible_id']
+        if 'partner_id' in vals:
+            task_vals['partner_id'] = vals['partner_id']
         for task in self.child_ids:
             if task == self.get_main_task():
                 continue
-            if 'responsible_id' in vals:
-                task_vals['responsible_id'] = vals['responsible_id']
-            if 'partner_id' in vals:
-                task_vals['partner_id'] = vals['partner_id']
             if task_vals:
                 task.write(task_vals)
         return super(Task, self).write(vals)
