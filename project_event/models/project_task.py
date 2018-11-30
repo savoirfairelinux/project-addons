@@ -3,7 +3,7 @@
 
 from odoo import api, fields, models, _
 from datetime import datetime
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 
 
 class Task(models.Model):
@@ -370,6 +370,14 @@ class Task(models.Model):
     def request_reservation(self):
         self.ensure_one()
         calendar_event = self.env['calendar.event']
+        partners = []
+        for e in self.employee_ids:
+            if e.user_id:
+                partners.append(e.user_id.partner_id.id)
+            else:
+                raise UserError(
+                    _('Please define user account for the %s employee') % (
+                        e.name,))
         values = {
             'start': self.date_start,
             'stop': self.date_end,
@@ -377,6 +385,7 @@ class Task(models.Model):
             'resource_type': self.resource_type,
             'room_id': self.room_id.id if self.room_id else None,
             'equipment_ids': [(4, self.equipment_id.id, 0)] if self.equipment_id else None,
+            'partner_ids': [(6, 0, partners)],
             'state': 'open',
             'event_task_id': self.id,
             'is_task_event': True,
