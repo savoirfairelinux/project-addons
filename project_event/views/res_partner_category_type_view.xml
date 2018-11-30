@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="action_partner_category_type" model="ir.actions.act_window">
+        <field name="name">Client Type</field>
+        <field name="res_model">res.partner.category.type</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <record id="res_partner_category_type_form" model="ir.ui.view">
+        <field name="name">Client Type Form</field>
+        <field name="model">res.partner.category.type</field>
+        <field name="arch" type="xml">
+            <form string="Client Type">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="res_partner_category_type_tree" model="ir.ui.view">
+        <field name="name">Client Types Tree</field>
+        <field name="model">res.partner.category.type</field>
+        <field name="arch" type="xml">
+            <tree string="Client Type">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+
+    <menuitem id="menu_partner_category_type"
+              action="action_partner_category_type"
+              name="Client Type"
+              sequence="2" parent="contacts.res_partner_menu_config"/>
+</odoo>
