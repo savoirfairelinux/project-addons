@@ -280,27 +280,32 @@ class Task(models.Model):
     @api.multi
     def write(self, vals):
         if self.activity_task_type == 'activity':
-            self.write_activity(vals)
-            self.write_main_task(vals)
-            for task in self.child_ids:
-                task.write({'responsible_id': self.responsible_id.id,
-                           'partner_id': self.partner_id.id})
-        elif self.activity_task_type == 'task':
-            return super(Task, self).write(vals)
+            return self.write_activity(vals)
         else:
             return super(Task, self).write(vals)
 
     @api.multi
     def write_activity(self, vals):
+        self.write_main_task(vals)
+        task_vals = {}
+        if 'responsible_id' in vals:
+            task_vals['responsible_id'] = vals['responsible_id']
+        if 'partner_id' in vals:
+            task_vals['partner_id'] = vals['partner_id']
+        for task in self.child_ids:
+            if task == self.get_main_task():
+                continue
+            if task_vals:
+                task.write(task_vals)
         return super(Task, self).write(vals)
 
     @api.multi
     def write_main_task(self, vals):
         main_task = self.get_main_task()
+        if 'task_state' in vals:
+            return False
         if 'child_ids' in vals:
             del vals['child_ids']
-        if 'task_state' in vals:
-            del vals['task_state']
         return main_task.write(vals)
 
     def get_main_task(self):
