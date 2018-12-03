@@ -112,38 +112,38 @@ class TestProjectEventReservation(TestProjectEventCommon):
                 reservation_event.state,
                 'open')
 
-    def test_030_action_cancel(self):
-        res = self.project_1.action_accept()
-        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
-        wiz.confirm_accept_reservation()
-        self.project_1.action_cancel()
-        self.assertEqual(self.project_1.state, 'canceled')
-        for activity in self.project_1.task_ids:
-            self.assertEqual(
-                activity.task_state,
-                'canceled')
-            for task in activity.child_ids:
-                self.assertEqual(
-                    task.task_state,
-                    'canceled')
+    # def test_030_action_cancel(self):
+    #     res = self.project_1.action_accept()
+    #     wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+    #     wiz.confirm_accept_reservation()
+    #     self.project_1.action_cancel()
+    #     self.assertEqual(self.project_1.state, 'canceled')
+    #     for activity in self.project_1.task_ids:
+    #         self.assertEqual(
+    #             activity.task_state,
+    #             'canceled')
+    #         for task in activity.child_ids:
+    #             self.assertEqual(
+    #                 task.task_state,
+    #                 'canceled')
 
-    def test_040_action_cancel_from_option_state(self):
-        res = self.project_1.action_option()
-        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
-        wiz.confirm_reservation()
-        self.assertEqual(
-            self.project_1.state,
-            'option')
-        self.project_1.action_cancel()
-        self.assertEqual(self.project_1.state, 'canceled')
-        for activity in self.project_1.task_ids:
-            self.assertEqual(
-                activity.task_state,
-                'canceled')
-            for task in activity.child_ids:
-                self.assertEqual(
-                    task.task_state,
-                    'canceled')
+    # def test_040_action_cancel_from_option_state(self):
+    #     res = self.project_1.action_option()
+    #     wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+    #     wiz.confirm_reservation()
+    #     self.assertEqual(
+    #         self.project_1.state,
+    #         'option')
+    #     self.project_1.action_cancel()
+    #     self.assertEqual(self.project_1.state, 'canceled')
+    #     for activity in self.project_1.task_ids:
+    #         self.assertEqual(
+    #             activity.task_state,
+    #             'canceled')
+    #         for task in activity.child_ids:
+    #             self.assertEqual(
+    #                 task.task_state,
+    #                 'canceled')
 
     def test_050_action_draft(self):
         self.project_1.action_draft()
