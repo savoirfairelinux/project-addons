@@ -38,6 +38,7 @@
         'views/activity_template_view.xml',
         'views/task_template_view.xml',
         'views/res_partner_category_type_view.xml',
+        'views/res_partner_category_view.xml',
         'templates/assets.xml',
         'wizard/project_event_wizard_view.xml',
         'views/calendar_event_category_view.xml',
