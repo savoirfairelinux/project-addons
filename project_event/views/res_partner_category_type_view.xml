@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
     <record id="action_partner_category_type" model="ir.actions.act_window">
         <field name="name">Client Type</field>
         <field name="res_model">res.partner.category.type</field>
@@ -31,9 +30,9 @@
             </tree>
         </field>
     </record>
-
-    <menuitem id="menu_partner_category_type"
+    <menuitem id="menu_res_partner_category_type"
               action="action_partner_category_type"
               name="Client Type"
-              sequence="2" parent="contacts.res_partner_menu_config"/>
+              sequence="2"
+              parent="contacts.res_partner_menu_config"/>
 </odoo>

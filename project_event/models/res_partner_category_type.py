@@ -8,5 +8,5 @@ class PartnerCategoryType(models.Model):
     _name = 'res.partner.category.type'
 
     name = fields.Char(
-        string='Client Type',
+        string='Name',
     )
