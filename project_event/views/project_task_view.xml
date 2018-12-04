@@ -155,7 +155,7 @@
                         <group >
                             <field name="project_id" invisible="1"/>
                             <field name="responsible_id" attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}" required="1"/>
-                            <field name="partner_id" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                            <field name="partner_id" attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
                             <field name="parent_id" string="Activity"
                                    options="{'no_create_edit': True}"
                                    domain="[('activity_task_type','=','activity')]" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
