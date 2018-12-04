@@ -9,7 +9,7 @@
             <xpath expr="//div[@class='oe_title']" position="after">
                 <label for="category_id" class="oe_edit_only" />
                 <h2>
-                    <field name="category_id" attrs="{'readonly': [('is_task_event','=',True)]}"/>
+                    <field name="category_id" attrs="{'readonly': [('is_task_event','=',True)], 'required': True}"/>
                 </h2>
             </xpath>
         </field>
