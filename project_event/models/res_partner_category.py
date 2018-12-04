@@ -10,5 +10,4 @@ class PartnerCategory(models.Model):
     client_type = fields.Many2one(
         'res.partner.category.type',
         string='Client Type',
-        track_visibility='onchange',
     )
