@@ -35,7 +35,8 @@ class MailThread(models.AbstractModel):
                 col_info['string'] = _('Created by')
 
             if col_name == 'notes':
-                col_info['string'] = _('Note was created/modified')
+                col_info['string'] = _('Note')
+                new_value = 'created/modified'
 
             if new_value != initial_value and (new_value or initial_value):  # because browse null != False
                 tracking = self.env['mail.tracking.value'].create_tracking_values(

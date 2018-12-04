@@ -14,10 +14,14 @@ class MailTracking(models.Model):
     def create_tracking_values(self, initial_value, new_value, col_name, col_info):
         tracked = True
         values = {'field': col_name, 'field_desc': col_info['string'], 'field_type': col_info['type']}
-
-        if col_info['type'] in ['integer', 'float', 'char', 'text', 'datetime', 'monetary', 'html']:
+        if col_info['type'] in ['integer', 'float', 'char', 'text', 'datetime', 'monetary']:
             values.update({
                 'old_value_%s' % col_info['type']: initial_value,
+                'new_value_%s' % col_info['type']: new_value
+            })
+        elif col_info['type'] == 'html':
+            col_info['type'] = 'char'
+            values.update({
                 'new_value_%s' % col_info['type']: new_value
             })
         elif col_info['type'] == 'date':
