@@ -67,16 +67,18 @@ class Project(models.Model):
     def write(self, vals):
         super(Project, self).write(vals)
         if self.project_type == 'event':
-            for activitiy in self.task_ids:
-                activitiy.write({
-                    'responsible_id': self.responsible_id.id,
-                    'partner_id': self.partner_id.id
-                })
-                for task in activitiy.child_ids:
-                    task.write({
-                        'responsible_id': self.responsible_id.id,
-                        'partner_id': self.partner_id.id
-                    })
+            self.write_activity(vals)
+
+    @api.multi
+    def write_activity(self, vals):
+        activity_vals = {}
+        if 'responsible_id' in vals:
+            activity_vals['responsible_id'] = vals['responsible_id']
+        if 'partner_id' in vals:
+            activity_vals['partner_id'] = vals['partner_id']
+        for activitiy in self.task_ids:
+            if activity_vals:
+                activitiy.write(activity_vals)
 
     @api.multi
     def action_cancel(self):
