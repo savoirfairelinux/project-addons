@@ -48,7 +48,7 @@ odoo.define('project_event.calendar_colour', function (require) {
 
             switch(params.modelName){
                 case 'calendar.event':
-                    this.fieldNames = params.fieldNames.concat("state").concat("color");
+                    this.fieldNames = params.fieldNames.concat("state").concat("color").concat("is_task_event");
                     break;
                 case 'project.task':
                     this.fieldNames = params.fieldNames.concat("task_state").concat("color");
@@ -120,6 +120,10 @@ odoo.define('project_event.calendar_colour', function (require) {
 
                         if(event.color === '#FFFFFF'){
                             event.textColor = 'black';
+                        }
+
+                        if(event.record['is_task_event'] === true){
+                            event.editable = false;
                         }
                     });
                     this.model_color = this.fields[fieldName].relation || element.model;
