@@ -13,9 +13,11 @@ class Task(models.Model):
     name = fields.Char(
         string='Title',
         required=True,
+        track_visibility='onchange',
     )
     code = fields.Char(
         string='Number',
+        track_visibility='onchange',
     )
     complete_name = fields.Char(
         'Complete Name',
@@ -29,24 +31,52 @@ class Task(models.Model):
         ],
         string='Type',
     )
+    parent_id = fields.Many2one(
+        'project.task',
+        track_visibility='onchange',
+    )
+    responsible_id = fields.Many2one(
+        'res.partner',
+        string='Responsible',
+        track_visibility='onchange',
+    )
+    partner_id = fields.Many2one(
+        'res.partner',
+        string='Client',
+        track_visibility='onchange',
+    )
+    client_type = fields.Many2one(
+        'res.partner.category.type',
+        string='Client Type',
+        track_visibility='onchange',
+    )
     date_start = fields.Datetime(
         string='Starting Date',
         default=None,
         index=True,
         copy=False,
-        track_visibility='always',
+        track_visibility='onchange',
     )
     date_end = fields.Datetime(
         string='Ending Date',
         index=True,
         copy=False,
-        track_visibility='always',
+        track_visibility='onchange',
+    )
+    task_order = fields.Integer(
+        string='Task order',
+        store=True,
+        readonly=True,
+        compute='_compute_order_task',
     )
     category_id = fields.Many2one(
         'task.category',
         string='Category',
-        default=lambda self: self.env['task.category'].search([('is_default', '=', True)])
+        default=lambda self: self.env['task.category'].search(
+            [('is_default', '=', True)]),
+        track_visibility='onchange',
     )
+    color = fields.Char(related='category_id.color')
     department_id = fields.Many2one(
         'hr.department',
         string='Department',
@@ -58,19 +88,21 @@ class Task(models.Model):
         string='Employees',
         track_visibility='onchange',
     )
-    responsible_id = fields.Many2one(
-        'res.partner',
-        string='Responsible',
+    user_id = fields.Many2one(
+        'res.users',
+        string='Assigned to',
+        default=lambda self: self.env.uid,
+        index=True,
+        track_visibility='onchange',
     )
-    partner_id = fields.Many2one(
-        'res.partner',
-        string='Client',
-    )
-    task_order = fields.Integer(
-        string='Task order',
-        store=True,
-        readonly=True,
-        compute='_compute_order_task',
+    resource_type = fields.Selection([
+        ('user', 'Human'),
+        ('equipment', 'Equip./Service'),
+        ('room', 'Room')],
+        string='Resource Type',
+        default='room',
+        required=True,
+        track_visibility='onchange',
     )
     room_id = fields.Many2one(
         string='Room',
@@ -82,19 +114,7 @@ class Task(models.Model):
         string='Equip./Service',
         comodel_name='resource.calendar.instrument',
         ondelete='set null',
-    )
-    client_type = fields.Many2one(
-        'res.partner.category.type',
-        string='Client Type',
         track_visibility='onchange',
-    )
-    resource_type = fields.Selection([
-        ('user', 'Human'),
-        ('equipment', 'Equip./Service'),
-        ('room', 'Room')],
-        string='Resource Type',
-        default='room',
-        required=True,
     )
     task_state = fields.Selection([
         ('draft', 'Draft'),
@@ -110,19 +130,12 @@ class Task(models.Model):
         default='draft',
         track_visibility='onchange',
     )
-    notes = fields.Html(
-        string='Notes',
-        track_visibility='onchange',
-    )
-    is_from_template = fields.Boolean(
-        string='Is Created From Template',
-        default=False,
-    )
     reservation_event_id = fields.Integer(
         string='Reservation event',
     )
     report_done_required = fields.Boolean(
         string='Report done required',
+        track_visibility='onchange',
     )
     preceding_task_ids = fields.Many2many(
         string='Preceding tasks',
@@ -130,6 +143,7 @@ class Task(models.Model):
         relation='project_task_related_rel',
         column1='project_task_id',
         column2='project_task_related_id',
+        track_visibility='onchange',
     )
     succeeding_task_ids = fields.Many2many(
         string='Succeeding tasks',
@@ -137,6 +151,11 @@ class Task(models.Model):
         relation='project_task_related_rel',
         column1='project_task_related_id',
         column2='project_task_id',
+        track_visibility='onchange',
+    )
+    notes = fields.Html(
+        string='Notes',
+        track_visibility='onchange',
     )
     project_task_log = fields.Integer(
         string='Project Task Logs',
@@ -150,7 +169,10 @@ class Task(models.Model):
         string='Is it main Task',
         default=False,
     )
-    color = fields.Char(related='category_id.color')
+    is_from_template = fields.Boolean(
+        string='Is Created From Template',
+        default=False,
+    )
 
     @api.depends('name', 'code')
     def _compute_complete_name(self):

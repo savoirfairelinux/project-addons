@@ -46,6 +46,13 @@ class MailTracking(models.Model):
                 'old_value_char': initial_value and initial_value.name_get()[0][1] or '',
                 'new_value_char': new_value and new_value.name_get()[0][1] or ''
             })
+        elif col_info['type'] == 'many2many':
+            values.update({
+                'old_value_char': initial_value and list(
+                    map(lambda x: x.name, initial_value)) or '',
+                'new_value_char': new_value and list(
+                    map(lambda x: x.name, new_value)) or ''
+            })
         else:
             tracked = False
 

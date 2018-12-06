@@ -8,13 +8,9 @@ class Project(models.Model):
     _name = 'project.project'
     _inherit = ['project.project', 'mail.thread']
 
-    client_type = fields.Many2one(
-        'res.partner.category.type',
-        string='Client Type',
-        track_visibility='onchange',
-    )
     code = fields.Char(
         string='Number',
+        track_visibility='onchange',
     )
     responsible_id = fields.Many2one(
         'res.partner',
@@ -24,6 +20,12 @@ class Project(models.Model):
     partner_id = fields.Many2one(
         'res.partner',
         string='Client',
+        track_visibility='onchange',
+    )
+    client_type = fields.Many2one(
+        'res.partner.category.type',
+        string='Client Type',
+        track_visibility='onchange',
     )
     project_type = fields.Selection(
         [
@@ -33,11 +35,13 @@ class Project(models.Model):
         string='Type',
         default='project',
     )
+    description = fields.Html(
+        string='Description'
+    )
     notes = fields.Html(
         string='Notes',
         track_visibility='onchange',
     )
-    description = fields.Html(string='Description')
     state = fields.Selection(
         [
             ('draft', 'Draft'),
