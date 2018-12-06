@@ -90,7 +90,7 @@ class Task(models.Model):
     )
     user_id = fields.Many2one(
         'res.users',
-        string='Assigned to',
+        string='Created by',
         default=lambda self: self.env.uid,
         index=True,
         track_visibility='onchange',
