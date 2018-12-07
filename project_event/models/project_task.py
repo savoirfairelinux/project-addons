@@ -130,6 +130,12 @@ class Task(models.Model):
         default='draft',
         track_visibility='onchange',
     )
+    task_state_report_done_required = fields.Selection(
+        related='task_state'
+    )
+    task_state_report_not_done_required = fields.Selection(
+        related='task_state'
+    )
     reservation_event_id = fields.Integer(
         string='Reservation event',
     )
