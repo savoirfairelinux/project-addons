@@ -14,3 +14,4 @@ from . import mail_tracking_value
 from . import mail_followers
 from . import res_partner_category
 from . import res_partner_category_type
+from . import models
