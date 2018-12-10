@@ -184,7 +184,8 @@
                                    string="Preceding tasks"
                                    attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"
                                    context="{'form_view_ref':'project_event.project_event_task_form',
-                                   'tree_view_ref':'project_event.project_event_task_tree'}">
+                                   'tree_view_ref':'project_event.project_event_task_tree'}"
+                                   options="{'no_create': True}">
                                     <tree>
                                         <field name="name"/>
                                         <field name="code"/>
@@ -198,7 +199,8 @@
                                    string="Succeeding tasks"
                                    attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"
                                    context="{'form_view_ref':'project_event.project_event_task_form',
-                                   'tree_view_ref':'project_event.project_event_task_tree'}">
+                                   'tree_view_ref':'project_event.project_event_task_tree'}"
+                                   options="{'no_create': True}">
                                     <tree>
                                         <field name="name"/>
                                         <field name="code"/>
