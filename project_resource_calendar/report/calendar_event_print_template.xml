@@ -9,7 +9,12 @@
                     </div>
                     <div class="page">
                         <h2 class="h3-report">
-                            <span t-esc="datetime.datetime.strptime(o.start_datetime, '%Y-%m-%d %H:%M:%S').strftime('%A %d %B %Y')"/>
+                            <t t-if="o.allday">
+                                <span t-esc="datetime.datetime.strptime(o.start_date, '%Y-%m-%d').strftime('%A %d %B %Y')"/>
+                            </t>
+                            <t t-else="">
+                                <span t-esc="datetime.datetime.strptime(o.start_datetime, '%Y-%m-%d %H:%M:%S').strftime('%A %d %B %Y')"/>
+                            </t>
                         </h2>
                         <p>
                             <h2>
@@ -20,10 +25,30 @@
                             <tr>
                                 <td class="dt-left_align">
                                     <h4>
-                                        From:
-                                        <span t-esc="datetime.datetime.strptime(o.start_datetime,'%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
-                                        To:
-                                        <span t-esc="datetime.datetime.strptime(o.stop_datetime,'%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                                        <t t-if="o.allday">
+                                            <t t-set="today_days"
+                                               t-value="abs(datetime.datetime.strptime(o.stop_date,'%Y-%m-%d') - datetime.datetime.strptime(o.start_date,'%Y-%m-%d')).days"/>
+                                            <t t-if="today_days == 0">
+                                                From: 00:00 To: 23:59
+                                            </t>
+                                            <t t-else="">
+                                                <t t-set="field_start"
+                                                   t-value="datetime.datetime.strptime(o.start_date, '%Y-%m-%d').strftime('%d %b')"/>
+                                                <t t-set="field_end"
+                                                   t-value="datetime.datetime.strptime(o.start_date, '%Y-%m-%d').strftime('%d %b')"/>
+                                                From:
+                                                <span t-esc="field_start"/>
+                                                To:
+                                                <span t-esc="field_end"/>
+                                                (<span t-esc="today_days"/>days)
+                                            </t>
+                                        </t>
+                                        <t t-else="">
+                                            From:
+                                            <span t-esc="datetime.datetime.strptime(o.start_datetime,'%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                                            To:
+                                            <span t-esc="datetime.datetime.strptime(o.stop_datetime,'%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                                        </t>
                                     </h4>
                                 </td>
                                 <td class="dt-center_align">
