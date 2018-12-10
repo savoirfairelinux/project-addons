@@ -128,7 +128,16 @@
                             attrs="{'invisible': [('task_state', 'in', ['draft','done','postponed'])]}" type="object"/>
                     <button name="action_cancel" string="Cancel" type="object"
                             attrs="{'invisible': [('task_state', 'in', ['draft','done','canceled'])]}"/>
-                    <field name="task_state" widget="statusbar"/>
+                    <field name="task_state_report_done_required"
+                           widget="statusbar"
+                           attrs="{'invisible':[('report_done_required', '=', False )]}"
+                           statusbar_visible="draft,requested,read,done,accepted,approved,postponed,canceled"/>
+                    <field name="task_state" 
+                           invisible="1"/>
+                    <field name="task_state_report_not_done_required"
+                           widget="statusbar"
+                           attrs="{'invisible':[('report_done_required', '=', True )]}"
+                           statusbar_visible="draft,requested,read,accepted,approved,postponed,canceled"/>
                 </header>
                 <sheet>
                     <div align="right">
@@ -175,14 +184,21 @@
                             <field name="department_id" required="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
                             <field name="employee_ids" widget="many2many_tags" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
                         </group>
-                        <group attrs="{'invisible':[('report_done_required', '!=', True )]}">
-                            <div>
-                                <h3>Workflow:</h3>
-                            </div>
+                        </group>
+                        <group>
+                            <group attrs="{'invisible':[('report_done_required', '=', False ),
+                                                        ('preceding_task_ids', '=', []),
+                                                        ('succeeding_task_ids', '=', [])]}">
+                                <div>
+                                    <h3>Workflow:</h3>
+                                </div>
+                            </group> 
+                        <group>
                             <field name="preceding_task_ids"
                                    domain="[('activity_task_type', '=','task'),('id', '!=',id)]"
                                    string="Preceding tasks"
-                                   attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"
+                                   attrs="{'readonly': [('task_state', 'in', ['done','accepted'])],
+                                           'invisible': [('preceding_task_ids', '=', [] ), ('report_done_required', '=', False )]}"
                                    context="{'form_view_ref':'project_event.project_event_task_form',
                                    'tree_view_ref':'project_event.project_event_task_tree'}"
                                    options="{'no_create': True}">
@@ -197,7 +213,8 @@
                             <field name="succeeding_task_ids"
                                    domain="[('activity_task_type', '=','task'),('id', '!=',id)]"
                                    string="Succeeding tasks"
-                                   attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"
+                                   attrs="{'readonly': [('task_state', 'in', ['done','accepted'])],
+                                           'invisible': [('succeeding_task_ids', '=', [] ), ('report_done_required', '=', False )]}"
                                    context="{'form_view_ref':'project_event.project_event_task_form',
                                    'tree_view_ref':'project_event.project_event_task_tree'}"
                                    options="{'no_create': True}">
