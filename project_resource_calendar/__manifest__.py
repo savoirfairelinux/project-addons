@@ -31,6 +31,8 @@
         'report/calendar_event_templates.xml',
         'report/calendar_event_report.xml',
         'report/calendar_event_print_template.xml',
+        'wizard/weekly_report_wizard.xml',
+        'wizard/weekly_report_template.xml',
     ],
     'installable': True,
     'application': True,
