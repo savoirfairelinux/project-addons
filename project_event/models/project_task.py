@@ -1,9 +1,9 @@
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import api, fields, models, _
 from datetime import datetime
-from odoo.exceptions import ValidationError, UserError
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError, ValidationError
 
 
 class Task(models.Model):
@@ -288,50 +288,71 @@ class Task(models.Model):
 
     @api.model
     def create(self, vals):
-        if 'activity_task_type' in vals:
-            if vals['activity_task_type'] == 'activity':
-                return_create = self.create_new_activity(vals)
-                if not (
-                        'is_from_template' in vals and
-                        vals['is_from_template']
-                ):
-                    vals['parent_id'] = return_create.id
-                    vals['message_follower_ids'] = None
-                    vals['project_id'] = None
-                    vals['activity_task_type'] = 'task'
-                    vals['is_main_task'] = True
-                    self.create_new_task(vals)
-            elif vals['activity_task_type'] == 'task':
-                if 'is_from_template' in vals and vals['is_from_template']:
-                    vals['message_follower_ids'] = None
-                return_create = self.create_new_task(vals)
+        if self.is_new_activity(vals):
+            return self.create_activity(vals)
+        elif self.is_new_task(vals):
+            return self.create_task(vals)
         else:
             return super(Task, self).create(vals)
-        return return_create
+
+    def create_main_task(self, vals, parent_id):
+        vals['parent_id'] = parent_id
+        vals['message_follower_ids'] = None
+        vals['project_id'] = None
+        vals['activity_task_type'] = 'task'
+        vals['is_main_task'] = True
+        self.create_task(vals)
+
+    def is_new_task(self, vals):
+        if 'activity_task_type' in vals:
+            return vals['activity_task_type'] == 'task'
+        else:
+            return False
+
+    def is_new_activity(self, vals):
+        if 'activity_task_type' in vals:
+            return vals['activity_task_type'] == 'activity'
+        else:
+            return False
+
+    def is_from_template(self, vals):
+        return 'is_from_template' in vals and vals['is_from_template']
 
     @api.multi
-    def create_new_task(self, vals):
+    def create_task(self, vals):
+        if self.is_from_template(vals):
+                vals['message_follower_ids'] = None
         vals['code'] = self.env['ir.sequence'] \
             .next_by_code('project.task.task')
         return super(Task, self).create(vals)
 
     @api.multi
-    def create_new_activity(self, vals):
+    def create_activity(self, vals):
         vals['code'] = self.env['ir.sequence'] \
             .next_by_code('project.task.activity')
-        return super(Task, self).create(vals)
+        new_activity = super(Task, self).create(vals)
+        if not self.is_from_template(vals):
+            self.create_main_task(vals, new_activity.id)
+        return new_activity
 
     @api.multi
     def write(self, vals):
-        if self.activity_task_type == 'activity':
+        if self.is_activity():
             return self.write_activity(vals)
         else:
             self.update_reservation_event(vals)
             return super(Task, self).write(vals)
 
+    def is_activity(self):
+        return self.activity_task_type == 'activity'
+
     @api.multi
     def write_activity(self, vals):
         self.write_main_task(vals)
+        self.write_children(vals)
+        return super(Task, self).write(vals)
+
+    def write_children(self, vals):
         task_vals = {}
         if 'responsible_id' in vals:
             task_vals['responsible_id'] = vals['responsible_id']
@@ -342,7 +363,6 @@ class Task(models.Model):
                 continue
             if task_vals:
                 task.write(task_vals)
-        return super(Task, self).write(vals)
 
     @api.multi
     def write_main_task(self, vals):
@@ -441,7 +461,7 @@ class Task(models.Model):
             if self.is_resource_booked():
                 res += self.room_id.name + '<br>' if (
                     self.room_id) else self.equipment_id.name + '<br>'
-        if self.activity_task_type == 'activity':
+        if self.is_activity():
             for child in self.child_ids:
                 if child.is_resource_booked():
                     res += child.room_id.name + \
@@ -554,7 +574,7 @@ class Task(models.Model):
             self.draft_resources_reservation()
             if self.task_state not in ['option', 'done']:
                 self.send_message('option')
-        if self.activity_task_type == 'activity':
+        if self.is_activity():
             for child in self.child_ids:
                 child.draft_resources_reservation()
                 if child.task_state not in ['option', 'done']:
@@ -570,7 +590,7 @@ class Task(models.Model):
             self.send_message('canceled')
             self.cancel_resources_reservation()
             self.write({'task_state': 'canceled'})
-        elif self.activity_task_type == 'activity':
+        elif self.is_activity():
             if self.task_state == 'accepted':
                 for child in self.child_ids:
                     child.action_cancel()
@@ -601,7 +621,7 @@ class Task(models.Model):
                 self.task_state in ['requested', 'read', 'canceled', 'accepted']:
             self.draft_resources_reservation()
             self.send_message('postponed')
-        elif self.activity_task_type == 'activity':
+        elif self.is_activity():
             if self.task_state == 'accepted':
                 for child in self.child_ids:
                     child.action_postpone()
@@ -622,7 +642,7 @@ class Task(models.Model):
 
     @api.multi
     def confirm_accept_reservation(self):
-        if self.activity_task_type == 'activity':
+        if self.is_activity():
             if self.task_state in [
                     'draft', 'option', 'postponed', 'canceled']:
                 for child in self.child_ids:
@@ -657,7 +677,7 @@ class Task(models.Model):
 
     def get_message(self, action):
         message = '<br>'
-        if self.activity_task_type == 'activity':
+        if self.is_activity():
             responsible = self.responsible_id.id
             message += _('Activity: <br>') + self.name + '<br>'
             message += _('Tasks: <br>')

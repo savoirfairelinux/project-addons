@@ -3,7 +3,7 @@
 
 from datetime import datetime, timedelta
 
-from odoo import fields
+from odoo import fields, models
 from odoo.addons.project_event.tests.common import TestProjectEventCommon
 
 
@@ -23,6 +23,19 @@ class TestProjectEventTask(TestProjectEventCommon):
             'room_id': self.room_1.id,
             'date_start': fields.Datetime.to_string(datetime.today()),
             'date_end': fields.Datetime.to_string(datetime.today() + timedelta(hours=4)),
+        })
+
+        self.task_2 = self.Tasks.create({
+            'name': 'Test Task 2',
+            'activity_task_type': 'task',
+            'project_id': self.project_1.id,
+            'responsible_id': self.project_1.responsible_id.id,
+            'partner_id': self.project_1.partner_id.id,
+            'room_id': self.room_1.id,
+            'parent_id': None,
+            'date_start': fields.Datetime.to_string(datetime.today()),
+            'date_end': fields.Datetime.to_string(datetime.today() + \
+             timedelta(hours=4)),
         })
 
     def test_010_compute_project_task_log(self):
@@ -168,3 +181,52 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.assertEqual(
             calendar_event.state,
             'cancelled')
+    
+    def test_080_create_activity(self):
+        vals = {
+            'name': 'Activity Test',
+            'activity_task_type': 'activity',
+            'project_id': self.project_1.id,
+            'responsible_id': self.project_1.responsible_id.id,
+            'partner_id': self.project_1.partner_id.id,
+            'room_id': self.room_1.id,
+            'parent_id': None,
+            'date_start': fields.Datetime.to_string(datetime.today()),
+            'date_end': fields.Datetime.to_string(datetime.today() + \
+             timedelta(hours=4)),
+            }
+        activity = self.Tasks.create(vals)
+        self.assertEqual(activity.name, 'Activity Test')
+        self.assertEqual(activity.activity_task_type, 'activity')
+        self.assertEqual(activity.project_id.id, self.project_1.id)
+        self.assertEqual(activity.responsible_id.id, self.project_1.responsible_id.id)
+        self.assertEqual(activity.partner_id.id, self.project_1.partner_id.id)
+        self.assertEqual(activity.room_id, self.room_1)
+        self.assertEqual(activity.parent_id.id, False)
+        self.assertEqual(activity.date_start, fields.Datetime.to_string(datetime.today()))
+        self.assertEqual(activity.date_end, fields.Datetime.to_string(datetime.today() + \
+             timedelta(hours=4)))
+        
+
+    def test_090_create_orphan_task(self):
+        vals = {
+            'name': 'Orphan task',
+            'activity_task_type': 'task',
+            'partner_id': self.project_1.partner_id.id,
+            'room_id': self.room_1.id,
+            'date_start': fields.Datetime.to_string(datetime.today()),
+            'date_end': fields.Datetime.to_string(datetime.today() + \
+                        timedelta(hours=4)),
+            }
+        orphan_task = self.Tasks.create(vals)
+        self.assertEqual(
+            orphan_task.name,
+            'Orphan task'
+        )
+    
+    def test_100_compute_complete_name_activity(self):
+        self.assertEqual(self.activity_1.name,'Test Activity 1')
+
+    def test_110_compute_complete_name_task(self):
+        complete_name = '%s / %s' % (self.task_2.code, self.task_2.name)
+        self.assertEqual(self.task_2.complete_name,complete_name)
