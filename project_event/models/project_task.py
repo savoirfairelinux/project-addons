@@ -335,11 +335,15 @@ class Task(models.Model):
     @api.multi
     def write_main_task(self, vals):
         main_task = self.get_main_task()
+        temp = []
         if 'task_state' in vals:
             return False
         if 'child_ids' in vals:
-            del vals['child_ids']
-        return main_task.write(vals)
+            temp = vals.pop('child_ids')
+        main_task = main_task.write(vals)
+        if temp:
+            vals['child_ids'] = temp
+        return main_task
 
     def get_main_task(self):
         return self.env['project.task'].search([
