@@ -34,7 +34,7 @@ class CalendarEvent(models.Model):
         string='Status',
         readonly=True,
         track_visibility='onchange',
-        default='draft')
+        default='open')
     weekday = fields.Char(
         string='Weekday',
         compute='_get_weekday',
