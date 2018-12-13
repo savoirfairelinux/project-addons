@@ -28,3 +28,21 @@ class TestProjectEvent(TestProjectEventCommon):
             args=[('id', '=', self.project_1.id)]
         )
         self.assertEqual(len(project_ids), 1)
+
+    def test_030_onchange_partner_id(self):
+        self.project_1._onchange_partner_id()
+        self.assertEqual(self.project_1.client_type.name, 'Client Type 1')
+        self.client_type_3 = self.Category_types.create({
+            'name': 'Type 3',
+        })
+        self.tag_1 = self.Category.create({
+            'name': 'Tag 2',
+            'client_type': self.client_type_3.id,
+        })
+        self.partner_tag2 = self.Partners.create({
+            'name': 'Partner Tag 2',
+            'tag_id': self.tag_1.id,
+        })
+        self.project_1.partner_id = self.partner_tag2.id
+        self.project_1._onchange_partner_id()
+        self.assertEqual(self.project_1.client_type.name, 'Type 3')

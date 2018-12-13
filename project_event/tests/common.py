@@ -11,13 +11,23 @@ class TestProjectEventCommon(common.TransactionCase):
 
         # Usefull models
         self.Partners = self.env['res.partner']
+        self.Category = self.env['res.partner.category']
+        self.Category_types = self.env['res.partner.category.type']
         self.Projects = self.env['project.project']
         self.Tasks = self.env['project.task']
         self.Rooms = self.env['resource.calendar.room']
         self.Instruments = self.env['resource.calendar.instrument']
 
+        self.client_type_1 = self.Category_types.create({
+            'name': 'Client Type 1',
+        })
+        self.tag_1 = self.Category.create({
+            'name': 'Tag 1',
+            'client_type': self.client_type_1.id,
+        })
         self.partner_1 = self.Partners.create({
             'name': 'Partner 1',
+            'tag_id': self.tag_1.id,
         })
         self.responsible_1 = self.Partners.create({
             'name': 'Responsible 1',

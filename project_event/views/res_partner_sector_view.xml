@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_partner_sector" model="ir.actions.act_window">
+        <field name="name">Partner Sector Type</field>
+        <field name="res_model">res.partner.sector</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="menu_partner_sector"
+              action="action_partner_sector"
+              name="Faculty Sectors"
+              sequence="4" parent="contacts.res_partner_menu_config"/>
+
+    <record id="res_partner_sector_for_view" model="ir.ui.view">
+        <field name="name">Sector Form</field>
+        <field name="model">res.partner.sector</field>
+        <field name="arch" type="xml">
+            <form string="Faculty Sectors">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="res_partner_sector_for_tree_view" model="ir.ui.view">
+        <field name="name">Sector Tree</field>
+        <field name="model">res.partner.sector</field>
+        <field name="arch" type="xml">
+            <tree string="Faculty Sectors">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

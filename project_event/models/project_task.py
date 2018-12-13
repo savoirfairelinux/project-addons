@@ -50,6 +50,11 @@ class Task(models.Model):
         string='Client Type',
         track_visibility='onchange',
     )
+    sector_id = fields.Many2one(
+        'res.partner.sector',
+        string='Faculty Sectors',
+        track_visibility='onchange',
+    )
     date_start = fields.Datetime(
         string='Starting Date',
         default=None,
@@ -251,6 +256,12 @@ class Task(models.Model):
     def _onchange_equipment_id(self):
         self.verify_equipment_bookable()
 
+    @api.onchange('partner_id')
+    def onchange_partner_id(self):
+        self._onchange_partner_id()
+        if self.partner_id:
+            self.client_type = self.partner_id.tag_id.client_type
+
     def verify_room_bookable(self):
         if self.room_id:
             if not self.room_id.is_bookable:
@@ -431,6 +442,7 @@ class Task(models.Model):
             'state': 'open',
             'event_task_id': self.id,
             'is_task_event': True,
+            'sector_id': self.sector_id,
         }
         new_event = calendar_event.create(values)
         self.reservation_event_id = new_event.id

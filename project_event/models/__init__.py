@@ -12,6 +12,8 @@ from . import mail_thread
 from . import calendar_event
 from . import mail_tracking_value
 from . import mail_followers
+from . import res_partner
 from . import res_partner_category
 from . import res_partner_category_type
+from . import res_partner_sector
 from . import models

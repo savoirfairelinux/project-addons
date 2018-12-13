@@ -60,6 +60,8 @@
                         </group>
                         <group>
                             <field name="partner_id"/>
+                            <field name="client_type"/>
+                            <field name="sector_id" attrs="{'invisible': [('client_type', '=', False)]}"/>
                             <field name="project_type" invisible="1"/>
                         </group>
                     </group>
@@ -119,6 +121,7 @@
                 <field name="code" string="Event Number"/>
                 <field name="name" string="Event Title"/>
                 <field name="partner_id" string="Client"/>
+                <field name="sector_id" string="Faculty Sectors"/>
             </search>
         </field>
     </record>

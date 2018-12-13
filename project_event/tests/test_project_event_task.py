@@ -60,7 +60,29 @@ class TestProjectEventTask(TestProjectEventCommon):
             self.activity_1.child_ids.equipment_id.id,
             False)
 
-    def test_040_compute_order_task(self):
+    def test_040_onchange_partner_id(self):
+        self.activity_1.onchange_partner_id()
+        self.assertEqual(
+            self.activity_1.client_type.name,
+            'Client Type 1')
+        self.client_type_2 = self.Category_types.create({
+            'name': 'Client Type 2',
+        })
+        self.tag_1 = self.Category.create({
+            'name': 'Tag 2',
+            'client_type': self.client_type_2.id,
+        })
+        self.partner_tag2 = self.Partners.create({
+            'name': 'Partner Tag 2',
+            'tag_id': self.tag_1.id,
+        })
+        self.activity_1.partner_id = self.partner_tag2.id
+        self.activity_1.onchange_partner_id()
+        self.assertEqual(
+            self.activity_1.client_type.name,
+            'Client Type 2')
+
+    def test_050_compute_order_task(self):
         self.activity_1.child_ids._compute_order_task()
         self.activity_1.child_ids.date_start = fields.Datetime.to_string(
             datetime.today() + timedelta(hours=2)
@@ -69,7 +91,7 @@ class TestProjectEventTask(TestProjectEventCommon):
             self.activity_1.child_ids.task_order,
             120)
 
-    def test_050_workflow_actions(self):
+    def test_060_workflow_actions(self):
         res = self.activity_1.child_ids.action_option()
         wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
         wiz.confirm_reservation()
@@ -128,7 +150,7 @@ class TestProjectEventTask(TestProjectEventCommon):
             self.activity_1.child_ids.task_state,
             'done')
 
-    def test_060_cancel_action(self):
+    def test_070_cancel_action(self):
         res = self.activity_1.child_ids.action_request()
         wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
         wiz.confirm_request_reservation()

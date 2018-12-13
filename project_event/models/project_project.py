@@ -27,6 +27,11 @@ class Project(models.Model):
         string='Client Type',
         track_visibility='onchange',
     )
+    sector_id = fields.Many2one(
+        'res.partner.sector',
+        string='Faculty Sectors',
+        track_visibility='onchange',
+    )
     project_type = fields.Selection(
         [
             ('event', 'Event'),
@@ -58,6 +63,11 @@ class Project(models.Model):
         string='Event Logs',
         compute='_compute_event_log_count',
     )
+
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        if self.partner_id:
+            self.client_type = self.partner_id.tag_id.client_type
 
     def _compute_event_log_count(self):
         for rec in self:

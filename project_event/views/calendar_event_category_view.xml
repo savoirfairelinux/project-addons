@@ -4,12 +4,16 @@
             model="ir.ui.view">
         <field name="name">calendar.event.form.inherit</field>
         <field name="model">calendar.event</field>
-        <field name="inherit_id" ref="calendar_resource.view_calendar_event_form" />
+        <field name="inherit_id" ref="calendar_resource.view_calendar_event_form"/>
         <field name="arch" type="xml">
             <xpath expr="//div[@class='oe_title']" position="after">
-                <label for="category_id" class="oe_edit_only" />
+                <label for="category_id" class="oe_edit_only"/>
                 <h2>
                     <field name="category_id" attrs="{'readonly': [('is_task_event','=',True)], 'required': True}"/>
+                </h2>
+                <label for="sector_id" class="oe_edit_only"/>
+                <h2>
+                    <field name="sector_id" attrs="{'readonly': [('is_task_event','=',True)], 'required': True}"/>
                 </h2>
             </xpath>
         </field>
@@ -19,11 +23,11 @@
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar.view_calendar_event_calendar"/>
         <field name="arch" type="xml">
-          <xpath expr="//calendar" position="attributes">
-            <attribute name="js_class">calendar_colour</attribute>
-            <attribute name="color">category_id</attribute>
-            <attribute name="quick_add">False</attribute>
-          </xpath>
+            <xpath expr="//calendar" position="attributes">
+                <attribute name="js_class">calendar_colour</attribute>
+                <attribute name="color">category_id</attribute>
+                <attribute name="quick_add">False</attribute>
+            </xpath>
         </field>
     </record>
 </odoo>

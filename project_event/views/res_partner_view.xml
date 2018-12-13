@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_inherit_form_view" model="ir.ui.view">
+        <field name="name">res.partner.inherit.form.view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="category_id"  position="attributes">
+                <attribute name='invisible'>1</attribute>
+            </field>
+            <field name="category_id" position="after">
+                <field name='tag_id'/>
+            </field>
+        </field>
+    </record>
+
+    <record id="res_partner_kanban_view" model="ir.ui.view">
+        <field name="name">res.partner.kanban.view.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_kanban_partner_categories')]" position="inside">
+                <span class="oe_kanban_list_many2many">
+                    <field name="category_id" widget="many2many_tags" invisible="1"/>
+                    <field name="tag_id"/>
+                </span>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
