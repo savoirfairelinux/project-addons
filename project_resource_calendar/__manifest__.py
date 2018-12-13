@@ -11,6 +11,7 @@
     'category': 'Project',
     'summary': 'Project Resource Calendar',
     'depends': [
+        'auditlog',
         'calendar_resource',
         'resource',
         'calendar',
@@ -20,7 +21,9 @@
         'python': [],
     },
     'data': [
+        'data/auditlog_rule.xml',
         'security/ir.model.access.csv',
+        'views/auditlog_log.xml',
         'views/room_type_view.xml',
         'views/equipment_calendar_view.xml',
         'views/resource_view.xml',

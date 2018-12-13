@@ -35,6 +35,18 @@ class Room(models.Model):
         string='Miscellaneous',
         comodel_name='resource.calendar.miscellaneous',
     )
+    room_log_count = fields.Integer(
+        string='Room Logs',
+        compute='_compute_room_log_count',
+    )
+
+    def _compute_room_log_count(self):
+        for rec in self:
+            rec.room_log_count = self.env['auditlog.log'].search_count([
+                ('model_id', '=', self.env.ref(
+                    'project_resource_calendar.model_resource_calendar_room').id),
+                ('res_id', '=', rec.id)
+            ])
 
     @api.model
     def create(self, values):

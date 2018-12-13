@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.actions.act_window" id="action_room_to_auditlog_log">
+            <field name="name">Room Logs</field>
+            <field name="res_model">auditlog.log</field>
+            <field name="view_type">form</field>
+            <field name="context" eval="{'search_default_model_id': ref('model_resource_calendar_room')}"/>
+        </record>
+    </data>
+</odoo>
