@@ -27,3 +27,15 @@ class Instrument(models.Model):
         index=True,
         default='instrument',
     )
+    instrument_log_count = fields.Integer(
+        string='Calendar Logs',
+        compute='_compute_instrument_log_count',
+    )
+
+    def _compute_instrument_log_count(self):
+        for rec in self:
+            rec.instrument_log_count = self.env['auditlog.log'].search_count([
+                ('model_id', '=', self.env.ref(
+                    'project_resource_calendar.model_resource_calendar_instrument').id),
+                ('res_id', '=', rec.id)
+            ])

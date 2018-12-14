@@ -7,5 +7,11 @@
             <field name="view_type">form</field>
             <field name="context" eval="{'search_default_model_id': ref('model_resource_calendar_room')}"/>
         </record>
+        <record model="ir.actions.act_window" id="action_project_resource_instrument_log">
+            <field name="name">Instrument Logs</field>
+            <field name="res_model">auditlog.log</field>
+            <field name="view_type">form</field>
+            <field name="context" eval="{'search_default_model_id': ref('model_resource_calendar_instrument')}"/>
+        </record>
     </data>
 </odoo>

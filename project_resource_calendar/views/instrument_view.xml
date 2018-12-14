@@ -30,7 +30,17 @@
         <field name="arch" type="xml">
             <form string="Equip./Service">
                 <sheet>
-                    <field name="photo" widget="image" class="oe_avatar" />
+                    <field name="photo" widget="image" class="oe_avatar"/>
+                    <div align="right">
+                        <div name="button_box" position="inside">
+                            <button class="oe_stat_button" type="action"
+                                    name="%(project_resource_calendar.action_project_resource_instrument_log)d"
+                                    icon="fa-history"
+                                    context="{'search_default_res_id': active_id}">
+                                <field string="Instrument Logs" name="instrument_log_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                    </div>
                     <div>
                         <h1>
                             <field name="name" placeholder="Name"/>
@@ -38,8 +48,8 @@
                     </div>
                     <group>
                         <group>
-                             <field name="room_id"
-                                       attrs="{'required':[('category_type','in',['equipment','instrument'])], 'invisible':[('category_type','in',['consumable','service'])]}"/>
+                            <field name="room_id"
+                                   attrs="{'required':[('category_type','in',['equipment','instrument'])], 'invisible':[('category_type','in',['consumable','service'])]}"/>
                             <field name="category_type"/>
                         </group>
                         <group>
@@ -52,20 +62,20 @@
                         <page string="Photos">
                             <group>
                                 <field name="photo_1"
-                                   widget="image" />
+                                       widget="image"/>
                             </group>
                             <group>
                                 <field name="photo_2"
-                                   widget="image"
-                                   attrs="{'invisible': [('photo_1','=',False)]}"/>
+                                       widget="image"
+                                       attrs="{'invisible': [('photo_1','=',False)]}"/>
                             </group>
                             <group>
                                 <field name="photo_3"
-                                   widget="image"
-                                   attrs="{'invisible': [('photo_2','=',False)]}"/>
+                                       widget="image"
+                                       attrs="{'invisible': [('photo_2','=',False)]}"/>
                                 <field name="photo_4"
-                                   widget="image"
-                                   attrs="{'invisible': [('photo_3','=',False)]}"/>
+                                       widget="image"
+                                       attrs="{'invisible': [('photo_3','=',False)]}"/>
                             </group>
                         </page>
                         <page string="Pricing">
@@ -75,7 +85,7 @@
                             </group>
                         </page>
                         <page string="Description">
-                             <field name="description"/>
+                            <field name="description"/>
                         </page>
                     </notebook>
                 </sheet>
