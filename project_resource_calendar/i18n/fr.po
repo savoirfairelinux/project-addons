@@ -178,8 +178,8 @@ msgstr "Instrument"
 
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_instruments_ids
-msgid "Instruments"
-msgstr "Instruments"
+msgid "Instruments/Equipements"
+msgstr "Instruments/Équipements"
 
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_is_bookable

@@ -29,7 +29,7 @@ class Room(models.Model):
     instruments_ids = fields.One2many(
         'resource.calendar.instrument',
         'room_id',
-        string='Instruments',
+        string='Instruments/Equipements',
     )
     miscellaneous = fields.Many2many(
         string='Miscellaneous',
