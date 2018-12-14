@@ -326,6 +326,7 @@ class Task(models.Model):
         if self.activity_task_type == 'activity':
             return self.write_activity(vals)
         else:
+            self.update_reservation_event(vals)
             return super(Task, self).write(vals)
 
     @api.multi
@@ -361,6 +362,41 @@ class Task(models.Model):
             ('parent_id', '=', self.id),
             ('is_main_task', '=', True)]
         )
+
+    @api.multi
+    def update_reservation_event(self, vals):
+        self.ensure_one()
+        if self.reservation_event_id:
+            reservation_event = self.env['calendar.event'].browse(
+                self.reservation_event_id)
+            update_vals = {}
+            if 'date_start' in vals:
+                update_vals['start'] = vals['date_start']
+            if 'date_end' in vals:
+                update_vals['stop'] = vals['date_end']
+            if 'name' in vals:
+                update_vals['name'] = vals['name']
+            if 'resource_type' in vals:
+                update_vals['resource_type'] = vals['resource_type']
+            if 'equipment_id' in vals and vals['equipment_id']:
+                update_vals['equipment_ids'] = \
+                    [(6, 0, [vals['equipment_id']])]
+                update_vals['room_id'] = False
+            elif 'room_id' in vals:
+                if vals['room_id']:
+                    update_vals['equipment_ids'] = \
+                    [(6, 0, self.env['resource.calendar.room']
+                        .browse(vals['room_id']).instruments_ids.ids)]
+                update_vals['room_id'] = vals['room_id']
+            if 'employee_ids' in vals:
+                update_vals['partner_ids'] = [(
+                    6, 0, self.get_updated_partners(
+                        vals['employee_ids'][0][2]))]
+            if 'sector_id' in vals:
+                update_vals['sector_id'] = vals['sector_id']
+            if 'category_id' in vals:
+                update_vals['category_id'] = vals['category_id']
+            reservation_event.write(update_vals)
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
@@ -420,29 +456,41 @@ class Task(models.Model):
         return res
 
     @api.multi
-    def request_reservation(self):
-        self.ensure_one()
-        calendar_event = self.env['calendar.event']
+    def get_partners(self):
         partners = []
         for e in self.employee_ids:
             if e.user_id:
                 partners.append(e.user_id.partner_id.id)
-            else:
-                raise UserError(
-                    _('Please define user account for the %s employee') % (
-                        e.name,))
+        return partners
+
+    @api.multi
+    def get_updated_partners(self, employee_ids):
+        partner_ids = []
+        employee = self.env['hr.employee']
+        for e in employee_ids:
+            emp = employee.browse(e)
+            if emp.user_id:
+                partner_ids.append(emp.user_id.partner_id.id)
+        return partner_ids
+
+    @api.multi
+    def request_reservation(self):
+        self.ensure_one()
+        calendar_event = self.env['calendar.event']
         values = {
             'start': self.date_start,
             'stop': self.date_end,
             'name': self.name,
             'resource_type': self.resource_type,
             'room_id': self.room_id.id if self.room_id else None,
-            'equipment_ids': [(4, self.equipment_id.id, 0)] if self.equipment_id else None,
-            'partner_ids': [(6, 0, partners)],
+            'equipment_ids': [(
+                4, self.equipment_id.id, 0)] if self.equipment_id else None,
+            'partner_ids': [(6, 0, self.get_partners())],
             'state': 'open',
             'event_task_id': self.id,
             'is_task_event': True,
-            'sector_id': self.sector_id,
+            'sector_id': self.sector_id.id if self.sector_id else None,
+            'category_id': self.category_id.id,
         }
         new_event = calendar_event.create(values)
         self.reservation_event_id = new_event.id
