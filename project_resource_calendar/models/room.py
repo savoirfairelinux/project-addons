@@ -39,6 +39,11 @@ class Room(models.Model):
         string='Room Logs',
         compute='_compute_room_log_count',
     )
+    tag_ids = fields.Many2many(
+        'hr.employee.category', 'room_category_rel',
+        'room_id', 'category_id',
+        string='Employee Tags'
+    )
 
     def _compute_room_log_count(self):
         for rec in self:

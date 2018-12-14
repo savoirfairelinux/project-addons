@@ -65,6 +65,7 @@
                             <field name="is_bookable"/>
                             <field name="allow_double_book"/>
                             <field name="department_id"/>
+                            <field name='tag_ids' widget="many2many_tags" options="{'color_field': 'color'}"/>
                             <field name="instruments_ids"/>
                             <field name="miscellaneous"
                                    widget="many2many_tags"
