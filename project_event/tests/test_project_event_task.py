@@ -20,11 +20,33 @@ class TestProjectEventTask(TestProjectEventCommon):
             'project_id': self.project_1.id,
             'responsible_id': self.project_1.responsible_id.id,
             'partner_id': self.project_1.partner_id.id,
+            'category_id': self.category_1.id,
             'room_id': self.room_1.id,
             'date_start': fields.Datetime.to_string(datetime.today()),
             'date_end': fields.Datetime.to_string(datetime.today() + timedelta(hours=4)),
         })
-
+        self.activity_2 = self.Tasks.create({
+            'name': 'Test Activity 2',
+            'activity_task_type': 'activity',
+            'responsible_id': self.responsible_2.id,
+            'partner_id': self.partner_2.id,
+            'category_id': self.category_2.id,
+            'room_id': self.room_2.id,
+            'date_start': fields.Datetime.to_string(datetime.today()),
+            'date_end': fields.Datetime.to_string(
+                datetime.today() + timedelta(hours=4)
+            ),
+        })
+        self.task_1 = self.Tasks.create({
+            'name': 'Test task 1',
+            'activity_task_type': 'task',
+            'responsible_id': self.responsible_1.id,
+            'partner_id': self.partner_1.id,
+            'category_id': self.category_1.id,
+            'room_id': self.room_1.id,
+            'date_start': fields.Datetime.to_string(datetime.today()),
+            'date_end': fields.Datetime.to_string(datetime.today() + timedelta(hours=4)),
+        })
         self.task_2 = self.Tasks.create({
             'name': 'Test Task 2',
             'activity_task_type': 'task',
@@ -34,8 +56,8 @@ class TestProjectEventTask(TestProjectEventCommon):
             'room_id': self.room_1.id,
             'parent_id': None,
             'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(datetime.today() + \
-             timedelta(hours=4)),
+            'date_end': fields.Datetime.to_string(datetime.today() +
+                                                  timedelta(hours=4)),
         })
 
     def test_010_compute_project_task_log(self):
@@ -181,7 +203,7 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.assertEqual(
             calendar_event.state,
             'cancelled')
-    
+
     def test_080_create_activity(self):
         vals = {
             'name': 'Activity Test',
@@ -192,9 +214,9 @@ class TestProjectEventTask(TestProjectEventCommon):
             'room_id': self.room_1.id,
             'parent_id': None,
             'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(datetime.today() + \
-             timedelta(hours=4)),
-            }
+            'date_end': fields.Datetime.to_string(datetime.today() +
+                                                  timedelta(hours=4)),
+        }
         activity = self.Tasks.create(vals)
         self.assertEqual(activity.name, 'Activity Test')
         self.assertEqual(activity.activity_task_type, 'activity')
@@ -204,9 +226,8 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.assertEqual(activity.room_id, self.room_1)
         self.assertEqual(activity.parent_id.id, False)
         self.assertEqual(activity.date_start, fields.Datetime.to_string(datetime.today()))
-        self.assertEqual(activity.date_end, fields.Datetime.to_string(datetime.today() + \
-             timedelta(hours=4)))
-        
+        self.assertEqual(activity.date_end, fields.Datetime.to_string(datetime.today() +
+                                                                      timedelta(hours=4)))
 
     def test_090_create_orphan_task(self):
         vals = {
@@ -215,18 +236,36 @@ class TestProjectEventTask(TestProjectEventCommon):
             'partner_id': self.project_1.partner_id.id,
             'room_id': self.room_1.id,
             'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(datetime.today() + \
-                        timedelta(hours=4)),
-            }
+            'date_end': fields.Datetime.to_string(datetime.today() +
+                                                  timedelta(hours=4)),
+        }
         orphan_task = self.Tasks.create(vals)
         self.assertEqual(
             orphan_task.name,
             'Orphan task'
         )
-    
+
     def test_100_compute_complete_name_activity(self):
-        self.assertEqual(self.activity_1.name,'Test Activity 1')
+        self.assertEqual(self.activity_1.name, 'Test Activity 1')
 
     def test_110_compute_complete_name_task(self):
         complete_name = '%s / %s' % (self.task_2.code, self.task_2.name)
-        self.assertEqual(self.task_2.complete_name,complete_name)
+        self.assertEqual(self.task_2.complete_name, complete_name)
+
+    def test_120_onchange_parent_id(self):
+        self.task_1.parent_id = self.activity_2
+        self.assertEqual(self.task_1.responsible_id.name, 'Responsible 1')
+        self.assertEqual(self.task_1.partner_id.name, 'Partner 1')
+        self.assertEqual(self.task_1.category_id.name, 'Category 1')
+        self.task_1.onchange_parent_id()
+        self.assertEqual(self.task_1.responsible_id.name, 'Responsible 2')
+        self.assertEqual(self.task_1.partner_id.name, 'Partner 2')
+        self.assertEqual(self.task_1.category_id.name, 'Category 2')
+        self.task_1.parent_id = self.activity_1
+        self.assertEqual(self.task_1.responsible_id.name, 'Responsible 2')
+        self.assertEqual(self.task_1.partner_id.name, 'Partner 2')
+        self.assertEqual(self.task_1.category_id.name, 'Category 2')
+        self.task_1.onchange_parent_id()
+        self.assertEqual(self.task_1.responsible_id.name, 'Responsible 1')
+        self.assertEqual(self.task_1.partner_id.name, 'Partner 1')
+        self.assertEqual(self.task_1.category_id.name, 'Category 1')
