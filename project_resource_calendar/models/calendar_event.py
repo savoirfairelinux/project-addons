@@ -109,5 +109,11 @@ class CalendarEvent(models.Model):
                     )
                 )
 
+    @api.onchange('room_id')
+    def _onchange_room_id(self):
+        if self.room_id:
+            self.equipment_ids = self.env['resource.calendar.instrument']\
+                .search([('room_id', '=', self.room_id.id)])
+
     def print_calendar_report(self):
         return self.env.ref('project_resource_calendar.calendar_event_report').report_action(self)
