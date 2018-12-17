@@ -53,14 +53,6 @@
                            class="oe_inline" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 </h2>
             </xpath>
-            <xpath expr="//field[@name='start_datetime']" position="attributes">
-                <attribute name="readonly">[('id', '!=', False), ('recurrency','=',True), ('is_task_event','=',True)]
-                </attribute>
-            </xpath>
-            <xpath expr="//field[@name='duration']" position="attributes">
-                <attribute name="readonly">[('id', '!=', False), ('recurrency','=',True), ('is_task_event','=',True)]
-                </attribute>
-            </xpath>
         </field>
     </record>
 
