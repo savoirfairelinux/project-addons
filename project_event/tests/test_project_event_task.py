@@ -281,3 +281,11 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.assertEqual(self.task_1.responsible_id.name, 'Responsible 1')
         self.assertEqual(self.task_1.partner_id.name, 'Partner 1')
         self.assertEqual(self.task_1.category_id.name, 'Category 1')
+
+    def test_130_compute_task_state_visible(self):
+        self.assertEqual(self.task_1.task_state, 'draft')
+        self.task_1.write({'task_state':'done'})
+        self.assertEqual(
+            self.task_1.task_state_report_done_required, 'done')
+        self.assertEqual(
+            self.task_1.task_state_report_not_done_required, 'done')
