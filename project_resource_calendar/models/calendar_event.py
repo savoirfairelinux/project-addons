@@ -54,13 +54,17 @@ class CalendarEvent(models.Model):
         compute='_compute_dates',
         inverse='_inverse_dates',
         store=True,
-        states={'done': [('readonly', [('id', '!=', False), ('recurrency','=',True), ('is_task_event','=',True)])]},
+        states={'done': [('readonly',
+                          [('id', '!=', False), ('recurrency', '=', True), ('is_task_event', '=', True)]
+                          )]},
         track_visibility='onchange',
-        )
+    )
     duration = fields.Float(
         'Duration',
-        states={'done': [('readonly', [('id', '!=', False), ('recurrency','=',True), ('is_task_event','=',True)])]})
-
+        states={'done': [('readonly',
+                          [('id', '!=', False), ('recurrency', '=', True), ('is_task_event', '=', True)]
+                          )]}
+    )
 
     @api.one
     @api.depends('start_datetime')
