@@ -203,9 +203,21 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.assertEqual(activity.partner_id.id, self.project_1.partner_id.id)
         self.assertEqual(activity.room_id, self.room_1)
         self.assertEqual(activity.parent_id.id, False)
-        self.assertEqual(activity.date_start, fields.Datetime.to_string(datetime.today()))
-        self.assertEqual(activity.date_end, fields.Datetime.to_string(datetime.today() + \
-             timedelta(hours=4)))
+        self.assertEqual(
+            datetime.strptime
+            (
+                activity.date_start,
+                '%Y-%m-%d %H:%M:%S'
+            ).replace(second=0),
+            datetime.today().replace(second=0,  microsecond=0))
+        self.assertEqual(
+            datetime.strptime
+            (
+                activity.date_end,
+                '%Y-%m-%d %H:%M:%S'
+            ).replace(second=0, microsecond=0), 
+            (datetime.today() + \
+            timedelta(hours=4)).replace(second=0, microsecond=0))
         
 
     def test_090_create_orphan_task(self):
