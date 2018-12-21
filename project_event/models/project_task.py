@@ -317,12 +317,12 @@ class Task(models.Model):
         else:
             return False
 
-    def is_from_template(self, vals):
+    def get_is_from_template(self, vals):
         return 'is_from_template' in vals and vals['is_from_template']
 
     @api.multi
     def create_task(self, vals):
-        if self.is_from_template(vals):
+        if self.get_is_from_template(vals):
                 vals['message_follower_ids'] = None
         vals['code'] = self.env['ir.sequence'] \
             .next_by_code('project.task.task')
@@ -333,7 +333,7 @@ class Task(models.Model):
         vals['code'] = self.env['ir.sequence'] \
             .next_by_code('project.task.activity')
         new_activity = super(Task, self).create(vals)
-        if not self.is_from_template(vals):
+        if not self.get_is_from_template(vals):
             self.create_main_task(vals, new_activity.id)
         return new_activity
 
