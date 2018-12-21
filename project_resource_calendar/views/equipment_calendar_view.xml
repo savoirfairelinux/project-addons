@@ -136,4 +136,48 @@
             </xpath>
         </field>
     </record>
+
+        <record id="calendar_event_gantt_view" model="ir.ui.view">
+        <field name="name">calendar.event.gantt</field>
+        <field name="model">calendar.event</field>
+        <field name="type">timeline</field>
+        <field name="arch" type="xml">
+            <timeline date_stop="stop"
+                      date_start="start"
+                      string="Operations"
+                      default_group_by="room_id"
+                      colors="#114455:color == False;#889977:color == True;"
+                      event_open_popup="true">
+            </timeline>
+        </field>
+    </record>
+
+
+
+    <record id="action_calendar_event_gantt" model="ir.actions.act_window">
+        <field name="name">Meetings Gantt</field>
+        <field name="res_model">calendar.event</field>
+        <field name="view_mode">timeline</field>
+        <field name="view_id" ref="project_resource_calendar.calendar_event_gantt_view"/>
+
+        <field name="help" type="html">
+          <p class="oe_view_nocontent_create">
+            Click to schedule a new meeting.
+          </p><p>
+            The calendar is shared between employees and fully integrated with
+            other applications such as the employee leaves or the business
+            opportunities.
+          </p>
+        </field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem
+        id="menu_calendar_gantt"
+        name="Gantt"
+        sequence="2"
+        action="action_calendar_event_gantt"
+        web_icon="calendar,static/description/icon.png"
+        groups="base.group_user"/>
+
 </odoo>
