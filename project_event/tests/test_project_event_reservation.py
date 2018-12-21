@@ -2,7 +2,6 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
 from datetime import datetime, timedelta
-
 from odoo import fields
 from odoo.addons.project_event.tests.common import TestProjectEventCommon
 
