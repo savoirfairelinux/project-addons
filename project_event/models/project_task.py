@@ -147,7 +147,7 @@ class Task(models.Model):
         ('canceled', 'Canceled')],
         string='State',
         default='draft',
-        compute='_compute_task_state_report_done_required'
+        compute='_compute_task_state_visible'
     )
     task_state_report_not_done_required = fields.Selection([
         ('draft', 'Draft'),
@@ -161,7 +161,7 @@ class Task(models.Model):
         ('canceled', 'Canceled')],
         string='State',
         default='draft',
-        compute='_compute_task_state_report_not_done_required'
+        compute='_compute_task_state_visible'
     )
     reservation_event_id = fields.Integer(
         string='Reservation event',
@@ -452,13 +452,9 @@ class Task(models.Model):
         return super(Task, self).search(domain + args, limit=limit).name_get()
 
     @api.depends('task_state')
-    def _compute_task_state_report_done_required(self):
+    def _compute_task_state_visible(self):
         for rec in self:
             rec.task_state_report_done_required = rec.task_state
-
-    @api.depends('task_state')
-    def _compute_task_state_report_not_done_required(self):
-        for rec in self:
             rec.task_state_report_not_done_required =  rec.task_state
 
     @api.multi
