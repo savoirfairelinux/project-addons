@@ -16,6 +16,7 @@
         'resource',
         'calendar',
         'hr',
+        'web_timeline',
     ],
     'external_dependencies': {
         'python': [],
