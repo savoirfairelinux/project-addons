@@ -222,6 +222,8 @@ class Task(models.Model):
                 self.responsible_id = self.parent_id.responsible_id
             if self.parent_id.partner_id:
                 self.partner_id = self.parent_id.partner_id
+            if self.parent_id.category_id:
+                self.category_id = self.parent_id.category_id
 
     @api.onchange('succeeding_task_ids')
     def update_preceding(self):
@@ -405,8 +407,8 @@ class Task(models.Model):
             elif 'room_id' in vals:
                 if vals['room_id']:
                     update_vals['equipment_ids'] = \
-                    [(6, 0, self.env['resource.calendar.room']
-                        .browse(vals['room_id']).instruments_ids.ids)]
+                        [(6, 0, self.env['resource.calendar.room']
+                          .browse(vals['room_id']).instruments_ids.ids)]
                 update_vals['room_id'] = vals['room_id']
             if 'employee_ids' in vals:
                 update_vals['partner_ids'] = [(
