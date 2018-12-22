@@ -354,11 +354,25 @@ class Task(models.Model):
     def create_activity(self, vals):
         vals['code'] = self.env['ir.sequence'] \
             .next_by_code('project.task.activity')
+        children = self.activity_has_children(vals)
         new_activity = super(Task, self).create(vals)
         if not self.get_is_from_template(vals):
             self.create_main_task(vals, new_activity.id)
+        if children:
+            self.create_children_from_activity_create(children, new_activity.id)
         return new_activity
 
+    def activity_has_children(self, vals):
+        if 'child_ids' in vals:
+            return vals.pop('child_ids')
+        else:
+            return False
+    
+    def create_children_from_activity_create(self, children, parent_id):
+        for child in children:
+            child[2]['parent_id'] = parent_id
+            self.create_task(child[2])
+            
     @api.multi
     def write(self, vals):
         if self.is_activity():

@@ -18,6 +18,7 @@ class TestProjectEventCommon(common.TransactionCase):
         self.Rooms = self.env['resource.calendar.room']
         self.Instruments = self.env['resource.calendar.instrument']
         self.Task_category = self.env['task.category']
+        self.Department = self.env['hr.department']
 
         self.client_type_1 = self.Category_types.create({
             'name': 'Client Type 1',
@@ -86,4 +87,8 @@ class TestProjectEventCommon(common.TransactionCase):
             'resource_type': 'material',
             'room_id': self.room_2.id,
             'allow_double_book': True,
+        })
+
+        self.department_1 = self.Department.create({
+            'name': 'Department 1'
         })

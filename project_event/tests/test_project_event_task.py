@@ -289,3 +289,53 @@ class TestProjectEventTask(TestProjectEventCommon):
             self.task_1.task_state_report_done_required, 'done')
         self.assertEqual(
             self.task_1.task_state_report_not_done_required, 'done')
+
+    def test_140_create_new_activity_with_tasks(self):
+        activity_vals = {
+              'category_id': self.category_1.id
+            , 'responsible_id': self.partner_2.id
+            , 'notes': '<p><br></p>'
+            , 'room_id': False
+            , 'date_start': '2018-12-21 17:39:27'
+            , 'name': 'A1'
+            , 'sector_id': False
+            , 'client_type': False
+            , 'child_ids': [[0, 'virtual_584'
+            , {'responsible_id': self.partner_2.id
+            , 'parent_id': False
+            , 'employee_ids': [[6, False, []]]
+            , 'task_state': 'draft'
+            , 'sector_id': False
+            , 'department_id': self.department_1.id
+            , 'equipment_id': False
+            , 'date_end': '2018-12-21 17:39:44'
+            , 'date_start': '2018-12-21 16:40:44'
+            , 'task_state_report_not_done_required': 'draft'
+            , 'report_done_required': False
+            , 'asterisk_validate_record': False
+            , 'description': '<p><br></p>'
+            , 'category_id': self.category_1.id
+            , 'preceding_task_ids': [[6, False, []]]
+            , 'notes': '<p><br></p>'
+            , 'task_order': -58
+            , 'succeeding_task_ids': [[6, False, []]]
+            , 'name': 'Task IN 1'
+            , 'client_type': False
+            , 'activity_task_type': 'task'
+            , 'room_id': False
+            , 'partner_id': False
+            , 'resource_type': 'user'
+            , 'task_state_report_done_required': 'draft'
+            , 'project_id': False}]]
+            , 'activity_task_type': 'activity'
+            ,'task_state': 'draft'
+            ,'partner_id': False
+            ,'description': '<p><br></p>'
+            ,'date_end': '2018-12-21 18:40:27'
+            ,'project_id': False
+        }
+        
+        activity_with_task = self.Tasks.create(activity_vals)
+        self.assertEqual(
+            len(activity_with_task.child_ids), 2
+            )
