@@ -146,7 +146,7 @@
                       date_start="start"
                       string="Operations"
                       default_group_by="room_id"
-                      colors="#114455:color == False;#889977:color == True;"
+                      colors="#114455:color == False;#889977:state == 'draft';"
                       event_open_popup="true">
             </timeline>
         </field>
