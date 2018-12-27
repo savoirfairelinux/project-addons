@@ -13,7 +13,7 @@
                 </h2>
                 <label for="sector_id" class="oe_edit_only"/>
                 <h2>
-                    <field name="sector_id" attrs="{'readonly': [('is_task_event','=',True)], 'required': True}"/>
+                    <field name="sector_id" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 </h2>
             </xpath>
         </field>
