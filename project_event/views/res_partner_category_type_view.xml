@@ -34,5 +34,6 @@
               action="action_partner_category_type"
               name="Client Type"
               sequence="2"
-              parent="contacts.res_partner_menu_config"/>
+              parent="contacts.res_partner_menu_config"
+              groups="base.group_partner_manager"/>
 </odoo>

@@ -2,7 +2,7 @@
 <odoo>
     <record model="report.paperformat" id="paperformat_weekly_report">
         <field name="name">paperformat.weekly.report</field>
-       <field name="default" eval="True"/>
+        <field name="default" eval="True"/>
         <field name="format">A4</field>
         <field name="page_width">0</field>
         <field name="orientation">Portrait</field>
@@ -24,7 +24,7 @@
             menu="False"/>
 
     <template id="weekly_report_view">
-     <div class="header" style="border-bottom: 2px solid black">
+        <div class="header" style="border-bottom: 2px solid black">
             <h3 class="text-center">
                 <strong>Reservations Booking Schedule </strong>
             </h3>

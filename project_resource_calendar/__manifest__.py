@@ -23,6 +23,7 @@
     },
     'data': [
         'data/auditlog_rule.xml',
+        'security/calendar_security.xml',
         'security/ir.model.access.csv',
         'views/auditlog_log.xml',
         'views/room_type_view.xml',
