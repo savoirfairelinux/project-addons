@@ -10,7 +10,8 @@
               name="Rooms"
               parent="resource.menu_resource_config"
               action="action_resource_room"
-              sequence="14"/>
+              sequence="14"
+              groups="group_resource_calendar_manager"/>
     <record id="resource_room_tree" model="ir.ui.view">
         <field name="name">Room Tree</field>
         <field name="model">resource.calendar.room</field>

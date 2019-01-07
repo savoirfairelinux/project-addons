@@ -42,7 +42,8 @@
               name="Reports"
               sequence="300"
               action="action_weekly_report_wizard"
-              parent="calendar.mail_menu_calendar"/>
+              parent="calendar.mail_menu_calendar"
+              groups="group_resource_calendar_manager"/>
     
     <menuitem action="action_weekly_report_wizard"
               id="menu_weekly_report_wizard"

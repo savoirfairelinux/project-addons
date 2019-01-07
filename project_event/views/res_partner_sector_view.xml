@@ -10,7 +10,8 @@
     <menuitem id="menu_partner_sector"
               action="action_partner_sector"
               name="Faculty Sectors"
-              sequence="4" parent="contacts.res_partner_menu_config"/>
+              sequence="4" parent="contacts.res_partner_menu_config"
+              groups="base.group_partner_manager"/>
 
     <record id="res_partner_sector_for_view" model="ir.ui.view">
         <field name="name">Sector Form</field>
@@ -35,4 +36,25 @@
             </tree>
         </field>
     </record>
+
+    <record model="ir.ui.menu" id="contacts.res_partner_industry_menu">
+        <field name="groups_id" eval="[(6,0, [ref('base.group_partner_manager')])]"/>
+    </record>
+
+    <record model="ir.ui.menu" id="contacts.menu_partner_title_contact">
+        <field name="groups_id" eval="[(6,0, [ref('base.group_partner_manager')])]"/>
+    </record>
+    <record model="ir.ui.menu" id="contacts.menu_partner_category_form">
+        <field name="groups_id" eval="[(6,0, [ref('base.group_partner_manager')])]"/>
+    </record>
+    <record model="ir.ui.menu" id="contacts.res_partner_menu_config">
+        <field name="groups_id" eval="[(6,0, [ref('base.group_partner_manager')])]"/>
+    </record>
+    <record model="ir.ui.menu" id="contacts.res_partner_menu_contacts">
+        <field name="groups_id" eval="[(6,0, [ref('base.group_partner_manager')])]"/>
+    </record>
+    <record model="ir.ui.menu" id="contacts.menu_contacts">
+        <field name="groups_id" eval="[(6,0, [ref('base.group_partner_manager')])]"/>
+    </record>
+
 </odoo>

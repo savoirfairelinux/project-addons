@@ -146,7 +146,7 @@
         </field>
     </record>
 
-        <record id="calendar_event_gantt_view" model="ir.ui.view">
+    <record id="calendar_event_gantt_view" model="ir.ui.view">
         <field name="name">calendar.event.gantt</field>
         <field name="model">calendar.event</field>
         <field name="type">timeline</field>
@@ -160,8 +160,6 @@
             </timeline>
         </field>
     </record>
-
-
 
     <record id="action_calendar_event_gantt" model="ir.actions.act_window">
         <field name="name">Meetings Gantt</field>
@@ -188,5 +186,13 @@
         action="action_calendar_event_gantt"
         web_icon="calendar,static/description/icon.png"
         groups="base.group_user"/>
+
+    <record model="ir.ui.menu" id="calendar_resource.calendar_menu">
+        <field name="groups_id" eval="[(6,0, [ref('base.group_user')])]"/>
+    </record>
+
+    <record model="ir.ui.menu" id="resource.menu_resource_config">
+        <field name="groups_id" eval="[(6,0, [ref('group_resource_calendar_manager')])]"/>
+    </record>
 
 </odoo>

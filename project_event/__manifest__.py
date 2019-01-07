@@ -24,12 +24,12 @@
         'python': [],
     },
     'data': [
+        'security/project_security.xml',
         'data/auditlog_rule.xml',
         'data/channels.xml',
         'data/ir_sequence_data.xml',
         'data/task_categories.xml',
         'security/ir.model.access.csv',
-        'security/project_security.xml',
         'views/auditlog_log.xml',
         'views/project_project_view.xml',
         'views/project_task_view.xml',

@@ -10,7 +10,8 @@
               name="Equip./Service"
               parent="resource.menu_resource_config"
               action="action_resource_instrument"
-              sequence="16"/>
+              sequence="16"
+              groups="group_resource_calendar_manager"/>
     <record id="resource_instrument_tree" model="ir.ui.view">
         <field name="name">Equip./Service Tree</field>
         <field name="model">resource.calendar.instrument</field>

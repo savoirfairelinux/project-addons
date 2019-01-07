@@ -4,7 +4,8 @@
     <record id="project.mail_channel_project_task_event" model="mail.channel">
       <field name="name">Projects and tasks</field>
       <field name="group_public_id" ref="project.group_project_user"/>
-      <field name="group_ids" eval="[(4, ref('project.group_project_user'))]"/>
+      <field name="group_ids" eval="[(4, ref('project.group_project_user')),
+      (4, ref('group_project_event_user'))]"/>
     </record>
     </data>
 </odoo>

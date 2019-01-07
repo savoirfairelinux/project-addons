@@ -125,7 +125,8 @@
 
     <menuitem id="project_event_wizard_menu"
               name="Wizard"
-              parent="project_event_menu_root"/>
+              parent="project_event_menu_root"
+              groups="group_project_event_superuser"/>
     <menuitem id="event_wizard_menu"
               name="Event Wizard"
               parent="project_event_wizard_menu"
