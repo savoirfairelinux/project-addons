@@ -427,34 +427,55 @@ class Task(models.Model):
         if self.reservation_event_id:
             reservation_event = self.env['calendar.event'].browse(
                 self.reservation_event_id)
-            update_vals = {}
-            if 'date_start' in vals:
-                update_vals['start'] = vals['date_start']
-            if 'date_end' in vals:
-                update_vals['stop'] = vals['date_end']
-            if 'name' in vals:
-                update_vals['name'] = vals['name']
-            if 'resource_type' in vals:
-                update_vals['resource_type'] = vals['resource_type']
-            if 'equipment_id' in vals and vals['equipment_id']:
-                update_vals['equipment_ids'] = \
-                    [(6, 0, [vals['equipment_id']])]
-                update_vals['room_id'] = False
-            elif 'room_id' in vals:
-                if vals['room_id']:
-                    update_vals['equipment_ids'] = \
-                        [(6, 0, self.env['resource.calendar.room']
-                          .browse(vals['room_id']).instruments_ids.ids)]
-                update_vals['room_id'] = vals['room_id']
-            if 'employee_ids' in vals:
-                update_vals['partner_ids'] = [(
-                    6, 0, self.get_updated_partners(
-                        vals['employee_ids'][0][2]))]
-            if 'sector_id' in vals:
-                update_vals['sector_id'] = vals['sector_id']
-            if 'category_id' in vals:
-                update_vals['category_id'] = vals['category_id']
-            reservation_event.write(update_vals)
+            field_names = [
+                'date_start', 'date_end', 'equipment_id',
+                'name', 'resource_type', 'room_id',
+                'employee_ids', 'sector_id', 'category_id'
+            ]
+            reservation_event.write(
+                self.set_value_reservation_event(field_names, vals)
+            )
+
+    def set_value_reservation_event(self, field_names, vals):
+        update_vals = {}
+        for index in range(0, len(field_names)):
+            if field_names[index] in vals:
+                if field_names[index] == 'date_start':
+                    update_vals['start'] = vals[field_names[index]]
+                if field_names[index] == 'date_end':
+                    update_vals['stop'] = vals[field_names[index]]
+                if field_names[index] == 'equipment_id' and vals['equipment_id']:
+                    update_vals.update(self.update_value_equipment_id(vals))
+                elif field_names[index] == 'room_id':
+                    if vals['room_id']:
+                        update_vals.update(self.update_value_room_id(vals))
+                    update_vals[field_names[index]] = vals[field_names[index]]
+                if field_names[index] == 'employee_ids':
+                    update_vals.update(self.update_value_employee_ids(vals))
+                if field_names[index] in ('sector_id', 'category_id', 'resource_type', 'name'):
+                    update_vals[field_names[index]] = vals[field_names[index]]
+        return update_vals
+
+    def update_value_equipment_id(self, vals):
+        set_value = {}
+        set_value['equipment_ids'] = \
+            [(6, 0, [vals['equipment_id']])]
+        set_value['room_id'] = False
+        return set_value
+
+    def update_value_room_id(self, vals):
+        set_value = {}
+        set_value['equipment_ids'] = \
+            [(6, 0, self.env['resource.calendar.room']
+              .browse(vals['room_id']).instruments_ids.ids)]
+        return set_value
+
+    def update_value_employee_ids(self, vals):
+        set_value = {}
+        set_value['partner_ids'] = [(
+            6, 0, self.get_updated_partners(
+                vals['employee_ids'][0][2]))]
+        return set_value
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):
@@ -469,7 +490,7 @@ class Task(models.Model):
     def _compute_task_state_visible(self):
         for rec in self:
             rec.task_state_report_done_required = rec.task_state
-            rec.task_state_report_not_done_required =  rec.task_state
+            rec.task_state_report_not_done_required = rec.task_state
 
     @api.multi
     @api.depends('date_start', 'parent_id.date_start')
