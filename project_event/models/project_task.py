@@ -328,16 +328,12 @@ class Task(models.Model):
         self.create_task(vals)
 
     def is_new_task(self, vals):
-        if 'activity_task_type' in vals:
-            return vals['activity_task_type'] == 'task'
-        else:
-            return False
+        return 'activity_task_type' in vals\
+               and vals['activity_task_type'] == 'task'
 
     def is_new_activity(self, vals):
-        if 'activity_task_type' in vals:
-            return vals['activity_task_type'] == 'activity'
-        else:
-            return False
+        return 'activity_task_type' in vals\
+               and vals['activity_task_type'] == 'activity'
 
     def get_is_from_template(self, vals):
         return 'is_from_template' in vals and vals['is_from_template']
