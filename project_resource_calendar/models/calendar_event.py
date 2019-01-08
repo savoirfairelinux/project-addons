@@ -59,6 +59,16 @@ class CalendarEvent(models.Model):
                           )]},
         track_visibility='onchange',
     )
+    stop_datetime = fields.Datetime(
+        'End Datetime',
+        compute='_compute_dates',
+        inverse='_inverse_dates',
+        store=True,
+        states={'done': [('readonly',
+                          [('id', '!=', False), ('recurrency', '=', True), ('is_task_event', '=', True)]
+                          )]},
+        track_visibility='onchange',
+    )
     duration = fields.Float(
         'Duration',
         states={'done': [('readonly',
