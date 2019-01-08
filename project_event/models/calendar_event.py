@@ -16,4 +16,8 @@ class CalendarEvent(models.Model):
         'res.partner.sector',
         string='Faculty Sectors',
     )
+    client_type = fields.Many2one(
+        'res.partner.category.type',
+        string='Client Type',
+    )
     color = fields.Char(related='category_id.color')
