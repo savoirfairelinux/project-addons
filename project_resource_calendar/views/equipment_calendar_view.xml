@@ -111,6 +111,10 @@
             <xpath expr="//field[@name='alarm_ids']" position="attributes">
                 <attribute name="invisible">1</attribute>
             </xpath>
+            <xpath expr="//field[@name='location']" position="before">
+                <field name="recurrent_state" readonly="1"/>
+                <field name="recurrence_type" readonly="1"/>
+            </xpath>
         </field>
     </record>
 
