@@ -104,14 +104,10 @@ class Project(models.Model):
 
     @api.multi
     def action_accept(self):
-        if self.state in ['draft', 'option', 'postponed', 'canceled']:
-            self.send_message('accepted')
-            return self.get_confirmation_wizard('accept')
+        return self.get_confirmation_wizard('accept')
 
     @api.multi
     def action_option(self):
-        if self.state == 'accepted':
-            self.send_message('option')
         return self.get_confirmation_wizard('option')
 
     @api.multi
@@ -154,6 +150,8 @@ class Project(models.Model):
                 activity.send_message('requested')
             activity.open_resources_reservation()
             activity.write({'task_state': 'accepted'})
+        if self.state in ['draft', 'option', 'postponed', 'canceled']:
+            self.send_message('accepted')
         self.write({'state': 'accepted'})
 
     def child_reservation(self, child):
