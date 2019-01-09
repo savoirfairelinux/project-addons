@@ -75,6 +75,33 @@ class CalendarEvent(models.Model):
                           [('id', '!=', False), ('recurrency', '=', True), ('is_task_event', '=', True)]
                           )]}
     )
+    recurrent_state = fields.Char(
+        string='Recurring',
+        compute='_calculate_recurrent'
+    )
+    recurrence_type = fields.Char(
+        string='Recurrence Type',
+        compute='_calculate_recurrence_type'
+    )
+
+    def _calculate_recurrent(self):
+        if self.recurrency:
+            self.recurrent_state = _("Yes")
+        else:
+            self.recurrent_state = _("No")
+
+    def _calculate_recurrence_type(self):
+        if self.recurrency:
+            if self.end_type == 'end_date':
+                self.recurrence_type = str(self.interval) + _(" Time(s) per ") +\
+                                       str(self.rrule_type) +\
+                                       _(" until ") +\
+                                       self.final_date
+            else:
+                self.recurrence_type = str(self.interval) + _(" Time(s) per ") +\
+                                       str(self.rrule_type) +\
+                                       _(" for ") +\
+                                       str(self.count) + _(" Time(s)")
 
     @api.one
     @api.depends('start_datetime')
