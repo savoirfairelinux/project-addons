@@ -12,7 +12,6 @@ class TestProjectEventTask(TestProjectEventCommon):
     def setUp(self):
         super(TestProjectEventTask, self).setUp()
         self.Tasks = self.env['project.task']
-        self.Rooms = self.env['project.task']
 
         self.activity_1 = self.Tasks.create({
             'name': 'Test Activity 1',
@@ -339,3 +338,130 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.assertEqual(
             len(activity_with_task.child_ids), 2
             )
+
+    def test_150_update_reservation_event(self):
+        self.client_type_original = self.Category_types.create({
+            'name': 'Client Type Original',
+        })
+        self.category_original = self.Task_category.create({
+            'name': 'Category Original',
+        })
+        self.tag_original = self.Category.create({
+            'name': 'Tag Original',
+            'client_type': self.client_type_1.id,
+        })
+        self.partner_original = self.Partners.create({
+            'name': 'Partner Original',
+            'tag_id': self.tag_original.id,
+        })
+        self.department_original = self.Department.create({
+            'name': 'Department Original'
+        })
+        self.room_original = self.Rooms.create({
+            'name': 'Room Original',
+            'resource_type': 'room',
+            'allow_double_book': True,
+        })
+        self.category_new = self.Task_category.create({
+            'name': 'Category New',
+        })
+        self.department_new = self.Department.create({
+            'name': 'Department New'
+        })
+        self.sector_new = self.Sector.create({
+            'name': 'Sector New'
+        })
+        self.room_new = self.Rooms.create({
+            'name': 'Room New',
+            'resource_type': 'room',
+            'allow_double_book': True,
+        })
+        name_new = 'New_Activity_1'
+
+        activity_vals = {
+            'category_id': self.category_original.id,
+            'responsible_id': self.partner_original.id,
+            'notes': '<p><br></p>',
+            'room_id': self.room_original.id,
+            'date_start': '2018-12-21 17:39:27',
+            'name': 'Original_Activity_1',
+            'sector_id': False,
+            'client_type': False,
+            'child_ids': [[0, 'virtual_584',
+                           {'responsible_id': self.partner_original.id,
+                            'parent_id': False,
+                            'employee_ids': [[6, False, []]],
+                            'task_state': 'draft',
+                            'sector_id': False,
+                            'department_id': self.department_original.id,
+                            'equipment_id': False,
+                            'date_end': '2018-12-21 17:39:44',
+                            'date_start': '2018-12-21 16:40:44',
+                            'task_state_report_not_done_required': 'draft',
+                            'report_done_required': False,
+                            'asterisk_validate_record': False,
+                            'description': '<p><br></p>',
+                            'category_id': self.category_original.id,
+                            'preceding_task_ids': [[6, False, []]],
+                            'notes': '<p><br></p>',
+                            'task_order': -58,
+                            'succeeding_task_ids': [[6, False, []]],
+                            'name': 'Task IN 1',
+                            'client_type': False,
+                            'activity_task_type': 'task',
+                            'room_id': self.room_original.id,
+                            'partner_id': False,
+                            'resource_type': 'user',
+                            'task_state_report_done_required': 'draft',
+                            'project_id': False}]],
+            'activity_task_type': 'activity',
+            'task_state': 'draft',
+            'partner_id': False,
+            'description': '<p><br></p>',
+            'date_end': '2018-12-21 18:40:27',
+            'project_id': False
+        }
+        activity_plus_task = self.Tasks.create(activity_vals)
+        self.assertEqual(
+            activity_plus_task.name,
+            'Original_Activity_1')
+        self.assertEqual(
+            activity_plus_task.room_id.name,
+            'Room Original')
+        self.assertEqual(
+            activity_plus_task.child_ids[0].category_id.name,
+            'Category Original')
+        self.assertEqual(
+            activity_plus_task.child_ids[0].room_id.name,
+            'Room Original')
+
+        activity_plus_task.name = name_new
+        self.assertEqual(
+            activity_plus_task.name,
+            'New_Activity_1')
+        date_start_new = '2019-12-12 11:11:11'
+        date_end_new = '2019-12-12 12:12:12'
+        activity_plus_task.child_ids[0].date_start = date_start_new
+        self.assertEqual(
+            activity_plus_task.child_ids[0].date_start,
+            '2019-12-12 11:11:11')
+        activity_plus_task.child_ids[0].date_end = date_end_new
+        self.assertEqual(
+            activity_plus_task.child_ids[0].date_end,
+            '2019-12-12 12:12:12')
+        activity_plus_task.child_ids[0].department_id = self.department_new
+        activity_plus_task.child_ids[0].category_id = self.category_new
+        activity_plus_task.child_ids[0].room_id = self.room_new
+        activity_plus_task.child_ids[0].sector_id = self.sector_new
+        self.assertEqual(
+            activity_plus_task.child_ids[0].department_id.name,
+            'Department New')
+        self.assertEqual(
+            activity_plus_task.child_ids[0].category_id.name,
+            'Category New')
+        self.assertEqual(
+            activity_plus_task.child_ids[0].room_id.name,
+            'Room New')
+        self.assertEqual(
+            activity_plus_task.child_ids[0].sector_id.name,
+            'Sector New')
