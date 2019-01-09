@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-08 19:47+0000\n"
-"PO-Revision-Date: 2019-01-08 14:48-0500\n"
+"POT-Creation-Date: 2019-01-09 19:09+0000\n"
+"PO-Revision-Date: 2019-01-09 14:18-0500\n"
 "Last-Translator: Luis Garcia <luis.garcia@savoirfairelinux.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -16,6 +16,32 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.0.6\n"
+
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.report_events
+#: model:ir.ui.view,arch_db:project_resource_calendar.weekly_report_view
+msgid "<span>to</span>"
+msgstr "<span>à</span>"
+
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.weekly_report_view
+msgid "<strong>From</strong>:"
+msgstr "<strong>De</strong>:"
+
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.weekly_report_view
+msgid "<strong>Reservations Booking Schedule </strong>"
+msgstr "<strong>Horaires de réservation </strong>"
+
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.weekly_report_view
+msgid "<strong>Room</strong>:"
+msgstr "<strong>Salle</strong>:"
+
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.weekly_report_view
+msgid "<strong>To</strong>:"
+msgstr "<strong>À</strong>:"
 
 #. module: project_resource_calendar
 #: code:addons/project_resource_calendar/models/calendar_event.py:94
@@ -114,7 +140,6 @@ msgstr "Confirmé"
 #. module: project_resource_calendar
 #: selection:resource.calendar.instrument,category_type:0
 #, fuzzy
-#| msgid "Consumables"
 msgid "Consumable"
 msgstr "Consommables"
 
@@ -223,7 +248,7 @@ msgstr "De: 00:00 À: 23:59"
 #. module: project_resource_calendar
 #: model:ir.ui.menu,name:project_resource_calendar.menu_calendar_gantt
 msgid "Gantt"
-msgstr ""
+msgstr "Gantt"
 
 #. module: project_resource_calendar
 #: model:ir.ui.view,arch_db:project_resource_calendar.weekly_report_wizard
@@ -323,7 +348,7 @@ msgstr "Matériel"
 #. module: project_resource_calendar
 #: model:ir.actions.act_window,name:project_resource_calendar.action_calendar_event_gantt
 msgid "Meetings Gantt"
-msgstr ""
+msgstr "Réunions Gantt"
 
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_miscellaneous
@@ -345,15 +370,16 @@ msgid "Name"
 msgstr "Nom"
 
 #. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.calendar_event_gantt_view
+msgid "Operations"
+msgstr "Opérations"
+
+
+#. module: project_resource_calendar
 #: code:addons/project_resource_calendar/models/calendar_event.py:81
 #, python-format
 msgid "No"
 msgstr "Non"
-
-#. module: project_resource_calendar
-#: model:ir.ui.view,arch_db:project_resource_calendar.calendar_event_gantt_view
-msgid "Operations"
-msgstr ""
 
 #. module: project_resource_calendar
 #: selection:resource.calendar.instrument,pricing_type:0
@@ -589,12 +615,16 @@ msgid "Task"
 msgstr "Tâche"
 
 #. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:60
 #: model:ir.actions.act_window,help:project_resource_calendar.action_calendar_event_gantt
 msgid ""
 "The calendar is shared between employees and fully integrated with\n"
 "            other applications such as the employee leaves or the business\n"
 "            opportunities."
 msgstr ""
+"Le calendrier est partagé avec les employés et complètement intégré à\n"
+" d'autres applications comme celles des congés ou des opportunités\n"
+" commerciales."
 
 #. module: project_resource_calendar
 #: code:addons/project_resource_calendar/models/calendar_event.py:149
@@ -602,13 +632,17 @@ msgstr ""
 msgid ""
 "The resource cannot be double-booked with any overlapping meetings or events."
 msgstr ""
+"La ressource ne peut pas être réservée en double avec des réunions ou des "
+"événements qui se chevauchent."
 
 #. module: project_resource_calendar
-#: code:addons/project_resource_calendar/models/calendar_event.py:142
+#: code:addons/project_resource_calendar/models/calendar_event.py:115
 #, python-format
 msgid ""
 "The room cannot be double-booked with any overlapping meetings or events."
 msgstr ""
+"La salle ne peut pas être réservée en double avec des réunions ou des "
+"événements qui se chevauchent."
 
 #. module: project_resource_calendar
 #: code:addons/project_resource_calendar/models/calendar_event.py:103
@@ -680,7 +714,7 @@ msgstr "journées)"
 #. module: project_resource_calendar
 #: model:ir.model,name:project_resource_calendar.model_report_project_resource_calendar_weekly_report_view
 msgid "report.project_resource_calendar.weekly_report_view"
-msgstr ""
+msgstr "report.project_resource_calendar.weekly_report_view"
 
 #. module: project_resource_calendar
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_tree
