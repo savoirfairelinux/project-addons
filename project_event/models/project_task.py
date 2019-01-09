@@ -367,12 +367,12 @@ class Task(models.Model):
             return vals.pop('child_ids')
         else:
             return False
-    
+
     def create_children_from_activity_create(self, children, parent_id):
         for child in children:
             child[2]['parent_id'] = parent_id
             self.create_task(child[2])
-            
+
     @api.multi
     def write(self, vals):
         if self.is_activity():
@@ -499,14 +499,17 @@ class Task(models.Model):
             if task.activity_task_type == 'task':
                 if task.parent_id and task.parent_id.date_start:
                     activity_date_start = task.parent_id.date_start
-                    fmt = '%Y-%m-%d %H:%M:%S'
                     if task.date_start:
-                        time_difference = \
-                            datetime.strptime(task.date_start, fmt) \
-                            - datetime.strptime(activity_date_start, fmt)
-                        task.task_order = \
-                            time_difference.days * 24 * 60 \
-                            + time_difference.seconds / 60
+                        task.task_order = self.get_task_order(
+                            task.date_start,
+                            activity_date_start,
+                            '%Y-%m-%d %H:%M:%S'
+                        )
+
+    def get_task_order(self, task_ds, activity_ds, format):
+        time_diff = datetime.strptime(task_ds, format) \
+                    - datetime.strptime(activity_ds, format)
+        return time_diff.days * 24 * 60 + time_diff.seconds / 60
 
     def action_done(self):
         self.open_resources_reservation()
