@@ -14,4 +14,11 @@
         <field name="users" eval="[(4, ref('base.user_root'))]"/>
     </record>
 
+    <record id="group_resource_calendar_editor" model="res.groups">
+        <field name="name">Resource Calendar Editor</field>
+        <field name="category_id" ref="module_category_resource_event_calendar"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root'))]"/>
+    </record>
+
 </odoo>
