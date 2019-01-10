@@ -36,6 +36,8 @@ class ReservationValidationWiz(models.TransientModel):
         else:
             for activity in self.event_id.task_ids:
                 activity.do_reservation()
+            if self.event_id.state == 'accepted':
+                self.event_id.send_message('option')
             self.event_id.write({'state': 'option'})
 
     @api.multi
