@@ -289,20 +289,22 @@ class Task(models.Model):
     def verify_room_bookable(self):
         if self.room_id:
             if not self.room_id.is_bookable:
-                raise ValidationError(
-                    _(
-                        'This room is not bookable'
-                    )
-                )
+                raise ValidationError(self.get_error_type('TYPE_ERROR_RESOURCE'))
 
     def verify_equipment_bookable(self):
         if self.equipment_id:
             if not self.equipment_id.is_bookable:
-                raise ValidationError(
-                    _(
-                        'This resource is not bookable'
-                    )
-                )
+                raise ValidationError(self.get_error_type('TYPE_ERROR_ROOM'))
+
+    def get_error_type(self, type_error):
+        error_msg = ""
+        if type_error == 'RESOURCE_TYPE_ERROR':
+            error_msg = _('This resource is not bookable')
+        if type_error == 'ROOM_TYPE_ERROR':
+            error_msg = _('This room is not bookable')
+        if type_error == 'CLIENT_TYPE_ERROR':
+            error_msg = _('There must be a responsible or a client')
+        return error_msg
 
     @api.constrains('parent_id')
     def _check_subtask_project(self):
@@ -421,8 +423,8 @@ class Task(models.Model):
     def update_reservation_event(self, vals):
         self.ensure_one()
         if self.reservation_event_id:
-            reservation_event = self.env['calendar.event'].browse(
-                self.reservation_event_id)
+            reservation_event = self.env['calendar.event'].\
+                browse(self.reservation_event_id)
             field_names = [
                 'date_start', 'date_end', 'equipment_id',
                 'name', 'resource_type', 'room_id',
@@ -462,8 +464,8 @@ class Task(models.Model):
     def update_value_room_id(self, vals):
         set_value = {}
         set_value['equipment_ids'] = \
-            [(6, 0, self.env['resource.calendar.room']
-              .browse(vals['room_id']).instruments_ids.ids)]
+            [(6, 0, self.env['resource.calendar.room'].
+              browse(vals['room_id']).instruments_ids.ids)]
         return set_value
 
     def update_value_employee_ids(self, vals):
@@ -592,44 +594,40 @@ class Task(models.Model):
 
     @api.multi
     def get_equipment_ids_inside(self):
-        room_id = self.env['resource.calendar.room'].browse(self.room_id).id
+        room_id = self.env['resource.calendar.room'].\
+            browse(self.room_id).id
         return room_id.instruments_ids.ids
 
     @api.multi
     def cancel_resources_reservation(self):
         self.ensure_one()
         if self.reservation_event_id:
-            reservation_event = self.env['calendar.event'].browse(
-                self.reservation_event_id)
-        reservation_event.write(
-            {
-                'state': 'cancelled'
-            }
-        )
+            reserve_event = self.info_calendar_event()
+            reserve_event.write(
+                {'state': 'cancelled'}
+            )
 
     @api.multi
     def draft_resources_reservation(self):
         self.ensure_one()
         if not self.reservation_event_id:
             self.request_reservation()
-        reservation_event = self.env['calendar.event'].browse(
-            self.reservation_event_id)
-        reservation_event.write(
-            {
-                'state': 'draft'
-            }
-        )
+            reserve_event = self.info_calendar_event()
+            reserve_event.write(
+                {'state': 'draft'}
+            )
 
     @api.multi
     def open_resources_reservation(self):
         self.ensure_one()
-        reservation_event = self.env['calendar.event'].browse(
-            self.reservation_event_id)
-        reservation_event.write(
-            {
-                'state': 'open'
-            }
+        reserve_event = self.info_calendar_event()
+        reserve_event.write(
+            {'state': 'open'}
         )
+
+    def info_calendar_event(self):
+        return self.env['calendar.event'].\
+            browse(self.reservation_event_id)
 
     @api.multi
     def do_reservation(self):
@@ -758,11 +756,7 @@ class Task(models.Model):
             if self.partner_id:
                 responsible = self.partner_id
             else:
-                raise ValidationError(
-                    _(
-                        'There must be a responsible or a client ',
-                    )
-                )
+                raise ValidationError(self.get_error_type('CLIENT_TYPE_ERROR'))
         return {
             'body': self.get_message_body(action) + message,
             'channel_ids': [(6, 0, [self.env.ref
@@ -789,7 +783,7 @@ class Task(models.Model):
             ])
             overlaps_ids = overlaps.ids
             for calendar_event in overlaps_ids:
-                if self.env['calendar.event'] \
+                if self.env['calendar.event']\
                         .browse(calendar_event).event_task_id.id == self.id:
                     overlaps_ids.remove(calendar_event)
             if len(overlaps_ids) > 0:
@@ -830,7 +824,6 @@ class Task(models.Model):
                 'action': action,
             }
         )
-
         return {
             'name': 'Confirm reservation',
             'type': 'ir.actions.act_window',
