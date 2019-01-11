@@ -39,7 +39,7 @@
             <t t-call="web.external_layout">
             <h3 >
                 <strong>Room</strong>:
-                <t t-esc="room_id"/>
+                <t t-esc="room_name"/>
             </h3>
                 <div class="page">
                 <h3 class="h3-report">Monday</h3>
