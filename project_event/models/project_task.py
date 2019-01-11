@@ -789,8 +789,8 @@ class Task(models.Model):
             ])
             overlaps_ids = overlaps.ids
             for calendar_event in overlaps_ids:
-                if self.env['calendar.event']\
-                    .browse(calendar_event).event_task_id.id == self.id:
+                if self.env['calendar.event'] \
+                        .browse(calendar_event).event_task_id.id == self.id:
                     overlaps_ids.remove(calendar_event)
             if len(overlaps_ids) > 0:
                 return True

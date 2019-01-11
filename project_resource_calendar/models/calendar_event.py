@@ -93,14 +93,12 @@ class CalendarEvent(models.Model):
     def _calculate_recurrence_type(self):
         if self.recurrency:
             if self.end_type == 'end_date':
-                self.recurrence_type = str(self.interval) + _(" Time(s) per ") +\
-                                       str(self.rrule_type) +\
-                                       _(" until ") +\
+                self.recurrence_type = str(self.interval) + _(" Time(s)") + \
+                                       str(self.rrule_type) + _(" until ") + \
                                        self.final_date
             else:
-                self.recurrence_type = str(self.interval) + _(" Time(s) per ") +\
-                                       str(self.rrule_type) +\
-                                       _(" for ") +\
+                self.recurrence_type = str(self.interval) + _(" Time(s) ") + \
+                                       str(self.rrule_type) + _(" for ") + \
                                        str(self.count) + _(" Time(s)")
 
     @api.one
