@@ -151,7 +151,6 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='message_needaction']" position="after">
                 <field name="state"/>
-                <field name="weekday"/>
             </xpath>
         </field>
     </record>
