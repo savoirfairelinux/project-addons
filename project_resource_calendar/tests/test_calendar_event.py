@@ -29,6 +29,8 @@ class TestCalendarEvent(TestCalendarEventCommon):
             'start': fields.Datetime.to_string(datetime.today()),
             'stop': fields.Datetime.to_string(datetime.today() +
                                               timedelta(hours=4)),
+            'recurrent_state': 'No',
+            'recurrence_type': 'datetype',
         })
 
     def test_010_onchange_room_id(self):
@@ -42,3 +44,26 @@ class TestCalendarEvent(TestCalendarEventCommon):
         self.calendar_event._onchange_room_id()
         self.assertEqual(self.calendar_event.room_id.name,
                          'Test Room id after onchange method execution')
+
+    def test_020_calculate_recurrent(self):
+        self.recurrency = False
+        self.calendar_event._calculate_recurrent()
+        self.assertEqual(self.calendar_event.recurrent_state, 'No')
+
+        self.recurrency = True
+        self.calendar_event._calculate_recurrent()
+        self.calendar_event.recurrent_state = 'Yes'
+        self.assertEqual(self.calendar_event.recurrent_state, 'Yes')
+
+    def test_030_calculate_recurrence_type(self):
+        self.end_type = 'end_date'
+        self.recurrency = True
+        self.calendar_event.recurrence_type = 'datetype'
+        self.calendar_event._calculate_recurrence_type()
+        self.assertEqual(self.calendar_event.recurrence_type, 'datetype')
+
+        self.recurrency = True
+        self.end_type = 'others'
+        self.calendar_event.recurrence_type = 'Iternationtype'
+        self.calendar_event._calculate_recurrence_type()
+        self.assertEqual(self.calendar_event.recurrence_type, 'Iternationtype')
