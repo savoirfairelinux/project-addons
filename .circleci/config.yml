@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: savoirfairelinux/odoo-ci:11.0
+      - image: eilst/odoo-ci:latest
       - image: circleci/postgres:9.6
         environment:
           POSTGRES_USER: odoo
@@ -13,13 +13,42 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Clone CRM
+          command: git clone https://github.com/savoirfairelinux/crm && cd crm && git checkout 11.0 && cd ..
+
+      - run:
+          name: Clone Server Tools
+          command: git clone https://github.com/OCA/server-tools
+      
+      - run:
+          name: Clone Web
+          command: git clone https://github.com/OCA/web.git && cd web && git checkout 11.0 && cd ..
+
+      - run:
           name: Wait for PostgreSQL
           command: dockerize -wait tcp://localhost:5432 -timeout 5m
 
       - run:
           name: Odoo install base
           command: odoo --db_host=localhost --db_user=odoo --db_password=odoo -d circleci_test --workers=0 -i base --stop-after-init
-
+      
+      - run:
+          name: MV auditlog
+          command: mkdir auditlog && mv ./server-tools/auditlog/* ./auditlog
+      
+      - run:
+          name: MV web
+          command: mkdir web_widget_color && mv ./web/web_widget_color/* ./web_widget_color
+     
+      - run:
+          name: MV web_timeline
+          command: mkdir web_timeline && mv ./web/web_timeline/* ./web_timeline
+      
+      - run:
+          name: MV calendar_resource
+          command: mkdir calendar_resource && mv ./crm/calendar_resource/* ./calendar_resource
+     
+      
       - run:
           name: Odoo install repos modules
           command: coverage run /usr/bin/odoo --db_host localhost --db_user odoo --db_password odoo -d circleci_test --workers=0 --test-enable -i $(find . -maxdepth 1 -type d ! -name '.*' -printf '%f,') --stop-after-init
