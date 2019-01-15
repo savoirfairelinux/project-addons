@@ -38,6 +38,7 @@ class TestProjectEventCommon(common.TransactionCase):
         self.partner_1 = self.Partners.create({
             'name': 'Partner 1',
             'tag_id': self.tag_1.id,
+            'email': 'test@test.com',
         })
         self.partner_2 = self.Partners.create({
             'name': 'Partner 2',

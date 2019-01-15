@@ -465,3 +465,11 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.assertEqual(
             activity_plus_task.child_ids[0].sector_id.name,
             'Sector New')
+    
+    def test_160_check_partner_id_calendar_event_as_client_of_task(self):
+        self.task_1.request_reservation()
+        calendar_event = self.task_1.get_calendar_event()
+        self.assertEqual(
+            calendar_event.partner_id.id,
+            self.partner_1.id
+        )
