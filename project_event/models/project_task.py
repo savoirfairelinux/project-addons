@@ -482,6 +482,18 @@ class Task(models.Model):
                       ('code', operator, name)]
         return super(Task, self).search(domain + args, limit=limit).name_get()
 
+    @api.multi
+    @api.depends('name', 'code')
+    def name_get(self):
+        result = []
+        for task in self:
+            if task.activity_task_type == 'task':
+                name = task.code + '/' + task.name
+            else:
+                name = task.name
+            result.append((task.id, name))
+        return result
+
     @api.depends('task_state')
     def _compute_task_state_visible(self):
         for rec in self:
