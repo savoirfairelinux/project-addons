@@ -31,6 +31,7 @@ class TestCalendarEvent(TestCalendarEventCommon):
                                               timedelta(hours=4)),
             'recurrent_state': 'No',
             'recurrence_type': 'datetype',
+            'partner_ids': [(6, 0, [self.partner_1.id, self.partner_2.id])],
         })
 
     def test_010_onchange_room_id(self):
@@ -67,3 +68,6 @@ class TestCalendarEvent(TestCalendarEventCommon):
         self.calendar_event.recurrence_type = 'Iternationtype'
         self.calendar_event._calculate_recurrence_type()
         self.assertEqual(self.calendar_event.recurrence_type, 'Iternationtype')
+
+    def test_040_get_partner_ids_names(self):
+        self.assertEqual(self.calendar_event.partner_ids_names, 'Partner 1, Partner 2')

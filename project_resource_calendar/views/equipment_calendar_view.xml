@@ -123,10 +123,12 @@
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar.view_calendar_event_calendar"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='partner_ids']" position="replace"/>
-            <calendar>
-                <field name="user_id" position="replace"/>
-            </calendar>
+            <field name="resource_ids" position="attributes"> <attribute name="invisible">True</attribute> </field>
+            <xpath expr="//field[@name='resource_ids']" position="after">
+                <field name="partner_ids_names" />
+                <field name="room_id"/>
+                <field name="recurrency"/>
+            </xpath>
         </field>
     </record>
 

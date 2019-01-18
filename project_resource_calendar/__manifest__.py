@@ -21,6 +21,9 @@
     'external_dependencies': {
         'python': [],
     },
+    'qweb': [
+        'templates/calendar_template.xml',
+    ],
     'data': [
         'data/auditlog_rule.xml',
         'security/calendar_security.xml',

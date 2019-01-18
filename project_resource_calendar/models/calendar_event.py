@@ -84,6 +84,10 @@ class CalendarEvent(models.Model):
         compute='_calculate_recurrence_type'
     )
 
+    partner_ids_names = fields.Char(
+        compute='_get_res_partners_names'
+    )
+
     def _calculate_recurrent(self):
         if self.recurrency:
             self.recurrent_state = _("Yes")
@@ -100,6 +104,13 @@ class CalendarEvent(models.Model):
                 self.recurrence_type = str(self.interval) + _(" Time(s) ") + \
                                        str(self.rrule_type) + _(" for ") + \
                                        str(self.count) + _(" Time(s)")
+
+    @api.one
+    def _get_res_partners_names(self):
+        self.partner_ids_names = str(list(map(lambda partner:
+                                              str(partner.name),
+                                              self.partner_ids)))\
+            .replace('[', '').replace(']', '').replace("'", "")
 
     @api.one
     @api.depends('start_datetime')
