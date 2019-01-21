@@ -14,7 +14,6 @@
                 <t t-foreach="widget.displayFields" t-as="name">
                     <div t-attf-class="o_field_#{name} o_field_type_#{fields[name].type}">
                         <t t-if="widget.displayFields[name].avatar_field">
-                            <t t-esc="fields[name].string"/>:
                         </t>
                         <t t-else="">
                             <t t-esc="format(record, name)"/>

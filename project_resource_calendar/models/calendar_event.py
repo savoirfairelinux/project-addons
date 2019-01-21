@@ -87,6 +87,7 @@ class CalendarEvent(models.Model):
     partner_ids_names = fields.Char(
         compute='_get_res_partners_names'
     )
+    partner_id = fields.Many2one('res.partner', string='Client', readonly=False)
 
     def _calculate_recurrent(self):
         if self.recurrency:
@@ -107,10 +108,13 @@ class CalendarEvent(models.Model):
 
     @api.one
     def _get_res_partners_names(self):
-        self.partner_ids_names = str(list(map(lambda partner:
-                                              str(partner.name),
-                                              self.partner_ids)))\
-            .replace('[', '').replace(']', '').replace("'", "")
+        if self.is_task_event:
+            self.partner_ids_names = self.partner_id.name
+        else:
+            self.partner_ids_names = str(list(map(lambda partner:
+                                                str(partner.name),
+                                                self.partner_ids)))\
+                .replace('[', '').replace(']', '').replace("'", "")
 
     @api.one
     @api.depends('start_datetime')
