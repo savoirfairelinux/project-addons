@@ -21,3 +21,4 @@ class CalendarEvent(models.Model):
         string='Client Type',
     )
     color = fields.Char(related='category_id.color')
+    partner_id = fields.Many2one('res.partner', string='Responsible', readonly=False)

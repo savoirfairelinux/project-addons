@@ -582,6 +582,7 @@ class Task(models.Model):
             'equipment_ids': [(
                 4, self.equipment_id.id, 0)] if self.equipment_id else None,
             'partner_ids': [(6, 0, self.get_partners())],
+            'partner_id': self.partner_id.id,
             'state': 'open',
             'event_task_id': self.id,
             'is_task_event': True,
@@ -592,6 +593,10 @@ class Task(models.Model):
         self.reservation_event_id = new_event.id
         if self.room_id:
             self.reserve_equipment_inside(new_event.id)
+
+    def get_calendar_event(self):
+        self.ensure_one()
+        return self.env['calendar.event'].search([('event_task_id','=',self.id)])
 
     @api.multi
     def reserve_equipment_inside(self, event_id):
