@@ -578,7 +578,7 @@ class Task(models.Model):
         values = {
             'start': self.date_start,
             'stop': self.date_end,
-            'name': self.name,
+            'name': self.complete_name,
             'resource_type': self.resource_type,
             'room_id': self.room_id.id if self.room_id else None,
             'equipment_ids': [(

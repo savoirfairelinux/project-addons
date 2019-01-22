@@ -147,3 +147,16 @@ class TestProjectEventReservation(TestProjectEventCommon):
     def test_050_action_draft(self):
         self.project_1.action_draft()
         self.assertEqual(self.project_1.state, 'draft')
+
+    def test_060_check_partner_id_calendar_event_as_client_of_task(self):
+        res = self.project_1.action_accept()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_accept_reservation()
+        event_ids = self.project_1.task_ids.mapped(
+            'child_ids').mapped('reservation_event_id')
+        for event_id in event_ids:
+            reservation_event = self.env['calendar.event'].browse(
+                event_id)
+            self.assertEqual(
+                reservation_event.partner_id.id,
+                self.project_1.partner_id.id)

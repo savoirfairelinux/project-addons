@@ -146,7 +146,7 @@ class TestProjectEventTask(TestProjectEventCommon):
             self.activity_1.child_ids.date_end)
         self.assertEqual(
             reservation_event.name,
-            self.activity_1.child_ids.name)
+            self.activity_1.child_ids.complete_name)
         self.assertEqual(
             reservation_event.resource_type,
             self.activity_1.child_ids.resource_type)
