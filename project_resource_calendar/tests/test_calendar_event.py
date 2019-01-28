@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 
 from odoo import fields
 from odoo.addons.project_resource_calendar.tests.common import TestCalendarEventCommon
+from odoo.exceptions import ValidationError
 
 
 class TestCalendarEvent(TestCalendarEventCommon):
@@ -70,4 +71,58 @@ class TestCalendarEvent(TestCalendarEventCommon):
         self.assertEqual(self.calendar_event.recurrence_type, 'Iternationtype')
 
     def test_040_get_partner_ids_names(self):
-        self.assertEqual(self.calendar_event.partner_ids_names, 'Partner 1, Partner 2')
+        self.assertEqual(
+            self.calendar_event.partner_ids_names, 'Partner 1, Partner 2')
+
+    def test_050_check_room_double_book(self):
+        self.pre_room_id.allow_double_book = False
+        with self.assertRaises(ValidationError):
+            self.calendar_event1 = self.Calendar.create({
+                'name': 'Calendar Event Test booking 1',
+                'room_id': self.pre_room_id.id,
+                'start': fields.Datetime.to_string(datetime.today()),
+                'stop': fields.Datetime.to_string(datetime.today() +
+                                                  timedelta(hours=4)),
+                'recurrent_state': 'No',
+            })
+        self.pre_room_id.allow_double_book = True
+        self.calendar_event2 = self.Calendar.create({
+            'name': 'Calendar Event Test booking 2',
+            'room_id': self.pre_room_id.id,
+            'start': fields.Datetime.to_string(datetime.today()),
+            'stop': fields.Datetime.to_string(datetime.today() +
+                                              timedelta(hours=4)),
+            'recurrent_state': 'No',
+        })
+
+    def test_060_check_equipment_double_book(self):
+        self.instrument_1.allow_double_book = False
+        self.calendar_event3 = self.Calendar.create({
+            'name': 'Calendar Event Test booking 3',
+            'equipment_ids': [(6, 0, [self.instrument_1.id,
+                                      self.instrument_2.id])],
+            'start': fields.Datetime.to_string(datetime.today()),
+            'stop': fields.Datetime.to_string(datetime.today() +
+                                              timedelta(hours=4)),
+            'recurrent_state': 'No',
+        })
+
+        self.calendar_event4 = self.Calendar.create({
+            'name': 'Calendar Event Test booking 4',
+            'equipment_ids': [(6, 0, [self.instrument_2.id])],
+            'start': fields.Datetime.to_string(datetime.today()),
+            'stop': fields.Datetime.to_string(datetime.today() +
+                                              timedelta(hours=4)),
+            'recurrent_state': 'No',
+        })
+        with self.assertRaises(ValidationError):
+            self.calendar_event5 = self.Calendar.create({
+                'name': 'Calendar Event Test booking 5',
+                'equipment_ids': [(6, 0, [self.instrument_1.id,
+                                   self.instrument_2.id
+                                  ])],
+                'start': fields.Datetime.to_string(datetime.today()),
+                'stop': fields.Datetime.to_string(datetime.today() +
+                                              timedelta(hours=4)),
+                'recurrent_state': 'No',
+            })

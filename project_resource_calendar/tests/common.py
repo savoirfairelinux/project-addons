@@ -25,6 +25,12 @@ class TestCalendarEventCommon(common.TransactionCase):
             'room_id': self.room_1.id,
             'allow_double_book': True,
         })
+        self.instrument_2 = self.Instruments.create({
+            'name': 'Test Instrument 2',
+            'resource_type': 'material',
+            'room_id': self.room_1.id,
+            'allow_double_book': True,
+        })
         self.weekly_report_wizard_common = self.WeeklyReportWizards.create({
             'room_id': self.room_1.id,
             'recurrency': True,
