@@ -193,30 +193,6 @@ class TestSecurity(TestCalendarEventCommon):
             len(self.env['calendar.event'].sudo(self.user_base.id).search([])),
             0)
 
-    def user_cannot_write_events(self, partner_id, user_id):
-        calendar_event = self.create_event(
-            'Calendar Event where base user is participant',
-            [partner_id],
-        )
-        with self.assertRaises(exceptions.AccessError):
-            calendar_event.sudo(
-                user_id).write({'name': 'New Name'})
-
-    def test_100_base_user_cannot_write_events_where_he_participates(self):
-        self.user_cannot_write_events(
-            self.user_base.partner_id.id,
-            self.user_base.id)
-
-    def test_110_guest_user_cannot_write_events_where_he_participates(self):
-        self.user_cannot_write_events(
-            self.user_guest.partner_id.id,
-            self.user_guest.id)
-
-    def test_120_base_user_cannot_create_instruments(self):
-        with self.assertRaises(exceptions.AccessError):
-            self.env['resource.calendar.instrument'].sudo(
-                self.user_base.id).create({'name': 'Instrument X'})
-
     def user_cannot_write_room(self, user_id, room_id):
         room = self.Rooms.browse(room_id)
         with self.assertRaises(exceptions.AccessError):
@@ -237,25 +213,148 @@ class TestSecurity(TestCalendarEventCommon):
             self.user_editor.id,
             self.room_editor_user.id)
 
-    def test_160_manager_user_can_wite_rooms(self):
+    def test_160_manager_user_can_write_rooms(self):
         room = self.Rooms.browse(self.room_editor_user.id)
         room.sudo(self.user_manager.id).write({'name': 'New Name 160'})
         self.assertEqual(room.name, 'New Name 160')
 
-    def test_001_base_user_cannot_read_rooms(self):
+    def test_170_base_user_cannot_read_rooms(self):
         with self.assertRaises(exceptions.AccessError):
             self.Rooms.sudo(self.user_base.id).search([])
 
-    def user_can_read_room_with_his_tag(self, user):
+    def user_can_read_rooms_with_his_tag(self, user):
         for room in self.Rooms.sudo(user.id).search([]):
             self.assertIn(
                 user.employee_ids[0].category_ids[0], room.tag_ids)
 
-    def test_002_guest_user_can_read_rooms_with_same_tag(self):
-        pass
+    def test_180_guest_user_can_read_rooms_with_same_tag(self):
+        self.user_can_read_rooms_with_his_tag(self.user_guest)
 
     def test_190_editor_user_can_read_rooms_with_same_tag(self):
-        pass
+        self.user_can_read_rooms_with_his_tag(self.user_editor)
 
     def test_200_manager_user_can_read_rooms(self):
-        pass
+        self.assertEqual(
+            self.Rooms.search([]),
+            self.Rooms.sudo(self.user_manager.id).search([]))
+
+    def user_cannot_delete_rooms(self, user_id):
+        with self.assertRaises(exceptions.AccessError):
+            self.Rooms.sudo(user_id).search([]).unlink()
+
+    def test_210_base_user_cannot_delete_rooms(self):
+        self.user_cannot_delete_rooms(self.user_base.id)
+
+    def test_220_guest_user_cannot_delete_rooms(self):
+        self.user_cannot_delete_rooms(self.user_guest.id)
+
+    def test_230_editor_user_cannot_delete_rooms(self):
+        self.user_cannot_delete_rooms(self.user_manager.id)
+
+    def test_230_manager_user_can_delete_rooms(self):
+        room = self.Rooms.create({'name': 'Will be deleted'})
+        self.assertEqual(
+            room.sudo(self.user_manager.id).unlink(),
+            True)
+
+    def user_cannot_create_instrument(self, user_id):
+        with self.assertRaises(exceptions.AccessError):
+            self.Instruments.sudo(user_id).create({'name': 'New Ins.'})
+
+    def test_120_base_user_cannot_create_instruments(self):
+        self.user_cannot_create_instrument(self.user_base.id)
+
+    def test_240_guest_user_cannot_create_instruments(self):
+        self.user_cannot_create_instrument(self.user_guest.id)
+
+    def test_250_editor_user_cannot_create_instruments(self):
+        self.user_cannot_create_instrument(self.user_editor.id)
+
+    def test_260_manager_user_can_create_instruments(self):
+        self.assertEqual(
+            self.Instruments.sudo(self.user_manager.id).create(
+                {'name': 'New 260'}).name,
+            'New 260')
+
+    def test_270_base_user_cannot_read_instruments(self):
+        with self.assertRaises(exceptions.AccessError):
+            self.Instruments.sudo(self.user_base.id).search([])
+
+    # TO DO: Validate Spec and write these:
+    # def test_280_guest_user_can_read_instruments_from_rooms_with_his_tag(self):
+    # def
+    # test_290_editor_user_can_read_instruments_from_rooms_with_his_tag(self):
+
+    def test_300_manager_user_can_read_instruments(self):
+        self.assertEqual(
+            self.Instruments.search([]),
+            self.Instruments.sudo(self.user_manager.id).search([]))
+
+    def user_cannot_write_instrument(self, user_id):
+        with self.assertRaises(exceptions.AccessError):
+            self.instrument_1.sudo(
+                user_id).write({'name': 'New Name Fail!'})
+
+    def test_310_base_user_cannot_write_instruments(self):
+        self.user_cannot_write_instrument(self.user_base.id)
+
+    def test_320_guest_user_cannot_write_instruments(self):
+        self.user_cannot_write_instrument(self.user_guest.id)
+
+    def test_330_editor_user_cannot_write_instruments(self):
+        self.user_cannot_write_instrument(self.user_editor.id)
+
+    def test_340_manager_user_can_write_instruments(self):
+        self.assertEqual(
+            self.instrument_1.sudo(self.user_manager.id).write(
+                {'name': 'New Name 340'}),
+            True)
+        self.instrument_1.write({'name': 'Test Instrument 1'})
+
+    def user_cannot_delete_instruments(self, user_id):
+        with self.assertRaises(exceptions.AccessError):
+            self.Instruments.sudo(user_id).search([]).unlink()
+
+    def test_350_base_user_cannot_delete_instruments(self):
+        self.user_cannot_delete_instruments(self.user_base.id)
+
+    def test_360_guest_user_cannot_delete_instruments(self):
+        self.user_cannot_delete_instruments(self.user_guest.id)
+
+    def test_370_editor_user_cannot_delete_instruments(self):
+        self.user_cannot_delete_instruments(self.user_editor.id)
+
+    def test_380_manager_user_can_delete_instruments(self):
+        instrument = self.Instruments.create({'name': 'Will be deleted'})
+        self.assertEqual(
+            instrument.sudo(self.user_manager.id).unlink(),
+            True)
+
+    def user_cannot_write_events(self, partner_id, user_id):
+        calendar_event = self.create_event(
+            'Calendar Event where user is participant',
+            [partner_id],
+        )
+        with self.assertRaises(exceptions.AccessError):
+            calendar_event.sudo(
+                user_id).write({})
+
+    def test_100_base_user_cannot_write_events(self):
+        self.user_cannot_write_events(
+            self.user_base.partner_id.id,
+            self.user_base.id)
+
+    def test_110_guest_user_cannot_write_events_where_he_participates(self):
+        self.user_cannot_write_events(
+            self.user_guest.partner_id.id,
+            self.user_guest.id)
+
+    def test_390_editor_user_can_write_events_where_he_participates(self):
+        calendar_event = self.create_event(
+            'Calendar Event where editor user is participant',
+            [self.user_editor.partner_id.id],
+        )
+        self.assertEqual(
+            calendar_event.sudo(
+                self.user_editor.id).write({}),
+            True)
