@@ -92,12 +92,12 @@
         <field eval="1" name="perm_read"/>
         <field eval="0" name="perm_create"/>
     </record>
-    <record id="own_calendar_event_room_readonly_access" model="ir.rule">
-        <field name="name">Own rooms readonly</field>
+    <record id="manager_all_room_access" model="ir.rule">
+        <field name="name">Manager all access to rooms</field>
         <field name="model_id" ref="model_resource_calendar_room"/>
         <field name="domain_force">[(1,'=',1)]
         </field>
-        <field name="groups" eval="[(4, ref('group_resource_calendar_manager'))]"/>
+        <field name="groups" eval="[(6, 0,[ref('group_resource_calendar_manager')])]"/>
         <field eval="1" name="perm_unlink"/>
         <field eval="1" name="perm_write"/>
         <field eval="1" name="perm_read"/>

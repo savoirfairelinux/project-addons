@@ -82,6 +82,12 @@ class TestSecurity(TestCalendarEventCommon):
             'allow_double_book': True,
             'tag_ids': [(6, 0, [self.tag_base.id])]
         })
+        self.room_editor_user = self.Rooms.create({
+            'name': 'Test Room Tag Editor User',
+            'resource_type': 'room',
+            'allow_double_book': True,
+            'tag_ids': [(6, 0, [self.tag_editor.id])]
+        })
 
     def has_access_to_menu(self, user_id, menu_name):
         user = self.env['res.users'].browse(user_id)
@@ -123,46 +129,31 @@ class TestSecurity(TestCalendarEventCommon):
             room_manager,
             type(self.env['resource.calendar.room']))
 
-    def test_50_base_user_cannot_read_calendar_events_where_he_is_not_participant(
+    def test_50_base_user_cannot_read_events_where_he_is_not_participant(
             self):
         self.assertEqual(
             len(self.env['calendar.event'].sudo(self.user_base.id).search([])),
             0)
 
-    def test_60_base_user_can_read_calendar_events_where_he_is_participant(
-            self):
-
-        calendar_event_base_user = self.env['calendar.event'].create({
-            'name': 'Calendar Event where base user is participant',
+    def create_event(self, name, partner_ids=[], room_id=None):
+        return self.env['calendar.event'].create({
+            'name': name,
             'start': fields.Datetime.to_string(datetime.today()),
             'stop': fields.Datetime.to_string(datetime.today() +
                                               timedelta(hours=4)),
             'recurrent_state': 'No',
             'recurrence_type': 'datetype',
-            'partner_ids': [(6, 0, [self.user_base.partner_id.id])],
+            'partner_ids': [(6, 0, partner_ids)],
+            'room_id': room_id,
         })
-        base_user_read_events =\
-            self.env['calendar.event'].sudo(self.user_base.id).search([])
-        self.assertEqual(
-            len(base_user_read_events),
-            1)
-        self.assertEqual(
-            base_user_read_events.id,
-            calendar_event_base_user.id)
 
-    def test_70_guest_user_can_read_calendar_events_where_he_is_participant(
-            self):
-        calendar_event_user_event = self.env['calendar.event'].create({
-            'name': 'Calendar Event where guest user is participant',
-            'start': fields.Datetime.to_string(datetime.today()),
-            'stop': fields.Datetime.to_string(datetime.today() +
-                                              timedelta(hours=4)),
-            'recurrent_state': 'No',
-            'recurrence_type': 'datetype',
-            'partner_ids': [(6, 0, [self.user_guest.partner_id.id])],
-        })
+    def user_can_read_event(self, name, user_id, partner_ids=[], room_id=None):
+        calendar_event_user_event = self.create_event(
+            name,
+            partner_ids,
+            room_id,)
         calendar_user_read_events =\
-            self.env['calendar.event'].sudo(self.user_guest.id).search([])
+            self.env['calendar.event'].sudo(user_id).search([])
         self.assertEqual(
             len(calendar_user_read_events),
             1)
@@ -170,42 +161,101 @@ class TestSecurity(TestCalendarEventCommon):
             calendar_user_read_events.id,
             calendar_event_user_event.id)
 
+    def test_60_base_user_can_read_calendar_events_where_he_is_participant(
+            self):
+        self.user_can_read_event(
+            'Calendar Event where base user is participant',
+            self.user_base.id,
+            [self.user_base.partner_id.id])
+
+    def test_70_guest_user_can_read_calendar_events_where_he_is_participant(
+            self):
+        self.user_can_read_event(
+            'Calendar Event where guest user is participant',
+            self.user_guest.id,
+            [self.user_guest.partner_id.id])
+
     def test_80_guest_user_can_read_calendar_events_with_room_with_his_tag(
             self):
-        calendar_event_tag = self.env['calendar.event'].create({
-            'name': 'Calendar Event with room guest user tag',
-            'start': fields.Datetime.to_string(datetime.today()),
-            'stop': fields.Datetime.to_string(datetime.today() +
-                                              timedelta(hours=4)),
-            'recurrent_state': 'No',
-            'recurrence_type': 'datetype',
-            'room_id': self.room_calendar_event_user.id,
-        })
-        calendar_user_read_events =\
-            self.env['calendar.event'].sudo(self.user_guest.id).search([])
-        self.assertEqual(
-            len(calendar_user_read_events),
-            1)
-        self.assertEqual(
-            calendar_user_read_events.id,
-            calendar_event_tag.id)
+        self.user_can_read_event(
+            'Calendar Event with room guest user tag',
+            self.user_guest.id,
+            [],
+            self.room_calendar_event_user.id)
 
     def test_90_base_user_cannot_read_calendar_events_with_room_with_his_tag(
             self):
-        self.env['calendar.event'].create({
-            'name': 'Calendar Event with room base user tag',
-            'start': fields.Datetime.to_string(datetime.today()),
-            'stop': fields.Datetime.to_string(datetime.today() +
-                                              timedelta(hours=4)),
-            'recurrent_state': 'No',
-            'recurrence_type': 'datetype',
-            'room_id': self.room_base_user.id,
-        })
+        self.create_event(
+            'Calendar Event with room base user tag',
+            [],
+            self.room_base_user.id)
         self.assertEqual(
             len(self.env['calendar.event'].sudo(self.user_base.id).search([])),
             0)
 
-    def test_100_base_user_can_not_create_instruments(self):
+    def user_cannot_write_events(self, partner_id, user_id):
+        calendar_event = self.create_event(
+            'Calendar Event where base user is participant',
+            [partner_id],
+        )
+        with self.assertRaises(exceptions.AccessError):
+            calendar_event.sudo(
+                user_id).write({'name': 'New Name'})
+
+    def test_100_base_user_cannot_write_events_where_he_participates(self):
+        self.user_cannot_write_events(
+            self.user_base.partner_id.id,
+            self.user_base.id)
+
+    def test_110_guest_user_cannot_write_events_where_he_participates(self):
+        self.user_cannot_write_events(
+            self.user_guest.partner_id.id,
+            self.user_guest.id)
+
+    def test_120_base_user_cannot_create_instruments(self):
         with self.assertRaises(exceptions.AccessError):
             self.env['resource.calendar.instrument'].sudo(
                 self.user_base.id).create({'name': 'Instrument X'})
+
+    def user_cannot_write_room(self, user_id, room_id):
+        room = self.Rooms.browse(room_id)
+        with self.assertRaises(exceptions.AccessError):
+            room.sudo(user_id).write({'name': 'New Name Fail!'})
+
+    def test_130_base_user_cannot_write_rooms(self):
+        self.user_cannot_write_room(
+            self.user_base.id,
+            self.room_base_user.id)
+
+    def test_140_guest_user_cannot_write_rooms(self):
+        self.user_cannot_write_room(
+            self.user_guest.id,
+            self.room_calendar_event_user.id)
+
+    def test_150_editor_user_cannot_write_rooms(self):
+        self.user_cannot_write_room(
+            self.user_editor.id,
+            self.room_editor_user.id)
+
+    def test_160_manager_user_can_wite_rooms(self):
+        room = self.Rooms.browse(self.room_editor_user.id)
+        room.sudo(self.user_manager.id).write({'name': 'New Name 160'})
+        self.assertEqual(room.name, 'New Name 160')
+
+    def test_001_base_user_cannot_read_rooms(self):
+        with self.assertRaises(exceptions.AccessError):
+            self.Rooms.sudo(self.user_base.id).search([])
+
+    def user_can_read_room_with_his_tag(self, user):
+        for room in self.Rooms.sudo(user.id).search([]):
+            self.assertIn(
+                user.employee_ids[0].category_ids[0], room.tag_ids)
+
+    def test_002_guest_user_can_read_rooms_with_same_tag(self):
+        pass
+
+    def test_190_editor_user_can_read_rooms_with_same_tag(self):
+        pass
+
+    def test_200_manager_user_can_read_rooms(self):
+        pass
