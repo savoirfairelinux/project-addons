@@ -43,7 +43,7 @@
                         <group>
                             <field name="project_id" string="Event" options="{'no_create_edit': True}"/>
                             <field name="responsible_id" required="1"/>
-                            <field name="partner_id"/>
+                            <field name="partner_id" required="1"/>
                             <field name="client_type"/>
                              <field name="sector_id" attrs="{'invisible': [('client_type', '=', False)]}"/>
                             <field name="category_id" required="1"/>
@@ -172,7 +172,7 @@
                         <group >
                             <field name="project_id" invisible="1"/>
                             <field name="responsible_id" attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}" required="1"/>
-                            <field name="partner_id" attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
+                            <field name="partner_id" attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}" required="1"/>
                             <field name="client_type" attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
                             <field name="sector_id" attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])], 'invisible': [('client_type', '=', False)]}"/>
                             <field name="parent_id" string="Activity"

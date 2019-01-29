@@ -44,6 +44,7 @@ class Task(models.Model):
         'res.partner',
         string='Client',
         track_visibility='onchange',
+        required=True,
     )
     client_type = fields.Many2one(
         'res.partner.category.type',
@@ -598,7 +599,7 @@ class Task(models.Model):
 
     def get_calendar_event(self):
         self.ensure_one()
-        return self.env['calendar.event'].search([('event_task_id','=',self.id)])
+        return self.env['calendar.event'].search([('event_task_id', '=', self.id)])
 
     @api.multi
     def reserve_equipment_inside(self, event_id):
