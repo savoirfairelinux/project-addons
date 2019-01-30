@@ -22,6 +22,7 @@ class TestSecurity(TestCalendarEventCommon):
         self.Users = self.env['res.users']
         self.Tag_categories = self.env['hr.employee.category']
         self.Employees = self.env['hr.employee']
+        self.Events = self.env['calendar.event']
         self.user_base = self.Users.create({
             'name': 'Base User',
             'login': 'base@test.com',
@@ -88,14 +89,7 @@ class TestSecurity(TestCalendarEventCommon):
             'allow_double_book': True,
             'tag_ids': [(6, 0, [self.tag_editor.id])]
         })
-
-    def has_access_to_menu(self, user_id, menu_name):
-        user = self.env['res.users'].browse(user_id)
-        for group in user.groups_id:
-            for m in group.menu_access:
-                if m.name == menu_name:
-                    return True
-        return False
+        self.user_editor.partner_id.write({'email': 'editor@test.com'})
 
     def get_user_groups(self, user_id):
         user = self.env['res.users'].browse(user_id)
@@ -127,16 +121,16 @@ class TestSecurity(TestCalendarEventCommon):
             self.user_manager).create({'name': 'Manager Room'})
         self.assertIsInstance(
             room_manager,
-            type(self.env['resource.calendar.room']))
+            type(self.Rooms))
 
-    def test_50_base_user_cannot_read_events_where_he_is_not_participant(
+    def test_050_base_user_cannot_read_events_where_he_is_not_participant(
             self):
         self.assertEqual(
-            len(self.env['calendar.event'].sudo(self.user_base.id).search([])),
+            len(self.Events.sudo(self.user_base.id).search([])),
             0)
 
-    def create_event(self, name, partner_ids=[], room_id=None):
-        return self.env['calendar.event'].create({
+    def create_event(self, name, partner_ids=[], room_id=None, user_id=1):
+        return self.Events.sudo(user_id).create({
             'name': name,
             'start': fields.Datetime.to_string(datetime.today()),
             'stop': fields.Datetime.to_string(datetime.today() +
@@ -153,7 +147,7 @@ class TestSecurity(TestCalendarEventCommon):
             partner_ids,
             room_id,)
         calendar_user_read_events =\
-            self.env['calendar.event'].sudo(user_id).search([])
+            self.Events.sudo(user_id).search([])
         self.assertEqual(
             len(calendar_user_read_events),
             1)
@@ -161,21 +155,21 @@ class TestSecurity(TestCalendarEventCommon):
             calendar_user_read_events.id,
             calendar_event_user_event.id)
 
-    def test_60_base_user_can_read_calendar_events_where_he_is_participant(
+    def test_060_base_user_can_read_calendar_events_where_he_is_participant(
             self):
         self.user_can_read_event(
             'Calendar Event where base user is participant',
             self.user_base.id,
             [self.user_base.partner_id.id])
 
-    def test_70_guest_user_can_read_calendar_events_where_he_is_participant(
+    def test_070_guest_user_can_read_calendar_events_where_he_is_participant(
             self):
         self.user_can_read_event(
             'Calendar Event where guest user is participant',
             self.user_guest.id,
             [self.user_guest.partner_id.id])
 
-    def test_80_guest_user_can_read_calendar_events_with_room_with_his_tag(
+    def test_080_guest_user_can_read_calendar_events_with_room_with_his_tag(
             self):
         self.user_can_read_event(
             'Calendar Event with room guest user tag',
@@ -183,14 +177,43 @@ class TestSecurity(TestCalendarEventCommon):
             [],
             self.room_calendar_event_user.id)
 
-    def test_90_base_user_cannot_read_calendar_events_with_room_with_his_tag(
+    def test_081_editor_user_can_read_calendar_events_where_he_is_participant(
+            self):
+        self.create_event(
+            'Editor is participant', [self.user_editor.partner_id.id])
+        events_participant = self.Events.search(
+            [('partner_ids', 'in', self.user_editor.partner_id.id)])
+        for event in events_participant:
+            self.assertEqual(
+                self.Events.sudo(self.user_editor.id).browse(event.id),
+                event)
+
+    def test_082_editor_user_can_read_calendar_events_with_room_with_his_tag(
+            self):
+        self.create_event(
+            'Editor is participant', [], self.room_editor_user.id)
+        events_room = self.Events.search(
+            [('room_id.tag_ids', 'in', self.user_editor.employee_ids[0].category_ids.ids)])
+        for event in events_room:
+            self.assertEqual(
+                self.Events.sudo(self.user_editor.id).browse(event.id),
+                event)
+
+    def test_083_manager_user_can_read_calendar_events(self):
+        for event in self.Events.search([]):
+            self.assertEqual(
+                self.Events.sudo(self.user_manager.id).browse(event.id),
+                event
+            )
+
+    def test_090_base_user_cannot_read_calendar_events_with_room_with_his_tag(
             self):
         self.create_event(
             'Calendar Event with room base user tag',
             [],
             self.room_base_user.id)
         self.assertEqual(
-            len(self.env['calendar.event'].sudo(self.user_base.id).search([])),
+            len(self.Events.sudo(self.user_base.id).search([])),
             0)
 
     def user_cannot_write_room(self, user_id, room_id):
@@ -249,13 +272,12 @@ class TestSecurity(TestCalendarEventCommon):
         self.user_cannot_delete_rooms(self.user_guest.id)
 
     def test_230_editor_user_cannot_delete_rooms(self):
-        self.user_cannot_delete_rooms(self.user_manager.id)
+        self.user_cannot_delete_rooms(self.user_editor.id)
 
     def test_230_manager_user_can_delete_rooms(self):
         room = self.Rooms.create({'name': 'Will be deleted'})
-        self.assertEqual(
-            room.sudo(self.user_manager.id).unlink(),
-            True)
+        self.assertTrue(
+            room.sudo(self.user_manager.id).unlink())
 
     def user_cannot_create_instrument(self, user_id):
         with self.assertRaises(exceptions.AccessError):
@@ -326,9 +348,8 @@ class TestSecurity(TestCalendarEventCommon):
 
     def test_380_manager_user_can_delete_instruments(self):
         instrument = self.Instruments.create({'name': 'Will be deleted'})
-        self.assertEqual(
-            instrument.sudo(self.user_manager.id).unlink(),
-            True)
+        self.assertTrue(
+            instrument.sudo(self.user_manager.id).unlink())
 
     def user_cannot_write_events(self, partner_id, user_id):
         calendar_event = self.create_event(
@@ -354,7 +375,138 @@ class TestSecurity(TestCalendarEventCommon):
             'Calendar Event where editor user is participant',
             [self.user_editor.partner_id.id],
         )
-        self.assertEqual(
+        self.assertTrue(
             calendar_event.sudo(
-                self.user_editor.id).write({}),
-            True)
+                self.user_editor.id).write({}))
+
+    def test_400_editor_user_can_write_events_with_room_with_his_tag(self):
+        calendar_event = self.create_event(
+            'Calendar Event where editor user is participant',
+            [],
+            self.room_editor_user.id
+        )
+        self.assertTrue(
+            calendar_event.sudo(
+                self.user_editor.id).write({}))
+
+    def test_410_manager_user_can_write_events(self):
+        for event in self.Events.search([]):
+            self.assertTrue(
+                event.sudo(self.user_manager.id).write({})
+            )
+
+    def has_access_to_menu(self, user_id, menu_ref):
+        user = self.env['res.users'].browse(user_id)
+        for group in user.groups_id:
+            for m in group.menu_access:
+                if m.name == self.env.ref(menu_ref).name:
+                    return True
+        return False
+
+    def test_960_base_user_cannot_get_weekly_report_menu(self):
+        self.assertFalse(self.has_access_to_menu(
+            self.user_base.id,
+            'project_resource_calendar.menu_event_reports'))
+
+    def test_970_guest_user_cannot_get_weekly_report_menu(self):
+        self.assertFalse(self.has_access_to_menu(
+            self.user_guest.id,
+            'project_resource_calendar.menu_event_reports'))
+
+    def test_980_editor_user_cannot_get_weekly_report_menu(self):
+        self.assertFalse(self.has_access_to_menu(
+            self.user_editor.id,
+            'project_resource_calendar.menu_event_reports'))
+
+    def test_990_manager_user_can_get_weekly_report_menu(self):
+        self.assertTrue(self.has_access_to_menu(
+            self.user_manager.id,
+            'project_resource_calendar.menu_event_reports'))
+
+    def test_420_base_user_cannot_delete_calendar_events(self):
+        self.create_event(
+            'Base user participant',
+            [self.user_base.partner_id.id])
+        with self.assertRaises(exceptions.AccessError):
+            self.Events.sudo(self.user_base.id).search([]).unlink()
+
+    def test_430_guest_user_cannot_delete_calendar_events(self):
+        self.create_event(
+            'Guest user participant',
+            [self.user_guest.partner_id.id])
+        with self.assertRaises(exceptions.AccessError):
+            self.Events.sudo(
+                self.user_guest.id).search([]).unlink()
+
+    def test_440_editor_user_can_delete_calendar_events_where_he_is_participant(
+            self):
+        event = self.create_event(
+            'Event editor is participant',
+            [self.user_editor.partner_id.id]
+        )
+        self.assertTrue(
+            event.sudo(self.user_manager.id).unlink())
+
+    def test_450_editor_user_can_delete_calendar_events_with_room_with_his_tag(
+            self):
+        event = self.create_event(
+            'Event room in editor tagst',
+            [],
+            self.room_editor_user.id
+        )
+        self.assertTrue(
+            event.sudo(self.user_manager.id).unlink())
+
+    def test_460_manager_user_can_delete_calendar_events(self):
+        self.assertTrue(self.Events.sudo(
+            self.user_manager).search([]).unlink())
+
+    def test_470_base_user_cannot_create_calendar_events(self):
+        with self.assertRaises(exceptions.AccessError):
+            self.create_event('Not Created', [], None, self.user_base.id)
+
+    def test_480_guest_user_cannot_create_calendar_events(self):
+        with self.assertRaises(exceptions.AccessError):
+            self.create_event('Not Created', [], None, self.user_guest.id)
+
+    def test_490_editor_user_can_create_calendar_events_where_he_is_participant(
+            self):
+        event_editor = self.create_event(
+            'Editor is Participant Event',
+            [self.user_editor.partner_id.id],
+            None,
+            self.user_editor.id)
+        self.assertIsInstance(
+            event_editor,
+            type(self.Events))
+
+    def test_500_editor_user_can_create_calendar_events_with_room_with_his_tag(
+            self):
+        event_editor = self.create_event(
+            'Editors Room Event',
+            [],
+            self.room_editor_user.id,
+            self.user_editor.id)
+        self.assertIsInstance(
+            event_editor,
+            type(self.Events))
+
+    def test_001_editor_user_cannot_create_calendar_events_withothou_room_with_his_tag_nor_participant(
+            self):
+        with self.assertRaises(exceptions.ValidationError):
+            self.create_event(
+                'Editors Room Event',
+                [],
+                None,
+                self.user_editor.id)
+
+    def test_520_manager_user_can_create_calendar_events(self):
+        self.user_manager.partner_id.write({'email': 'manager@test.comx'})
+        event_manager = self.create_event(
+            'By Manager',
+            [],
+            None,
+            self.user_manager.id)
+        self.assertIsInstance(
+            event_manager,
+            type(self.Events))
