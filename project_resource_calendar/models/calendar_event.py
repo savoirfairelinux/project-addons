@@ -95,7 +95,7 @@ class CalendarEvent(models.Model):
     partner_ids_names = fields.Char(
         compute='_get_res_partners_names'
     )
-    partner_id = fields.Many2one(
+    client_id = fields.Many2one(
         'res.partner', string='Client', readonly=False,
     )
 

@@ -28,6 +28,7 @@
                 <field name="category_id" attrs="{'readonly': [('is_task_event','=',True)]}"/>
             </xpath>
             <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="client_id" attrs="{'readonly': [('is_task_event','=',True)], 'invisible': [('is_task_event','=',False)]}"/>
                 <field name="client_type" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 <field name="sector_id" attrs="{'readonly': [('is_task_event','=',True)]}"/>
             </xpath>

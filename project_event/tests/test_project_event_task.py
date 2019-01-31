@@ -470,6 +470,6 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.task_1.request_reservation()
         calendar_event = self.task_1.get_calendar_event()
         self.assertEqual(
-            calendar_event.partner_id.id,
+            calendar_event.client_id.id,
             self.partner_1.id
         )
