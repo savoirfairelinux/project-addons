@@ -158,5 +158,5 @@ class TestProjectEventReservation(TestProjectEventCommon):
             reservation_event = self.env['calendar.event'].browse(
                 event_id)
             self.assertEqual(
-                reservation_event.partner_id.id,
+                reservation_event.client_id.id,
                 self.project_1.partner_id.id)

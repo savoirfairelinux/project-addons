@@ -585,7 +585,7 @@ class Task(models.Model):
             'equipment_ids': [(
                 4, self.equipment_id.id, 0)] if self.equipment_id else None,
             'partner_ids': [(6, 0, self.get_partners())],
-            'partner_id': self.partner_id.id,
+            'client_id': self.partner_id.id,
             'state': 'open',
             'event_task_id': self.id,
             'is_task_event': True,
