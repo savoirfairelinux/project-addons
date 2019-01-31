@@ -44,7 +44,6 @@ class Task(models.Model):
         'res.partner',
         string='Client',
         track_visibility='onchange',
-        required=True,
     )
     client_type = fields.Many2one(
         'res.partner.category.type',
