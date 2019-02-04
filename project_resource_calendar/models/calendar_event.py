@@ -35,10 +35,9 @@ class CalendarEvent(models.Model):
         readonly=True,
         track_visibility='onchange',
         default='open')
-    weekday = fields.Char(
-        string='Weekday',
-        compute='_get_weekday',
-        store=True
+    weekday_number = fields.Integer(
+        string='Weekday number',
+        compute="_get_weekday_number"
     )
     event_task_id = fields.Many2one(
         string='Task',
@@ -109,12 +108,12 @@ class CalendarEvent(models.Model):
         if self.recurrency:
             if self.end_type == 'end_date':
                 self.recurrence_type = str(self.interval) + _(" Time(s)") + \
-                                       str(self.rrule_type) + _(" until ") + \
-                                       self.final_date
+                    str(self.rrule_type) + _(" until ") + \
+                    self.final_date
             else:
                 self.recurrence_type = str(self.interval) + _(" Time(s) ") + \
-                                       str(self.rrule_type) + _(" for ") + \
-                                       str(self.count) + _(" Time(s)")
+                    str(self.rrule_type) + _(" for ") + \
+                    str(self.count) + _(" Time(s)")
 
     @api.one
     def _get_res_partners_names(self):
@@ -122,31 +121,17 @@ class CalendarEvent(models.Model):
             self.partner_ids_names = self.partner_id.name
         else:
             self.partner_ids_names = str(list(map(lambda partner:
-                                                str(partner.name),
-                                                self.partner_ids)))\
+                                                  str(partner.name),
+                                                  self.partner_ids)))\
                 .replace('[', '').replace(']', '').replace("'", "")
 
     @api.one
     @api.depends('start_datetime')
-    def _get_weekday(self):
-        weekdays = {
-            '0': _('Monday'),
-            '1': _('Tuesday'),
-            '2': _('Wednesday'),
-            '3': _('Thursday'),
-            '4': _('Friday'),
-            '5': _('Saturday'),
-            '6': _('Sunday'),
-        }
+    def _get_weekday_number(self):
         if self.start_datetime:
-            start_datetime = str(
-                datetime.strptime(self.start_datetime, '%Y-%m-%d %H:%M:%S'
-                                  ).weekday())
-            for day in weekdays:
-                if day == start_datetime:
-                    self.weekday = str(weekdays[day])
-        else:
-            return False
+            self.weekday_number = datetime.strptime(
+                self.start_datetime, '%Y-%m-%d %H:%M:%S'
+            ).weekday()
 
     @api.multi
     @api.constrains('room_id', 'start', 'stop', 'equipment_ids')
