@@ -48,13 +48,62 @@ class TestSecurity(TestProjectEventCommon):
             'user_id': self.user_manager.id
         })
 
-    def has_access_to_menu(self, user_id, menu_name):
-        user = self.env['res.users'].browse(user_id)
-        for group in user.groups_id:
-            for m in group.menu_access:
-                if m.name == menu_name:
-                    return True
-        return False
+    def get_user_acls_and_rules_to_model(self, user, model):
+        rules = self.get_rules_applied_to_user_and_model(user, model)
+        acls = self.get_user_s_access_list_to_model(user.id, model)
+        self.print_user_acls_and_rules_to_model(user, rules, acls, model)
+
+    def get_rules_applied_to_user_and_model(self, user, model):
+        rules_user_model = []
+        for rule_model in self.get_rules_applied_to_model(model):
+            rules_groups = self.get_rules_applied_to_user(user)
+            for group in rules_groups:
+                if rule_model in group['rules']:
+                    rules_user_model.append((rule_model, group['group']))
+        return rules_user_model
+
+    def get_user_s_access_list_to_model(self, user_id, model):
+        user_acls = {}
+        for group in self.get_user_groups(user_id):
+            acls = self.get_group_s_access_list_to_model(group, model)
+            if acls:
+                user_acls[str(acls.pop('group'))] = acls
+        return user_acls
+
+    def print_user_acls_and_rules_to_model(self, user, rules, acls, model):
+        ir_model = self.get_ir_model_from_model(model)
+        message = "User " + user.name + " (" + str(user) + ")"\
+            + " has acls to model " + ir_model.name + \
+            " (" + str(model) + ")" + ': \n'
+        for group, acl in acls.items():
+            message += "Group: " + group
+            for rule in rules:
+                if rule[1] == group:
+                    message += "--> Rule: " + self.get_crud_rule(rule[0])\
+                        + str(rule[0])\
+                        + "(" + rule[0].domain_force + ")"
+            message += "\n"
+            for a in acl['acls']:
+                message += "\t External id: " + a['external_id']\
+                    + self.get_crud_permissions_from_acl(a['external_id']) + "\n"
+        print(message)
+
+    def get_crud_permissions_from_acl(self, external_id):
+        acls = ' ('
+        acl = self.env.ref(external_id)
+        acls += ' 1,' if acl.perm_read else ' 0,'
+        acls += ' 1,' if acl.perm_write else ' 0,'
+        acls += ' 1,' if acl.perm_create else ' 0,'
+        acls += ' 1) ' if acl.perm_unlink else ' 0) '
+        return acls
+
+    def get_crud_rule(self, rule):
+        rule_crud = ' ('
+        rule_crud += ' 1,' if rule.perm_read else ' 0,'
+        rule_crud += ' 1,' if rule.perm_write else ' 0,'
+        rule_crud += ' 1,' if rule.perm_create else ' 0,'
+        rule_crud += ' 1) ' if rule.perm_unlink else ' 0) '
+        return rule_crud
 
     def get_user_groups(self, user_id):
         user = self.env['res.users'].browse(user_id)
@@ -72,45 +121,35 @@ class TestSecurity(TestProjectEventCommon):
                     'name': model_access.name,
                     'external_id': list(
                         model_access.get_external_id().values())[0]})
-        if group_access['acls']:
+        if not group_access['acls']:
             return
         return group_access
-
-    def get_user_s_access_list_to_model(self, user_id, model):
-        user_acls = {}
-        for group in self.get_user_groups(user_id):
-            acls = self.get_group_s_access_list_to_model(group, model)
-            if acls:
-                user_acls[str(acls.pop('group'))] = acls
-        return user_acls
 
     def get_rules_applied_to_model(self, model):
         ir_model = self.get_ir_model_from_model(model)
         return self.env['ir.rule'].search([('model_id', '=', ir_model.id)])
 
-    def get_group_access_rules(self, group_id):
-        group = self.env['res.groups'].browse(group_id)
-        return group.model_access
+    def get_rules_applied_to_user(self, user):
+        rules = []
+        for group in user.groups_id:
+            rules.append({
+                'group': group.name,
+                'rules': group.rule_groups})
+        return rules
 
     def get_ir_model_from_model(self, model):
-        name = str(self.Projects).replace('(', '').replace(')', '')
+        name = str(model).replace('(', '').replace(')', '')
         return self.env['ir.model'].search([('model', '=', name)])
 
-    def create_project_project(self):
-        return False
-
     def test_010_project_user_cannot_read_project_project(self):
+        self.get_user_acls_and_rules_to_model(self.project_user, self.Projects)
         with self.assertRaises(exceptions.AccessError):
             self.Projects.sudo(self.project_user.id).search([])
 
-    def test_020_project_user_cannot_write_project_project(self):
-        with self.asserRaises(exceptions.AccessError):
-            self.Projects.sudo(self.project_user.id).write({})
+    def test_020_project_user_cannot_create_project_project(self):
+        with self.assertRaises(exceptions.AccessError):
+            self.Projects.sudo(self.project_user.id).create({})
 
-    def test_030_project_user_cannot_create_project_project(self):
-        with self.asserRaise(exceptions.AccessError):
-            self.Projects.sudo(self.project_user.id).create()
-
-    def test_040_proejct_user_cannot_delete_project_project(self):
-        with self.assertAccessError(exceptions.AccessErro):
+    def test_030_proejct_user_cannot_delete_project_project(self):
+        with self.assertRaises(exceptions.AccessError):
             self.Projects.sudo(self.project_user.id).search([]).unlink()
