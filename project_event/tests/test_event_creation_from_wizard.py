@@ -9,11 +9,8 @@ class TestEventCreationFromWizard(TestProjectEventCommon):
 
     def setUp(self):
         super(TestEventCreationFromWizard, self).setUp()
-        self.EventTemplate = self.env['event.template']
-        self.ActivityTemplate = self.env['activity.template']
-        self.TaskTemplate = self.env['task.template']
 
-        self.event_template1 = self.EventTemplate.create({
+        self.event_template1 = self.EventTemplates.create({
             'name': 'Event Test Template 1',
             'temp_resp_id': self.responsible_1.id,
             'notes': 'Some Event Notes ...',
