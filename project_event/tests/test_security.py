@@ -413,3 +413,70 @@ class TestSecurity(TestProjectEventCommon):
     def test_600_project_manager_can_delete_project_template_task(self):
         self.assertTrue(
             self.TaskTemplate.sudo(self.user_manager).search([]).unlink())
+
+    def test_610_project_user_cannot_read_project_task_category(self):
+        self.get_user_acls_and_rules_to_model(
+            self.project_user, self.Task_category)
+        with self.assertRaises(exceptions.AccessError):
+            self.Task_category.sudo(self.project_user.id).search([])
+
+    def test_620_project_user_cannot_write_project_task_category(self):
+        self.user_cannot_write_project_task_category(self.project_user)
+
+    def user_cannot_write_project_task_category(self, user):
+        with self.assertRaises(exceptions.AccessError):
+            self.category_1.sudo(user.id).write(
+                {'name': 'New Name'})
+
+    def test_630_project_user_cannot_create_project_task_category(self):
+        self.user_cannot_create_project_task_category(self.project_user)
+
+    def user_cannot_create_project_task_category(self, user):
+        with self.assertRaises(exceptions.AccessError):
+            self.Task_category.sudo(user.id).create(
+                {'name': 'New Name'})
+
+    def test_640_project_user_cannot_delete_project_task_category(self):
+        self.user_cannot_delete_project_task_category(self.project_user)
+
+    def user_cannot_delete_project_task_category(self, user):
+        with self.assertRaises(exceptions.AccessError):
+            self.category_1.sudo(user.id).unlink()
+
+    def test_650_project_editor_can_read_project_task_category(self):
+        self.get_user_acls_and_rules_to_model(
+            self.user_editor, self.Task_category)
+        self.assertEqual(
+            self.Task_category.search([]),
+            self.Task_category.sudo(self.user_editor).search([]))
+
+    def test_660_project_editor_cannot_write_project_task_category(self):
+        self.user_cannot_write_project_task_category(self.user_editor)
+
+    def test_670_project_editor_cannot_create_project_task_category(self):
+        self.user_cannot_create_project_task_category(self.user_editor)
+
+    def test_680_project_editor_cannot_delete_project_task_category(self):
+        self.user_cannot_delete_project_task_category(self.user_editor)
+
+    def test_690_project_manager_can_read_project_task_category(self):
+        self.get_user_acls_and_rules_to_model(
+            self.user_manager, self.Task_category)
+        self.assertEqual(
+            self.Task_category.search([]),
+            self.Task_category.sudo(self.user_manager).search([]))
+
+    def test_700_project_manager_can_write_project_task_category(self):
+        self.assertTrue(self.category_1.sudo(self.user_manager.id).write(
+            {}))
+
+    def test_710_project_manager_can_create_project_task_category(self):
+        activity_template_created = self.Task_category.sudo(
+            self.user_manager.id).create({'name': 'Test Create'})
+        self.assertIsInstance(
+            activity_template_created,
+            type(self.Task_category))
+
+    def test_720_project_manager_can_delete_project_task_category(self):
+        self.assertTrue(
+            self.category_2.sudo(self.user_manager).unlink())
