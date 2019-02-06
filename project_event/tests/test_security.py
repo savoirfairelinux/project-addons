@@ -180,7 +180,7 @@ class TestSecurity(TestProjectEventCommon):
         self.project_1.write({'name': 'Test Project 1'})
 
     def test_070_project_editor_can_create_project_project(self):
-        self.user_can_create_project(self.editor_user)
+        self.user_can_create_project(self.user_editor)
 
     def user_can_create_project(self, user):
         project_created = self.Projects.sudo(
@@ -200,13 +200,13 @@ class TestSecurity(TestProjectEventCommon):
             self.Projects.search([]),
             self.Projects.sudo(self.user_manager).search([]))
 
-    def test_060_project_manager_can_write_project_project(self):
+    def test_090_project_manager_can_write_project_project(self):
         self.user_can_write_project(self.user_manager)
 
-    def test_070_project_manager_can_create_project_project(self):
+    def test_100_project_manager_can_create_project_project(self):
         self.user_can_create_project(self.user_manager)
 
-    def test_080_project_manager_can_delete_project_project(self):
+    def test_110_project_manager_can_delete_project_project(self):
         self.assertTrue(
             self.project_1.sudo(self.user_manager).unlink()
         )
