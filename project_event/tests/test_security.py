@@ -47,6 +47,7 @@ class TestSecurity(TestProjectEventCommon):
             'work_email': 'manager@test.com',
             'user_id': self.user_manager.id
         })
+        self.user_editor.partner_id.write({'email': 'editor@test.com'})
 
     def get_user_acls_and_rules_to_model(self, user, model):
         rules = self.get_rules_applied_to_user_and_model(user, model)
@@ -142,6 +143,8 @@ class TestSecurity(TestProjectEventCommon):
         return self.env['ir.model'].search([('model', '=', name)])
 
     def test_010_project_user_cannot_read_project_project(self):
+        import ipdb
+        ipdb.set_trace()
         self.get_user_acls_and_rules_to_model(self.project_user, self.Projects)
         with self.assertRaises(exceptions.AccessError):
             self.Projects.sudo(self.project_user.id).search([])
@@ -153,3 +156,51 @@ class TestSecurity(TestProjectEventCommon):
     def test_030_proejct_user_cannot_delete_project_project(self):
         with self.assertRaises(exceptions.AccessError):
             self.Projects.sudo(self.project_user.id).search([]).unlink()
+
+    def test_040_project_user_cannot_write_project_project(self):
+        with self.assertRaises(exceptions.AccessError):
+            self.project_1.sudo(self.project_user.id).write(
+                {'name': 'New Name'})
+
+    def test_050_project_editor_can_read_project_project(self):
+        self.get_user_acls_and_rules_to_model(self.user_editor, self.Projects)
+        self.assertEqual(
+            self.Projects.search([]),
+            self.Projects.sudo(self.user_editor).search([]))
+
+    def test_060_project_editor_can_write_project_project(self):
+        self.project_1.sudo(self.user_editor).write(
+            {'name': 'Test Project 1060'})
+        self.assertEqual(
+            self.project_1.name,
+            'Test Project 1060'
+        )
+        self.project_1.sudo(self.user_editor).write({'name': 'Test Project 1'})
+
+    def test_070_project_editor_can_create_project_project(self):
+        project_editor = self.Projects.sudo(
+            self.user_editor).create({'name': 'Editor Project'})
+        self.assertIsInstance(
+            project_editor,
+            type(self.Projects))
+
+    def test_080_project_editor_can_delete_project_project(self):
+        import ipdb
+        ipdb.set_trace()
+        self.assertTrue(
+            self.project_1.sudo(self.user_editor).unlink()
+        )
+
+    def test_050_project_manager_can_read_project_project(self):
+        import ipdb
+        ipdb.set_trace()
+        self.get_user_acls_and_rules_to_model(self.user_manager, self.Projects)
+
+    def test_060_project_manager_can_write_project_project(self):
+        pass
+
+    def test_070_project_manager_can_create_project_project(self):
+        pass
+
+    def test_080_project_manager_can_delete_project_project(self):
+        pass
