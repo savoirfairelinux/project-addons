@@ -11,53 +11,6 @@ class TestProjectEventTask(TestProjectEventCommon):
 
     def setUp(self):
         super(TestProjectEventTask, self).setUp()
-        self.Tasks = self.env['project.task']
-
-        self.activity_1 = self.Tasks.create({
-            'name': 'Test Activity 1',
-            'activity_task_type': 'activity',
-            'project_id': self.project_1.id,
-            'responsible_id': self.project_1.responsible_id.id,
-            'partner_id': self.project_1.partner_id.id,
-            'category_id': self.category_1.id,
-            'room_id': self.room_1.id,
-            'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(datetime.today() + timedelta(hours=4)),
-        })
-        self.activity_2 = self.Tasks.create({
-            'name': 'Test Activity 2',
-            'activity_task_type': 'activity',
-            'responsible_id': self.responsible_2.id,
-            'partner_id': self.partner_2.id,
-            'category_id': self.category_2.id,
-            'room_id': self.room_2.id,
-            'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(
-                datetime.today() + timedelta(hours=4)
-            ),
-        })
-        self.task_1 = self.Tasks.create({
-            'name': 'Test task 1',
-            'activity_task_type': 'task',
-            'responsible_id': self.responsible_1.id,
-            'partner_id': self.partner_1.id,
-            'category_id': self.category_1.id,
-            'room_id': self.room_1.id,
-            'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(datetime.today() + timedelta(hours=4)),
-        })
-        self.task_2 = self.Tasks.create({
-            'name': 'Test Task 2',
-            'activity_task_type': 'task',
-            'project_id': self.project_1.id,
-            'responsible_id': self.project_1.responsible_id.id,
-            'partner_id': self.project_1.partner_id.id,
-            'room_id': self.room_1.id,
-            'parent_id': None,
-            'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(datetime.today() +
-                                                  timedelta(hours=4)),
-        })
 
     def test_010_compute_project_task_log(self):
         self.AuditLogObj = self.env['auditlog.log']
@@ -220,7 +173,9 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.assertEqual(activity.name, 'Activity Test')
         self.assertEqual(activity.activity_task_type, 'activity')
         self.assertEqual(activity.project_id.id, self.project_1.id)
-        self.assertEqual(activity.responsible_id.id, self.project_1.responsible_id.id)
+        self.assertEqual(
+            activity.responsible_id.id,
+            self.project_1.responsible_id.id)
         self.assertEqual(activity.partner_id.id, self.project_1.partner_id.id)
         self.assertEqual(activity.room_id, self.room_1)
         self.assertEqual(activity.parent_id.id, False)
@@ -230,15 +185,15 @@ class TestProjectEventTask(TestProjectEventCommon):
                 activity.date_start,
                 '%Y-%m-%d %H:%M:%S'
             ).replace(second=0),
-            datetime.today().replace(second=0,  microsecond=0))
+            datetime.today().replace(second=0, microsecond=0))
         self.assertEqual(
             datetime.strptime
             (
                 activity.date_end,
                 '%Y-%m-%d %H:%M:%S'
-            ).replace(second=0, microsecond=0), 
-            (datetime.today() + \
-            timedelta(hours=4)).replace(second=0, microsecond=0))
+            ).replace(second=0, microsecond=0),
+            (datetime.today() +
+             timedelta(hours=4)).replace(second=0, microsecond=0))
 
     def test_090_create_orphan_task(self):
         vals = {
@@ -283,7 +238,7 @@ class TestProjectEventTask(TestProjectEventCommon):
 
     def test_130_compute_task_state_visible(self):
         self.assertEqual(self.task_1.task_state, 'draft')
-        self.task_1.write({'task_state':'done'})
+        self.task_1.write({'task_state': 'done'})
         self.assertEqual(
             self.task_1.task_state_report_done_required, 'done')
         self.assertEqual(
@@ -291,53 +246,53 @@ class TestProjectEventTask(TestProjectEventCommon):
 
     def test_140_create_new_activity_with_tasks(self):
         activity_vals = {
-              'category_id': self.category_1.id
-            , 'responsible_id': self.partner_2.id
-            , 'notes': '<p><br></p>'
-            , 'room_id': False
-            , 'date_start': '2018-12-21 17:39:27'
-            , 'name': 'A1'
-            , 'sector_id': False
-            , 'client_type': False
-            , 'child_ids': [[0, 'virtual_584'
-            , {'responsible_id': self.partner_2.id
-            , 'parent_id': False
-            , 'employee_ids': [[6, False, []]]
-            , 'task_state': 'draft'
-            , 'sector_id': False
-            , 'department_id': self.department_1.id
-            , 'equipment_id': False
-            , 'date_end': '2018-12-21 17:39:44'
-            , 'date_start': '2018-12-21 16:40:44'
-            , 'task_state_report_not_done_required': 'draft'
-            , 'report_done_required': False
-            , 'asterisk_validate_record': False
-            , 'description': '<p><br></p>'
-            , 'category_id': self.category_1.id
-            , 'preceding_task_ids': [[6, False, []]]
-            , 'notes': '<p><br></p>'
-            , 'task_order': -58
-            , 'succeeding_task_ids': [[6, False, []]]
-            , 'name': 'Task IN 1'
-            , 'client_type': False
-            , 'activity_task_type': 'task'
-            , 'room_id': False
-            , 'partner_id': False
-            , 'resource_type': 'user'
-            , 'task_state_report_done_required': 'draft'
-            , 'project_id': False}]]
-            , 'activity_task_type': 'activity'
-            ,'task_state': 'draft'
-            ,'partner_id': False
-            ,'description': '<p><br></p>'
-            ,'date_end': '2018-12-21 18:40:27'
-            ,'project_id': False
+            'category_id': self.category_1.id,
+            'responsible_id': self.partner_2.id,
+            'notes': '<p><br></p>',
+            'room_id': False,
+            'date_start': '2018-12-21 17:39:27',
+            'name': 'A1',
+            'sector_id': False,
+            'client_type': False,
+            'child_ids': [[0, 'virtual_584',
+                           {'responsible_id': self.partner_2.id,
+                            'parent_id': False,
+                            'employee_ids': [[6, False, []]],
+                            'task_state': 'draft',
+                            'sector_id': False,
+                            'department_id': self.department_1.id,
+                            'equipment_id': False,
+                            'date_end': '2018-12-21 17:39:44',
+                            'date_start': '2018-12-21 16:40:44',
+                            'task_state_report_not_done_required': 'draft',
+                            'report_done_required': False,
+                            'asterisk_validate_record': False,
+                            'description': '<p><br></p>',
+                            'category_id': self.category_1.id,
+                            'preceding_task_ids': [[6, False, []]],
+                            'notes': '<p><br></p>',
+                            'task_order': -58,
+                            'succeeding_task_ids': [[6, False, []]],
+                            'name': 'Task IN 1',
+                            'client_type': False,
+                            'activity_task_type': 'task',
+                            'room_id': False,
+                            'partner_id': False,
+                            'resource_type': 'user',
+                            'task_state_report_done_required': 'draft',
+                            'project_id': False}]],
+            'activity_task_type': 'activity',
+            'task_state': 'draft',
+            'partner_id': False,
+            'description': '<p><br></p>',
+            'date_end': '2018-12-21 18:40:27',
+            'project_id': False
         }
-        
+
         activity_with_task = self.Tasks.create(activity_vals)
         self.assertEqual(
             len(activity_with_task.child_ids), 2
-            )
+        )
 
     def test_150_update_reservation_event(self):
         self.client_type_original = self.Category_types.create({
@@ -465,7 +420,7 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.assertEqual(
             activity_plus_task.child_ids[0].sector_id.name,
             'Sector New')
-    
+
     def test_160_check_partner_id_calendar_event_as_client_of_task(self):
         self.task_1.request_reservation()
         calendar_event = self.task_1.get_calendar_event()
