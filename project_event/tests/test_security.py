@@ -480,3 +480,85 @@ class TestSecurity(TestProjectEventCommon):
     def test_720_project_manager_can_delete_project_task_category(self):
         self.assertTrue(
             self.category_2.sudo(self.user_manager).unlink())
+
+    def test_730_project_editor_can_read_resource_calendar_room(self):
+        self.get_user_acls_and_rules_to_model(self.user_editor, self.Rooms)
+        self.assertEqual(
+            self.Rooms.search([]),
+            self.Rooms.sudo(self.user_editor.id).search([]))
+
+    def test_740_project_editor_cannot_write_resource_calendar_room(self):
+        with self.assertRaises(exceptions.AccessError):
+            self.room_1.sudo(self.user_editor.id).write(
+                {'name': 'New Name'})
+
+    def test_750_project_editor_cannot_create_resource_calendar_room(self):
+        with self.assertRaises(exceptions.AccessError):
+            self.Rooms.sudo(self.user_editor.id).create({})
+
+    def test_760_project_editor_cannot_delete_resource_calendar_room(self):
+        with self.assertRaises(exceptions.AccessError):
+            self.Rooms.sudo(self.user_editor.id).search([]).unlink()
+
+    def test_770_project_manager_can_read_resource_calendar_room(self):
+        self.get_user_acls_and_rules_to_model(self.user_manager, self.Rooms)
+        self.assertEqual(
+            self.Rooms.search([]),
+            self.Rooms.sudo(self.user_manager).search([]))
+
+    def test_780_project_manager_can_write_resource_calendar_room(self):
+        self.assertTrue(self.room_1.sudo(self.user_manager.id).write(
+            {}))
+
+    def test_790_project_manager_can_create_resource_calendar_room(self):
+        room_created = self.Rooms.sudo(
+            self.user_manager.id).create({'name': 'Test Create'})
+        self.assertIsInstance(
+            room_created,
+            type(self.Rooms))
+
+    def test_800_project_manager_can_delete_resource_calendar_room(self):
+        self.assertTrue(
+            self.Rooms.sudo(self.user_manager.id).search([]).unlink()
+        )
+
+    def test_810_project_editor_can_read_resource_calendar_instrument(self):
+        self.get_user_acls_and_rules_to_model(self.user_editor, self.Instruments)
+        self.assertEqual(
+            self.Instruments.search([]),
+            self.Instruments.sudo(self.user_editor).search([]))
+
+    def test_820_project_editor_cannot_write_resource_calendar_instrument(self):
+        with self.assertRaises(exceptions.AccessError):
+            self.instrument_1.sudo(self.user_editor.id).write(
+                {'name': 'New Name'})
+
+    def test_830_project_editor_cannot_create_resource_calendar_instrument(self):
+        with self.assertRaises(exceptions.AccessError):
+            self.Instruments.sudo(self.user_editor.id).create({})
+
+    def test_840_project_editor_cannot_delete_resource_calendar_instrument(self):
+        with self.assertRaises(exceptions.AccessError):
+            self.Instruments.sudo(self.user_editor.id).search([]).unlink()
+
+    def test_850_project_manager_can_read_resource_calendar_instrument(self):
+        self.get_user_acls_and_rules_to_model(self.user_manager, self.Instruments)
+        self.assertEqual(
+            self.Instruments.search([]),
+            self.Instruments.sudo(self.user_manager).search([]))
+
+    def test_860_project_manager_can_write_resource_calendar_instrument(self):
+        self.assertTrue(self.instrument_1.sudo(self.user_manager.id).write(
+            {}))
+
+    def test_870_project_manager_can_create_resource_calendar_instrument(self):
+        instrument_created = self.Instruments.sudo(
+            self.user_manager.id).create({'name': 'Test Create'})
+        self.assertIsInstance(
+            instrument_created,
+            type(self.Instruments))
+
+    def test_880_project_manager_can_delete_resource_calendar_instrument(self):
+        self.assertTrue(
+            self.Instruments.sudo(self.user_manager.id).search([]).unlink()
+        )
