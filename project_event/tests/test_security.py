@@ -3,6 +3,8 @@
 
 from odoo.addons.project_event.tests.common import TestProjectEventCommon
 from odoo import exceptions
+from odoo import fields
+from datetime import datetime, timedelta
 
 
 class TestSecurity(TestProjectEventCommon):
@@ -212,6 +214,96 @@ class TestSecurity(TestProjectEventCommon):
         self.assertTrue(
             self.project_3.sudo(self.user_manager).unlink()
         )
+
+    def test_130_project_user_can_only_read_project_task_type_activity_if_task_children_has_user_as_participant(
+            self):
+        self.get_user_acls_and_rules_to_model(self.project_user, self.Tasks)
+        self.assertEqual(
+            len(self.Tasks.sudo(self.project_user.id).search([])),
+            0)
+        task_with_user_participant = self.create_task_project_user_participant()
+        self.assertEqual(
+            self.Tasks.sudo(self.project_user.id).browse(
+                task_with_user_participant.parent_id.id),
+            self.activity_1)
+
+    def create_task_project_user_participant(self, user_id=1):
+        return self.Tasks.sudo(user_id).create({
+            'name': 'Test Task User Participant',
+            'activity_task_type': 'task',
+            'project_id': self.project_1.id,
+            'responsible_id': self.project_1.responsible_id.id,
+            'partner_id': self.project_1.partner_id.id,
+            'room_id': self.room_1.id,
+            'parent_id': self.activity_1.id,
+            'date_start': fields.Datetime.to_string(datetime.today()),
+            'date_end': fields.Datetime.to_string(datetime.today() +
+                                                  timedelta(hours=4)),
+            'employee_ids': [[6, False, [self.employee_base.id]]],
+        })
+
+    def test_140_project_user_can_read_project_task_type_task_if_one_or_more_parent_children_has_user_as_participant(
+            self):
+        self.assertEqual(
+            len(self.Tasks.sudo(self.project_user.id).search([])),
+            0)
+        task_with_user_participant = self.create_task_project_user_participant()
+        parent_activity = task_with_user_participant.parent_id
+        parent_childen_ids = parent_activity.child_ids.ids
+        self.assertEqual(
+            self.Tasks.sudo(self.project_user.id).search([]).ids,
+            parent_childen_ids + [parent_activity.id])
+
+    def test_150_project_user_cannot_create_project_task(self):
+        with self.assertRaises(exceptions.AccessError):
+            self.Tasks.sudo(self.project_user.id).create({})
+
+    def test_160_project_user_cannot_delete_project_task(self):
+        self.create_task_project_user_participant()
+        with self.assertRaises(exceptions.AccessError):
+            self.Tasks.sudo(self.project_user.id).search([]).unlink()
+
+    def test_170_project_editor_can_read_project_task(self):
+        self.get_user_acls_and_rules_to_model(self.user_editor, self.Tasks)
+        self.assertEqual(
+            self.Tasks.sudo(self.user_editor.id).search([]),
+            self.Tasks.search([]))
+
+    def test_180_project_editor_can_write_project_task(self):
+        self.assertTrue(
+            self.task_1.sudo(self.user_editor.id).write({})
+        )
+
+    def test_190_project_editor_can_create_project_task(self):
+        task_created = self.create_task_project_user_participant(
+            self.user_editor.id)
+        self.assertIsInstance(
+            task_created,
+            type(self.Tasks))
+
+    def test_200_project_editor_can_delete_project_task(self):
+        self.assertTrue(self.Tasks.sudo(self.user_editor.id).unlink())
+
+    def test_210_project_manager_can_read_project_task(self):
+        self.get_user_acls_and_rules_to_model(self.user_manager, self.Tasks)
+        self.assertEqual(
+            self.Tasks.sudo(self.user_manager.id).search([]),
+            self.Tasks.search([]))
+
+    def test_220_project_manager_can_write_project_task(self):
+        self.assertTrue(
+            self.task_1.sudo(self.user_manager.id).write({})
+        )
+
+    def test_230_project_manager_can_create_project_task(self):
+        task_created = self.create_task_project_user_participant(
+            self.user_manager.id)
+        self.assertIsInstance(
+            task_created,
+            type(self.Tasks))
+
+    def test_240_project_manager_can_delete_project_task(self):
+        self.assertTrue(self.Tasks.sudo(self.user_manager.id).unlink())
 
     def test_250_project_user_cannot_read_project_template_event(self):
         self.get_user_acls_and_rules_to_model(
@@ -523,26 +615,31 @@ class TestSecurity(TestProjectEventCommon):
         )
 
     def test_810_project_editor_can_read_resource_calendar_instrument(self):
-        self.get_user_acls_and_rules_to_model(self.user_editor, self.Instruments)
+        self.get_user_acls_and_rules_to_model(
+            self.user_editor, self.Instruments)
         self.assertEqual(
             self.Instruments.search([]),
             self.Instruments.sudo(self.user_editor).search([]))
 
-    def test_820_project_editor_cannot_write_resource_calendar_instrument(self):
+    def test_820_project_editor_cannot_write_resource_calendar_instrument(
+            self):
         with self.assertRaises(exceptions.AccessError):
             self.instrument_1.sudo(self.user_editor.id).write(
                 {'name': 'New Name'})
 
-    def test_830_project_editor_cannot_create_resource_calendar_instrument(self):
+    def test_830_project_editor_cannot_create_resource_calendar_instrument(
+            self):
         with self.assertRaises(exceptions.AccessError):
             self.Instruments.sudo(self.user_editor.id).create({})
 
-    def test_840_project_editor_cannot_delete_resource_calendar_instrument(self):
+    def test_840_project_editor_cannot_delete_resource_calendar_instrument(
+            self):
         with self.assertRaises(exceptions.AccessError):
             self.Instruments.sudo(self.user_editor.id).search([]).unlink()
 
     def test_850_project_manager_can_read_resource_calendar_instrument(self):
-        self.get_user_acls_and_rules_to_model(self.user_manager, self.Instruments)
+        self.get_user_acls_and_rules_to_model(
+            self.user_manager, self.Instruments)
         self.assertEqual(
             self.Instruments.search([]),
             self.Instruments.sudo(self.user_manager).search([]))
