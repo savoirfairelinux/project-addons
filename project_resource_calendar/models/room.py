@@ -6,6 +6,7 @@ from odoo import api, fields, models
 class Room(models.Model):
     _inherit = ['resource.resource']
     _name = 'resource.calendar.room'
+    _order = 'name'
 
     room_code = fields.Char(
         string='Room ID',
