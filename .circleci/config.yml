@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: savoirfairelinux/odoo-ci:latest
+      - image: savoirfairelinux/odoo-ci:11.0
       - image: circleci/postgres:9.6
         environment:
           POSTGRES_USER: odoo
