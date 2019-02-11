@@ -23,6 +23,11 @@
                     </h2>
                 </div>
             </xpath>
+             <xpath expr="//field[@name='name']" position="after">
+             <group>
+                <field name="client_id" placeholder="Client" class="oe_inline"/>
+             </group>
+            </xpath>
             <xpath expr="//field[@name='name']" position="attributes">
                 <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
             </xpath>
@@ -117,6 +122,9 @@
 							}"/>
                     </h2>
                 </div>
+            </xpath>
+            <xpath expr="//field[@name='partner_ids']" position="before">
+                <field name="client_id" />
             </xpath>
             <field name="partner_ids" position="after">
                 <field name="resource_type" attrs="{'readonly': [('is_task_event','=',True)]}"/>

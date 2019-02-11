@@ -24,7 +24,7 @@ class TestCalendarEvent(TestCalendarEventCommon):
             'resource_type': 'room',
             'allow_double_book': True,
         })
-        self.calendar_event = self.Calendar.create({
+        self.vals = {
             'name': 'Calendar Event onchange method execution',
             'room_id': self.pre_room_id.id,
             'start': fields.Datetime.to_string(datetime.today()),
@@ -33,7 +33,8 @@ class TestCalendarEvent(TestCalendarEventCommon):
             'recurrent_state': 'No',
             'recurrence_type': 'datetype',
             'partner_ids': [(6, 0, [self.partner_1.id, self.partner_2.id])],
-        })
+        }
+        self.calendar_event = self.Calendar.create(self.vals)
 
     def test_010_onchange_room_id(self):
         self.assertEqual(self.calendar_event.name,
@@ -119,10 +120,26 @@ class TestCalendarEvent(TestCalendarEventCommon):
             self.calendar_event5 = self.Calendar.create({
                 'name': 'Calendar Event Test booking 5',
                 'equipment_ids': [(6, 0, [self.instrument_1.id,
-                                   self.instrument_2.id
-                                  ])],
+                                          self.instrument_2.id
+                                          ])],
                 'start': fields.Datetime.to_string(datetime.today()),
                 'stop': fields.Datetime.to_string(datetime.today() +
-                                              timedelta(hours=4)),
+                                                  timedelta(hours=4)),
                 'recurrent_state': 'No',
             })
+
+    def test_001_calendar_event_with_is_not_task_event_client_becomes_a_participant(
+            self):
+        vals = {
+            'name': 'Calendar Event onchange method execution',
+            'room_id': self.pre_room_id.id,
+            'start': fields.Datetime.to_string(datetime.today()),
+            'stop': fields.Datetime.to_string(datetime.today() +
+                                              timedelta(hours=4)),
+            'recurrent_state': 'No',
+            'recurrence_type': 'datetype',
+            'partner_ids': [(6, 0, [self.partner_1.id, self.partner_2.id])],
+            'client_id': self.partner_3.id,
+        }
+        calendar_event_new = self.Calendar.create(vals)
+        self.assertIn(self.partner_3, calendar_event_new.partner_ids)

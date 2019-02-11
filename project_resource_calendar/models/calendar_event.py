@@ -98,6 +98,12 @@ class CalendarEvent(models.Model):
         'res.partner', string='Client', readonly=False,
     )
 
+    @api.onchange('client_id')
+    def _add_client_to_participants(self):
+        if not self.is_task_event and self.client_id:
+            self.partner_ids = [(6, 0,
+                                 [self.client_id.id] + self.partner_ids.ids)]
+
     def _calculate_recurrent(self):
         if self.recurrency:
             self.recurrent_state = _("Yes")
@@ -179,3 +185,13 @@ class CalendarEvent(models.Model):
         return self.env.ref(
             'project_resource_calendar.calendar_event_report'
         ).report_action(self)
+
+    @api.model
+    def create(self, vals):
+        self.verify_client_in_participants(vals)
+        return super(CalendarEvent, self).create(vals)
+
+    def verify_client_in_participants(self, vals):
+        if 'client_id' in vals and vals['client_id']:
+            if not vals['client_id'] in vals['partner_ids'][0][2]:
+                vals['partner_ids'] = [(6, 0, vals['partner_ids'][0][2] + [vals['client_id']])]
