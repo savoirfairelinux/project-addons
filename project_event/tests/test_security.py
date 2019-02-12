@@ -53,6 +53,11 @@ class TestSecurity(TestProjectEventCommon):
         self.user_manager.partner_id.write({'email': 'manager@test.com'})
         self.event_template_1 = self.EventTemplates.create({
             'name': 'Test Event Template'})
+        self.event_vals = {
+            'name': 'Event test',
+            'start': fields.Datetime.to_string(datetime.today()),
+            'stop': fields.Datetime.to_string(datetime.today() +
+                                              timedelta(hours=4)), }
 
     def get_user_acls_and_rules_to_model(self, user, model):
         rules = self.get_rules_applied_to_user_and_model(user, model)
@@ -659,3 +664,67 @@ class TestSecurity(TestProjectEventCommon):
         self.assertTrue(
             self.Instruments.sudo(self.user_manager.id).search([]).unlink()
         )
+
+    def test_890_project_user_cannot_write_calendar_event(self):
+        self.get_user_acls_and_rules_to_model(self.project_user, self.Events)
+        self.event_vals.update(
+            {'partner_ids': [(6, 0, [self.project_user.partner_id.id])]})
+        calendar_event = self.Events.sudo().\
+            create(self.event_vals)
+        with self.assertRaises(exceptions.AccessError):
+            calendar_event.sudo(self.project_user.id).write(
+                {'name': 'New name'})
+
+    def test_900_project_user_cannot_create_calendar_event(self):
+        with self.assertRaises(exceptions.AccessError):
+            self.Events.sudo(self.project_user.id).create(self.event_vals)
+
+    def test_910_project_user_cannot_delete_calendar_event(self):
+        self.event_vals.update(
+            {'partner_ids': [(6, 0, [self.project_user.partner_id.id])]})
+        calendar_event = self.Events.sudo().\
+            create(self.event_vals)
+        with self.assertRaises(exceptions.AccessError):
+            calendar_event.sudo(self.project_user.id).unlink()
+
+    def test_920_user_editor_can_read_calendar_event(self):
+        self.get_user_acls_and_rules_to_model(self.user_editor, self.Events)
+        self.assertEqual(
+            self.Events.sudo(self.user_editor.id).search([]),
+            self.Events.search([]))
+
+    def test_930_user_editor_can_create_calendar_event(self):
+        evemt_created = self.Events.sudo(
+            self.user_editor.id).create(self.event_vals)
+        self.assertIsInstance(
+            evemt_created,
+            type(self.Events))
+
+    def test_940_user_editor_can_delete_calendar_event(self):
+        self.assertTrue(
+            self.Events.sudo(self.user_editor.id).search([]).unlink())
+
+    def test_950_user_manager_can_read_calendar_event(self):
+        self.get_user_acls_and_rules_to_model(self.user_manager, self.Events)
+        self.assertEqual(
+            self.Events.sudo(self.user_manager.id).search([]),
+            self.Events.search([]))
+
+    def test_960_user_manager_can_create_calendar_event(self):
+        evemt_created = self.Events.sudo(
+            self.user_manager.id).create(self.event_vals)
+        self.assertIsInstance(
+            evemt_created,
+            type(self.Events))
+
+    def test_970_user_manager_can_delete_calendar_event(self):
+        self.assertTrue(
+            self.Events.sudo(self.user_manager.id).search([]).unlink())
+
+    def test_980_project_user_can_read_calendar_event_if_attendee(self):
+        self.event_vals.update(
+            {'partner_ids': [(6, 0, [self.project_user.partner_id.id])]})
+        calendar_event = self.Events.sudo().\
+            create(self.event_vals)
+        self.assertEqual(self.Events.sudo(self.project_user.id).search([]),
+                         calendar_event)
