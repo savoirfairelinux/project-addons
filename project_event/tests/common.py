@@ -26,7 +26,7 @@ class TestProjectEventCommon(common.TransactionCase):
         self.Task_category = self.env['task.category']
         self.Department = self.env['hr.department']
         self.Sector = self.env['res.partner.sector']
-
+        self.Events = self.env['calendar.event']
         self.client_type_1 = self.Category_types.create({
             'name': 'Client Type 1',
         })
