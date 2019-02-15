@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record model="report.paperformat" id="paperformat_project_task_activity_report">
+        <field name="name">paperformat.technical.report</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">30</field>
+        <field name="margin_right">5</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report id="project_task_activity_report"
+            model="project.task"
+            string="Technical sheet"
+            report_type="qweb-pdf"
+            paperformat="paperformat_project_task_activity_report"
+            name="project_event.project_task_activity_report_view"
+            data = 
+             /> 
+    
+    <template id="project_task_activity_report_view">
+        <div class="header" style="border-bottom: 2px solid black">
+            <h3 class="text-center">   
+                <strong>
+                 <t t-esc="title"/>
+                </strong>
+            </h3>
+            <h4 class="text-center">
+              <strong>
+                <t t-esc="print_date_text"/>
+              </strong>
+                <t t-esc="today"/>
+            </h4>
+        </div>
+        <t t-call="web.html_container">
+        <t t-call="web.external_layout">
+        <div style="border-bottom: 2px solid black">
+        <h4 class="text-center">
+          <div>
+          <dt class="dt-report-10"> <span t-esc="activity_label"/> </dt>
+                <t t-esc="activity_label"/>
+                <t t-esc="number_spectators_label"/>
+          </div>
+                <t t-esc="date_label"/>
+
+            </h4>
+        </div>
+
+            
+                <div class="page">
+                  <span  t-esc="today"/>      
+                  <strong>EREEFEFE</strong>
+
+                  <t t-foreach="docs" t-as="o">
+                  </t>
+                </div>
+                
+            <div class="footer">
+              <div >
+                <span  t-esc="today"/>      
+              </div>
+        </div>
+            </t>
+        </t>
+    </template>
+</odoo>
