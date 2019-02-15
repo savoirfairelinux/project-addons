@@ -236,6 +236,8 @@ class Task(models.Model):
         if self.project_id:
             if self.project_id.responsible_id:
                 self.responsible_id = self.project_id.responsible_id
+            self.partner_id = self.project_id.partner_id
+            self.client_type = self.project_id.client_type
 
     @api.onchange('parent_id')
     def onchange_parent_id(self):
@@ -284,7 +286,14 @@ class Task(models.Model):
     def onchange_partner_id(self):
         self._onchange_partner_id()
         if self.partner_id:
-            self.client_type = self.partner_id.tag_id.client_type
+            if self.activity_task_type == 'activity':
+                if self.project_id:
+                    self.client_type = self.project_id.client_type
+                else:
+                    self.client_type = self.partner_id.tag_id.client_type
+            else:
+                if self.parent_id:
+                    self.client_type = self.parent_id.client_type
 
     def verify_room_bookable(self):
         if self.room_id:
@@ -323,6 +332,8 @@ class Task(models.Model):
 
     def create_main_task(self, vals, parent_id):
         vals['parent_id'] = parent_id
+        vals['client_type'] = self.env['project.task']\
+            .search([('id', '=', parent_id)]).client_type.id
         vals['message_follower_ids'] = None
         vals['project_id'] = None
         vals['activity_task_type'] = 'task'
@@ -354,6 +365,8 @@ class Task(models.Model):
             .next_by_code('project.task.activity')
         children = self.activity_has_children(vals)
         new_activity = super(Task, self).create(vals)
+        if self.project_id:
+            vals['client_type'] = self.project_id.client_type
         if not self.get_is_from_template(vals):
             self.create_main_task(vals, new_activity.id)
         if children:
