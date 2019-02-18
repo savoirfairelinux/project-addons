@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <menuitem id="project_event_wizard_menu"
+              name="Wizard"
+              parent="project_event_menu_root"
+              groups="group_project_event_editor"/>
+
     <record id="view_project_event_wizard" model="ir.ui.view">
         <field name="name">Event Wizard</field>
         <field name="model">project.event.wizard</field>
@@ -7,7 +13,7 @@
             <form string="Event Wizard">
                 <p class="oe_grey">
                     Event will be created from template in draft so that you can review
-                    the event before validation.
+                    it before validation.
                 </p>
                 <group>
                     <field name="template_id"/>
@@ -16,10 +22,17 @@
                     <field name="name"/>
                     <field name="event_resp_id"/>
                     <field name="event_partner_id"/>
-                    <field name="event_notes"/>
                 </group>
+                <notebook>
+                    <page string="Description">
+                        <field name="event_description"/>
+                    </page>
+                    <page string="Notes">
+                        <field name="event_notes"/>
+                    </page>
+                </notebook>
                 <footer>
-                    <button name="add_activities" string="Add activities" type="object" class="btn-primary"/>
+                    <button name="add_flex_activities" string="Add activities" type="object" class="btn-primary"/>
                     <button string="Cancel" class="btn-default" special="cancel"/>
                 </footer>
             </form>
@@ -33,32 +46,36 @@
             <form string="Activity Wizard">
                 <group>
                     <field name="activity_ids" nolabel="1">
-                        <tree create="0">
-                            <field name="template_id" invisible="1"/>
+                        <tree>
+                            <field name="template_id"/>
                             <field name="name"/>
                             <field name="activity_resp_id"/>
+                            <field name="activity_partner_id"/>
                             <field name="category_id"/>
                             <field name="room_id"/>
                             <field name="date_start"/>
                             <field name="date_end"/>
+                            <field name="description"/>
                             <field name="notes"/>
                         </tree>
                         <form>
                             <group>
-                                <field name="template_id" invisible="1"/>
+                                <field name="template_id"/>
                                 <field name="name"/>
                                 <field name="activity_resp_id"/>
+                                <field name="activity_partner_id"/>
                                 <field name="category_id"/>
                                 <field name="room_id"/>
                                 <field name="date_start"/>
                                 <field name="date_end"/>
+                                <field name="description"/>
                                 <field name="notes"/>
                             </group>
                         </form>
                     </field>
                 </group>
                 <footer>
-                    <button name="add_tasks" string="Add tasks" type="object" class="btn-primary"/>
+                    <button name="add_flexible_tasks" string="Add tasks" type="object" class="btn-primary"/>
                     <button string="Cancel" class="btn-default" special="cancel"/>
                 </footer>
             </form>
@@ -72,35 +89,39 @@
             <form string="Task Wizard">
                 <group>
                     <field name="task_line_ids" nolabel="1">
-                        <tree create="0">
-                            <field name="activity_wiz_id" readonly="1"/>
-                            <field name="template_id" invisible="1"/>
+                        <tree>
+                            <field name="activity_wiz_id"/>
+                            <field name="template_id"/>
                             <field name="resource_type"/>
-                            <field name="equipment_id" string="Equipment" attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
-                            <field name="room_id" string="Room" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
+                            <field name="equipment_id" string="Equipment"/>
+                            <field name="room_id" string="Room"/>
                             <field name="task_name"/>
                             <field name="task_resp_id"/>
+                            <field name="task_partner_id"/>
                             <field name="category_id"/>
                             <field name="department_id"/>
                             <field name="employee_ids"/>
                             <field name="duration"/>
                             <field name="start_time"/>
+                            <field name="description"/>
                             <field name="notes"/>
                         </tree>
                         <form>
                             <group>
-                                <field name="activity_wiz_id" readonly="1"/>
-                                <field name="template_id" invisible="1"/>
+                                <field name="activity_wiz_id" domain="[('event_wizard_id','=',parent.id)]"/>
+                                <field name="template_id"/>
                                 <field name="resource_type"/>
                                 <field name="equipment_id" string="Equipment" attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
                                 <field name="room_id" string="Room" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
                                 <field name="task_name"/>
                                 <field name="task_resp_id"/>
+                                <field name="task_partner_id"/>
                                 <field name="category_id"/>
                                 <field name="department_id"/>
                                 <field name="employee_ids"/>
                                 <field name="duration"/>
                                 <field name="start_time"/>
+                                <field name="description"/>
                                 <field name="notes"/>
                             </group>
                         </form>
@@ -115,7 +136,7 @@
     </record>
 
     <record id="action_view_project_event_wizard" model="ir.actions.act_window">
-        <field name="name">Event</field>
+        <field name="name">Event Wizard</field>
         <field name="res_model">project.event.wizard</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
@@ -123,14 +144,172 @@
         <field name="view_id" ref="view_project_event_wizard"/>
     </record>
 
-    <menuitem id="project_event_wizard_menu"
-              name="Wizard"
-              parent="project_event_menu_root"
-              groups="group_project_event_editor"/>
     <menuitem id="event_wizard_menu"
               name="Event Wizard"
               parent="project_event_wizard_menu"
               action="action_view_project_event_wizard"
+              sequence="10"/>
+
+
+    <record id="view_activity_event_wizard" model="ir.ui.view">
+        <field name="name">Activity Wizard</field>
+        <field name="model">project.activity.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Activity Wizard">
+                <p class="oe_grey">
+                    Activity will be created from template in draft so that you can review
+                    it before validation.
+                </p>
+                <group>
+                    <field name="template_id"/>
+                </group>
+                <group>
+                    <field name="name"/>
+                    <field name="activity_resp_id"/>
+                    <field name="activity_partner_id"/>
+                    <field name="category_id"/>
+                    <field name="room_id"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                </group>
+                <notebook>
+                    <page string="Description">
+                        <field name="description"/>
+                    </page>
+                    <page string="Notes">
+                        <field name="notes"/>
+                    </page>
+                </notebook>
+                <footer>
+                    <button name="add_flexible_tasks" string="Add Tasks" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_project_task_wizard_activity" model="ir.ui.view">
+        <field name="name">Event Task Wizard</field>
+        <field name="model">project.activity.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Task Wizard">
+                <group>
+                    <field name="task_line_ids" nolabel="1">
+                        <tree>
+                            <field name="activity_wiz_id"/>
+                            <field name="template_id"/>
+                            <field name="resource_type"/>
+                            <field name="equipment_id"/>
+                            <field name="room_id"/>
+                            <field name="task_name"/>
+                            <field name="task_resp_id"/>
+                            <field name="task_partner_id"/>
+                            <field name="category_id"/>
+                            <field name="department_id"/>
+                            <field name="employee_ids"/>
+                            <field name="duration"/>
+                            <field name="start_time"/>
+                            <field name="description"/>
+                            <field name="notes"/>
+                        </tree>
+                        <form>
+                            <group>
+                                <field name="activity_wiz_id"/>
+                                <field name="template_id"/>
+                                <field name="resource_type"/>
+                                <field name="equipment_id" string="Equipment" attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
+                                <field name="room_id" string="Room" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
+                                <field name="task_name"/>
+                                <field name="task_resp_id"/>
+                                <field name="task_partner_id"/>
+                                <field name="category_id"/>
+                                <field name="department_id"/>
+                                <field name="employee_ids"/>
+                                <field name="duration"/>
+                                <field name="start_time"/>
+                                <field name="description"/>
+                                <field name="notes"/>
+                            </group>
+                        </form>
+                    </field>
+                </group>
+                <footer>
+                    <button name="create_activity_from_template" string="Create Activity from Template" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_view_activity_event_wizard" model="ir.actions.act_window">
+        <field name="name">Activity Wizard</field>
+        <field name="res_model">project.activity.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_activity_event_wizard"/>
+    </record>
+
+    <menuitem id="activity_wizard_menu"
+              name="Activity Wizard"
+              parent="project_event_wizard_menu"
+              action="action_view_activity_event_wizard"
+              sequence="10"/>
+
+    <record id="view_orphan_task_event_wizard" model="ir.ui.view">
+        <field name="name">Task Wizard</field>
+        <field name="model">project.task.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Task Wizard">
+                <p class="oe_grey">
+                    Task will be created from template in draft so that you can review
+                    it before validation.
+                </p>
+                <group>
+                    <field name="template_id"/>
+                </group>
+                <group>
+                    <field name="task_name"/>
+                    <field name="resource_type" required="1"/>
+                    <field name="equipment_id" string="Equipment" attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
+                    <field name="room_id" string="Room" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
+                    <field name="task_resp_id"/>
+                    <field name="task_partner_id"/>
+                    <field name="category_id"/>
+                    <field name="department_id"/>
+                    <field name="employee_ids"/>
+                    <field name="date_start"/>
+                    <field name="date_end"/>
+                </group>
+                <notebook>
+                    <page string="Description">
+                        <field name="description"/>
+                    </page>
+                    <page string="Notes">
+                        <field name="notes"/>
+                    </page>
+                </notebook>
+                <footer>
+                    <button name="create_orphan_task" string="Create Task From Template" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_view_orphan_task_event_wizard" model="ir.actions.act_window">
+        <field name="name">Task Wizard</field>
+        <field name="res_model">project.task.wizard</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_orphan_task_event_wizard"/>
+    </record>
+
+    <menuitem id="task_wizard_menu"
+              name="Task Wizard"
+              parent="project_event_wizard_menu"
+              action="action_view_orphan_task_event_wizard"
               sequence="10"/>
 
 </odoo>

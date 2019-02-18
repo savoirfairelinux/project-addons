@@ -14,7 +14,7 @@
                     <group>
                         <group>
                             <field name="temp_resp_id"/>
-                            <field name="event_template_id" string="Template Event"/>
+                            <field name="event_template_ids" string="Templates Events"/>
                             <field name="category_id"/>
                         </group>
                         <group>
@@ -25,9 +25,12 @@
                     </group>
                     <notebook>
                         <page string="Tasks">
-                            <field name="task_template_ids" context="{'default_activity_template_id': active_id}"/>
+                            <field name="task_template_ids"/>
                         </page>
                         <page string="Description">
+                            <field name="description"/>
+                        </page>
+                        <page string="Notes">
                             <field name="notes"/>
                         </page>
                     </notebook>
@@ -41,7 +44,6 @@
         <field name="arch" type="xml">
             <tree string="Activity Template">
                 <field name="name"/>
-                <field name="event_template_id" string="Template Event"/>
                 <field name="temp_resp_id"/>
                 <field name="category_id"/>
                 <field name="room_id"/>

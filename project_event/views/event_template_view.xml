@@ -16,9 +16,12 @@
                     </group>
                     <notebook>
                         <page string="Activities">
-                            <field name="activity_template_ids" context="{'default_event_template_id': active_id}"/>
+                            <field name="activity_template_ids"/>
                         </page>
                         <page string="Description">
+                            <field name="description"/>
+                        </page>
+                        <page string="Notes">
                             <field name="notes"/>
                         </page>
                     </notebook>

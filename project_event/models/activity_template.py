@@ -12,11 +12,12 @@ class ActivityTemplate(models.Model):
     name = fields.Char(
         string='Name',
     )
-    event_template_id = fields.Many2one(
-        'event.template',
-        default=lambda self: self.env.context.get(
-            'default_event_template_id'),
-        string='Event Template',
+    event_template_ids = fields.Many2many(
+        comodel_name='event.template',
+        relation='event_template_activity_template_rel',
+        column1='activity_template_id',
+        column2='event_template_id',
+        string='Events Templates',
     )
     temp_resp_id = fields.Many2one(
         'res.partner',
@@ -30,10 +31,15 @@ class ActivityTemplate(models.Model):
         'resource.calendar.room',
         string='Room',
     )
-    task_template_ids = fields.One2many(
-        'task.template',
-        'activity_template_id',
-        string='Tasks Template',
+    task_template_ids = fields.Many2many(
+        comodel_name='task.template',
+        relation='activity_template_task_template_rel',
+        column1='activity_template_id',
+        column2='task_template_id',
+        string='Tasks Templates',
+    )
+    description = fields.Html(
+        string='Description',
     )
     notes = fields.Html(
         string='Notes',
@@ -48,27 +54,29 @@ class ActivityTemplate(models.Model):
     def action_initialize(self):
         self.action_clear()
         if self.room_id:
-            task = {
+            main_task_template_room_vals = {
                 'room_id': self.room_id.id,
                 'resource_type': 'room',
-                'name': self.name,
-                'activity_template_id': self.id,
+                'is_main_task': True,
             }
-            self.env['task.template'].create(task)
+            self._update_task_template(main_task_template_room_vals)
             for instrument in self.room_id.instruments_ids:
-                equipment = {
+                equipment_task_vals = {
                     'equipment_id': instrument.id,
                     'resource_type': 'equipment',
-                    'name': instrument.name,
-                    'activity_template_id': self.id,
                 }
-                vals = {
-                    'task_template_ids': [(0, 0, equipment)],
-                }
-                self.write(vals)
+                self._update_task_template(equipment_task_vals)
         else:
-            main_task = {
-                'name': self.name,
-                'activity_template_id': self.id,
+            main_task_template_vals = {
+                'is_main_task': True,
             }
-            self.env['task.template'].create(main_task)
+            self._update_task_template(main_task_template_vals)
+
+    @api.multi
+    def _update_task_template(self, vals):
+        vals['name'] = self.name
+        vals['activity_template_ids'] = [self.id]
+        task_template_vals = {
+            'task_template_ids': [(0, 0, vals)],
+        }
+        self.write(task_template_vals)

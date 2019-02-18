@@ -28,11 +28,12 @@ class TaskTemplate(models.Model):
         ('room', 'Room')],
         string='Resource Type',
     )
-    activity_template_id = fields.Many2one(
-        'activity.template',
-        default=lambda self: self.env.context.get(
-           'default_activity_template_id'),
-        string='Activity Template',
+    activity_template_ids = fields.Many2many(
+        comodel_name='activity.template',
+        relation='activity_template_task_template_rel',
+        column1='task_template_id',
+        column2='activity_template_id',
+        string='Activities Templates',
     )
     temp_resp_id = fields.Many2one(
         'res.partner',
@@ -57,8 +58,15 @@ class TaskTemplate(models.Model):
     start_time = fields.Float(
         string='Start Time',
     )
+    description = fields.Html(
+        string='Description',
+    )
     notes = fields.Html(
         string='Notes',
+    )
+    is_main_task = fields.Boolean(
+        string='Is it main Task',
+        default=False,
     )
 
     @api.onchange('resource_type')

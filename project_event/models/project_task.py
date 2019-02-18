@@ -106,7 +106,6 @@ class Task(models.Model):
         ('room', 'Room')],
         string='Resource Type',
         default='room',
-        required=True,
         track_visibility='onchange',
     )
     room_id = fields.Many2one(

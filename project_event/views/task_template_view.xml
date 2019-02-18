@@ -13,12 +13,12 @@
                     </div>
                     <group>
                         <group>
+                            <field name="temp_resp_id"/>
+                            <field name="category_id"/>
                             <field name="resource_type"/>
                             <field name="equipment_id" string="Equipment" attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
                             <field name="room_id" string="Room" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
-                            <field name="activity_template_id" string="Activity Template"/>
-                            <field name="temp_resp_id"/>
-                            <field name="category_id"/>
+                            <field name="activity_template_ids" string="Activities Templates"/>
                         </group>
                         <group>
                             <field name="duration"/>
@@ -34,6 +34,9 @@
                     </group>
                     <notebook>
                         <page string="Description">
+                            <field name="description"/>
+                        </page>
+                        <page string="Notes">
                             <field name="notes"/>
                         </page>
                     </notebook>
@@ -50,7 +53,6 @@
                 <field name="equipment_id" string="Equipment"/>
                 <field name="room_id" string="Room"/>
                 <field name="name"/>
-                <field name="activity_template_id"/>
                 <field name="category_id"/>
                 <field name="temp_resp_id"/>
                 <field name="department_id"/>

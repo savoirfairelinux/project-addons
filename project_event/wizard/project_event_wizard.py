@@ -28,6 +28,9 @@ class ProjectEventWizard(models.TransientModel):
     event_notes = fields.Html(
         string='Notes',
     )
+    event_description = fields.Html(
+        string='Description',
+    )
     activity_ids = fields.One2many(
         'project.activity.wizard',
         'event_wizard_id',
@@ -40,7 +43,7 @@ class ProjectEventWizard(models.TransientModel):
     )
 
     @api.multi
-    def add_activities(self):
+    def add_flex_activities(self):
         self.ensure_one()
         template = self.env['event.template'].browse(self.template_id.id)
         view = self.env.ref(
@@ -53,10 +56,10 @@ class ProjectEventWizard(models.TransientModel):
                 'room_id': act.room_id.id,
                 'activity_resp_id': act.temp_resp_id.id,
                 'category_id': act.category_id.id,
+                'description': act.description,
                 'notes': act.notes,
             }
             self.env['project.activity.wizard'].create(activity_vals)
-
         return {
             'name': _('Activities Wizard'),
             'type': 'ir.actions.act_window',
@@ -70,7 +73,7 @@ class ProjectEventWizard(models.TransientModel):
         }
 
     @api.multi
-    def add_tasks(self):
+    def add_flexible_tasks(self):
         self.ensure_one()
         activities = self.activity_ids
         view = self.env.ref(
@@ -91,10 +94,10 @@ class ProjectEventWizard(models.TransientModel):
                     'employee_ids': [(4, e.id) for e in task.employee_ids],
                     'duration': task.duration,
                     'start_time': task.start_time,
+                    'description': task.description,
                     'notes': task.notes,
                 }
                 self.env['project.task.wizard'].create(task_vals)
-
         return {
             'name': _('Tasks Wizard'),
             'type': 'ir.actions.act_window',
@@ -104,7 +107,7 @@ class ProjectEventWizard(models.TransientModel):
             'views': [(view.id, 'form')],
             'target': 'new',
             'res_id': self.id,
-            'context': self.env.context,
+            'context': dict(self.env.context or {}),
         }
 
     @api.multi
@@ -120,18 +123,19 @@ class ProjectEventWizard(models.TransientModel):
         event = self.env['project.project'].create(event_vals)
         for act in self.activity_ids:
             tasks = self.env['project.task.wizard'].search([
-                ('event_wizard_id', '=', self.id),
                 ('activity_wiz_id', '=', act.id),
             ])
             activity_vals = {
                 'name': act.name,
                 'project_id': event.id,
                 'responsible_id': act.activity_resp_id.id,
+                'partner_id': act.activity_partner_id.id,
                 'category_id': act.category_id.id,
                 'activity_task_type': 'activity',
                 'room_id': act.room_id.id,
                 'date_start': act.date_start,
                 'date_end': act.date_end,
+                'description': act.description,
                 'notes': act.notes,
                 'is_from_template': True,
                 'child_ids': [
@@ -141,6 +145,7 @@ class ProjectEventWizard(models.TransientModel):
                          'name': task.task_name,
                          'activity_task_type': 'task',
                          'responsible_id': task.task_resp_id.id,
+                         'partner_id': task.task_partner_id.id,
                          'category_id': task.category_id.id,
                          'department_id': task.department_id.id,
                          'employee_ids': [(4, e.id) for e in task.employee_ids],
@@ -158,7 +163,9 @@ class ProjectEventWizard(models.TransientModel):
                                  minutes=task.start_time + task.duration)
                          ),
                          'notes': task.notes,
+                         'description': task.description,
                          'is_from_template': True,
+                         'is_main_task': task.template_id.is_main_task,
                      }
                      ) for task in tasks],
             }
@@ -169,4 +176,5 @@ class ProjectEventWizard(models.TransientModel):
         template = self.env['event.template'].browse(self.template_id.id)
         self.name = template.name
         self.event_resp_id = template.temp_resp_id
+        self.event_description = template.description
         self.event_notes = template.notes

@@ -242,7 +242,7 @@
                     <notebook>
                         <page string="Resources">
                             <group>
-                                <field name="resource_type" attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
+                                <field name="resource_type" attrs="{'required': True, 'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
                                 <field name="room_id"
                                        attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])], 'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
                                 <field name="equipment_id"

@@ -16,10 +16,15 @@ class EventTemplate(models.Model):
         'res.partner',
         string='Responsible',
     )
-    activity_template_ids = fields.One2many(
-        'activity.template',
-        'event_template_id',
-        string='Activity Template',
+    activity_template_ids = fields.Many2many(
+        comodel_name='activity.template',
+        relation='event_template_activity_template_rel',
+        column1='event_template_id',
+        column2='activity_template_id',
+        string='Activities Templates',
+    )
+    description = fields.Html(
+        string='Description',
     )
     notes = fields.Html(
         string='Notes',
