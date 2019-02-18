@@ -246,6 +246,7 @@ class Task(models.Model):
                 self.responsible_id = self.parent_id.responsible_id
             if self.parent_id.partner_id:
                 self.partner_id = self.parent_id.partner_id
+                self.client_type = self.parent_id.client_type
             if self.parent_id.category_id:
                 self.category_id = self.parent_id.category_id
 
@@ -285,20 +286,20 @@ class Task(models.Model):
     @api.onchange('partner_id')
     def onchange_partner_id(self):
         self._onchange_partner_id()
+        if self.parent_id:
+            self.client_type = self.parent_id.client_type
+            return
+        if self.project_id:
+            self.client_type = self.project_id.client_type
+            return
         if self.partner_id:
-            if self.activity_task_type == 'activity':
-                if self.project_id:
-                    self.client_type = self.project_id.client_type
-                else:
-                    self.client_type = self.partner_id.tag_id.client_type
-            else:
-                if self.parent_id:
-                    self.client_type = self.parent_id.client_type
+            self.client_type = self.partner_id.tag_id.client_type
 
     def verify_room_bookable(self):
         if self.room_id:
             if not self.room_id.is_bookable:
-                raise ValidationError(self.get_error_type('TYPE_ERROR_RESOURCE'))
+                raise ValidationError(
+                    self.get_error_type('TYPE_ERROR_RESOURCE'))
 
     def verify_equipment_bookable(self):
         if self.equipment_id:
