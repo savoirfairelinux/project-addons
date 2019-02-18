@@ -365,8 +365,6 @@ class Task(models.Model):
             .next_by_code('project.task.activity')
         children = self.activity_has_children(vals)
         new_activity = super(Task, self).create(vals)
-        if self.project_id:
-            vals['client_type'] = self.project_id.client_type
         if not self.get_is_from_template(vals):
             self.create_main_task(vals, new_activity.id)
         if children:
