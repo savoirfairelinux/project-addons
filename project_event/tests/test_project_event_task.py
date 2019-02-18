@@ -48,6 +48,7 @@ class TestProjectEventTask(TestProjectEventCommon):
             False)
 
     def test_040_onchange_partner_id(self):
+        self.project_1._onchange_partner_id()
         self.activity_1.onchange_partner_id()
         self.assertEqual(
             self.activity_1.client_type.name,
