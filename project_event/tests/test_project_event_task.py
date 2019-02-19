@@ -48,6 +48,7 @@ class TestProjectEventTask(TestProjectEventCommon):
             False)
 
     def test_040_onchange_partner_id(self):
+        self.project_1._onchange_partner_id()
         self.activity_1.onchange_partner_id()
         self.assertEqual(
             self.activity_1.client_type.name,
@@ -67,7 +68,7 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.activity_1.onchange_partner_id()
         self.assertEqual(
             self.activity_1.client_type.name,
-            'Client Type 2')
+            'Client Type 1')
 
     def test_050_compute_order_task(self):
         self.activity_1.child_ids._compute_order_task()

@@ -62,7 +62,7 @@
                         </group>
                         <group>
                             <field name="partner_id"/>
-                            <field name="client_type" attrs="{'invisible': ['|',('partner_id', '=', False),('client_type', '=', False)]}" readonly = "1"/>
+                            <field name="client_type" attrs="{'invisible': ['|',('partner_id', '=', False),('client_type', '=', False)]}" readonly = "0"/>
                             <field name="sector_id" attrs="{'invisible': [('client_type', '=', False)]}"/>
                             <field name="project_type" invisible="1"/>
                         </group>

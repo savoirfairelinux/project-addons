@@ -235,6 +235,8 @@ class Task(models.Model):
         if self.project_id:
             if self.project_id.responsible_id:
                 self.responsible_id = self.project_id.responsible_id
+            self.partner_id = self.project_id.partner_id
+            self.client_type = self.project_id.client_type
 
     @api.onchange('parent_id')
     def onchange_parent_id(self):
@@ -243,6 +245,7 @@ class Task(models.Model):
                 self.responsible_id = self.parent_id.responsible_id
             if self.parent_id.partner_id:
                 self.partner_id = self.parent_id.partner_id
+                self.client_type = self.parent_id.client_type
             if self.parent_id.category_id:
                 self.category_id = self.parent_id.category_id
 
@@ -282,13 +285,20 @@ class Task(models.Model):
     @api.onchange('partner_id')
     def onchange_partner_id(self):
         self._onchange_partner_id()
+        if self.parent_id:
+            self.client_type = self.parent_id.client_type
+            return
+        if self.project_id:
+            self.client_type = self.project_id.client_type
+            return
         if self.partner_id:
             self.client_type = self.partner_id.tag_id.client_type
 
     def verify_room_bookable(self):
         if self.room_id:
             if not self.room_id.is_bookable:
-                raise ValidationError(self.get_error_type('TYPE_ERROR_RESOURCE'))
+                raise ValidationError(
+                    self.get_error_type('TYPE_ERROR_RESOURCE'))
 
     def verify_equipment_bookable(self):
         if self.equipment_id:
@@ -322,6 +332,8 @@ class Task(models.Model):
 
     def create_main_task(self, vals, parent_id):
         vals['parent_id'] = parent_id
+        vals['client_type'] = self.env['project.task']\
+            .search([('id', '=', parent_id)]).client_type.id
         vals['message_follower_ids'] = None
         vals['project_id'] = None
         vals['activity_task_type'] = 'task'
