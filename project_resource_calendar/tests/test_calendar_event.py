@@ -143,3 +143,28 @@ class TestCalendarEvent(TestCalendarEventCommon):
         }
         calendar_event_new = self.Calendar.create(vals)
         self.assertIn(self.partner_3, calendar_event_new.partner_ids)
+
+    def test_001_calendar_event_write_add_client_add_him_to_participants(self):
+        import ipdb; ipdb.set_trace()
+        self.calendar_event.write({'client_id': self.partner_3.id})
+        self.assertIn(self.partner_3, self.calendar_event.partner_ids)
+        
+    def test_002_calendar_event_remove_client_removes_it_from_participants(self):
+        import ipdb; ipdb.set_trace()
+        partners_before_client_ids = self.calendar_event.partenr_ids.ids
+        self.calendar_event.write({'client_id': self.partner_3.id})
+        self.calendar_event.write({'client_id': None})
+        self.assertEqual( self.calendar_event.partenr_ids.ids, partners_before_client_ids)
+        
+
+
+    def test_003_calendar_event_change_client_removes_old_and_puts_new_participant(self):
+        partners_before_client_ids = self.calendar_event.partenr_ids.ids
+        self.calendar_event.write({'client_id': self.partner_3.id})
+        partner_4 = self.Partners.create({
+            'name': 'Partner 4',
+        })
+        self.calendar_event.write({'client_id': self.partner_4.id})
+        self.assertEqual( self.calendar_event.partenr_ids.ids,partners_before_client_ids + [partner_4.id])
+
+

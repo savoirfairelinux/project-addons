@@ -95,7 +95,10 @@ class CalendarEvent(models.Model):
         compute='_get_res_partners_names'
     )
     client_id = fields.Many2one(
-        'res.partner', string='Client', readonly=False,
+        'res.partner',
+        string='Client',
+        readonly=False,
+        required=True,    
     )
 
     @api.onchange('client_id')
@@ -195,3 +198,19 @@ class CalendarEvent(models.Model):
         if 'client_id' in vals and vals['client_id']:
             if not vals['client_id'] in vals['partner_ids'][0][2]:
                 vals['partner_ids'] = [(6, 0, vals['partner_ids'][0][2] + [vals['client_id']])]
+
+    # @api.multi
+    # def write(self, vals):
+    #     if 'client_id' in vals:
+    #         if vals['client_id']:
+    #             pass
+    #         if 'partner_ids' in vals
+    #             partners = vals['partner_ids'][0][2]
+    #         else:
+    #             partners = []
+            
+    #         vals['partner_ids'] = [(6, 0, partners  + 
+    #         ([vals['client_id']] if 'client_id' in vals else [self.client_id.id]) if 
+    #         ([vals['client_id']] if 'client_id' in vals else [self.client_id.id])  else [] )]
+    #     elif ''
+    #     return super(CalendarEvent, self).write(vals)

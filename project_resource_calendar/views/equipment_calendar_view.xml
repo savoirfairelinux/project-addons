@@ -25,7 +25,7 @@
             </xpath>
              <xpath expr="//field[@name='name']" position="after">
              <group>
-                <field name="client_id" placeholder="Client" class="oe_inline"/>
+                <field name="client_id" placeholder="Client" class="oe_inline" required="1"/>
              </group>
             </xpath>
             <xpath expr="//field[@name='name']" position="attributes">
@@ -124,7 +124,7 @@
                 </div>
             </xpath>
             <xpath expr="//field[@name='partner_ids']" position="before">
-                <field name="client_id" />
+                <field name="client_id" required="1"/>
             </xpath>
             <field name="partner_ids" position="after">
                 <field name="resource_type" attrs="{'readonly': [('is_task_event','=',True)]}"/>
