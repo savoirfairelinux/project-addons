@@ -97,6 +97,8 @@ class CalendarEvent(models.Model):
     client_id = fields.Many2one(
         'res.partner', string='Client', readonly=False,
     )
+    user_id = fields.Many2one(string='Responsible User')
+    partner_id = fields.Many2one(string='Responsible Partner')
 
     def _calculate_recurrent(self):
         if self.recurrency:
