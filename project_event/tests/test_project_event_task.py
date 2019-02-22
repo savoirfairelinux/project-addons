@@ -429,3 +429,12 @@ class TestProjectEventTask(TestProjectEventCommon):
             calendar_event.client_id.id,
             self.partner_1.id
         )
+
+    def test_170_check_clone_task_calendar_event(self):
+        self.task_1.request_reservation()
+        self.task_1.do_reservation()
+        calendar_event = self.task_1.get_calendar_event()
+        self.assertEqual(
+            calendar_event.state,
+            'draft'
+        )
