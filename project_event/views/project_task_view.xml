@@ -250,10 +250,10 @@
                             </group>
                         </page>
                         <page string="Description">
-                            <field name="description" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                            <field name="description" />
                         </page>
                         <page string="Notes">
-                            <field name="notes" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                            <field name="notes" />
                         </page>
                     </notebook>
                 </sheet>
