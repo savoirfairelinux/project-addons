@@ -16,6 +16,9 @@
                     <field name="sector_id" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 </h2>
             </xpath>
+            <xpath expr="//field[@name='client_id']" position="after">
+                <field name="client_tag" placeholder="Client Tag"  readonly="1"/>
+            </xpath>
         </field>
     </record>
     <record id="view_calendar_event_form_popup_inherit"
@@ -24,6 +27,9 @@
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar_resource.view_calendar_event_form_popup"/>
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='client_id']" position="after">
+                <field name="client_tag" placeholder="Client Tag"  readonly="1"/>
+            </xpath>
             <xpath expr="//field[@name='resource_ids']" position="after">
                 <field name="category_id" attrs="{'readonly': [('is_task_event','=',True)]}"/>
             </xpath>
