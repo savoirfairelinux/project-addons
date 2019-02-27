@@ -1,6 +1,10 @@
-from odoo import models, api,_
+# © 2019 Savoir-faire Linux
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+
+from odoo import models, api, _
 from datetime import datetime, timedelta
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
+from operator import itemgetter
 
 
 class ReportWeekly(models.AbstractModel):
@@ -14,75 +18,88 @@ class ReportWeekly(models.AbstractModel):
     end_hour_label = _("Expected End Time: ")
     number_spectators_label = _("Number of spectators: ")
     client_label = _("Client: ")
-    contact_label = _("Contact 1 :")
+    contact_label = _("Contact 1:")
     phone_label = _("Phone: ")
 
     @api.model
-    def render_html(self, docids, data=None):
-        import ipdb; ipdb.set_trace()
-        report_obj = self.env['report']
-        report = report_obj._get_report_from_name('module.report_name')
-        docargs = {
-            'doc_ids': docids,
-            'doc_model': report.model,
-            'docs': self,
-        }
-        return report_obj.render('module.report_name', docargs)
-
-    @api.model
     def get_report_values(self, docids, data=None):
-        import ipdb
-        ipdb.set_trace()
-        
         today = datetime.now().date().strftime("%d-%m-%Y")
-        return {
-
-            'docs': [1],
+        # **self.get_activities_values(docids)[0] --> for 1 activity
+        # TO DO: for multiple activities
+        docs = {
             'today': today,
-            'title': self.title,
-            'print_date_text': self.print_date_text,
-            'activity_label': self.activity_label,
-            'date_label': self.date_label,
-            'start_hour_label': self.start_hour_label,
-            'end_hour_label': self.end_hour_label,
-            'number_spectators_label': self.number_spectators_label,
-            'client_label': self.client_label,
-            'contact_label': self.contact_label,
-            'phone_label': self.phone_label,    
+            **self.get_activities_values(docids)[0]
         }
-
-    def format_event_to_docs(self, events, docs):
-        for event in events:
-            docs.append({
-                'name': event.name,
-                'start': event.start,
-                'stop': event.stop,
-                'weekday': event.weekday_number,
-            })
         return docs
 
-    def get_events_on_period(self, start, stop, events):
-        events_on_period = []
-        for event in events:
-            event_date = datetime.strptime(event.start, '%Y-%m-%d %H:%M:%S')
-            if start <= event_date <= stop:
-                events_on_period.append(event)
-        return events_on_period
+    def get_activities_values(self, docids):
+        activities_docs = []
+        activities = self.env['project.task'].browse(docids)
+        for activity in activities:
+            activities_docs.append({
+                'title': self.title,
+                'print_date_text': self.print_date_text,
+                'activity_label': self.activity_label,
+                'date_label': self.date_label,
+                'start_hour_label': self.start_hour_label,
+                'end_hour_label': self.end_hour_label,
+                'number_spectators_label': self.number_spectators_label,
+                'client_label': self.client_label,
+                'contact_label': self.contact_label,
+                'phone_label': self.phone_label,
+                'name': activity.name,
+                'client_id': activity.partner_id.name,
+                'start': activity.date_start,
+                'stop': activity.date_end,
+                'tasks': self.get_task_values(activity.child_ids),
+                'description': activity.description,
+                'activity_notes': activity.notes,
+                'remarks': self.get_departments_remarks(activity.child_ids),
+            })
+        return activities_docs
 
-    def get_events_given_room(self, room, data):
-        return self.env['calendar.event'].search([
-            ('room_id', '=', room.id),
-            ('recurrency', '=', data['form']['recurrency']),
-            ('state', '=', data['form']['state']),
-        ], order='start asc')
+    def get_task_values(self, tasks):
+        table_lines = []
+        for task in tasks:
+            for employee in task.employee_ids:
+                table_lines.append({
+                    'department': task.department_id.name,
+                    'expected_start': task.date_start,
+                    'expected_departure': task.date_end,
+                    'employee': employee.name,
+                    'order': task.task_order,
+                })
+        table_lines_sorted = sorted(
+            table_lines, key=itemgetter(
+                'order', 'department', 'employee'))
+        return table_lines_sorted
 
-    def get_docs(self, room, data, date_start, date_end):
-        events_filtered = self.get_events_given_room(room, data)
-        events = self.get_events_on_period(
-            date_start, date_end, events_filtered)
-        self.review_weekdays(events)
-        return self.format_event_to_docs(events, [])
+    def get_departments_remarks(self, tasks):
+        department_comments = []
+        for task in tasks:
+            department_comments.append((
+                task.department_id.name,
+                task.notes
+            ))
+        uniq_department_comments = self.remove_duplicate_department(
+            department_comments)
+        remarks = []
+        for remark in uniq_department_comments:
+            remarks.append({
+                'department': remark[0],
+                'remark': remark[1]
+            })
+        return remarks
 
-    def review_weekdays(self, events):
-        for event in events:
-            event._get_weekday_number()
+    def remove_duplicate_department(self, departments=[], rest=[]):
+        if len(departments) == 0:
+            return rest
+        else:
+            item = departments.pop()
+            for remark in departments:
+                if remark[0] == item[0]:
+                    new_remark = item[1] + remark[1]
+                    item = (item[0], new_remark)
+                    departments.remove(remark)
+            rest.append(item)
+            return self.remove_duplicate_department(departments, rest)
