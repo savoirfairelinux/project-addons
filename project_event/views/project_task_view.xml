@@ -83,6 +83,9 @@
                         <page string="Notes">
                             <field name="notes"/>
                         </page>
+                        <page string="Technical Sheet">
+                            <field name="spectators"/>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
