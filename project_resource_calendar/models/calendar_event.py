@@ -95,10 +95,25 @@ class CalendarEvent(models.Model):
         compute='_get_res_partners_names'
     )
     client_id = fields.Many2one(
-        'res.partner', string='Client', readonly=False,
+        'res.partner',
+        string='Client',
+        readonly=False,
+        required=True,
     )
     user_id = fields.Many2one(string='Responsible User')
     partner_id = fields.Many2one(string='Responsible Partner')
+    partner_ids = fields.Many2many(
+        'res.partner',
+        'calendar_event_res_partner_rel',
+        string='Attendees',
+        states={'done': [('readonly', True)]},
+        default=None)
+
+    @api.onchange('client_id')
+    def _add_client_to_participants(self):
+        if not self.is_task_event and self.client_id:
+            self.partner_ids = [(6, 0,
+                                 [self.client_id.id] + self.partner_ids.ids)]
 
     def _calculate_recurrent(self):
         if self.recurrency:
@@ -181,3 +196,39 @@ class CalendarEvent(models.Model):
         return self.env.ref(
             'project_resource_calendar.calendar_event_report'
         ).report_action(self)
+
+    @api.model
+    def create(self, vals):
+        self.verify_client_in_participants(vals)
+        return super(CalendarEvent, self).create(vals)
+
+    def verify_client_in_participants(self, vals):
+        if self.is_task_event:
+            return
+        if 'client_id' in vals and vals['client_id']:
+            if not vals['client_id'] in vals['partner_ids'][0][2]:
+                vals['partner_ids'] = [
+                    (6, 0, vals['partner_ids'][0][2] + [vals['client_id']])]
+
+    @api.multi
+    def write(self, vals):
+        self.validate_client_id_write(vals)
+        return super(CalendarEvent, self).write(vals)
+
+    def validate_client_id_write(self, vals):
+        if self.is_task_event:
+            return
+        if 'client_id' in vals:
+            partners = self.partner_ids.ids
+            if 'partner_ids' in vals:
+                partners = vals['partner_ids'][0][2]
+                if not vals['client_id'] in partners:
+                    vals['partner_ids'] = [
+                        (6, 0, [vals['client_id']] + vals['partner_ids'][0][2])]
+            else:
+                if not vals['client_id'] in partners:
+                    vals['partner_ids'] = [(4, vals['client_id'], 0)]
+        else:
+            if 'partner_ids' in vals and self.client_id.id not in vals['partner_ids'][0][2]:
+                vals['partner_ids'] = [
+                    (6, 0, vals['partner_ids'][0][2] + [self.client_id.id])]

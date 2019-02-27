@@ -44,3 +44,6 @@ class TestCalendarEventCommon(common.TransactionCase):
         self.partner_2 = self.Partners.create({
             'name': 'Partner 2',
         })
+        self.partner_3 = self.Partners.create({
+            'name': 'Partner 3',
+        })
