@@ -100,6 +100,8 @@ class CalendarEvent(models.Model):
         readonly=False,
         required=True,
     )
+    user_id = fields.Many2one(string='Responsible User')
+    partner_id = fields.Many2one(string='Responsible Partner')
     partner_ids = fields.Many2many(
         'res.partner',
         'calendar_event_res_partner_rel',

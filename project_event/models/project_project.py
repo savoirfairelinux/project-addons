@@ -14,7 +14,7 @@ class Project(models.Model):
     )
     responsible_id = fields.Many2one(
         'res.partner',
-        string='Responsible',
+        string='Event Responsible',
         track_visibility='onchange',
     )
     partner_id = fields.Many2one(

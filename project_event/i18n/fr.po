@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-02-27 21:35+0000\n"
-"PO-Revision-Date: 2019-02-27 16:37-0500\n"
+"POT-Creation-Date: 2019-02-21 15:05-0500\n"
+"PO-Revision-Date: 2019-02-21 16:26-0500\n"
 "Last-Translator: Rim BEN DHAOU <rim.bendhaou@savoirfairelinux.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -18,7 +18,7 @@ msgstr ""
 "X-Generator: Poedit 2.0.6\n"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:844
+#: code:addons/project_event/models/project_task.py:834
 #, python-format
 msgid "%s (copy)"
 msgstr ""
@@ -59,8 +59,6 @@ msgstr "Activités"
 #: model:ir.model.fields,field_description:project_event.field_event_template_activity_template_ids
 #: model:ir.model.fields,field_description:project_event.field_task_template_activity_template_ids
 #: model:ir.ui.view,arch_db:project_event.activity_task_template_form
-#, fuzzy
-#| msgid "Activity Templates"
 msgid "Activities Templates"
 msgstr "Modèles d'activités"
 
@@ -95,6 +93,17 @@ msgid "Activity Logs"
 msgstr "Journaux"
 
 #. module: project_event
+#: model:ir.model,name:project_event.model_mail_activity_mixin
+msgid "Activity Mixin"
+msgstr ""
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_activity_search
+#: model:ir.ui.view,arch_db:project_event.project_event_activity_form
+msgid "Activity Responsible"
+msgstr "Responsable de l'activité"
+
+#. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_template_id
 #: model:ir.model.fields,field_description:project_event.field_project_task_wizard_activity_template_id
 #: model:ir.ui.menu,name:project_event.event_activity_template_menu
@@ -123,17 +132,22 @@ msgstr "Wizard d'activités"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.view_activity_event_wizard
-#, fuzzy
-#| msgid ""
-#| "Event will be created from template in draft so that you can review\n"
-#| "                    the event before validation."
 msgid ""
-"Activity will be created from template in draft so that you can review\n"
-"                    it before validation."
+"Event will be created from template in draft so that you can review\n"
+"                    the event before validation."
 msgstr ""
 "L'événement sera créé en état Brouillon à partir du modèle afin que vous "
 "puissiez examiner\n"
 "  l'événement avant la validation."
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.view_activity_event_wizard
+msgid ""
+"Activity will be created from template in draft so that you can review\n"
+"                    it before validation."
+msgstr ""
+"L'activité va être créée en état Brouillon à partir du modèle d'activité "
+"afin que vous puissiez l'examiner avant sa validation. "
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_wizard_activity_wiz_id
@@ -147,17 +161,15 @@ msgid "Activity: "
 msgstr "Activité: "
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:782
+#: code:addons/project_event/models/project_task.py:772
 #, python-format
 msgid "Activity: <br>"
 msgstr "Activité: <br>"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.view_activity_event_wizard
-#, fuzzy
-#| msgid "Add tasks"
 msgid "Add Tasks"
-msgstr "Ajouter des tâches"
+msgstr "Ajouter tâches"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.view_project_event_wizard
@@ -281,10 +293,8 @@ msgstr "Contact"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.view_project_task_wizard_activity
-#, fuzzy
-#| msgid "Create Event from Template"
 msgid "Create Activity from Template"
-msgstr "Créer un événement à partir d'un modèle"
+msgstr "Créer une activité à partir d'un modèle"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.view_project_task_wizard
@@ -293,10 +303,8 @@ msgstr "Créer un événement à partir d'un modèle"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.view_orphan_task_event_wizard
-#, fuzzy
-#| msgid "Is Created From Template"
 msgid "Create Task From Template"
-msgstr "Est créé à partir du template"
+msgstr "Créer une tâche à partir d'un modèle"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_template_create_uid
@@ -374,7 +382,7 @@ msgstr "Nom à afficher"
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:212
-#: code:addons/project_event/models/project_task.py:856
+#: code:addons/project_event/models/project_task.py:846
 #, python-format
 msgid "Do you want to continue?"
 msgstr "Voulez vous continuer?"
@@ -382,7 +390,7 @@ msgstr "Voulez vous continuer?"
 #. module: project_event
 #: model:ir.model,name:project_event.model_mail_followers
 msgid "Document Followers"
-msgstr ""
+msgstr "Abonnés du document"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
@@ -476,6 +484,18 @@ msgid "Event Number"
 msgstr "Numéro d'événement"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_project_responsible_id
+#: model:ir.ui.view,arch_db:project_event.project_event_form
+#: model:ir.ui.view,arch_db:project_event.project_event_tree
+msgid "Event Responsible"
+msgstr "Responsable d'événement"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:mail.field_project_task_activity_user_id
+msgid "Mail Activity Responsible"
+msgstr "Responsable Activité Mail"
+
+#. module: project_event
 #: model:ir.model,name:project_event.model_task_category
 msgid "Event Task Category"
 msgstr "Catégorie de tâche d'événement"
@@ -525,9 +545,9 @@ msgid ""
 "Event will be created from template in draft so that you can review\n"
 "                    it before validation."
 msgstr ""
-"L'événement sera créé en état Brouillon à partir du modèle afin que vous "
-"puissiez examiner\n"
-"  l'événement avant la validation."
+"L'événement sera créé en état Brouillon à partir d'un modèle d'événement "
+"afin que vous puissiez l'examiner\n"
+"  avant sa validation."
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:180
@@ -542,22 +562,16 @@ msgstr "Événements"
 
 #. module: project_event
 #: model:ir.module.category,name:project_event.module_category_event_acad
-#, fuzzy
-#| msgid "Events"
 msgid "Events ACAD"
-msgstr "Événements"
+msgstr "Événement ACAD"
 
 #. module: project_event
 #: model:ir.module.category,name:project_event.module_category_event_prod
-#, fuzzy
-#| msgid "Events"
 msgid "Events PROD"
-msgstr "Événements"
+msgstr "Événement PROD"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_template_event_template_ids
-#, fuzzy
-#| msgid "Event Templates"
 msgid "Events Templates"
 msgstr "Modèles d'événements"
 
@@ -577,17 +591,17 @@ msgstr "Secteur de Faculté"
 #. module: project_event
 #: model:ir.module.category,description:project_event.module_category_event_acad
 msgid "Helps you manage your Events with Academic Roles."
-msgstr ""
+msgstr "Vous aide à gérer vos événements avec des rôles académiques"
 
 #. module: project_event
 #: model:ir.module.category,description:project_event.module_category_event_prod
 msgid "Helps you manage your Events with Production Roles."
-msgstr ""
+msgstr "Vous aide à gérer vos événements avec des rôles de production"
 
 #. module: project_event
 #: model:ir.module.category,description:project_event.module_category_project_event
 msgid "Helps you manage your Project Events."
-msgstr ""
+msgstr "Vous aide à gérer vos événements"
 
 #. module: project_event
 #: selection:project.task,resource_type:0
@@ -721,34 +735,32 @@ msgstr "Numéro"
 #. module: project_event
 #: model:res.groups,name:project_event.group_project_event_OdooAuthor
 msgid "OdooAuthor"
-msgstr ""
+msgstr "Odoo auteur"
 
 #. module: project_event
 #: model:res.groups,name:project_event.group_project_event_OdooCaUnit
 msgid "OdooCaUnit"
-msgstr ""
+msgstr "OdooCaUnit"
 
 #. module: project_event
 #: model:res.groups,name:project_event.group_project_event_OdooEditor
 msgid "OdooEditor"
-msgstr ""
+msgstr "OdooÉditeur"
 
 #. module: project_event
 #: model:res.groups,name:project_event.group_project_event_OdooInvited
-#, fuzzy
-#| msgid "OdooProdInvite"
 msgid "OdooInvited"
-msgstr "OdooProdInvite"
+msgstr "OdooInvité"
 
 #. module: project_event
 #: model:res.groups,name:project_event.group_project_event_OdooReReader
 msgid "OdooReReader"
-msgstr ""
+msgstr "OdooRelecteur"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.view_reservation_validation_wizard
 msgid "Ok"
-msgstr ""
+msgstr "Ok"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
@@ -773,7 +785,7 @@ msgstr "Étiquettes"
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:212
-#: code:addons/project_event/models/project_task.py:856
+#: code:addons/project_event/models/project_task.py:846
 #, python-format
 msgid "Please Confirm your reservation.<br>"
 msgstr "Veuillez confirmer la réservation.<br>"
@@ -817,31 +829,23 @@ msgstr "Événement de projet"
 
 #. module: project_event
 #: model:res.groups,name:project_event.group_project_event_editor
-#, fuzzy
-#| msgid "Project Event"
 msgid "Project Event Editor"
-msgstr "Événement de projet"
+msgstr "Éditeur d'événement"
 
 #. module: project_event
 #: model:res.groups,name:project_event.group_project_event_manager
-#, fuzzy
-#| msgid "Project Event"
 msgid "Project Event Manager"
-msgstr "Événement de projet"
+msgstr "Gestionnaire d'événement"
 
 #. module: project_event
 #: model:res.groups,name:project_event.group_project_event_user
-#, fuzzy
-#| msgid "Project Event"
 msgid "Project Event User"
-msgstr "Événement de projet"
+msgstr "Utilisateur d'événement"
 
 #. module: project_event
 #: model:ir.module.category,name:project_event.module_category_project_event
-#, fuzzy
-#| msgid "Project Event"
 msgid "Project Events"
-msgstr "Événement de projet"
+msgstr "Projet Événement"
 
 #. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_project_task_auditlog_log
@@ -865,7 +869,7 @@ msgstr "Lu"
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_report_done_required
 msgid "Report done required"
-msgstr ""
+msgstr "Nécessite réalisation"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
@@ -909,8 +913,6 @@ msgstr "Ressources"
 #: model:ir.model.fields,field_description:project_event.field_event_template_temp_resp_id
 #: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_activity_resp_id
 #: model:ir.model.fields,field_description:project_event.field_project_event_wizard_event_resp_id
-#: model:ir.model.fields,field_description:project_event.field_project_project_responsible_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_responsible_id
 #: model:ir.model.fields,field_description:project_event.field_project_task_wizard_task_resp_id
 #: model:ir.model.fields,field_description:project_event.field_task_template_temp_resp_id
 msgid "Responsible"
@@ -1025,7 +1027,7 @@ msgid "Task Logs"
 msgstr "Journaux"
 
 #. module: project_event
-#: model:ir.ui.view,arch_db:project_event.project_activity_search
+#: model:ir.ui.view,arch_db:project_event.project_event_task_form
 #: model:ir.ui.view,arch_db:project_event.project_task_search
 msgid "Task Responsible"
 msgstr "Responsable de la tâche"
@@ -1064,20 +1066,20 @@ msgstr "Ordre de tâche"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.view_orphan_task_event_wizard
-#, fuzzy
-#| msgid ""
-#| "Event will be created from template in draft so that you can review\n"
-#| "                    the event before validation."
 msgid ""
 "Task will be created from template in draft so that you can review\n"
 "                    it before validation."
 msgstr ""
-"L'événement sera créé en état Brouillon à partir du modèle afin que vous "
-"puissiez examiner\n"
-"  l'événement avant la validation."
+"La tâche va être créée à l'état Brouillon à partir du modèle de tâche afin "
+"que vous puissiez l’examiner avant sa validation."
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:790
+#: model:ir.model.fields,field_description:project_event.field_project_task_responsible_id
+msgid "Responsible"
+msgstr "Responsable de tâche/activité"
+
+#. module: project_event
+#: code:addons/project_event/models/project_task.py:780
 #, python-format
 msgid "Task: <br>"
 msgstr "Tâche: <br>"
@@ -1090,10 +1092,8 @@ msgstr "Tâches"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_template_task_template_ids
-#, fuzzy
-#| msgid "Tasks Template"
 msgid "Tasks Templates"
-msgstr "Modèle de tâches"
+msgstr "Modèles de tâches"
 
 #. module: project_event
 #: code:addons/project_event/wizard/project_activity_wizard.py:95
@@ -1109,7 +1109,7 @@ msgid "Tasks to Edit"
 msgstr "Tâches à modifier"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:783
+#: code:addons/project_event/models/project_task.py:773
 #, python-format
 msgid "Tasks: <br>"
 msgstr "Tâches: <br>"
@@ -1126,14 +1126,12 @@ msgstr "Modèle"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.activity_template_form
-#, fuzzy
-#| msgid "Template Event"
 msgid "Templates Events"
-msgstr "Modèle d'événement"
+msgstr "Modèles d'événements"
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:211
-#: code:addons/project_event/models/project_task.py:855
+#: code:addons/project_event/models/project_task.py:845
 #, python-format
 msgid "The Following resources are already booked:<br>"
 msgstr "Ces ressources sont déjà réservées:<br>"
@@ -1151,46 +1149,49 @@ msgid ""
 "The default category cannot be                             deleted: \n"
 " Default category: "
 msgstr ""
+"La catégorie par défaut ne peut pas être supprimée: \n"
+"catégorie par défaut:"
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:168
-#: code:addons/project_event/models/project_task.py:765
+#: code:addons/project_event/models/project_task.py:755
 #, python-format
 msgid ""
 "The following is Optional and                         appears as "
 "crosshatched on your calendar"
 msgstr ""
+"L'élément suivant est Optionnel et apparaît en hachuré dans le calendrier"
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:170
-#: code:addons/project_event/models/project_task.py:768
+#: code:addons/project_event/models/project_task.py:758
 #, python-format
 msgid "The following is approved"
-msgstr ""
+msgstr "L'élément suivant est approuvé"
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:173
-#: code:addons/project_event/models/project_task.py:773
+#: code:addons/project_event/models/project_task.py:763
 #, python-format
 msgid ""
 "The following is canceled                         and no longer on your "
 "calendars"
-msgstr ""
+msgstr "L'élément suivant est annulé et n'est plus affiché dans le calendrier"
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:171
-#: code:addons/project_event/models/project_task.py:770
+#: code:addons/project_event/models/project_task.py:760
 #, python-format
 msgid ""
 "The following is postponed                         and no longer appear on "
 "your calendars"
-msgstr ""
+msgstr "L'élément suivant est reporté et n’apparaît plus sur le calendrier"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:767
+#: code:addons/project_event/models/project_task.py:757
 #, python-format
 msgid "The following is requested"
-msgstr ""
+msgstr "L'élément suivant est demandé"
 
 #. module: project_event
 #: code:addons/project_event/models/project_task.py:325
@@ -1206,7 +1207,7 @@ msgid "This resource is not bookable"
 msgstr "Cette ressource est non réservable"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:323
+#: code:addons/project_event/models/project_task.py:313
 #, python-format
 msgid "This room is not bookable"
 msgstr "Cette salle est non réservable"
