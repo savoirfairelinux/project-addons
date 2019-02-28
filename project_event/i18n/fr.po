@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: project_event
 #: code:addons/project_event/models/project_task.py:834
@@ -133,6 +133,16 @@ msgstr "Wizard d'activités"
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.view_activity_event_wizard
 msgid ""
+"Event will be created from template in draft so that you can review\n"
+"                    the event before validation."
+msgstr ""
+"L'événement sera créé en état Brouillon à partir du modèle afin que vous "
+"puissiez examiner\n"
+"  l'événement avant la validation."
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.view_activity_event_wizard
+msgid ""
 "Activity will be created from template in draft so that you can review\n"
 "                    it before validation."
 msgstr ""
@@ -238,6 +248,15 @@ msgstr "Supprimer tout"
 #: model:ir.ui.view,arch_db:project_event.view_project_project_search
 msgid "Client"
 msgstr "Client"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_calendar_event_client_tag
+#: model:ir.ui.view,arch_db:project_event.view_calendar_event_form_inherit
+#: model:ir.ui.view,arch_db:project_event.view_calendar_event_form_popup_inherit
+#, fuzzy
+#| msgid "Client Type"
+msgid "Client Tag"
+msgstr "Type de client"
 
 #. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_partner_category_type
@@ -518,6 +537,10 @@ msgstr "Wizard d'événement"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.view_project_event_wizard
+#, fuzzy
+#| msgid ""
+#| "Event will be created from template in draft so that you can review\n"
+#| "                    the event before validation."
 msgid ""
 "Event will be created from template in draft so that you can review\n"
 "                    it before validation."
@@ -931,6 +954,11 @@ msgid "Sequence"
 msgstr "Séquence"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_task_spectators
+msgid "Spectators"
+msgstr "Spectateurs"
+
+#. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_wizard_start_time
 #: model:ir.model.fields,field_description:project_event.field_task_template_start_time
 msgid "Start Time"
@@ -1087,6 +1115,11 @@ msgid "Tasks: <br>"
 msgstr "Tâches: <br>"
 
 #. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_activity_form
+msgid "Technical Sheet"
+msgstr "Bordereau Technique"
+
+#. module: project_event
 #: model:ir.ui.menu,name:project_event.project_event_template_menu
 msgid "Template"
 msgstr "Modèle"
@@ -1102,6 +1135,12 @@ msgstr "Modèles d'événements"
 #, python-format
 msgid "The Following resources are already booked:<br>"
 msgstr "Ces ressources sont déjà réservées:<br>"
+
+#. module: project_event
+#: code:addons/project_event/models/project_task.py:217
+#, python-format
+msgid "The Input value should be numeric"
+msgstr "La valeur de l'entrée doit être numérique"
 
 #. module: project_event
 #: code:addons/project_event/models/task_category.py:38
@@ -1155,13 +1194,14 @@ msgid "The following is requested"
 msgstr "L'élément suivant est demandé"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:315
-#, python-format
+#: code:addons/project_event/models/project_task.py:325
+#, fuzzy, python-format
+#| msgid "There must be a responsible or a client "
 msgid "There must be a responsible or a client"
-msgstr ""
+msgstr "Il faut avoir un responsable ou un client "
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:311
+#: code:addons/project_event/models/project_task.py:321
 #, python-format
 msgid "This resource is not bookable"
 msgstr "Cette ressource est non réservable"

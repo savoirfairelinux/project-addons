@@ -205,6 +205,16 @@ class Task(models.Model):
         string='Is Created From Template',
         default=False,
     )
+    spectators = fields.Char(
+        string='Spectators',
+     )
+
+    @api.onchange('spectators')
+    def check_numeric(self):
+        try:
+            int(self.spectators)
+        except Exception as exception:
+            raise ValidationError(_('The Input value should be numeric'))
 
     @api.depends('name', 'code')
     def _compute_complete_name(self):
