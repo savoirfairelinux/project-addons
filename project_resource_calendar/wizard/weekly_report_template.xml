@@ -8,7 +8,7 @@
         <field name="orientation">Portrait</field>
         <field name="margin_top">30</field>
         <field name="margin_right">5</field>
-        <field name="margin_bottom">20</field>
+        <field name="margin_bottom">30</field>
         <field name="margin_left">5</field>
         <field name="header_line" eval="False"/>
         <field name="header_spacing">20</field>
@@ -26,92 +26,120 @@
     <template id="weekly_report_view">
         <div class="header" style="border-bottom: 2px solid black">
             <h3 class="text-center">
-                <strong>Reservations Booking Schedule </strong>
+                <strong>Reservation Bookings Schedule </strong>
             </h3>
-            <h4 class="text-center">
-                <strong>From</strong>:
-                <t t-esc="date_start"/>
-                <strong>To</strong>:
-                <t t-esc="date_end"/>
-            </h4>
         </div>
         <t t-call="web.html_container">
             <t t-call="web.external_layout">
             <h3 >
-                <strong>Room</strong>:
                 <t t-esc="room_name"/>
             </h3>
                 <div class="page">
                 <h3 class="h3-report">Monday</h3>
+                <table class="table">
                   <t t-foreach="docs" t-as="o">
                     <t t-if="o['weekday']==0">
-                        <dt class="dt-report-10"> <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> </dt>
-                        <dt class="dt-report-10"> <span>to</span> </dt>
-                        <dt class="dt-report-10"> <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> </dt>
-                        <dt class="dt-report-50"> <span t-esc="o['name']"/> </dt>
-                        <br/>
+                      <tr>  
+                        <td class="dt-report-10">
+                         <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                         <span> to </span>
+                         <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> 
+                        </td>
+                        <td class="dt-report-50"> <span t-esc="o['name']"/> </td>
+                      </tr>
                     </t>
                   </t>
-                 <h3 class="h3-report">Tuesday</h3>
+                </table>
+                <h3 class="h3-report">Tuesday</h3>
+                <table class="table">
                   <t t-foreach="docs" t-as="o">
                     <t t-if="o['weekday']==1">
-                        <dt class="dt-report-10"> <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> </dt>
-                        <dt class="dt-report-10"> <span>to</span> </dt>
-                        <dt class="dt-report-10"> <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> </dt>
-                        <dt class="dt-report-50"> <span t-esc="o['name']"/> </dt>
-                        <br/>
+                      <tr>  
+                        <td class="dt-report-10">
+                         <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                         <span> to </span>
+                         <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> 
+                        </td>
+                        <td class="dt-report-50"> <span t-esc="o['name']"/> </td>
+                      </tr>
                     </t>
                   </t>
-                 <h3 class="h3-report">Wednesday</h3>
+                </table>
+                <h3 class="h3-report">Wednesday</h3>
+                <table class="table">
                   <t t-foreach="docs" t-as="o">
                     <t t-if="o['weekday']==2">
-                        <dt class="dt-report-10"> <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> </dt>
-                        <dt class="dt-report-10"> <span>to</span> </dt>
-                        <dt class="dt-report-10"> <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> </dt>
-                        <dt class="dt-report-50"> <span t-esc="o['name']"/> </dt>
-                        <br/>
+                      <tr>  
+                        <td class="dt-report-10">
+                         <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                         <span> to </span>
+                         <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> 
+                        </td>
+                        <td class="dt-report-50"> <span t-esc="o['name']"/> </td>
+                      </tr>
                     </t>
                   </t>
-                  <h3 class="h3-report">Thursday</h3>
+                </table>
+                 <h3 class="h3-report">Thursday</h3>
+                <table class="table">
                   <t t-foreach="docs" t-as="o">
                     <t t-if="o['weekday']==3">
-                        <dt class="dt-report-10"> <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> </dt>
-                        <dt class="dt-report-10"> <span>to</span> </dt>
-                        <dt class="dt-report-10"> <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> </dt>
-                        <dt class="dt-report-50"> <span t-esc="o['name']"/> </dt>
-                        <br/>
+                      <tr>  
+                        <td class="dt-report-10">
+                         <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                         <span> to </span>
+                         <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> 
+                        </td>
+                        <td class="dt-report-50"> <span t-esc="o['name']"/> </td>
+                      </tr>
                     </t>
                   </t>
-                  <h3 class="h3-report">Friday</h3>
+                </table>
+                 <h3 class="h3-report">Friday</h3>
+                <table class="table">
                   <t t-foreach="docs" t-as="o">
                     <t t-if="o['weekday']==4">
-                        <dt class="dt-report-10"> <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> </dt>
-                        <dt class="dt-report-10"> <span>to</span> </dt>
-                        <dt class="dt-report-10"> <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> </dt>
-                        <dt class="dt-report-50"> <span t-esc="o['name']"/> </dt>
-                        <br/>
+                      <tr>  
+                        <td class="dt-report-10">
+                         <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                         <span> to </span>
+                         <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> 
+                        </td>
+                        <td class="dt-report-50"> <span t-esc="o['name']"/> </td>
+                      </tr>
                     </t>
                   </t>
-                  <h3 class="h3-report">Saturday</h3>
+                </table>
+                 <h3 class="h3-report">Saturday</h3>
+                <table class="table">
                   <t t-foreach="docs" t-as="o">
                     <t t-if="o['weekday']==5">
-                        <dt class="dt-report-10"> <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> </dt>
-                        <dt class="dt-report-10"> <span>to</span> </dt>
-                        <dt class="dt-report-10"> <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> </dt>
-                        <dt class="dt-report-50"> <span t-esc="o['name']"/> </dt>
-                        <br/>
+                      <tr>  
+                        <td class="dt-report-10">
+                         <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                         <span> to </span>
+                         <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> 
+                        </td>
+                        <td class="dt-report-50"> <span t-esc="o['name']"/> </td>
+                      </tr>
                     </t>
                   </t>
-                  <h3 class="h3-report">Sunday</h3>
+                </table>
+                 <h3 class="h3-report">Sunday</h3>
+                <table class="table">
                   <t t-foreach="docs" t-as="o">
                     <t t-if="o['weekday']==6">
-                        <dt class="dt-report-10"> <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> </dt>
-                        <dt class="dt-report-10"> <span>to</span> </dt>
-                        <dt class="dt-report-10"> <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> </dt>
-                        <dt class="dt-report-50"> <span t-esc="o['name']"/> </dt>
-                        <br/>
+                      <tr>  
+                        <td class="dt-report-10">
+                         <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                         <span> to </span>
+                         <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> 
+                        </td>
+                        <td class="dt-report-50"> <span t-esc="o['name']"/> </td>
+                      </tr>
                     </t>
                   </t>
+                </table>
                 </div>
             <div class="footer">
               <div class="text-right">
