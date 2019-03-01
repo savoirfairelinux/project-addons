@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <record model="report.paperformat" id="paperformat_project_task_activity_report">
+        <field name="name">paperformat.technical.report</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">30</field>
+        <field name="margin_right">5</field>
+        <field name="margin_bottom">20</field>
+        <field name="margin_left">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report id="project_task_activity_report"
+            model="project.task"
+            string="Technical sheet"
+            report_type="qweb-pdf"
+            paperformat="paperformat_project_task_activity_report"
+            name="project_event.project_task_activity_report_view"
+             /> 
+    
+    <template id="project_task_activity_report_view">
+      <div class="header" style="border-bottom: 2px solid black">
+        <h3 class="text-center">   
+          <strong>
+            <t t-esc="title"/>
+              </strong>
+        </h3>
+        <h4 class="text-center">
+          <strong>
+            <t t-esc="print_date_text"/>
+          </strong>
+          <t t-esc="today"/>
+        </h4>
+      </div>
+      <t t-call="web.html_container">
+      <t t-call="web.external_layout">
+      <div class="page">
+      <div style="border-bottom: 2px solid black">
+        <table class="table">
+          <tr>
+            <td> <t t-esc="activity_label"/> <t t-esc="name"/>  </td>
+          </tr>
+          <tr>
+            <td width="50%"> <t t-esc="date_label"/>
+              <t t-esc="datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d')"/>
+            </td>
+            <td width="50%"> <t t-esc="number_spectators_label"/></td>
+            </tr>
+            <tr>
+              <td> 
+                <t t-esc="start_hour_label"/>
+                <t t-esc="datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>              
+              </td>
+              <td> 
+                <t t-esc="end_hour_label"/>
+                <t t-esc="datetime.datetime.strptime(stop, '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> 
+              </td>
+            </tr>
+            <tr>
+              <td> 
+                <t t-esc="client_label"/> 
+                <t t-esc="client_id"/> 
+              </td>
+            </tr>
+             <tr>
+              <td> <t t-esc="contact_label"/></td>
+              <td> <t t-esc="phone_label"/></td>
+            </tr>           
+          </table>
+        </div>
+        <br/>
+        <div>
+          <table class="table">
+            <tr>
+              <th>Department</th>
+              <th>Employee</th>
+              <th>Expected Arrival</th>
+              <th>Expected Departure</th>
+            </tr>
+            <t t-foreach="tasks" t-as="task">
+              <tr>
+                <td> <t t-esc="task['department']"/></td>
+                <td> <t t-esc="task['employee']"/></td>
+                <td> <t t-esc="datetime.datetime.strptime(task['expected_start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
+                <td> <t t-esc="datetime.datetime.strptime(task['expected_departure'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
+              </tr>
+            </t>
+          </table>
+        </div>
+      </div><!-- Page 1-->
+      <div style="page-break-before:always;">
+        <div style="border-bottom: 2px solid black">
+          Technical Reminder / Memo:
+          <t t-esc="description"/>
+        </div>
+        <div>
+          Remarks:
+          <t t-foreach="remarks" t-as="remark">
+            <div>
+              <t t-esc="remark['department']"/>
+              <t t-esc="remark['remark']"/>
+            </div>
+          </t>
+        </div>
+      </div>
+      <div style="page-break-before:always;">
+        Task Listing
+      </div>
+      <div style="page-break-before:always;">
+        <div style="border-bottom: 2px solid black; border-top: 1px solid black; ">
+          Dismantling instructions
+          <t t-esc="activity_notes"/>
+        </div>
+        <div>
+          List of equipment used:
+        </div>
+      </div>
+          <div class="footer">
+            <div class="row text-center">
+              <div class="text-center">
+                    <ul class="list-inline" style="margin-top:10px;">
+                        <li>Page:</li>
+                        <li>
+                            <span class="page"/>
+                        </li>
+                        <li>/</li>
+                        <li>
+                            <span class="topage"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+      </t>
+    </t>
+  </template>
+
+</odoo>

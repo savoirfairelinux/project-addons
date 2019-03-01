@@ -29,6 +29,7 @@
         'data/channels.xml',
         'data/ir_sequence_data.xml',
         'data/task_categories.xml',
+        'report/project_task_activity_report.xml',
         'security/ir.model.access.csv',
         'views/auditlog_log.xml',
         'views/project_project_view.xml',
