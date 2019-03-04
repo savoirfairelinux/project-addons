@@ -129,7 +129,7 @@ class TestSecurity(TestCalendarEventCommon):
             len(self.Events.sudo(self.user_base.id).search([])),
             0)
 
-    def create_event(self, name, partner_ids=[], room_id=None, user_id=1):
+    def create_event(self, name, partner_ids=[], room_id=None, user_id=1, equipment_ids=[]):
         return self.Events.sudo(user_id).create({
             'name': name,
             'start': fields.Datetime.to_string(datetime.today()),
@@ -139,6 +139,7 @@ class TestSecurity(TestCalendarEventCommon):
             'recurrence_type': 'datetype',
             'partner_ids': [(6, 0, partner_ids)],
             'room_id': room_id,
+            'equipment_ids': [(6, 0, equipment_ids)],
         })
 
     def user_can_read_event(self, name, user_id, partner_ids=[], room_id=None):
@@ -510,3 +511,17 @@ class TestSecurity(TestCalendarEventCommon):
         self.assertIsInstance(
             event_manager,
             type(self.Events))
+
+    def test_530_cannot_book_not_bookable_room(self):
+        with self.assertRaises(exceptions.ValidationError):
+            self.create_event('Not bookable Room Event',
+                              [],
+                              self.room_2.id)
+
+    def test_540_cannot_book_not_bookable_equipment(self):
+        with self.assertRaises(exceptions.ValidationError):
+            self.create_event('Not bookable Room Event',
+                              [],
+                              None,
+                              1,
+                              [self.instrument_3.id])
