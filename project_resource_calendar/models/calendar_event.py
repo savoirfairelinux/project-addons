@@ -134,10 +134,7 @@ class CalendarEvent(models.Model):
 
     @api.one
     def _get_res_partners_names(self):
-        if self.is_task_event:
-            self.partner_ids_names = self.partner_id.name
-        else:
-            self.partner_ids_names = str(list(map(lambda partner:
+        self.partner_ids_names = str(list(map(lambda partner:
                                                   str(partner.name),
                                                   self.partner_ids)))\
                 .replace('[', '').replace(']', '').replace("'", "")
