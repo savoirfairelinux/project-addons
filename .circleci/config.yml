@@ -18,7 +18,7 @@ jobs:
 
       - run:
           name: Clone Server Tools
-          command: git clone https://github.com/OCA/server-tools
+          command: git clone https://github.com/OCA/server-tools  && cd server-tools && git checkout 11.0 && cd ..
       
       - run:
           name: Clone Web
