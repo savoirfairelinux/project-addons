@@ -104,18 +104,4 @@
         <field eval="1" name="perm_create"/>
     </record>
 
-    <record id="all_timeline_calendar_event_manager_access" model="ir.rule">
-        <field name="name">All Calendar Events Timeline</field>
-        <field name="model_id" ref="calendar.model_calendar_event"/>
-        <field name="domain_force">[('is_task_event','=',True)]</field>
-        <field name="groups" eval="[(4, ref('base.group_user')),
-         (4, ref('group_resource_calendar_user')),
-         (4, ref('group_resource_calendar_editor')),
-         (4, ref('group_resource_calendar_manager'))]"/>
-        <field eval="0" name="perm_unlink"/>
-        <field eval="0" name="perm_write"/>
-        <field eval="1" name="perm_read"/>
-        <field eval="0" name="perm_create"/>
-    </record>
-
 </odoo>
