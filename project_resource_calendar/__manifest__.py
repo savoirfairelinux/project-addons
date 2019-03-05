@@ -30,7 +30,7 @@
         'security/ir.model.access.csv',
         'views/auditlog_log.xml',
         'views/room_type_view.xml',
-        'views/calendar_event_view.xml',
+        'views/equipment_calendar_view.xml',
         'views/resource_view.xml',
         'views/room_view.xml',
         'views/instrument_view.xml',
