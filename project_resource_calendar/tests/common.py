@@ -19,6 +19,12 @@ class TestCalendarEventCommon(common.TransactionCase):
             'resource_type': 'room',
             'allow_double_book': True,
         })
+        self.room_2 = self.Rooms.create({
+            'name': 'Test Room 2',
+            'resource_type': 'room',
+            'allow_double_book': True,
+            'is_bookable': False,
+        })
         self.instrument_1 = self.Instruments.create({
             'name': 'Test Instrument 1',
             'resource_type': 'material',
@@ -30,6 +36,13 @@ class TestCalendarEventCommon(common.TransactionCase):
             'resource_type': 'material',
             'room_id': self.room_1.id,
             'allow_double_book': True,
+        })
+        self.instrument_3 = self.Instruments.create({
+            'name': 'Test Instrument 3',
+            'resource_type': 'material',
+            'room_id': self.room_1.id,
+            'allow_double_book': True,
+            'is_bookable': False,
         })
         self.weekly_report_wizard_common = self.WeeklyReportWizards.create({
             'room_id': self.room_1.id,

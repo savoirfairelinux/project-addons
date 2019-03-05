@@ -185,6 +185,29 @@ class CalendarEvent(models.Model):
     def is_event_overlaps_record(self, record, event):
         return (event.start < record.stop) & (event.stop > record.start)
 
+    def get_error_type(self, type_error):
+        error_msg = ""
+        if type_error == 'RESOURCE_TYPE_ERROR':
+            error_msg = _('this resource is not bookable')
+        if type_error == 'ROOM_TYPE_ERROR':
+            error_msg = _('this room is not bookable')
+        return error_msg
+
+    @api.multi
+    @api.constrains('room_id', 'equipment_ids')
+    def _check_resources_is_bookable(self):
+        for record in self:
+            for equipment in record.equipment_ids:
+                if not equipment.is_bookable:
+                    raise ValidationError(str(equipment.name)
+                                          + ': ' + self.get_error_type(
+                                              'RESOURCE_TYPE_ERROR'))
+
+            if record.room_id and not record.room_id.is_bookable:
+                raise ValidationError(str(record.room_id.name)
+                                      + ': ' + self.get_error_type(
+                                          'ROOM_TYPE_ERROR'))
+
     @api.onchange('room_id')
     def _onchange_room_id(self):
         if self.room_id:
