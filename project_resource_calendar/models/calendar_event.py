@@ -98,7 +98,6 @@ class CalendarEvent(models.Model):
         'res.partner',
         string='Client',
         readonly=False,
-        required=True,
     )
     user_id = fields.Many2one(string='Responsible User')
     partner_id = fields.Many2one(string='Responsible Partner')
@@ -161,18 +160,19 @@ class CalendarEvent(models.Model):
             )
             if not any(room) and not any(equipment):
                 continue
-
-            for event in self.env['calendar.event'].search([
+            events = self.env['calendar.event'].search([
                 ('id', '!=', record.id),
-            ]):
-                if (event.start < record.stop) & (event.stop > record.start):
-                    if event.room_id.id == record.room_id.id:
-                        raise ValidationError(
-                            _(
-                                'The room %s cannot be double-booked '
-                                'with any overlapping meetings or events.',
-                            ) % record.room_id.name,
-                        )
+            ])
+            for event in events:
+                if self.is_event_overlaps_record(record, event):
+                    for resource in event.mapped(lambda s: s.room_id):
+                        if resource.id == record.room_id.id:
+                            raise ValidationError(
+                                _(
+                                    'The room %s cannot be double-booked '
+                                    'with any overlapping meetings or events.',
+                                ) % resource.name,
+                            )
                     for resource in event.mapped(lambda s: s.equipment_ids):
                         if resource.id in record.equipment_ids.ids:
                             raise ValidationError(
@@ -181,6 +181,32 @@ class CalendarEvent(models.Model):
                                     'with any overlapping meetings or events.',
                                 ) % resource.name,
                             )
+
+    def is_event_overlaps_record(self, record, event):
+        return (event.start < record.stop) & (event.stop > record.start)
+
+    def get_error_type(self, type_error):
+        error_msg = ""
+        if type_error == 'RESOURCE_TYPE_ERROR':
+            error_msg = _('this resource is not bookable')
+        if type_error == 'ROOM_TYPE_ERROR':
+            error_msg = _('this room is not bookable')
+        return error_msg
+
+    @api.multi
+    @api.constrains('room_id', 'equipment_ids')
+    def _check_resources_is_bookable(self):
+        for record in self:
+            for equipment in record.equipment_ids:
+                if not equipment.is_bookable:
+                    raise ValidationError(str(equipment.name)
+                                          + ': ' + self.get_error_type(
+                                              'RESOURCE_TYPE_ERROR'))
+
+            if record.room_id and not record.room_id.is_bookable:
+                raise ValidationError(str(record.room_id.name)
+                                      + ': ' + self.get_error_type(
+                                          'ROOM_TYPE_ERROR'))
 
     @api.onchange('room_id')
     def _onchange_room_id(self):
