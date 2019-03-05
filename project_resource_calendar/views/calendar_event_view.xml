@@ -127,7 +127,7 @@
                 <field name="client_id" required="1"/>
             </xpath>
             <field name="partner_ids" position="after">
-                <field name="resource_type" attrs="{'readonly': [('is_task_event','=',True)]}"/>
+                <field name="resource_type" attrs="{'invisible': [('is_task_event','=',False)], 'readonly': [('is_task_event','=',True)]}"/>
                 <field name="room_id"
                        attrs="{'required':[('resource_type','=','room')], 'readonly': [('is_task_event','=',True)]}"/>
                 <field name="equipment_ids"
