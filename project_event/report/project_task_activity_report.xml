@@ -3,7 +3,7 @@
   <record model="report.paperformat" id="paperformat_project_task_activity_report">
         <field name="name">paperformat.technical.report</field>
         <field name="default" eval="True"/>
-        <field name="format">A4</field>
+        <field name="format">Letter</field>
         <field name="page_width">0</field>
         <field name="orientation">Portrait</field>
         <field name="margin_top">30</field>
@@ -70,6 +70,10 @@
              <tr>
               <td> <t t-esc="contact_label"/></td>
               <td> <t t-esc="phone_label"/></td>
+            </tr>
+            <tr>
+              <td> <t t-esc="contact_label_2"/></td>
+              <td> <t t-esc="phone_label_2"/></td>
             </tr>           
           </table>
         </div>
@@ -94,36 +98,102 @@
         </div>
       </div><!-- Page 1-->
       <div style="page-break-before:always;">
+        <br/>
         <div style="border-bottom: 2px solid black">
-          Technical Reminder / Memo:
-          <t t-esc="description"/>
+          <h4>
+            <strong>
+              Technical Reminder / Memo:
+            </strong>
+          </h4>
+          <t t-raw="description"/> 
         </div>
+        <br/>
         <div>
-          Remarks:
+          <h4>
+            <strong>
+              Remarks:
+            </strong>
+          </h4>
           <t t-foreach="remarks" t-as="remark">
             <div>
-              <t t-esc="remark['department']"/>
-              <t t-esc="remark['remark']"/>
+              <strong><t t-esc="remark['department']"/></strong>
+              <br/>
+              <t t-raw="remark['remark']"/>
             </div>
           </t>
         </div>
       </div>
+      <br/>
       <div style="page-break-before:always;">
-        Task Listing
+        <h4>
+          <strong>
+            Task Listing:
+          </strong>
+        </h4>
+        <table class="table">
+            <tr>
+              <th></th>
+              <th colspan="2">Expected Schedule</th>
+              <th colspan="2">Real Schedule</th>
+              <th></th>
+            </tr>
+            <tr>
+              <th>Task Title</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Start Time</th>
+              <th>End Time</th>
+              <th>Real Total</th>
+            </tr>
+            <t t-foreach="tasks_details" t-as="task">
+              <tr>
+                <td> <t t-esc="task['task']"/></td>
+                <td> <t t-esc="datetime.datetime.strptime(task['expected_start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
+                <td> <t t-raw="datetime.datetime.strptime(task['expected_end'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
+                <td> <t t-raw="task['real_start']"/></td>
+                <td> <t t-raw="task['real_end']"/></td>
+                <td> <t t-raw="task['duration']"/></td>
+              </tr>
+            </t>
+          </table>
       </div>
       <div style="page-break-before:always;">
-        <div style="border-bottom: 2px solid black; border-top: 1px solid black; ">
-          Dismantling instructions
-          <t t-esc="activity_notes"/>
+        <br/>
+        <div style="border-bottom: 2px solid black;">
+          <h4>
+            <strong>
+              Dismantling instructions:
+            </strong>
+          </h4>
+          <t t-raw="activity_notes"/>
         </div>
+        <br/>
         <div>
-          List of equipment used:
+          <h4>
+            <strong>
+              List of equipment used:
+            </strong>
+          </h4>
+          <table class="table">
+            <tr>
+              <th>Task</th>
+              <th>Resource Type</th>
+              <th>Resource</th>
+            </tr>
+            <t t-foreach="tasks_details" t-as="resource">
+              <tr>
+                <td> <t t-esc="resource['task']"/></td>
+                <td> <t t-esc="resource['resource_type']"/></td>
+                <td> <t t-raw="resource['resource']"/></td>
+              </tr>
+            </t>
+          </table>
         </div>
       </div>
           <div class="footer">
             <div class="row text-center">
               <div class="text-center">
-                    <ul class="list-inline" style="margin-top:10px;">
+                    <ul class="list-inline" style="margin-top:10px; border-top: 1px solid black;">
                         <li>Page:</li>
                         <li>
                             <span class="page"/>

@@ -19,7 +19,9 @@ class ReportWeekly(models.AbstractModel):
     number_spectators_label = _("Number of spectators: ")
     client_label = _("Client: ")
     contact_label = _("Contact 1:")
+    contact_label_2 = _("Contact 2:")
     phone_label = _("Phone: ")
+    phone_label_2 = _("Phone: ")
 
     @api.model
     def get_report_values(self, docids, data=None):
@@ -46,7 +48,9 @@ class ReportWeekly(models.AbstractModel):
                 'number_spectators_label': self.number_spectators_label,
                 'client_label': self.client_label,
                 'contact_label': self.contact_label,
+                'contact_label_2': self.contact_label_2,
                 'phone_label': self.phone_label,
+                'phone_label_2': self.phone_label_2,
                 'name': activity.name,
                 'client_id': activity.partner_id.name,
                 'start': activity.date_start,
@@ -55,6 +59,7 @@ class ReportWeekly(models.AbstractModel):
                 'description': activity.description,
                 'activity_notes': activity.notes,
                 'remarks': self.get_departments_remarks(activity.child_ids),
+                'tasks_details': self.get_tasks_details(activity.child_ids),
             })
         return activities_docs
 
@@ -74,6 +79,47 @@ class ReportWeekly(models.AbstractModel):
                 'order', 'department', 'employee'))
         return table_lines_sorted
 
+    def get_tasks_details(self, tasks):
+        tasks_details = []
+        for task in tasks:
+            if task.resource_type == 'room':
+                resources_list = _('Room: ') + task.room_id.name + '<br/>' +\
+                    _('Equipment: <br/>')
+                tab = '&nbsp;&nbsp;&nbsp;&nbsp;'
+                for instrument in task.room_id.instruments_ids:
+                    resources_list += tab + instrument.name + '<br/>'
+                tasks_details.append({
+                    'task': task.name,
+                    'resource_type': 'Room',
+                    'resource': resources_list,
+                })
+            elif task.resource_type == 'equipment':
+                tasks_details.append({
+                    'task': task.name,
+                    'resource_type': 'Equipment',
+                    'resource': task.equipment_id.name,
+                })
+            elif task.resource_type == 'user':
+                tasks_details.append({
+                    'task': task.name,
+                    'resource_type': 'Human',
+                    'resource': 'Human',
+                })
+            else:
+                tasks_details.append({
+                    'task': task.name,
+                    'resource_type': 'NA',
+                    'resource': 'NA'
+                })
+            tasks_details[-1].update({
+                'expected_start': task.date_start,
+                'expected_end': task.date_end,
+                'real_start': '',
+                'real_end': '',
+                'duration': '',
+            })
+        return tasks_details
+
     def get_departments_remarks(self, tasks):
         department_comments = []
         for task in tasks:
@@ -82,7 +128,7 @@ class ReportWeekly(models.AbstractModel):
                 task.notes
             ))
         uniq_department_comments = self.remove_duplicate_department(
-            department_comments)
+            department_comments, [])
         remarks = []
         for remark in uniq_department_comments:
             remarks.append({
