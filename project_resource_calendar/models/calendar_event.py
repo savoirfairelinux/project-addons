@@ -98,7 +98,6 @@ class CalendarEvent(models.Model):
         'res.partner',
         string='Client',
         readonly=False,
-        required=True,
     )
     user_id = fields.Many2one(string='Responsible User')
     partner_id = fields.Many2one(string='Responsible Partner')
@@ -161,27 +160,30 @@ class CalendarEvent(models.Model):
             )
             if not any(room) and not any(equipment):
                 continue
-            overlaps = self.env['calendar.event'].search([
+            events = self.env['calendar.event'].search([
                 ('id', '!=', record.id),
-                ('start', '<', record.stop),
-                ('stop', '>', record.start),
             ])
-            for resource in overlaps.mapped(lambda s: s.room_id):
-                if resource.id == record.room_id.id:
-                    raise ValidationError(
-                        _(
-                            'The room, %s,  cannot be double-booked '
-                            'with any overlapping meetings or events.',
-                        ) % resource.name,
-                    )
-            for resource in overlaps.mapped(lambda s: s.equipment_ids):
-                if resource.id in record.equipment_ids.ids:
-                    raise ValidationError(
-                        _(
-                            'The resource, %s, cannot be double-booked '
-                            'with any overlapping meetings or events.',
-                        ) % resource.name,
-                    )
+            for event in events:
+                if self.is_event_overlaps_record(record, event):
+                    for resource in event.mapped(lambda s: s.room_id):
+                        if resource.id == record.room_id.id:
+                            raise ValidationError(
+                                _(
+                                    'The room %s cannot be double-booked '
+                                    'with any overlapping meetings or events.',
+                                ) % resource.name,
+                            )
+                    for resource in event.mapped(lambda s: s.equipment_ids):
+                        if resource.id in record.equipment_ids.ids:
+                            raise ValidationError(
+                                _(
+                                    'The resource %s cannot be double-booked '
+                                    'with any overlapping meetings or events.',
+                                ) % resource.name,
+                            )
+
+    def is_event_overlaps_record(self, record, event):
+        return (event.start < record.stop) & (event.stop > record.start)
 
     @api.onchange('room_id')
     def _onchange_room_id(self):
