@@ -161,27 +161,26 @@ class CalendarEvent(models.Model):
             )
             if not any(room) and not any(equipment):
                 continue
-            overlaps = self.env['calendar.event'].search([
+
+            for event in self.env['calendar.event'].search([
                 ('id', '!=', record.id),
-                ('start', '<', record.stop),
-                ('stop', '>', record.start),
-            ])
-            for resource in overlaps.mapped(lambda s: s.room_id):
-                if resource.id == record.room_id.id:
-                    raise ValidationError(
-                        _(
-                            'The room, %s,  cannot be double-booked '
-                            'with any overlapping meetings or events.',
-                        ) % resource.name,
-                    )
-            for resource in overlaps.mapped(lambda s: s.equipment_ids):
-                if resource.id in record.equipment_ids.ids:
-                    raise ValidationError(
-                        _(
-                            'The resource, %s, cannot be double-booked '
-                            'with any overlapping meetings or events.',
-                        ) % resource.name,
-                    )
+            ]):
+                if (event.start < record.stop) & (event.stop > record.start):
+                    if event.room_id.id == record.room_id.id:
+                        raise ValidationError(
+                            _(
+                                'The room %s cannot be double-booked '
+                                'with any overlapping meetings or events.',
+                            ) % record.room_id.name,
+                        )
+                    for resource in event.mapped(lambda s: s.equipment_ids):
+                        if resource.id in record.equipment_ids.ids:
+                            raise ValidationError(
+                                _(
+                                    'The resource %s cannot be double-booked '
+                                    'with any overlapping meetings or events.',
+                                ) % resource.name,
+                            )
 
     @api.onchange('room_id')
     def _onchange_room_id(self):
