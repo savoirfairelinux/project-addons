@@ -475,6 +475,14 @@ class Task(models.Model):
                         update_vals.update(self.update_value_room_id(vals))
                     update_vals[field_names[index]] = vals[field_names[index]]
                 if field_names[index] == 'employee_ids':
+                    partner_ids = []
+                    for employee_id in self.employee_ids:
+                        if employee_id.user_id:
+                            user = self.env['res.users']\
+                                .browse(employee_id.user_id.id)
+                            partner_ids.append(self.env['res.partner']
+                                               .browse(user.partner_id.id))
+                    update_vals['partners_ids'] = partner_ids
                     update_vals.update(self.update_value_employee_ids(vals))
                 if field_names[index] in ('sector_id',
                                           'category_id',

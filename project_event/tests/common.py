@@ -27,6 +27,8 @@ class TestProjectEventCommon(common.TransactionCase):
         self.Department = self.env['hr.department']
         self.Sector = self.env['res.partner.sector']
         self.Events = self.env['calendar.event']
+        self.Employee = self.env['hr.employee']
+        self.User = self.env['res.users']
         self.client_type_1 = self.Category_types.create({
             'name': 'Client Type 1',
         })
@@ -49,6 +51,15 @@ class TestProjectEventCommon(common.TransactionCase):
         self.partner_2 = self.Partners.create({
             'name': 'Partner 2',
             'tag_id': self.tag_2.id,
+        })
+        self.user_1 = self.User.create({
+            'name': 'Partner 1',
+            'login': 'base1@test.com',
+            'partner_id': self.partner_1.id,
+        })
+        self.employee_1 = self.Employee.create({
+            'name': 'Partner 1',
+            'user_id': self.user_1.id,
         })
         self.responsible_1 = self.Partners.create({
             'name': 'Responsible 1',
@@ -115,7 +126,8 @@ class TestProjectEventCommon(common.TransactionCase):
             'category_id': self.category_1.id,
             'room_id': self.room_1.id,
             'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(datetime.today() + timedelta(hours=4)),
+            'date_end': fields.Datetime.to_string(datetime.today() +
+                                                  timedelta(hours=4)),
         })
         self.activity_2 = self.Tasks.create({
             'name': 'Test Activity 2',
@@ -137,7 +149,8 @@ class TestProjectEventCommon(common.TransactionCase):
             'category_id': self.category_1.id,
             'room_id': self.room_1.id,
             'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(datetime.today() + timedelta(hours=4)),
+            'date_end': fields.Datetime.to_string(datetime.today() +
+                                                  timedelta(hours=4)),
         })
         self.task_2 = self.Tasks.create({
             'name': 'Test Task 2',

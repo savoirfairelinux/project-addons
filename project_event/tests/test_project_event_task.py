@@ -429,3 +429,14 @@ class TestProjectEventTask(TestProjectEventCommon):
             calendar_event.client_id.id,
             self.partner_1.id
         )
+
+    def test_170_update_task_event_clone_partner_ids_with_employee_ids(self):
+        self.task_1.write({
+            'employee_ids': [(6, 0, [self.employee_1.id])],
+        })
+        self.task_1.request_reservation()
+        calendar_event_task = self.task_1.get_calendar_event()
+        user = self.env['res.users']\
+            .browse(self.task_1.employee_ids[0].user_id.id)
+        self.assertEqual(user.partner_id,
+                         calendar_event_task.partner_ids[0])
