@@ -570,6 +570,16 @@ class Task(models.Model):
     def action_option(self):
         return self.get_confirmation_wizard('option')
 
+    @api.multi
+    def action_return_option(self):
+        self.write({'task_state': 'option'})
+        if self.is_activity():
+            for child in self.child_ids:
+                child.write({'task_state': 'option'})
+                child.do_clone_task_reservation()
+        else:
+            self.do_clone_task_reservation()
+
     def get_booked_resources(self):
         res = ''
         if self.activity_task_type == 'task':
