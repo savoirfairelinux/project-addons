@@ -445,35 +445,49 @@ class Task(models.Model):
     @api.multi
     def update_reservation_event(self, vals):
         if len(self) == 1:
-            if self.reservation_event_id:
-                reservation_event = self.env['calendar.event']. \
-                    browse(self.reservation_event_id)
-                field_names = [
-                    'date_start', 'date_end', 'equipment_id',
-                    'name', 'resource_type', 'room_id',
-                    'employee_ids', 'sector_id', 'category_id'
-                ]
-                reservation_event.write(
-                    self.set_value_reservation_event(field_names, vals)
-                )
+          if self.reservation_event_id:
+              reservation_event = self.env['calendar.event'].\
+                  browse(self.reservation_event_id)
+              field_names = [
+                  'date_start', 'date_end', 'equipment_id',
+                  'name', 'resource_type', 'room_id',
+                  'employee_ids', 'sector_id', 'category_id', 'partner_id',
+              ]
+              reservation_event.write(
+                  self.set_value_reservation_event(field_names, vals)
+              )
 
     def set_value_reservation_event(self, field_names, vals):
         update_vals = {}
         for index in range(0, len(field_names)):
             if field_names[index] in vals:
+                if field_names[index] == 'partner_id':
+                    update_vals['client_id'] = vals[field_names[index]]
                 if field_names[index] == 'date_start':
                     update_vals['start'] = vals[field_names[index]]
                 if field_names[index] == 'date_end':
                     update_vals['stop'] = vals[field_names[index]]
-                if field_names[index] == 'equipment_id' and vals['equipment_id']:
+                if field_names[index] == 'equipment_id' \
+                        and vals['equipment_id']:
                     update_vals.update(self.update_value_equipment_id(vals))
                 elif field_names[index] == 'room_id':
                     if vals['room_id']:
                         update_vals.update(self.update_value_room_id(vals))
                     update_vals[field_names[index]] = vals[field_names[index]]
                 if field_names[index] == 'employee_ids':
+                    partner_ids = []
+                    for employee_id in self.employee_ids:
+                        if employee_id.user_id:
+                            user = self.env['res.users']\
+                                .browse(employee_id.user_id.id)
+                            partner_ids.append(self.env['res.partner']
+                                               .browse(user.partner_id.id))
+                    update_vals['partners_ids'] = partner_ids
                     update_vals.update(self.update_value_employee_ids(vals))
-                if field_names[index] in ('sector_id', 'category_id', 'resource_type', 'name'):
+                if field_names[index] in ('sector_id',
+                                          'category_id',
+                                          'resource_type',
+                                          'name'):
                     update_vals[field_names[index]] = vals[field_names[index]]
         return update_vals
 
