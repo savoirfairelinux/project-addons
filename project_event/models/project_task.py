@@ -444,18 +444,18 @@ class Task(models.Model):
 
     @api.multi
     def update_reservation_event(self, vals):
-        self.ensure_one()
-        if self.reservation_event_id:
-            reservation_event = self.env['calendar.event'].\
-                browse(self.reservation_event_id)
-            field_names = [
-                'date_start', 'date_end', 'equipment_id',
-                'name', 'resource_type', 'room_id',
-                'employee_ids', 'sector_id', 'category_id', 'partner_id',
-            ]
-            reservation_event.write(
-                self.set_value_reservation_event(field_names, vals)
-            )
+        if len(self) == 1:
+          if self.reservation_event_id:
+              reservation_event = self.env['calendar.event'].\
+                  browse(self.reservation_event_id)
+              field_names = [
+                  'date_start', 'date_end', 'equipment_id',
+                  'name', 'resource_type', 'room_id',
+                  'employee_ids', 'sector_id', 'category_id', 'partner_id',
+              ]
+              reservation_event.write(
+                  self.set_value_reservation_event(field_names, vals)
+              )
 
     def set_value_reservation_event(self, field_names, vals):
         update_vals = {}
