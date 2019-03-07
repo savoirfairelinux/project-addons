@@ -511,7 +511,8 @@ class TestSecurity(TestProjectEventCommon):
         self.assertTrue(
             self.TaskTemplate.sudo(self.user_manager).search([]).unlink())
 
-    def test_610_project_user_cannot_read_project_task_category(self):
+    def test_610_project_user_can_read_project_task_category(self):
+
         self.get_user_acls_and_rules_to_model(
             self.project_user, self.Task_category)
         with self.assertRaises(exceptions.AccessError):
@@ -671,9 +672,9 @@ class TestSecurity(TestProjectEventCommon):
             {'partner_ids': [(6, 0, [self.project_user.partner_id.id])]})
         calendar_event = self.Events.sudo().\
             create(self.event_vals)
-        with self.assertRaises(exceptions.AccessError):
-            calendar_event.sudo(self.project_user.id).write(
-                {'name': 'New name'})
+        self.assertTrue(
+            calendar_event.sudo(self.user_editor.id).write({})
+        )
 
     def test_900_project_user_cannot_create_calendar_event(self):
         with self.assertRaises(exceptions.AccessError):
