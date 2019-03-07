@@ -134,6 +134,9 @@
                        attrs="{'required':[('resource_type','=','equipment')], 'readonly': [('is_task_event','=',True)]}"
                        widget="many2many_tags"/>
             </field>
+            <field name="resource_ids" position="attributes">
+                <attribute name="invisible">True</attribute>
+            </field>
             <xpath expr="//field[@name='alarm_ids']" position="after">
                 <field name="partner_id" attrs="{'invisible': [('is_task_event','=',True)]}"/>
             </xpath>
