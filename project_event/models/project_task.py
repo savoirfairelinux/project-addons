@@ -2,8 +2,9 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from datetime import datetime
+from dateutil.relativedelta import relativedelta
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import ValidationError
 
 
 class Task(models.Model):
@@ -215,6 +216,37 @@ class Task(models.Model):
             int(self.spectators)
         except Exception as exception:
             raise ValidationError(_('The Input value should be numeric'))
+
+    real_date_start = fields.Datetime(
+        string='Actual Start Time',
+        default=None,
+    )
+    real_date_end = fields.Datetime(
+        string='Actual End Time',
+        default=None,
+    )
+    total_time = fields.Char(
+        string='Actual Total Time',
+        compute='_compute_actual_total_time',
+    )
+
+    @api.one
+    @api.depends('real_date_start', 'real_date_end')
+    def _compute_actual_total_time(self):
+        self.ensure_one()
+        if self.real_date_start and self.real_date_end:
+            if self.real_date_end > self.real_date_start:
+                time_diff = relativedelta(fields.Datetime.from_string(self.real_date_end),
+                                          fields.Datetime.from_string(self.real_date_start))
+                hours = time_diff.hours
+                minutes = time_diff.minutes
+                self.total_time = str(hours) + ":" + str(minutes)
+            elif self.real_date_end == self.real_date_start:
+                self.total_time = "0:0"
+            else:
+                raise ValidationError(_('Actual Start Time should be before Actual End Time'))
+        else:
+            self.total_time = "0:0"
 
     @api.depends('name', 'code')
     def _compute_complete_name(self):

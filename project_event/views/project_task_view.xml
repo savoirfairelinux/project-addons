@@ -85,6 +85,18 @@
                         </page>
                         <page string="Technical Sheet">
                             <field name="spectators"/>
+                            <group>
+                                    <field name="child_ids">
+                                        <tree>
+                                            <field name="name"/>
+                                            <field name="date_start"/>
+                                            <field name="date_end"/>
+                                            <field name="real_date_start"/>
+                                            <field name="real_date_end"/>
+                                            <field name="total_time"/>
+                                        </tree>
+                                    </field>
+                            </group>
                         </page>
                     </notebook>
                 </sheet>

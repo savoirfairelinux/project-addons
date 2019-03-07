@@ -429,3 +429,9 @@ class TestProjectEventTask(TestProjectEventCommon):
             calendar_event.client_id.id,
             self.partner_1.id
         )
+
+    def test_170_compute_actual_total_time(self):
+        diff = self.task_3.total_time
+        self.assertEqual(diff, "0:0")
+        diff = self.task_4.total_time
+        self.assertEqual(diff, "2:0")
