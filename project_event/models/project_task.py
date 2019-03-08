@@ -450,7 +450,7 @@ class Task(models.Model):
                   browse(self.reservation_event_id)
               field_names = [
                   'date_start', 'date_end', 'equipment_id',
-                  'name', 'resource_type', 'room_id',
+                  'name', 'resource_type', 'room_id', 'client_type',
                   'employee_ids', 'sector_id', 'category_id', 'partner_id',
               ]
               reservation_event.write(
@@ -487,7 +487,8 @@ class Task(models.Model):
                 if field_names[index] in ('sector_id',
                                           'category_id',
                                           'resource_type',
-                                          'name'):
+                                          'name',
+                                          'client_type'):
                     update_vals[field_names[index]] = vals[field_names[index]]
         return update_vals
 
@@ -632,6 +633,7 @@ class Task(models.Model):
                 4, self.equipment_id.id, 0)] if self.equipment_id else None,
             'partner_ids': [(6, 0, self.get_partners())],
             'client_id': self.partner_id.id,
+            'client_type': self.client_type.id,
             'state': 'open',
             'event_task_id': self.id,
             'is_task_event': True,

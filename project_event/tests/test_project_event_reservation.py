@@ -160,3 +160,6 @@ class TestProjectEventReservation(TestProjectEventCommon):
             self.assertEqual(
                 reservation_event.client_id.id,
                 self.project_1.partner_id.id)
+            self.assertEqual(
+                reservation_event.client_type.id,
+                reservation_event.event_task_id.client_type.id)
