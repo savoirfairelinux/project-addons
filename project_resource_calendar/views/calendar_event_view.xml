@@ -25,8 +25,12 @@
             </xpath>
              <xpath expr="//field[@name='name']" position="after">
              <group>
-                <field name="client_id" placeholder="Client"  required="1" attrs="{'readonly': [('is_task_event', '=', True)]}"/>
+                <field name="client_id" placeholder="Client"  required="1" attrs="{'readonly': [('is_task_event', '=', True)]}" />
              </group>
+            </xpath>
+            <xpath expr="//field[@name='client_id']" position="attributes">
+                 <attribute name="style">font-size: 13px;</attribute>
+                 <attribute name="class">oe_inline</attribute>
             </xpath>
             <xpath expr="//field[@name='name']" position="attributes">
                 <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
@@ -72,8 +76,8 @@
             </xpath>
             <xpath expr="//field[@name='partner_ids']" position="attributes">
                 <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
+                 <attribute name="class">oe_inline</attribute>
             </xpath>
-
             <xpath expr="//div[@class='oe_title']" position="inside">
                 <label for="resource_ids" class="oe_edit_only" invisible="1"/>
                 <h2>
@@ -96,6 +100,18 @@
                            placeholder="Select Equipment"
                            class="oe_inline" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 </h2>
+            </xpath>
+            <xpath expr="//field[@name='room_id']" position="attributes">
+                 <attribute name="style">font-size: 13px;</attribute>
+                 <attribute name="class">oe_inline</attribute>
+            </xpath>
+            <xpath expr="//field[@name='equipment_ids']" position="attributes">
+                 <attribute name="style">font-size: 13px;</attribute>
+                 <attribute name="class">oe_inline</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_ids']" position="attributes">
+                 <attribute name="style">font-size: 13px;</attribute>
+                 <attribute name="class">oe_inline</attribute>
             </xpath>
         </field>
     </record>
@@ -124,7 +140,11 @@
                 </div>
             </xpath>
             <xpath expr="//field[@name='partner_ids']" position="before">
-                <field name="client_id" required="1" invisible="1"/>
+                <field name="client_id" required="1" invisible="1" class="oe_inline"/>
+            </xpath>
+             <xpath expr="//field[@name='client_id']" position="attributes">
+                 <attribute name="style">font-size: 13px;</attribute>
+                 <attribute name="class">oe_inline</attribute>
             </xpath>
             <field name="partner_ids" position="after">
                 <field name="resource_type" attrs="{'invisible': [('is_task_event','=',False)], 'readonly': [('is_task_event','=',True)]}"/>
@@ -134,14 +154,21 @@
                        attrs="{'required':[('resource_type','=','equipment')], 'readonly': [('is_task_event','=',True)]}"
                        widget="many2many_tags"/>
             </field>
+            <xpath expr="//field[@name='equipment_ids']" position="attributes">
+                 <attribute name="class">oe_inline</attribute>
+                 <attribute name="style">font-size: 13px;</attribute>
+            </xpath>
             <field name="resource_ids" position="attributes">
                 <attribute name="invisible">True</attribute>
+                 <attribute name="class">oe_inline</attribute>
             </field>
             <xpath expr="//field[@name='alarm_ids']" position="after">
                 <field name="partner_id" attrs="{'invisible': [('is_task_event','=',True)]}"/>
             </xpath>
             <xpath expr="//field[@name='partner_ids']" position="attributes">
                 <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
+                 <attribute name="class">oe_inline</attribute>
+                 <attribute name="style">font-size: 13px;</attribute>
             </xpath>
             <xpath expr="//field[@name='start_datetime']" position="attributes">
                 <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>

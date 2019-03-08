@@ -2,8 +2,8 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
 from datetime import datetime, timedelta
-
-from odoo import fields, models
+from odoo import exceptions
+from odoo import fields
 from odoo.addons.project_event.tests.common import TestProjectEventCommon
 
 
@@ -464,3 +464,15 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.assertEqual(diff, "00:00")
         diff = self.task_4.total_time
         self.assertEqual(diff, "02:00")
+
+    def test_210_onchange_spectators(self):
+        self.assertEqual(self.activity_3.spectators, '-')
+        self.activity_3.spectators = '123'
+        self.activity_3.onchange_spectators()
+        self.assertEqual(self.activity_3.spectators, '123')
+        self.activity_3.spectators = 'sfl'
+        with self.assertRaises(exceptions.ValidationError):
+            self.activity_3.onchange_spectators()
+        self.activity_3.spectators = '999999999999'
+        with self.assertRaises(exceptions.ValidationError):
+            self.activity_3.onchange_spectators()

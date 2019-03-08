@@ -959,6 +959,18 @@ msgid "Spectators"
 msgstr "Spectateurs"
 
 #. module: project_event
+#: code:addons/project_event/models/project_task.py:230
+#, python-format
+msgid "Spectators value should be in the range[0-1000000]"
+msgstr "La valeur des spectateurs doit être comprise dans la plage [0-1000000]"
+
+#. module: project_event
+#: code:addons/project_event/models/project_task.py:225
+#, python-format
+msgid "Spectators value should be numeric"
+msgstr "La valeur des spectateurs doit être numérique"
+
+#. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_wizard_start_time
 #: model:ir.model.fields,field_description:project_event.field_task_template_start_time
 msgid "Start Time"
