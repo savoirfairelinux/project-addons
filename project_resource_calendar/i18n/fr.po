@@ -679,6 +679,11 @@ msgid "Thursday"
 msgstr "Jeudi"
 
 #. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.view_calendar_event_tree
+msgid "Title"
+msgstr "Title"
+
+#. module: project_resource_calendar
 #: model:ir.ui.view,arch_db:project_resource_calendar.calendar_event_report_view
 msgid "To:"
 msgstr "À:"
