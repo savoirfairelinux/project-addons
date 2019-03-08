@@ -440,3 +440,21 @@ class TestProjectEventTask(TestProjectEventCommon):
             .browse(self.task_1.employee_ids[0].user_id.id)
         self.assertEqual(user.partner_id,
                          calendar_event_task.partner_ids[0])
+
+    def test_180_check_clone_task_calendar_event(self):
+        self.task_1.request_reservation()
+        self.task_1.action_return_option()
+        calendar_event = self.task_1.get_calendar_event()
+        self.assertEqual(
+            calendar_event.state,
+            'draft'
+        )
+
+    def test_190_main_task_activity_calendar_event_clone_state(self):
+        self.activity_1.request_reservation()
+        for child in self.activity_1.child_ids:
+            child.request_reservation()
+        self.activity_1.action_return_option()
+        for child in self.activity_1.child_ids:
+            calendar_event = child.get_calendar_event()
+            self.assertEqual(calendar_event.state, 'draft')

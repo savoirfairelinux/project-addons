@@ -570,6 +570,16 @@ class Task(models.Model):
     def action_option(self):
         return self.get_confirmation_wizard('option')
 
+    @api.multi
+    def action_return_option(self):
+        self.write({'task_state': 'option'})
+        if self.is_activity():
+            for child in self.child_ids:
+                child.write({'task_state': 'option'})
+                child.do_clone_task_reservation()
+        else:
+            self.do_clone_task_reservation()
+
     def get_booked_resources(self):
         res = ''
         if self.activity_task_type == 'task':
@@ -683,26 +693,35 @@ class Task(models.Model):
         return self.env['calendar.event'].\
             browse(self.reservation_event_id)
 
+    def do_clone_task_reservation(self):
+        if self.reservation_event_id:
+            self.get_calendar_event().write({'state': 'draft'})
+
+    def do_task_reservation(self):
+        self.draft_resources_reservation()
+        if self.task_state not in ['option', 'done']:
+            self.send_message('option')
+        self.write({'task_state': 'option'})
+        self.do_clone_task_reservation()
+
     @api.multi
     def do_reservation(self):
         self.ensure_one()
-        if self.activity_task_type == 'task':
-            self.draft_resources_reservation()
-            if self.task_state not in ['option', 'done']:
-                self.send_message('option')
         if self.is_activity():
             for child in self.child_ids:
-                child.draft_resources_reservation()
-                if child.task_state not in ['option', 'done']:
-                    child.send_message('option')
-                child.write({'task_state': 'option'})
+                child.do_task_reservation()
             self.send_message('option')
-        self.write({'task_state': 'option'})
+            self.write({'task_state': 'option'})
+        else:
+            self.draft_resources_reservation()
+            self.do_task_reservation()
+            self.write({'task_state': 'option'})
 
     @api.multi
     def action_cancel(self):
         if self.activity_task_type == 'task' and \
-                self.task_state in ['requested', 'read', 'postponed', 'accepted']:
+                self.task_state in ['requested', 'read', 'postponed',
+                                    'accepted']:
             self.send_message('canceled')
             self.cancel_resources_reservation()
             self.write({'task_state': 'canceled'})

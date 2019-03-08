@@ -7,7 +7,9 @@
         <field name="arch" type="xml">
             <form string="Activity">
                 <header>
-                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', '=', 'option')]}"
+                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', 'not in', 'draft')]}"
+                            type="object"/>
+                    <button name="action_return_option" string="Return to Option" attrs="{'invisible': [('task_state', 'in', ['draft', 'option', 'done'])]}"
                             type="object"/>
                     <button name="action_accept" string="Accept"
                             attrs="{'invisible': [('task_state', '=', 'accepted')]}" type="object"/>
@@ -116,8 +118,10 @@
         <field name="arch" type="xml">
             <form string="Task">
                 <header>
-                    <button name="action_option" string="Option"
-                            attrs="{'invisible': [('task_state', 'in', ['option', 'done'])]}"
+                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', 'not in', 'draft')]}"
+                            type="object"
+                            groups="project_event.group_project_event_editor"/>
+                    <button name="action_return_option" string="Return to Option" attrs="{'invisible': [('task_state', 'in', ['draft', 'option', 'done'])]}"
                             type="object"
                             groups="project_event.group_project_event_editor"/>
                     <button name="action_request" string="Request"
