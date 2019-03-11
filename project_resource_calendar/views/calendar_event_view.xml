@@ -25,7 +25,7 @@
             </xpath>
              <xpath expr="//field[@name='name']" position="after">
              <group>
-                <field name="client_id" placeholder="Client"  required="1"/>
+                <field name="client_id" placeholder="Client"  required="1" attrs="{'readonly': [('is_task_event', '=', True)]}"/>
              </group>
             </xpath>
             <xpath expr="//field[@name='name']" position="attributes">
@@ -124,7 +124,7 @@
                 </div>
             </xpath>
             <xpath expr="//field[@name='partner_ids']" position="before">
-                <field name="client_id" required="1"/>
+                <field name="client_id" required="1" invisible="1"/>
             </xpath>
             <field name="partner_ids" position="after">
                 <field name="resource_type" attrs="{'invisible': [('is_task_event','=',False)], 'readonly': [('is_task_event','=',True)]}"/>
@@ -133,6 +133,9 @@
                 <field name="equipment_ids"
                        attrs="{'required':[('resource_type','=','equipment')], 'readonly': [('is_task_event','=',True)]}"
                        widget="many2many_tags"/>
+            </field>
+            <field name="resource_ids" position="attributes">
+                <attribute name="invisible">True</attribute>
             </field>
             <xpath expr="//field[@name='alarm_ids']" position="after">
                 <field name="partner_id" attrs="{'invisible': [('is_task_event','=',True)]}"/>
@@ -198,15 +201,22 @@
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>
         <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="replace">
+                <field name="name" string="Title"/>
+            </xpath>
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="room_id"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_ids']" position="replace">
+                <field name="partner_ids" invisible="1"/>
+            </xpath>
             <xpath expr="//field[@name='message_needaction']" position="after">
+                <field name="client_id"/>
+                <field name="partner_ids"/>
                 <field name="state"/>
             </xpath>
             <xpath expr="//field[@name='location']" position="replace">
-                <field name="room_id"/>
-            </xpath>
-            <xpath expr="//field[@name='partner_ids']" position="after">
-                <field name="partner_id"/>
-                <field name="client_id" required="1"/>
+                <field name="location" invisible="1"/>
             </xpath>
         </field>
     </record>

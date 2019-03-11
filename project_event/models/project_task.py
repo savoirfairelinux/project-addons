@@ -476,36 +476,51 @@ class Task(models.Model):
 
     @api.multi
     def update_reservation_event(self, vals):
-        self.ensure_one()
-        if self.reservation_event_id:
-            reservation_event = self.env['calendar.event'].\
-                browse(self.reservation_event_id)
-            field_names = [
-                'date_start', 'date_end', 'equipment_id',
-                'name', 'resource_type', 'room_id',
-                'employee_ids', 'sector_id', 'category_id'
-            ]
-            reservation_event.write(
-                self.set_value_reservation_event(field_names, vals)
-            )
+        if len(self) == 1:
+          if self.reservation_event_id:
+              reservation_event = self.env['calendar.event'].\
+                  browse(self.reservation_event_id)
+              field_names = [
+                  'date_start', 'date_end', 'equipment_id',
+                  'name', 'resource_type', 'room_id', 'client_type',
+                  'employee_ids', 'sector_id', 'category_id', 'partner_id',
+              ]
+              reservation_event.write(
+                  self.set_value_reservation_event(field_names, vals)
+              )
 
     def set_value_reservation_event(self, field_names, vals):
         update_vals = {}
         for index in range(0, len(field_names)):
             if field_names[index] in vals:
+                if field_names[index] == 'partner_id':
+                    update_vals['client_id'] = vals[field_names[index]]
                 if field_names[index] == 'date_start':
                     update_vals['start'] = vals[field_names[index]]
                 if field_names[index] == 'date_end':
                     update_vals['stop'] = vals[field_names[index]]
-                if field_names[index] == 'equipment_id' and vals['equipment_id']:
+                if field_names[index] == 'equipment_id' \
+                        and vals['equipment_id']:
                     update_vals.update(self.update_value_equipment_id(vals))
                 elif field_names[index] == 'room_id':
                     if vals['room_id']:
                         update_vals.update(self.update_value_room_id(vals))
                     update_vals[field_names[index]] = vals[field_names[index]]
                 if field_names[index] == 'employee_ids':
+                    partner_ids = []
+                    for employee_id in self.employee_ids:
+                        if employee_id.user_id:
+                            user = self.env['res.users']\
+                                .browse(employee_id.user_id.id)
+                            partner_ids.append(self.env['res.partner']
+                                               .browse(user.partner_id.id))
+                    update_vals['partners_ids'] = partner_ids
                     update_vals.update(self.update_value_employee_ids(vals))
-                if field_names[index] in ('sector_id', 'category_id', 'resource_type', 'name'):
+                if field_names[index] in ('sector_id',
+                                          'category_id',
+                                          'resource_type',
+                                          'name',
+                                          'client_type'):
                     update_vals[field_names[index]] = vals[field_names[index]]
         return update_vals
 
@@ -588,6 +603,16 @@ class Task(models.Model):
     def action_option(self):
         return self.get_confirmation_wizard('option')
 
+    @api.multi
+    def action_return_option(self):
+        self.write({'task_state': 'option'})
+        if self.is_activity():
+            for child in self.child_ids:
+                child.write({'task_state': 'option'})
+                child.do_clone_task_reservation()
+        else:
+            self.do_clone_task_reservation()
+
     def get_booked_resources(self):
         res = ''
         if self.activity_task_type == 'task':
@@ -640,6 +665,7 @@ class Task(models.Model):
                 4, self.equipment_id.id, 0)] if self.equipment_id else None,
             'partner_ids': [(6, 0, self.get_partners())],
             'client_id': self.partner_id.id,
+            'client_type': self.client_type.id,
             'state': 'open',
             'event_task_id': self.id,
             'is_task_event': True,
@@ -701,26 +727,35 @@ class Task(models.Model):
         return self.env['calendar.event'].\
             browse(self.reservation_event_id)
 
+    def do_clone_task_reservation(self):
+        if self.reservation_event_id:
+            self.get_calendar_event().write({'state': 'draft'})
+
+    def do_task_reservation(self):
+        self.draft_resources_reservation()
+        if self.task_state not in ['option', 'done']:
+            self.send_message('option')
+        self.write({'task_state': 'option'})
+        self.do_clone_task_reservation()
+
     @api.multi
     def do_reservation(self):
         self.ensure_one()
-        if self.activity_task_type == 'task':
-            self.draft_resources_reservation()
-            if self.task_state not in ['option', 'done']:
-                self.send_message('option')
         if self.is_activity():
             for child in self.child_ids:
-                child.draft_resources_reservation()
-                if child.task_state not in ['option', 'done']:
-                    child.send_message('option')
-                child.write({'task_state': 'option'})
+                child.do_task_reservation()
             self.send_message('option')
-        self.write({'task_state': 'option'})
+            self.write({'task_state': 'option'})
+        else:
+            self.draft_resources_reservation()
+            self.do_task_reservation()
+            self.write({'task_state': 'option'})
 
     @api.multi
     def action_cancel(self):
         if self.activity_task_type == 'task' and \
-                self.task_state in ['requested', 'read', 'postponed', 'accepted']:
+                self.task_state in ['requested', 'read', 'postponed',
+                                    'accepted']:
             self.send_message('canceled')
             self.cancel_resources_reservation()
             self.write({'task_state': 'canceled'})

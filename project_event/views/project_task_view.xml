@@ -7,7 +7,9 @@
         <field name="arch" type="xml">
             <form string="Activity">
                 <header>
-                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', '=', 'option')]}"
+                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', 'not in', 'draft')]}"
+                            type="object"/>
+                    <button name="action_return_option" string="Return to Option" attrs="{'invisible': [('task_state', 'in', ['draft', 'option', 'done'])]}"
                             type="object"/>
                     <button name="action_accept" string="Accept"
                             attrs="{'invisible': [('task_state', '=', 'accepted')]}" type="object"/>
@@ -128,17 +130,19 @@
         <field name="arch" type="xml">
             <form string="Task">
                 <header>
-                    <button name="action_option" string="Option"
-                            attrs="{'invisible': [('task_state', 'in', ['option', 'done'])]}"
+                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', 'not in', 'draft')]}"
                             type="object"
-                            groups="project_event.group_project_event_manager"/>
+                            groups="project_event.group_project_event_editor"/>
+                    <button name="action_return_option" string="Return to Option" attrs="{'invisible': [('task_state', 'in', ['draft', 'option', 'done'])]}"
+                            type="object"
+                            groups="project_event.group_project_event_editor"/>
                     <button name="action_request" string="Request"
                             attrs="{'invisible': [('task_state', 'in', ['requested','accepted','done'])]}"
                             type="object"
-                            groups="project_event.group_project_event_manager"/>
+                            groups="project_event.group_project_event_editor"/>
                     <button name="action_accept" string="Accept"
                             attrs="{'invisible': [('task_state', 'not in', ['requested','read'])]}" type="object"
-                            groups="project_event.group_project_event_manager"/>
+                            groups="project_event.group_project_event_editor"/>
                     <button name="action_done" string="Done"
                             attrs="{'invisible': [('task_state', 'not in', ['accepted','read'])]}"
                             type="object"/>
@@ -147,10 +151,10 @@
                     <button name="action_postpone" string="Postpone"
                             attrs="{'invisible': [('task_state', 'in', ['draft','done','postponed'])]}"
                             type="object"
-                            groups="project_event.group_project_event_manager"/>
+                            groups="project_event.group_project_event_editor"/>
                     <button name="action_cancel" string="Cancel" type="object"
                             attrs="{'invisible': [('task_state', 'in', ['draft','done','canceled'])]}"
-                            groups="project_event.group_project_event_manager"/>
+                            groups="project_event.group_project_event_editor"/>
                     <field name="task_state_report_done_required"
                            widget="statusbar"
                            attrs="{'invisible':[('report_done_required', '=', False )]}"

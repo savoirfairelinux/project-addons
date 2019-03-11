@@ -56,7 +56,7 @@ msgstr "<strong>De</strong>:"
 #. module: project_resource_calendar
 #: model:ir.ui.view,arch_db:project_resource_calendar.weekly_report_view
 msgid "<strong>Reservations Booking Schedule </strong>"
-msgstr "<strong>Horaires de réservation </strong>"
+msgstr "<strong>Horaire de réservations </strong>"
 
 #. module: project_resource_calendar
 #: model:ir.ui.view,arch_db:project_resource_calendar.weekly_report_view
@@ -677,6 +677,11 @@ msgstr "La salle, %s, est déjà réservée pour la période spécifiée."
 #: model:ir.ui.view,arch_db:project_resource_calendar.weekly_report_view
 msgid "Thursday"
 msgstr "Jeudi"
+
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.view_calendar_event_tree
+msgid "Title"
+msgstr "Title"
 
 #. module: project_resource_calendar
 #: model:ir.ui.view,arch_db:project_resource_calendar.calendar_event_report_view
