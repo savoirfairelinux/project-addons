@@ -1,5 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <record id="project_event_task_tree_technical_sheet" model="ir.ui.view">
+        <field name="name">Task Tree</field>
+        <field name="model">project.task</field>
+        <field name="priority">200</field>
+        <field name="arch" type="xml">
+            <tree string="Task" default_order="date_start asc">
+                <field name="name"/>
+                    <field name="date_start"/>
+                    <field name="real_date_start"/>
+                    <field name="date_end"/>
+                    <field name="real_date_end"/>
+                    <field name="total_time"/>
+            </tree>
+        </field>
+    </record>
+    <record id="project_event_task_tree_activitys_children" model="ir.ui.view">
+        <field name="name">Task Tree</field>
+        <field name="model">project.task</field>
+        <field name="priority">150</field>
+        <field name="arch" type="xml">
+            <tree string="Task" default_order="date_start asc">
+                <field name="name"/>
+                    <field name="equipment_id" string="Resource"/>
+                                    <field name="room_id" string="Room"/>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="parent_id" string="Activity"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="asterisk_validate_record"/>
+                                    <field name="task_order" invisible="1"/>
+                                    <field name="task_state"/>
+                                    <field name="department_id"/>
+            </tree>
+        </field>
+    </record>
     <record id="project_event_activity_form" model="ir.ui.view">
         <field name="name">Activity Form</field>
         <field name="model">project.task</field>
@@ -63,19 +99,9 @@
 							'form_view_ref':'project_event.project_event_task_form',
 							'default_activity_task_type':'task',
 							'default_parent_id': active_id,
+                            'tree_view_ref':'project_event.project_event_task_tree_activitys_children'
 						    }" domain="[('activity_task_type','=', 'task')]">
                                 <tree>
-                                    <field name="equipment_id" string="Resource"/>
-                                    <field name="room_id" string="Room"/>
-                                    <field name="name"/>
-                                    <field name="code"/>
-                                    <field name="parent_id" string="Activity"/>
-                                    <field name="date_start"/>
-                                    <field name="date_end"/>
-                                    <field name="asterisk_validate_record"/>
-                                    <field name="task_order" invisible="1"/>
-                                    <field name="task_state"/>
-                                    <field name="department_id"/>
                                 </tree>
                             </field>
                         </page>
@@ -86,18 +112,14 @@
                             <field name="notes"/>
                         </page>
                         <page string="Technical Sheet">
-                            <field name="spectators"/>
                             <group>
-                                    <field name="child_ids">
-                                        <tree>
-                                            <field name="name"/>
-                                            <field name="date_start"/>
-                                            <field name="date_end"/>
-                                            <field name="real_date_start"/>
-                                            <field name="real_date_end"/>
-                                            <field name="total_time"/>
-                                        </tree>
-                                    </field>
+                                <field name="spectators"/>
+                            </group>                            
+                            <group>
+                                    <field name="child_ids" context="{'form_view_ref':'project_event.project_event_task_form','tree_view_ref' : 'project_event.project_event_task_tree_technical_sheet'}">
+                                      <tree>
+                                      </tree>
+                                      </field>  
                             </group>
                         </page>
                     </notebook>
@@ -204,8 +226,10 @@
 
                         </group>
                         <group>
-                            <field name="date_start" required="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
-                            <field name="date_end" required="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                                <field name="date_start" required="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                                <field name="date_end" required="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                                <field name="real_date_start"/>
+                                <field name="real_date_end"/>
                         </group>
                         <group>
                             <div>
@@ -303,6 +327,7 @@
             </tree>
         </field>
     </record>
+
     <record id="project_activity_search" model="ir.ui.view">
         <field name="name">Project Activity Search</field>
         <field name="model">project.task</field>
