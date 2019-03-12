@@ -48,7 +48,7 @@
         <field name="name">Task Template Tree</field>
         <field name="model">task.template</field>
         <field name="arch" type="xml">
-            <tree string="Task Template">
+            <tree string="Task Template" decoration-danger="is_main_task == True">
                 <field name="resource_type"/>
                 <field name="equipment_id" string="Equipment"/>
                 <field name="room_id" string="Room"/>
@@ -56,6 +56,7 @@
                 <field name="category_id"/>
                 <field name="temp_resp_id"/>
                 <field name="department_id"/>
+                <field name="is_main_task"/>
             </tree>
         </field>
     </record>
