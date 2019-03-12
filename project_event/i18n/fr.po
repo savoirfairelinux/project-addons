@@ -637,8 +637,8 @@ msgstr "Est créé à partir du template"
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_is_main_task
 #: model:ir.model.fields,field_description:project_event.field_task_template_is_main_task
-msgid "Is it main Task"
-msgstr "Est une tâche principale?"
+msgid "Is Main Task"
+msgstr "Tâche principale"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_template___last_update
