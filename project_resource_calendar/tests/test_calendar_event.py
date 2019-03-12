@@ -157,7 +157,7 @@ class TestCalendarEvent(TestCalendarEventCommon):
             self.calendar_event.partner_ids.ids,
             partners_before_delete_client_id)
 
-    def test_100_calendar_event_change_client__with_no_participants_puts_new_participant(
+    def test_100_calendar_event_change_client_with_no_participants_puts_new_participant(
             self):
         partner_4 = self.Partners.create({
             'name': 'Partner 4',

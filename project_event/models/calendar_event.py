@@ -1,7 +1,7 @@
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import fields, models
+from odoo import fields, models, api
 
 
 class CalendarEvent(models.Model):
@@ -25,3 +25,9 @@ class CalendarEvent(models.Model):
         string='Client Tag',
         related='client_id.tag_id'
     )
+
+    @api.onchange('client_id')
+    def _onchange_client_id(self):
+        super(CalendarEvent, self)._onchange_client_id()
+        if not self.is_task_event and self.client_id:
+            self.client_type = self.client_tag.client_type

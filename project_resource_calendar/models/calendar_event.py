@@ -109,7 +109,7 @@ class CalendarEvent(models.Model):
         default=None)
 
     @api.onchange('client_id')
-    def _add_client_to_participants(self):
+    def _onchange_client_id(self):
         if not self.is_task_event and self.client_id:
             self.partner_ids = [(6, 0,
                                  [self.client_id.id] + self.partner_ids.ids)]

@@ -8,3 +8,4 @@ from . import test_activity_template
 from . import test_task_template
 from . import test_event_creation_from_wizard
 from . import test_security
+from . import test_calendar_event
