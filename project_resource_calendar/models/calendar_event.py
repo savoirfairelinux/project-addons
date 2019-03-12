@@ -225,7 +225,7 @@ class CalendarEvent(models.Model):
         return super(CalendarEvent, self).create(vals)
 
     def verify_client_in_participants(self, vals):
-        if self.is_task_event:
+        if 'is_task_event' in vals and vals['is_task_event']:
             return
         if 'client_id' in vals and vals['client_id']:
             if not vals['client_id'] in vals['partner_ids'][0][2]:
@@ -238,7 +238,8 @@ class CalendarEvent(models.Model):
         return super(CalendarEvent, self).write(vals)
 
     def validate_client_id_write(self, vals):
-        if self.is_task_event:
+        if self.is_task_event or (
+                        'is_task_event' in vals and vals['is_task_event']):
             return
         if 'client_id' in vals:
             partners = self.partner_ids.ids
