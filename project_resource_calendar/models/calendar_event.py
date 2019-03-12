@@ -1,6 +1,7 @@
 # Copyright 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
+import babel.dates
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
 from datetime import datetime
@@ -213,6 +214,21 @@ class CalendarEvent(models.Model):
         if self.room_id:
             self.equipment_ids = self.env['resource.calendar.instrument']\
                 .search([('room_id', '=', self.room_id.id)])
+
+    def get_formatted_date(self, date_to_format):
+        lang = self.env['res.users'].browse(self.env.uid).lang or 'en_US'
+        tz = self.env['res.users'].browse(self.env.uid).tz or 'utc'
+        is_date = datetime == type(date_to_format)
+        if not is_date:
+            date_to_format = datetime.strptime(
+                date_to_format, '%Y-%m-%d %H:%M:%S'
+            )
+        formatted_date = babel.dates.format_datetime(
+            date_to_format,
+            tzinfo=tz,
+            format='EEEE dd MMMM yyyy',
+            locale=lang)
+        return formatted_date
 
     def print_calendar_report(self):
         return self.env.ref(
