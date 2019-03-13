@@ -242,7 +242,7 @@ class Task(models.Model):
                 minutes = time_diff.minutes
                 self.total_time = "{0:0=2d}".format(hours) + ":" + "{0:0=2d}".format(minutes)
             elif self.real_date_end == self.real_date_start:
-                self.total_time = "0:0"
+                self.total_time = "00:00"
             else:
                 raise ValidationError(_('Actual Start Time should be before Actual End Time'))
         else:

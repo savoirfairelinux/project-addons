@@ -461,6 +461,6 @@ class TestProjectEventTask(TestProjectEventCommon):
 
     def test_200_compute_actual_total_time(self):
         diff = self.task_3.total_time
-        self.assertEqual(diff, "0:0")
+        self.assertEqual(diff, "00:00")
         diff = self.task_4.total_time
-        self.assertEqual(diff, "2:0")
+        self.assertEqual(diff, "02:00")
