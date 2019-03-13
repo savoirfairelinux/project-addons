@@ -240,13 +240,13 @@ class Task(models.Model):
                                           fields.Datetime.from_string(self.real_date_start))
                 hours = time_diff.hours
                 minutes = time_diff.minutes
-                self.total_time = str(hours) + ":" + str(minutes)
+                self.total_time = "{0:0=2d}".format(hours) + ":" + "{0:0=2d}".format(minutes)
             elif self.real_date_end == self.real_date_start:
                 self.total_time = "0:0"
             else:
                 raise ValidationError(_('Actual Start Time should be before Actual End Time'))
         else:
-            self.total_time = "0:0"
+            self.total_time = "00:00"
 
     @api.depends('name', 'code')
     def _compute_complete_name(self):

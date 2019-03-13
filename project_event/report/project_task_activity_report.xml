@@ -150,8 +150,16 @@
                 <td> <t t-esc="task['task']"/></td>
                 <td> <t t-esc="datetime.datetime.strptime(task['expected_start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
                 <td> <t t-raw="datetime.datetime.strptime(task['expected_end'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
-                <td> <t t-raw="task['real_start']"/></td>
-                <td> <t t-raw="task['real_end']"/></td>
+                <td>
+                  <t t-if="task['real_start']"> 
+                    <t t-esc="datetime.datetime.strptime(task['real_start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                  </t>
+                </td>
+                <td>
+                  <t t-if="task['real_end']">                  
+                    <t t-esc="datetime.datetime.strptime(task['real_end'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                  </t>
+                </td>
                 <td> <t t-raw="task['duration']"/></td>
               </tr>
             </t>
