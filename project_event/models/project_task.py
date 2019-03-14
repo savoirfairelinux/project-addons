@@ -7,6 +7,10 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
+MIN_SPECTATORS_VALUES_LIMIT = 0
+MAX_SPECTATORS_VALUES_LIMIT = 1000000
+
+
 class Task(models.Model):
     _inherit = ['project.task']
     _rec_name = 'complete_name'
@@ -208,14 +212,30 @@ class Task(models.Model):
     )
     spectators = fields.Char(
         string='Spectators',
-     )
+        size=10,
+        default='-',
+    )
 
     @api.onchange('spectators')
-    def check_numeric(self):
-        try:
-            int(self.spectators)
-        except Exception as exception:
-            raise ValidationError(_('The Input value should be numeric'))
+    def onchange_spectators(self):
+        if self.spectators:
+            if self.spectators == '-':
+                return
+            try:
+                valid_spectators = int(self.spectators)
+            except Exception:
+                raise ValidationError(_('Spectators value should be numeric'))
+            if valid_spectators >= MIN_SPECTATORS_VALUES_LIMIT and \
+                    valid_spectators < MAX_SPECTATORS_VALUES_LIMIT:
+                self.spectators = valid_spectators
+            else:
+                raise ValidationError(_('Spectators value should be in the range['
+                                        + str(MIN_SPECTATORS_VALUES_LIMIT) +
+                                        '-'
+                                        + str(MAX_SPECTATORS_VALUES_LIMIT) +
+                                        ']'))
+        else:
+            self.spectators = '0'
 
     real_date_start = fields.Datetime(
         string='Actual Start Time',
@@ -477,17 +497,17 @@ class Task(models.Model):
     @api.multi
     def update_reservation_event(self, vals):
         if len(self) == 1:
-          if self.reservation_event_id:
-              reservation_event = self.env['calendar.event'].\
-                  browse(self.reservation_event_id)
-              field_names = [
-                  'date_start', 'date_end', 'equipment_id',
-                  'name', 'resource_type', 'room_id', 'client_type',
-                  'employee_ids', 'sector_id', 'category_id', 'partner_id',
-              ]
-              reservation_event.write(
-                  self.set_value_reservation_event(field_names, vals)
-              )
+            if self.reservation_event_id:
+                reservation_event = self.env['calendar.event']. \
+                    browse(self.reservation_event_id)
+                field_names = [
+                    'date_start', 'date_end', 'equipment_id',
+                    'name', 'resource_type', 'room_id', 'client_type',
+                    'employee_ids', 'sector_id', 'category_id', 'partner_id',
+                ]
+                reservation_event.write(
+                    self.set_value_reservation_event(field_names, vals)
+                )
 
     def set_value_reservation_event(self, field_names, vals):
         update_vals = {}

@@ -113,13 +113,14 @@
                         </page>
                         <page string="Technical Sheet">
                             <group>
-                                <field name="spectators"/>
-                            </group>                            
+                                <field name="spectators" style='max-width: 900px; width: 100px'/>
+                            </group>
                             <group>
-                                    <field name="child_ids" context="{'form_view_ref':'project_event.project_event_task_form','tree_view_ref' : 'project_event.project_event_task_tree_technical_sheet'}">
-                                      <tree>
-                                      </tree>
-                                      </field>  
+                                <field name="child_ids"
+                                       context="{'form_view_ref':'project_event.project_event_task_form','tree_view_ref' : 'project_event.project_event_task_tree_technical_sheet'}">
+                                    <tree>
+                                    </tree>
+                                </field>
                             </group>
                         </page>
                     </notebook>

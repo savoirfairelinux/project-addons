@@ -9,15 +9,22 @@
             <xpath expr="//div[@class='oe_title']" position="after">
                 <label for="category_id" class="oe_edit_only"/>
                 <h2>
-                    <field name="category_id" attrs="{'readonly': [('is_task_event','=',True)], 'required': True}"/>
+                    <field name="category_id" 
+                           attrs="{'readonly': [('is_task_event','=',True)], 'required': True}"
+                           style="font-size: 13px;" />
                 </h2>
                 <label for="sector_id" class="oe_edit_only"/>
                 <h2>
-                    <field name="sector_id" attrs="{'readonly': [('is_task_event','=',True)]}"/>
+                    <field name="sector_id" 
+                           attrs="{'readonly': [('is_task_event','=',True)]}"
+                           style="font-size: 13px;" />
                 </h2>
             </xpath>
             <xpath expr="//field[@name='client_id']" position="after">
-                <field name="client_tag" placeholder="Client Tag"  readonly="1"/>
+                <field name="client_tag" 
+                       placeholder="Client Tag"  
+                       readonly="1" 
+                       style="font-size: 13px;"/>
             </xpath>
         </field>
     </record>
