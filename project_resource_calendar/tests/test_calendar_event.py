@@ -23,6 +23,7 @@ class TestCalendarEvent(TestCalendarEventCommon):
             'name': 'Test Room id after onchange method execution',
             'resource_type': 'room',
             'allow_double_book': True,
+            'floor': '1',
         })
         self.vals = {
             'name': 'Calendar Event onchange method execution',
@@ -165,3 +166,17 @@ class TestCalendarEvent(TestCalendarEventCommon):
         self.calendar_event.write(
             {'client_id': partner_4.id, 'partner_ids': [(6, 0, [])]})
         self.assertEqual(self.calendar_event.partner_ids.ids, [partner_4.id])
+
+    def test_110_calendar_event_floor(self):
+        self.calendar_event1 = self.Calendar.create({
+            'name': 'Calendar Event Test booking 1',
+            'room_id': self.post_room_id.id,
+            'start': fields.Datetime.to_string(datetime.today()),
+            'stop': fields.Datetime.to_string(datetime.today() +
+                                              timedelta(hours=4)),
+            'recurrent_state': 'No',
+        })
+        self.assertEqual(
+            self.post_room_id.floor,
+            self.calendar_event1.room_floor
+        )
