@@ -20,8 +20,7 @@
             model="calendar.event"
             string="Calendar Event Report"
             report_type="qweb-pdf"
-            name="project_resource_calendar.event_report_view"
-            file="project_resource_calendar.event_report_view"
+            name="project_resource_calendar.calendar_event_report_view"
             paperformat="project_resource_calendar.paperformat_print_report"
             menu="False"/>
 </odoo>
