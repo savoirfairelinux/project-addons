@@ -6,3 +6,4 @@ from . import room_type
 from . import instrument
 from . import calendar_event
 from . import miscellaneous
+from . import ir_actions_report

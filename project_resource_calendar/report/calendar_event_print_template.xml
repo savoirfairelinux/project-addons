@@ -18,10 +18,10 @@
             <div class="page">
                 <h2 class="h3-report">
                     <t t-if="o.allday">
-                        <span t-esc="o.get_formatted_date(o.start_date)"/>
+                        <span t-esc="o.get_formatted_date(o.start_date, 'start_date', 1)"/>
                     </t>
                     <t t-else="">
-                        <span t-esc="o.get_formatted_date(o.start_datetime)"/>
+                        <span t-esc="o.get_formatted_date(o.start_datetime, 'start_datetime', 1)"/>
                     </t>
                 </h2>
                 <p>
@@ -77,7 +77,7 @@
                 </table>
                 <div style="position:absolute;top:250px; page-break-inside: avoid;">
                     <h5>
-                        <span t-esc="o.get_formatted_date(datetime.datetime.now())"/>
+                        <span t-esc="o.get_formatted_date(datetime.datetime.now(), 'now', 0)"/>
                     </h5>
                 </div>
             </div>

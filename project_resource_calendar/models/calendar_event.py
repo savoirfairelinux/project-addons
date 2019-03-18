@@ -113,6 +113,9 @@ class CalendarEvent(models.Model):
         string='Attendees',
         states={'done': [('readonly', True)]},
         default=None)
+    current_id = fields.Char(
+        'Current ID',
+    )
 
     @api.onchange('client_id')
     def _onchange_client_id(self):
@@ -220,14 +223,32 @@ class CalendarEvent(models.Model):
             self.equipment_ids = self.env['resource.calendar.instrument']\
                 .search([('room_id', '=', self.room_id.id)])
 
-    def get_formatted_date(self, date_to_format):
+    def get_formatted_date(self, date_to_format, field_name, format):
+        recurrent = None
+        if self.recurrency:
+            recurrent = self.env['calendar.event'].browse(self.current_id)
+        if format:
+            if field_name == 'start_date':
+                if recurrent:
+                    date_to_format = recurrent.start_date
+                else:
+                    date_to_format = self.start_date
+            elif field_name == 'start_datetime':
+                if recurrent:
+                    date_to_format = recurrent.start_datetime
+                else:
+                    date_to_format = self.start_datetime
         lang = self.env['res.users'].browse(self.env.uid).lang or 'en_US'
         tz = self.env['res.users'].browse(self.env.uid).tz or 'utc'
-        is_date = datetime == type(date_to_format)
-        if not is_date:
-            date_to_format = datetime.strptime(
-                date_to_format, '%Y-%m-%d %H:%M:%S'
-            )
+        if not datetime == type(date_to_format):
+            if self.allday:
+                date_to_format = datetime.strptime(
+                    date_to_format, '%Y-%m-%d'
+                )
+            else:
+                date_to_format = datetime.strptime(
+                    date_to_format, '%Y-%m-%d %H:%M:%S'
+                )
         formatted_date = babel.dates.format_datetime(
             date_to_format,
             tzinfo=tz,
@@ -238,6 +259,7 @@ class CalendarEvent(models.Model):
     def print_calendar_report(self):
         return self.env.ref(
             'project_resource_calendar.calendar_event_report'
+
         ).report_action(self)
 
     @api.model
