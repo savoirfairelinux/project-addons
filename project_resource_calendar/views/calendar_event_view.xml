@@ -202,7 +202,9 @@
         <field name="arch" type="xml">
             <field name="resource_ids" position="attributes"> <attribute name="invisible">True</attribute> </field>
             <xpath expr="//field[@name='resource_ids']" position="after">
-                <field name="partner_ids_names" />
+                <field name="is_task_event" invisible="1"/>
+                <field name="client_id" attrs="{'invisible': [('is_task_event','=',False)]}"/>
+                <field name="partner_ids_names" attrs="{'invisible': [('is_task_event','=',True)]}"/>
                 <field name="room_id"/>
                 <field name="recurrency"/>
             </xpath>
