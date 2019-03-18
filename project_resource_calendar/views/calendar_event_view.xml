@@ -220,6 +220,9 @@
             <xpath expr="//field[@name='resource_ids']" position="replace">
                 <field name="room_id"/>
             </xpath>
+            <xpath expr="//field[@name='room_id']" position="after">
+                <field name="room_floor"/>
+            </xpath>
         </field>
     </record>
 

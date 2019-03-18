@@ -23,6 +23,11 @@ class CalendarEvent(models.Model):
         comodel_name='resource.calendar.room',
         ondelete='set null',
     )
+    room_floor = fields.Char(
+        string='Floor',
+        related='room_id.floor',
+        store=True,
+    )
     equipment_ids = fields.Many2many(
         string='Equipment',
         comodel_name='resource.calendar.instrument',
