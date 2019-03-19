@@ -97,8 +97,8 @@ class CalendarEvent(models.Model):
         compute='_calculate_recurrence_type'
     )
 
-    partner_ids_names = fields.Char(
-        compute='_get_res_partners_names'
+    client_id_partner_ids_names = fields.Char(
+        compute='_get_client_id_partner_ids_names'
     )
     client_id = fields.Many2one(
         'res.partner',
@@ -140,12 +140,18 @@ class CalendarEvent(models.Model):
                     str(self.rrule_type) + _(" for ") + \
                     str(self.count) + _(" Time(s)")
 
-    @api.one
     def _get_res_partners_names(self):
-        self.partner_ids_names = str(list(map(lambda partner:
-                                                  str(partner.name),
-                                                  self.partner_ids)))\
-                .replace('[', '').replace(']', '').replace("'", "")
+        return str(list(map(lambda partner:
+                                              str(partner.name),
+                                              self.partner_ids)))\
+            .replace('[', '').replace(']', '').replace("'", "")
+
+    @api.one
+    def _get_client_id_partner_ids_names(self):
+        if self.is_task_event:
+            self.client_id_partner_ids_names = self.client_id.name
+        else:
+            self.client_id_partner_ids_names = self._get_res_partners_names()
 
     @api.one
     @api.depends('start_datetime')

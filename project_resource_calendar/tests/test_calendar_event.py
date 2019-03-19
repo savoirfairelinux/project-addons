@@ -73,9 +73,10 @@ class TestCalendarEvent(TestCalendarEventCommon):
         self.calendar_event._calculate_recurrence_type()
         self.assertEqual(self.calendar_event.recurrence_type, 'Iternationtype')
 
-    def test_040_get_partner_ids_names(self):
+    def test_040_get_client_id_partner_ids_names(self):
         self.assertEqual(
-            self.calendar_event.partner_ids_names, 'Partner 1, Partner 2')
+            self.calendar_event.client_id_partner_ids_names,
+            'Partner 1, Partner 2')
 
     def test_050_check_room_double_book(self):
         self.pre_room_id.allow_double_book = False
