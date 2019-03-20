@@ -20,7 +20,6 @@
                         <group>
                             <field name="room_id"/>
                             <button name="action_initialize" string="Initialize" type="object"/>
-                            <button name="action_clear" string="Clear" type="object"/>
                         </group>
                     </group>
                     <notebook>
