@@ -148,9 +148,9 @@ class CalendarEvent(models.Model):
     @api.one
     def _get_client_id_partner_ids_names(self):
         if self.is_task_event:
-            self.client_id_partner_ids_names = self._get_res_partners_names()
-        else:
             self.client_id_partner_ids_names = self.client_id.name
+        else:
+            self.client_id_partner_ids_names = self._get_res_partners_names()
 
     @api.one
     @api.depends('start_datetime')

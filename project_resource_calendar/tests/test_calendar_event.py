@@ -76,7 +76,7 @@ class TestCalendarEvent(TestCalendarEventCommon):
     def test_040_get_client_id_partner_ids_names(self):
         self.assertEqual(
             self.calendar_event.client_id_partner_ids_names,
-            self.partner_1.name)
+            'Partner 1, Partner 2')
 
     def test_050_check_room_double_book(self):
         self.pre_room_id.allow_double_book = False
