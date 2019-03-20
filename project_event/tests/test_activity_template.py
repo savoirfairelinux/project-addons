@@ -10,12 +10,8 @@ class TestActivityTemplate(TestProjectEventCommon):
     def setUp(self):
         super(TestActivityTemplate, self).setUp()
 
-    def test_010_action_clear_and_initialise(self):
+    def test_010_action_initialise(self):
         self.activity_template_1.action_initialize()
         self.assertEqual(
             len(self.activity_template_1.task_template_ids), 2
-        )
-        self.activity_template_1.action_clear()
-        self.assertEqual(
-            len(self.activity_template_1.task_template_ids), 0
         )

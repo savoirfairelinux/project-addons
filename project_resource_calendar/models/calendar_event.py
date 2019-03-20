@@ -26,7 +26,6 @@ class CalendarEvent(models.Model):
     room_floor = fields.Char(
         string='Floor',
         related='room_id.floor',
-        store=True,
     )
     equipment_ids = fields.Many2many(
         string='Equipment',
