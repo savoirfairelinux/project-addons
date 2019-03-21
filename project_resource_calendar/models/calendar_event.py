@@ -161,7 +161,7 @@ class CalendarEvent(models.Model):
             ).weekday()
 
     @api.multi
-    @api.constrains('room_id', 'start', 'stop', 'equipment_ids')
+    @api.constrains('room_id', 'start', 'stop', 'equipment_ids', 'partner_ids')
     def _check_resources_double_book(self):
         for record in self:
             if record._event_in_past() or record.state == 'cancelled':
@@ -172,7 +172,10 @@ class CalendarEvent(models.Model):
             equipment = record.equipment_ids.filtered(
                 lambda s: s.allow_double_book is False
             )
-            if not any(room) and not any(equipment):
+            attendees = record.partner_ids.filtered(
+                lambda s: s.allow_double_book is False
+            )
+            if not any(room) and not any(equipment) and not any(attendees):
                 continue
             events = self.env['calendar.event'].search([
                 ('id', '!=', record.id),
@@ -192,6 +195,14 @@ class CalendarEvent(models.Model):
                             raise ValidationError(
                                 _(
                                     'The resource %s cannot be double-booked '
+                                    'with any overlapping meetings or events.',
+                                ) % resource.name,
+                            )
+                    for resource in event.mapped(lambda s: s.partner_ids):
+                        if resource.id in record.partner_ids.ids:
+                            raise ValidationError(
+                                _(
+                                    'The attendee %s cannot be double-booked '
                                     'with any overlapping meetings or events.',
                                 ) % resource.name,
                             )

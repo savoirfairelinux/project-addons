@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_partner_inherit_form_view" model="ir.ui.view">
+        <field name="name">res.partner.inherit.form.view</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="lang" position="after">
+                <field name='allow_double_book'/>
+            </field>
+        </field>
+    </record>
+</odoo>
