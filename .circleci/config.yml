@@ -47,6 +47,10 @@ jobs:
       - run:
           name: MV web_timeline
           command: mkdir web_timeline && mv ./web/web_timeline/* ./web_timeline
+          
+      - run:
+          name: MV web_widget_table
+          command: mkdir web_widget_table && mv ./web-addons/web_widget_table/* ./web_widget_table
       
       - run:
           name: MV calendar_resource
