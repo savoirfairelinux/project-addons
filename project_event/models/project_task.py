@@ -214,6 +214,9 @@ class Task(models.Model):
         string='Spectators',
         size=10,
         default='-',
+     )
+    table = fields.Char(
+        store = False
     )
 
     @api.onchange('spectators')

@@ -112,16 +112,16 @@
                             <field name="notes"/>
                         </page>
                         <page string="Technical Sheet">
-                            <group>
-                                <field name="spectators" style='max-width: 900px; width: 100px'/>
-                            </group>
-                            <group>
-                                <field name="child_ids"
-                                       context="{'form_view_ref':'project_event.project_event_task_form','tree_view_ref' : 'project_event.project_event_task_tree_technical_sheet'}">
-                                    <tree>
-                                    </tree>
-                                </field>
-                            </group>
+                        <group>
+                            <field name="spectators" style='max-width: 900px; width: 100px'/>
+                            <field name="table" widget="widget_table" options="{
+                            'field_name': 'child_ids',
+                            'datatable_params':{'searching': False,
+                            'paging': False,
+                            'info': False},
+                            'fields': ['name','date_start', 'date_end', 'real_date_start', 'real_date_end', 'total_time'],
+                            'headers': ['Name','Date Start', 'Date End', 'Read Date Start', 'Real Date End', 'Total Time']}" />
+                        </group>                        
                         </page>
                     </notebook>
                 </sheet>
