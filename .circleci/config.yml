@@ -19,10 +19,14 @@ jobs:
       - run:
           name: Clone Server Tools
           command: git clone https://github.com/OCA/server-tools  && cd server-tools && git checkout 11.0 && cd ..
-      
+ 
       - run:
           name: Clone Web
           command: git clone https://github.com/OCA/web.git && cd web && git checkout 11.0 && cd ..
+
+      - run:
+          name: Clone Web Addons
+          command: git clone https://github.com/savoirfairelinux/web-addons  && cd web-addons && git checkout 11.0 && cd ..
 
       - run:
           name: Wait for PostgreSQL
