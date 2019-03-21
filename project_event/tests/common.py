@@ -178,3 +178,33 @@ class TestProjectEventCommon(common.TransactionCase):
             'room_id': self.room_1.id,
             'notes': 'Some Task Notes ...',
         })
+        self.test_duplicate_project_1 = self.Projects.create({
+            'name': 'Test Duplicate Project 1',
+            'responsible_id': self.responsible_1.id,
+            'partner_id': self.partner_1.id,
+            'project_type': 'event',
+        })
+        self.test_duplicate_activity_1 = self.Tasks.create({
+            'name': 'Test Duplicate Activity 1',
+            'activity_task_type': 'activity',
+            'project_id': self.project_1.id,
+            'responsible_id': self.project_1.responsible_id.id,
+            'partner_id': self.project_1.partner_id.id,
+            'category_id': self.category_1.id,
+            'room_id': self.room_1.id,
+            'date_start': fields.Datetime.to_string(datetime.today()),
+            'date_end': fields.Datetime.to_string(datetime.today() +
+                                                  timedelta(hours=4)),
+        })
+        self.test_duplicate_activity_2 = self.Tasks.create({
+            'name': 'Test Duplicate Activity 2',
+            'activity_task_type': 'activity',
+            'responsible_id': self.responsible_2.id,
+            'partner_id': self.partner_2.id,
+            'category_id': self.category_2.id,
+            'room_id': self.room_2.id,
+            'date_start': fields.Datetime.to_string(datetime.today()),
+            'date_end': fields.Datetime.to_string(
+                datetime.today() + timedelta(hours=4)
+            ),
+        })

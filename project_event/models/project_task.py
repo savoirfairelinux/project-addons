@@ -396,20 +396,26 @@ class Task(models.Model):
 
     @api.multi
     def write(self, vals):
-        if self.is_activity():
-            return self.write_activity(vals)
-        else:
-            self.update_reservation_event(vals)
-            return super(Task, self).write(vals)
+        super(Task, self).write(vals)
+        for rec in self:
+            if rec.is_activity():
+                return rec.write_activity(vals)
+            else:
+                rec.update_reservation_event(vals)
+                return super(Task, rec).write(vals)
 
     def is_activity(self):
-        return self.activity_task_type == 'activity'
+        self.ensure_one()
+        for rec in self:
+            return rec.activity_task_type == 'activity'
 
     @api.multi
     def write_activity(self, vals):
-        self.write_main_task(vals)
-        self.write_children(vals)
-        return super(Task, self).write(vals)
+        self.ensure_one()
+        for rec in self:
+            rec.write_main_task(vals)
+            rec.write_children(vals)
+            return super(Task, rec).write(vals)
 
     def write_children(self, vals):
         task_vals = {}
@@ -445,17 +451,17 @@ class Task(models.Model):
     @api.multi
     def update_reservation_event(self, vals):
         if len(self) == 1:
-          if self.reservation_event_id:
-              reservation_event = self.env['calendar.event'].\
-                  browse(self.reservation_event_id)
-              field_names = [
-                  'date_start', 'date_end', 'equipment_id',
-                  'name', 'resource_type', 'room_id', 'client_type',
-                  'employee_ids', 'sector_id', 'category_id', 'partner_id',
-              ]
-              reservation_event.write(
-                  self.set_value_reservation_event(field_names, vals)
-              )
+            if self.reservation_event_id:
+                reservation_event = self.env['calendar.event']. \
+                    browse(self.reservation_event_id)
+                field_names = [
+                    'date_start', 'date_end', 'equipment_id',
+                    'name', 'resource_type', 'room_id', 'client_type',
+                    'employee_ids', 'sector_id', 'category_id', 'partner_id',
+                ]
+                reservation_event.write(
+                    self.set_value_reservation_event(field_names, vals)
+                )
 
     def set_value_reservation_event(self, field_names, vals):
         update_vals = {}
