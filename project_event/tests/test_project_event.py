@@ -46,3 +46,14 @@ class TestProjectEvent(TestProjectEventCommon):
         self.project_1.partner_id = self.partner_tag2.id
         self.project_1._onchange_partner_id()
         self.assertEqual(self.project_1.client_type.name, 'Type 3')
+
+    def test_031_duplicate_activities(self):
+
+        new_rec = self.test_duplicate_project_1.copy()
+        self.assertEqual(new_rec.name, 'Test Duplicate Project 1 (copy)')
+        self.assertEqual(
+            len(self.test_duplicate_activity_1.child_ids), 1
+        )
+        self.assertEqual(
+            len(self.test_duplicate_activity_2.child_ids), 1
+        )

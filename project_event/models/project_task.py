@@ -459,45 +459,52 @@ class Task(models.Model):
 
     @api.multi
     def write(self, vals):
-        if self.is_activity():
-            return self.write_activity(vals)
-        else:
-            self.update_reservation_event(vals)
-            return super(Task, self).write(vals)
+        update = None
+        for rec in self:
+            if rec.project_id:
+                update = super(Task, rec).write(vals)
+        for rec in self:
+            if rec.is_activity():
+                return rec.write_activity(vals)
+            else:
+                rec.update_reservation_event(vals)
+                return super(Task, rec).write(vals)
+        return update
 
     def is_activity(self):
         return self.activity_task_type == 'activity'
 
     @api.multi
     def write_activity(self, vals):
-        self.write_main_task(vals)
-        self.write_children(vals)
+        self.write_activity_main_task(vals)
+        self.write_activty_children(vals)
         return super(Task, self).write(vals)
 
-    def write_children(self, vals):
-        task_vals = {}
-        if 'responsible_id' in vals:
-            task_vals['responsible_id'] = vals['responsible_id']
-        if 'partner_id' in vals:
-            task_vals['partner_id'] = vals['partner_id']
-        for task in self.child_ids:
-            if task == self.get_main_task():
-                continue
-            if task_vals:
-                task.write(task_vals)
-
     @api.multi
-    def write_main_task(self, vals):
-        main_task = self.get_main_task()
+    def write_activity_main_task(self, vals):
         temp = []
         if 'task_state' in vals:
             return False
         if 'child_ids' in vals:
             temp = vals.pop('child_ids')
+        main_task = self.get_main_task()
         main_task = main_task.write(vals)
         if temp:
             vals['child_ids'] = temp
         return main_task
+
+    def write_activty_children(self, vals):
+        activity_child_vals = {}
+        if 'responsible_id' in vals:
+            activity_child_vals['responsible_id'] = vals['responsible_id']
+        if 'partner_id' in vals:
+            activity_child_vals['partner_id'] = vals['partner_id']
+
+        for task in self.child_ids:
+            if task == self.get_main_task():
+                continue
+            if activity_child_vals:
+                task.write(activity_child_vals)
 
     def get_main_task(self):
         return self.env['project.task'].search([
@@ -512,6 +519,7 @@ class Task(models.Model):
 
     @api.multi
     def update_reservation_event(self, vals):
+        self.ensure_one()
         if len(self) == 1:
             if self.reservation_event_id:
                 reservation_event = self.env['calendar.event']. \
@@ -947,6 +955,7 @@ class Task(models.Model):
 
     @api.multi
     def copy(self, default=None):
+        print('project task: def copy')
         if default is None:
             default = {}
         if not default.get('name'):
