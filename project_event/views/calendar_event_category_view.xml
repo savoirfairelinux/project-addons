@@ -25,6 +25,7 @@
                        placeholder="Client Tag"  
                        readonly="1" 
                        style="font-size: 13px;"/>
+                <field name="client_type" placeholder="Client Type" attrs="{'readonly': [('is_task_event','=',True)]}"/>
             </xpath>
         </field>
     </record>

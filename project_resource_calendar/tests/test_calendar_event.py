@@ -23,6 +23,7 @@ class TestCalendarEvent(TestCalendarEventCommon):
             'name': 'Test Room id after onchange method execution',
             'resource_type': 'room',
             'allow_double_book': True,
+            'floor': '1',
         })
         self.vals = {
             'name': 'Calendar Event onchange method execution',
@@ -72,9 +73,10 @@ class TestCalendarEvent(TestCalendarEventCommon):
         self.calendar_event._calculate_recurrence_type()
         self.assertEqual(self.calendar_event.recurrence_type, 'Iternationtype')
 
-    def test_040_get_partner_ids_names(self):
+    def test_040_get_client_id_partner_ids_names(self):
         self.assertEqual(
-            self.calendar_event.partner_ids_names, 'Partner 1, Partner 2')
+            self.calendar_event.client_id_partner_ids_names,
+            'Partner 1, Partner 2')
 
     def test_050_check_room_double_book(self):
         self.pre_room_id.allow_double_book = False
@@ -157,7 +159,7 @@ class TestCalendarEvent(TestCalendarEventCommon):
             self.calendar_event.partner_ids.ids,
             partners_before_delete_client_id)
 
-    def test_100_calendar_event_change_client__with_no_participants_puts_new_participant(
+    def test_100_calendar_event_change_client_with_no_participants_puts_new_participant(
             self):
         partner_4 = self.Partners.create({
             'name': 'Partner 4',
@@ -165,3 +167,17 @@ class TestCalendarEvent(TestCalendarEventCommon):
         self.calendar_event.write(
             {'client_id': partner_4.id, 'partner_ids': [(6, 0, [])]})
         self.assertEqual(self.calendar_event.partner_ids.ids, [partner_4.id])
+
+    def test_110_calendar_event_floor(self):
+        self.calendar_event1 = self.Calendar.create({
+            'name': 'Calendar Event Test floor',
+            'room_id': self.post_room_id.id,
+            'start': fields.Datetime.to_string(datetime.today()),
+            'stop': fields.Datetime.to_string(datetime.today() +
+                                              timedelta(hours=4)),
+            'recurrent_state': 'No',
+        })
+        self.assertEqual(
+            self.post_room_id.floor,
+            self.calendar_event1.room_floor
+        )

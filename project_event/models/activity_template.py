@@ -46,13 +46,7 @@ class ActivityTemplate(models.Model):
     )
 
     @api.multi
-    def action_clear(self):
-        self.ensure_one()
-        self.task_template_ids.unlink()
-
-    @api.multi
     def action_initialize(self):
-        self.action_clear()
         if self.room_id:
             main_task_template_room_vals = {
                 'room_id': self.room_id.id,

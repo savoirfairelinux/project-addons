@@ -1,6 +1,7 @@
 # Copyright 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
+import babel.dates
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
 from datetime import datetime
@@ -21,6 +22,10 @@ class CalendarEvent(models.Model):
         string='Room',
         comodel_name='resource.calendar.room',
         ondelete='set null',
+    )
+    room_floor = fields.Char(
+        string='Floor',
+        related='room_id.floor',
     )
     equipment_ids = fields.Many2many(
         string='Equipment',
@@ -91,8 +96,8 @@ class CalendarEvent(models.Model):
         compute='_calculate_recurrence_type'
     )
 
-    partner_ids_names = fields.Char(
-        compute='_get_res_partners_names'
+    client_id_partner_ids_names = fields.Char(
+        compute='_get_client_id_partner_ids_names'
     )
     client_id = fields.Many2one(
         'res.partner',
@@ -107,9 +112,12 @@ class CalendarEvent(models.Model):
         string='Attendees',
         states={'done': [('readonly', True)]},
         default=None)
+    current_id = fields.Char(
+        'Current ID',
+    )
 
     @api.onchange('client_id')
-    def _add_client_to_participants(self):
+    def _onchange_client_id(self):
         if not self.is_task_event and self.client_id:
             self.partner_ids = [(6, 0,
                                  [self.client_id.id] + self.partner_ids.ids)]
@@ -131,12 +139,18 @@ class CalendarEvent(models.Model):
                     str(self.rrule_type) + _(" for ") + \
                     str(self.count) + _(" Time(s)")
 
-    @api.one
     def _get_res_partners_names(self):
-        self.partner_ids_names = str(list(map(lambda partner:
-                                                  str(partner.name),
-                                                  self.partner_ids)))\
-                .replace('[', '').replace(']', '').replace("'", "")
+        return str(list(map(lambda partner:
+                                              str(partner.name),
+                                              self.partner_ids)))\
+            .replace('[', '').replace(']', '').replace("'", "")
+
+    @api.one
+    def _get_client_id_partner_ids_names(self):
+        if self.is_task_event:
+            self.client_id_partner_ids_names = self.client_id.name
+        else:
+            self.client_id_partner_ids_names = self._get_res_partners_names()
 
     @api.one
     @api.depends('start_datetime')
@@ -214,9 +228,43 @@ class CalendarEvent(models.Model):
             self.equipment_ids = self.env['resource.calendar.instrument']\
                 .search([('room_id', '=', self.room_id.id)])
 
+    def get_formatted_date(self, date_to_format, field_name, format):
+        recurrent = None
+        if self.recurrency:
+            recurrent = self.env['calendar.event'].browse(self.current_id)
+        if format:
+            if field_name == 'start_date':
+                if recurrent:
+                    date_to_format = recurrent.start_date
+                else:
+                    date_to_format = self.start_date
+            elif field_name == 'start_datetime':
+                if recurrent:
+                    date_to_format = recurrent.start_datetime
+                else:
+                    date_to_format = self.start_datetime
+        lang = self.env['res.users'].browse(self.env.uid).lang or 'en_US'
+        tz = self.env['res.users'].browse(self.env.uid).tz or 'utc'
+        if not datetime == type(date_to_format):
+            if self.allday:
+                date_to_format = datetime.strptime(
+                    date_to_format, '%Y-%m-%d'
+                )
+            else:
+                date_to_format = datetime.strptime(
+                    date_to_format, '%Y-%m-%d %H:%M:%S'
+                )
+        formatted_date = babel.dates.format_datetime(
+            date_to_format,
+            tzinfo=tz,
+            format='EEEE dd MMMM yyyy',
+            locale=lang)
+        return formatted_date
+
     def print_calendar_report(self):
         return self.env.ref(
             'project_resource_calendar.calendar_event_report'
+
         ).report_action(self)
 
     @api.model
@@ -225,7 +273,7 @@ class CalendarEvent(models.Model):
         return super(CalendarEvent, self).create(vals)
 
     def verify_client_in_participants(self, vals):
-        if self.is_task_event:
+        if 'is_task_event' in vals and vals['is_task_event']:
             return
         if 'client_id' in vals and vals['client_id']:
             if not vals['client_id'] in vals['partner_ids'][0][2]:
@@ -238,7 +286,8 @@ class CalendarEvent(models.Model):
         return super(CalendarEvent, self).write(vals)
 
     def validate_client_id_write(self, vals):
-        if self.is_task_event:
+        if self.is_task_event or (
+                        'is_task_event' in vals and vals['is_task_event']):
             return
         if 'client_id' in vals:
             partners = self.partner_ids.ids

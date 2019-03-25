@@ -40,8 +40,8 @@ class TestProjectEventCommon(common.TransactionCase):
             'client_type': self.client_type_1.id,
         })
         self.tag_2 = self.Category.create({
-            'name': 'Tag 1',
-            'client_type': self.client_type_1.id,
+            'name': 'Tag 2',
+            'client_type': self.client_type_2.id,
         })
         self.partner_1 = self.Partners.create({
             'name': 'Partner 1',

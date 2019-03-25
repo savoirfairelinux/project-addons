@@ -65,7 +65,7 @@ class TaskTemplate(models.Model):
         string='Notes',
     )
     is_main_task = fields.Boolean(
-        string='Is it main Task',
+        string='Is Main Task',
         default=False,
     )
 

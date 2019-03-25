@@ -203,7 +203,7 @@ class Task(models.Model):
         compute='_compute_asterisk_column',
     )
     is_main_task = fields.Boolean(
-        string='Is it main Task',
+        string='Is Main Task',
         default=False,
     )
     is_from_template = fields.Boolean(
