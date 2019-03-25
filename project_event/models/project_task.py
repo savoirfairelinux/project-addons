@@ -214,9 +214,9 @@ class Task(models.Model):
         string='Spectators',
         size=10,
         default='-',
-     )
-    table = fields.Char(
-        store = False
+    )
+    table_child_ids = fields.Char(
+        store=False
     )
 
     @api.onchange('spectators')
@@ -232,21 +232,21 @@ class Task(models.Model):
                     valid_spectators < MAX_SPECTATORS_VALUES_LIMIT:
                 self.spectators = valid_spectators
             else:
-                raise ValidationError(_('Spectators value should be in the range['
-                                        + str(MIN_SPECTATORS_VALUES_LIMIT) +
-                                        '-'
-                                        + str(MAX_SPECTATORS_VALUES_LIMIT) +
-                                        ']'))
+                raise ValidationError(
+                    _(
+                        'Spectators value should be in the range[' +
+                        str(MIN_SPECTATORS_VALUES_LIMIT) +
+                        '-' +
+                        str(MAX_SPECTATORS_VALUES_LIMIT) +
+                        ']'))
         else:
             self.spectators = '0'
 
     real_date_start = fields.Datetime(
         string='Actual Start Time',
-        default=None,
     )
     real_date_end = fields.Datetime(
         string='Actual End Time',
-        default=None,
     )
     total_time = fields.Char(
         string='Actual Total Time',
@@ -259,15 +259,19 @@ class Task(models.Model):
         self.ensure_one()
         if self.real_date_start and self.real_date_end:
             if self.real_date_end > self.real_date_start:
-                time_diff = relativedelta(fields.Datetime.from_string(self.real_date_end),
-                                          fields.Datetime.from_string(self.real_date_start))
+                time_diff = relativedelta(
+                    fields.Datetime.from_string(
+                        self.real_date_end), fields.Datetime.from_string(
+                        self.real_date_start))
                 hours = time_diff.hours
                 minutes = time_diff.minutes
-                self.total_time = "{0:0=2d}".format(hours) + ":" + "{0:0=2d}".format(minutes)
+                self.total_time = "{0:0=2d}".format(
+                    hours) + ":" + "{0:0=2d}".format(minutes)
             elif self.real_date_end == self.real_date_start:
                 self.total_time = "00:00"
             else:
-                raise ValidationError(_('Actual Start Time should be before Actual End Time'))
+                raise ValidationError(
+                    _('Actual Start Time should be before Actual End Time'))
         else:
             self.total_time = "00:00"
 
@@ -421,7 +425,7 @@ class Task(models.Model):
     @api.multi
     def create_task(self, vals):
         if self.get_is_from_template(vals):
-                vals['message_follower_ids'] = None
+            vals['message_follower_ids'] = None
         vals['code'] = self.env['ir.sequence'] \
             .next_by_code('project.task.task')
         return super(Task, self).create(vals)
@@ -435,7 +439,8 @@ class Task(models.Model):
         if not self.get_is_from_template(vals):
             self.create_main_task(vals, new_activity.id)
         if children:
-            self.create_children_from_activity_create(children, new_activity.id)
+            self.create_children_from_activity_create(
+                children, new_activity.id)
         return new_activity
 
     def activity_has_children(self, vals):
@@ -611,7 +616,7 @@ class Task(models.Model):
 
     def get_task_order(self, task_ds, activity_ds, format):
         time_diff = datetime.strptime(task_ds, format) \
-                    - datetime.strptime(activity_ds, format)
+            - datetime.strptime(activity_ds, format)
         return time_diff.days * 24 * 60 + time_diff.seconds / 60
 
     def action_done(self):
@@ -646,14 +651,14 @@ class Task(models.Model):
             for child in self.child_ids:
                 if child.is_resource_booked():
                     res += child.room_id.name + \
-                           ' - ' + child.date_start + \
-                           ' - ' + child.date_end + \
-                           ' - ' + child.code + \
-                           '<br>' if child.room_id else (
+                        ' - ' + child.date_start + \
+                        ' - ' + child.date_end + \
+                        ' - ' + child.code + \
+                        '<br>' if child.room_id else (
                             child.equipment_id.name + ' - ' +
                             child.date_start + ' - ' + child.date_end +
                             ' - ' + child.code + '<br>'
-                            )
+                        )
         return res
 
     @api.multi
@@ -702,7 +707,8 @@ class Task(models.Model):
 
     def get_calendar_event(self):
         self.ensure_one()
-        return self.env['calendar.event'].search([('event_task_id', '=', self.id)])
+        return self.env['calendar.event'].search(
+            [('event_task_id', '=', self.id)])
 
     @api.multi
     def reserve_equipment_inside(self, event_id):
@@ -809,8 +815,8 @@ class Task(models.Model):
 
     @api.multi
     def action_postpone(self):
-        if self.activity_task_type == 'task' and \
-                self.task_state in ['requested', 'read', 'canceled', 'accepted']:
+        if self.activity_task_type == 'task' and self.task_state in [
+                'requested', 'read', 'canceled', 'accepted']:
             self.draft_resources_reservation()
             self.send_message('postponed')
         elif self.is_activity():

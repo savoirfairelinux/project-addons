@@ -188,7 +188,6 @@ class TestProjectEventCommon(common.TransactionCase):
                                                   timedelta(hours=4)),
             'real_date_start': fields.Datetime.to_string(datetime.today()),
             'real_date_end': fields.Datetime.to_string(datetime.today()),
-            'total_time': " ",
         })
         self.task_4 = self.Tasks.create({
             'name': 'Sample task4',
@@ -201,8 +200,7 @@ class TestProjectEventCommon(common.TransactionCase):
             'real_date_start': fields.Datetime.to_string(datetime.today()),
             'real_date_end': fields.Datetime.to_string(datetime.today() +
                                                        timedelta(hours=2)),
-            'total_time': " ",
-         })
+        })
         self.activity_3 = self.Tasks.create({
             'name': 'Test Activity 3',
             'activity_task_type': 'activity',
