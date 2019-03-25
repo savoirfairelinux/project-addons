@@ -1267,3 +1267,9 @@ msgstr "res.partner.category.type"
 #: model:ir.model,name:project_event.model_res_partner_sector
 msgid "res.partner.sector"
 msgstr "res.partner.sector"
+
+#. module: project_event
+#: code:addons/project_event/models/hr_timesheet.py:18
+#, python-format
+msgid "The task should be related to a project!"
+msgstr "La tâche doit être reliée à un projet"

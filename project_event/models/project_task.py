@@ -442,6 +442,11 @@ class Task(models.Model):
             ('is_main_task', '=', True)]
         )
 
+    def get_parent_project_id(self):
+        if self.parent_id and self.parent_id.project_id:
+            return self.parent_id.project_id.id
+        return False
+
     @api.multi
     def update_reservation_event(self, vals):
         if len(self) == 1:

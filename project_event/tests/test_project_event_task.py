@@ -458,3 +458,11 @@ class TestProjectEventTask(TestProjectEventCommon):
         for child in self.activity_1.child_ids:
             calendar_event = child.get_calendar_event()
             self.assertEqual(calendar_event.state, 'draft')
+
+    def test_200_get_parent_project_id(self):
+        self.task_2.parent_id = self.activity_2
+        self.activity_2.project_id = self.project_2
+        self.assertEqual(
+            self.task_2.get_parent_project_id(),
+            self.project_2.id
+        )

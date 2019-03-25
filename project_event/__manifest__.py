@@ -19,6 +19,7 @@
         'hr',
         'project_resource_calendar',
         'web_widget_color',
+        'hr_timesheet',
     ],
     'external_dependencies': {
         'python': [],
