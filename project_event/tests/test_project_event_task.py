@@ -11,6 +11,19 @@ class TestProjectEventTask(TestProjectEventCommon):
 
     def setUp(self):
         super(TestProjectEventTask, self).setUp()
+        self.activity_3 = self.Tasks.create({
+            'name': 'Test Activity 3',
+            'activity_task_type': 'activity',
+            'project_id': self.project_1.id,
+            'responsible_id': self.project_1.responsible_id.id,
+            'partner_id': self.project_1.partner_id.id,
+            'category_id': self.category_1.id,
+            'room_id': self.room_1.id,
+            'spectators': '-',
+            'date_start': fields.Datetime.to_string(datetime.today()),
+            'date_end': fields.Datetime.to_string(datetime.today() +
+                                                  timedelta(hours=4)),
+        })
 
     def test_010_compute_project_task_log(self):
         self.AuditLogObj = self.env['auditlog.log']
@@ -460,37 +473,81 @@ class TestProjectEventTask(TestProjectEventCommon):
             self.assertEqual(calendar_event.state, 'draft')
 
     def test_200_compute_actual_total_time(self):
-        activity_vals_1 = {
-            'name': 'Sample activity 1',
-            'activity_task_type': 'activity',
+        # Test case 1: Testing for same actual start and end date
+        date_start_1 = datetime.today()
+        date_end_1 = date_start_1 + timedelta(hours=2)
+        actual_date_start_1 = datetime.today()
+        actual_date_end_1 = actual_date_start_1
+        task_vals_1 = {
+            'name': 'Sample Task 1',
+            'activity_task_type': 'task',
             'partner_id': self.project_1.partner_id.id,
             'room_id': self.room_1.id,
-            'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(datetime.today() +
-                                                  timedelta(hours=4)),
-            'real_date_start': fields.Datetime.to_string(datetime.today()),
-            'real_date_end': fields.Datetime.to_string(datetime.today()),
+            'date_start': fields.Datetime.to_string(date_start_1),
+            'date_end': fields.Datetime.to_string(date_end_1),
+            'real_date_start': fields.Datetime.to_string(actual_date_start_1),
+            'real_date_end': fields.Datetime.to_string(actual_date_end_1),
         }
-
-        activity_vals_2 = {
-            'name': 'Sample activity 2',
-            'activity_task_type': 'activity',
-            'partner_id': self.project_1.partner_id.id,
-            'room_id': self.room_1.id,
-            'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(datetime.today() +
-                                                  timedelta(hours=4)),
-            'real_date_start': fields.Datetime.to_string(datetime.today()),
-            'real_date_end': fields.Datetime.to_string(datetime.today() +
-                                                       timedelta(hours=2)),
-        }
-        activity_1 = self.Tasks.create(activity_vals_1)
-        activity_2 = self.Tasks.create(activity_vals_2)
-
-        diff = activity_1.actual_total_time
+        task_1 = self.Tasks.create(task_vals_1)
+        diff = task_1.actual_total_time
         self.assertEqual(diff, "00:00")
-        diff = activity_2.actual_total_time
+
+        # Test case 2: Testing for time diff in hours for actual start and end date
+        date_start_2 = datetime.today()
+        date_end_2 = date_start_2 + timedelta(hours=2)
+        actual_date_start_2 = datetime.today()
+        actual_date_end_2 = actual_date_start_2 + timedelta(hours=2)
+        task_vals_2 = {
+            'name': 'Sample Task 2',
+            'activity_task_type': 'task',
+            'partner_id': self.project_1.partner_id.id,
+            'room_id': self.room_1.id,
+            'date_start': fields.Datetime.to_string(date_start_2),
+            'date_end': fields.Datetime.to_string(date_end_2),
+            'real_date_start': fields.Datetime.to_string(actual_date_start_2),
+            'real_date_end': fields.Datetime.to_string(actual_date_end_2),
+        }
+        task_2 = self.Tasks.create(task_vals_2)
+        diff = task_2.actual_total_time
         self.assertEqual(diff, "02:00")
+
+        # Test case 3: Testing for time diff in minutes for actual start and end date
+        date_start_3 = datetime.today()
+        date_end_3 = date_start_3 + timedelta(hours=2)
+        actual_date_start_3 = datetime.today()
+        actual_date_end_3 = actual_date_start_3 + timedelta(minutes=30)
+        task_vals_3 = {
+            'name': 'Sample Task 3',
+            'activity_task_type': 'task',
+            'partner_id': self.project_1.partner_id.id,
+            'room_id': self.room_1.id,
+            'date_start': fields.Datetime.to_string(date_start_3),
+            'date_end': fields.Datetime.to_string(date_end_3),
+            'real_date_start': fields.Datetime.to_string(actual_date_start_3),
+            'real_date_end': fields.Datetime.to_string(actual_date_end_3),
+        }
+        task_3 = self.Tasks.create(task_vals_3)
+        diff = task_3.actual_total_time
+        self.assertEqual(diff, "00:30")
+
+        # Test case 4: Testing for time diff in hours and minutes for actual start and end date
+        date_start_4 = datetime.today()
+        date_end_4 = date_start_4 + timedelta(hours=2)
+        actual_date_start_4 = datetime.today()
+        actual_date_end_4 = actual_date_start_4 + timedelta(minutes=90)
+        task_vals_4 = {
+            'name': 'Sample Task 4',
+            'activity_task_type': 'task',
+            'partner_id': self.project_1.partner_id.id,
+            'room_id': self.room_1.id,
+            'date_start': fields.Datetime.to_string(date_start_4),
+            'date_end': fields.Datetime.to_string(date_end_4),
+            'real_date_start': fields.Datetime.to_string(actual_date_start_4),
+            'real_date_end': fields.Datetime.to_string(actual_date_end_4),
+        }
+        task_4 = self.Tasks.create(task_vals_4)
+        diff = task_4.actual_total_time
+        self.assertEqual(diff, "01:30")
 
     def test_210_onchange_spectators(self):
         self.assertEqual(self.activity_3.spectators, '-')

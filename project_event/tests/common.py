@@ -178,16 +178,3 @@ class TestProjectEventCommon(common.TransactionCase):
             'room_id': self.room_1.id,
             'notes': 'Some Task Notes ...',
         })
-        self.activity_3 = self.Tasks.create({
-            'name': 'Test Activity 3',
-            'activity_task_type': 'activity',
-            'project_id': self.project_1.id,
-            'responsible_id': self.project_1.responsible_id.id,
-            'partner_id': self.project_1.partner_id.id,
-            'category_id': self.category_1.id,
-            'room_id': self.room_1.id,
-            'spectators': '-',
-            'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(datetime.today() +
-                                                  timedelta(hours=4)),
-        })
