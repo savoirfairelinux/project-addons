@@ -63,10 +63,8 @@
 							'form_view_ref':'project_event.project_event_task_form',
 							'default_activity_task_type':'task',
 							'default_parent_id': active_id,
-                            'tree_view_ref':'project_event.project_event_task_tree_activitys_children'
 						    }" domain="[('activity_task_type','=', 'task')]">
                                 <tree>
-                                    <field name="name"/>
                                     <field name="equipment_id" string="Resource"/>
                                     <field name="room_id" string="Room"/>
                                     <field name="name"/>
