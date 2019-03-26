@@ -1,26 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="project_event_task_tree_technical_sheet" model="ir.ui.view">
-        <field name="name">Task Tree</field>
-        <field name="model">project.task</field>
-        <field name="priority">200</field>
-        <field name="arch" type="xml">
-            <tree string="Task" default_order="date_start asc">
-                <field name="name"/>
-                <field name="date_start"/>
-                <field name="real_date_start"/>
-                <field name="date_end"/>
-                <field name="real_date_end"/>
-                <field name="actual_total_time"/>
-            </tree>
-        </field>
-    </record>
-    <record id="project_event_task_tree_activitys_children" model="ir.ui.view">
-        <field name="name">Task Tree</field>
-        <field name="model">project.task</field>
-        <field name="priority">150</field>
-        <field name="arch" type="xml"/>
-    </record>
     <record id="project_event_activity_form" model="ir.ui.view">
         <field name="name">Activity Form</field>
         <field name="model">project.task</field>
@@ -117,7 +96,7 @@
                             'paging': False,
                             'info': False},
                             'fields': ['name','date_start', 'date_end', 'real_date_start', 'real_date_end', 'actual_total_time'],
-                            'headers': ['Name','Date Start', 'Date End', 'Read Date Start', 'Real Date End', 'Actual Total Time']}" />
+                            'headers': ['Name','Date Start', 'Date End', 'Real Date Start', 'Real Date End', 'Actual Total Time']}" />
                         </group>                        
                         </page>
                     </notebook>

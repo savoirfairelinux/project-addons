@@ -614,7 +614,7 @@ class Task(models.Model):
 
     def get_task_order(self, task_ds, activity_ds, format):
         time_diff = datetime.strptime(task_ds, format) \
-                    - datetime.strptime(activity_ds, format)
+            - datetime.strptime(activity_ds, format)
         return time_diff.days * 24 * 60 + time_diff.seconds / 60
 
     def action_done(self):
@@ -649,10 +649,10 @@ class Task(models.Model):
             for child in self.child_ids:
                 if child.is_resource_booked():
                     res += child.room_id.name + \
-                           ' - ' + child.date_start + \
-                           ' - ' + child.date_end + \
-                           ' - ' + child.code + \
-                           '<br>' if child.room_id else (
+                        ' - ' + child.date_start + \
+                        ' - ' + child.date_end + \
+                        ' - ' + child.code + \
+                        '<br>' if child.room_id else (
                             child.equipment_id.name + ' - ' +
                             child.date_start + ' - ' + child.date_end +
                             ' - ' + child.code + '<br>')
