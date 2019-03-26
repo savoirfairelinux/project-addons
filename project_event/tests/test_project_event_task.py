@@ -460,9 +460,9 @@ class TestProjectEventTask(TestProjectEventCommon):
             self.assertEqual(calendar_event.state, 'draft')
 
     def test_200_compute_actual_total_time(self):
-        diff = self.task_3.total_time
+        diff = self.task_3.actual_total_time
         self.assertEqual(diff, "00:00")
-        diff = self.task_4.total_time
+        diff = self.task_4.actual_total_time
         self.assertEqual(diff, "02:00")
 
     def test_210_onchange_spectators(self):
