@@ -115,7 +115,7 @@ class ReportWeekly(models.AbstractModel):
                 'expected_end': task.date_end,
                 'real_start': task.real_date_start,
                 'real_end': task.real_date_end,
-                'duration': task.total_time,
+                'duration': task.actual_total_time,
             })
         return tasks_details
 
