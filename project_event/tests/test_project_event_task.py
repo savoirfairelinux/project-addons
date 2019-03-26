@@ -460,9 +460,36 @@ class TestProjectEventTask(TestProjectEventCommon):
             self.assertEqual(calendar_event.state, 'draft')
 
     def test_200_compute_actual_total_time(self):
-        diff = self.task_3.actual_total_time
+        activity_vals_1 = {
+            'name': 'Sample activity 1',
+            'activity_task_type': 'activity',
+            'partner_id': self.project_1.partner_id.id,
+            'room_id': self.room_1.id,
+            'date_start': fields.Datetime.to_string(datetime.today()),
+            'date_end': fields.Datetime.to_string(datetime.today() +
+                                                  timedelta(hours=4)),
+            'real_date_start': fields.Datetime.to_string(datetime.today()),
+            'real_date_end': fields.Datetime.to_string(datetime.today()),
+        }
+
+        activity_vals_2 = {
+            'name': 'Sample activity 2',
+            'activity_task_type': 'activity',
+            'partner_id': self.project_1.partner_id.id,
+            'room_id': self.room_1.id,
+            'date_start': fields.Datetime.to_string(datetime.today()),
+            'date_end': fields.Datetime.to_string(datetime.today() +
+                                                  timedelta(hours=4)),
+            'real_date_start': fields.Datetime.to_string(datetime.today()),
+            'real_date_end': fields.Datetime.to_string(datetime.today() +
+                                                       timedelta(hours=2)),
+        }
+        activity_1 = self.Tasks.create(activity_vals_1)
+        activity_2 = self.Tasks.create(activity_vals_2)
+
+        diff = activity_1.actual_total_time
         self.assertEqual(diff, "00:00")
-        diff = self.task_4.actual_total_time
+        diff = activity_2.actual_total_time
         self.assertEqual(diff, "02:00")
 
     def test_210_onchange_spectators(self):
