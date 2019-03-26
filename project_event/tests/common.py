@@ -178,29 +178,6 @@ class TestProjectEventCommon(common.TransactionCase):
             'room_id': self.room_1.id,
             'notes': 'Some Task Notes ...',
         })
-        self.task_3 = self.Tasks.create({
-            'name': 'Sample task3',
-            'activity_task_type': 'activity',
-            'partner_id': self.project_1.partner_id.id,
-            'room_id': self.room_1.id,
-            'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(datetime.today() +
-                                                  timedelta(hours=4)),
-            'real_date_start': fields.Datetime.to_string(datetime.today()),
-            'real_date_end': fields.Datetime.to_string(datetime.today()),
-        })
-        self.task_4 = self.Tasks.create({
-            'name': 'Sample task4',
-            'activity_task_type': 'activity',
-            'partner_id': self.project_1.partner_id.id,
-            'room_id': self.room_1.id,
-            'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(datetime.today() +
-                                                  timedelta(hours=4)),
-            'real_date_start': fields.Datetime.to_string(datetime.today()),
-            'real_date_end': fields.Datetime.to_string(datetime.today() +
-                                                       timedelta(hours=2)),
-        })
         self.activity_3 = self.Tasks.create({
             'name': 'Test Activity 3',
             'activity_task_type': 'activity',
