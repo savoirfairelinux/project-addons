@@ -632,7 +632,7 @@ msgstr "Equipment: <br/>"
 #: model:ir.ui.view,arch_db:project_event.project_event_form 
 #: selection:project.project,project_type:0
 msgid "Event"
-msgstr "Évènement"
+msgstr "Événement"
 
 #. module: project_event
 #: model:ir.model,name:project_event.model_activity_template
