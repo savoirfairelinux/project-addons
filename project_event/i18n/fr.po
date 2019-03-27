@@ -1240,7 +1240,7 @@ msgstr "Spectateurs"
 #: code:addons/project_event/models/project_task.py:249
 #, python-format
 msgid "Spectators value should be in the range[-]"
-msgstr "Spectators value should be in the range[-]"
+msgstr "Le nombre de spectateurs doit être compris entre ["
 
 #. module: project_event
 #: code:addons/project_event/models/project_task.py:239
@@ -1273,7 +1273,7 @@ msgstr "Heure de début"
 #: model:ir.model.fields,field_description:project_event.field_project_task_task_state_report_not_done_required
 #:  model:ir.ui.view,arch_db:project_event.project_event_form
 msgid "State"
-msgstr "Région"
+msgstr "État"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_succeeding_task_ids
