@@ -317,7 +317,8 @@ class Task(models.Model):
                                       self.get_error_type(
                                           'RESOURCE_TYPE_ERROR'))
 
-    def get_error_type(self, type_error):
+    @staticmethod
+    def get_error_type(type_error):
         error_msg = ""
         if type_error == 'RESOURCE_TYPE_ERROR':
             error_msg = _('this resource is not bookable')
@@ -351,7 +352,7 @@ class Task(models.Model):
         vals['activity_task_type'] = 'task'
         vals['is_main_task'] = True
         self.create_task(vals)
-    
+
     @staticmethod
     def is_new_task(vals):
         return 'activity_task_type' in vals\
@@ -501,7 +502,8 @@ class Task(models.Model):
                     update_vals[field_names[index]] = vals[field_names[index]]
         return update_vals
 
-    def update_value_equipment_id(self, vals):
+    @staticmethod
+    def update_value_equipment_id(vals):
         set_value = {}
         set_value['equipment_ids'] = \
             [(6, 0, [vals['equipment_id']])]
@@ -797,7 +799,8 @@ class Task(models.Model):
         self.open_resources_reservation()
         self.write({'task_state': 'accepted'})
 
-    def child_reservation(self, child):
+    @staticmethod
+    def child_reservation(child):
         child.draft_resources_reservation()
         if child.task_state in ['draft', 'option', 'postponed',
                                 'canceled']:
@@ -805,7 +808,8 @@ class Task(models.Model):
         child.open_resources_reservation()
         child.write({'task_state': 'requested'})
 
-    def get_message_body(self, action):
+    @staticmethod
+    def get_message_body(action):
         switcher = {
             'draft': ' ',
             'option': _('The following is Optional and \

@@ -38,7 +38,8 @@ class ReportWeekly(models.AbstractModel):
             })
         return docs
 
-    def get_events_on_period(self, start, stop, events):
+    @staticmethod
+    def get_events_on_period(start, stop, events):
         events_on_period = []
         for event in events:
             event_date = datetime.strptime(event.start, '%Y-%m-%d %H:%M:%S')
@@ -60,6 +61,7 @@ class ReportWeekly(models.AbstractModel):
         self.review_weekdays(events)
         return self.format_event_to_docs(events, [])
 
-    def review_weekdays(self, events):
+    @staticmethod
+    def review_weekdays(events):
         for event in events:
             event._get_weekday_number()

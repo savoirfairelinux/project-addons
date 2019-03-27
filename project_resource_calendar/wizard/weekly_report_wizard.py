@@ -37,11 +37,13 @@ class WeeklyReportWizard(models.TransientModel):
         required=True,
     )
 
-    def _get_current_monday(self):
+    @staticmethod
+    def _get_current_monday():
         today = datetime.date.today()
         return today - datetime.timedelta(days=today.weekday())
 
-    def _get_current_friday(self):
+    @staticmethod
+    def _get_current_friday():
         today = datetime.date.today()
         return today - datetime.timedelta(days=today.weekday()) + datetime.timedelta(days=4)
 

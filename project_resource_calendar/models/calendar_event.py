@@ -196,7 +196,8 @@ class CalendarEvent(models.Model):
                                 ) % resource.name,
                             )
 
-    def is_event_overlaps_record(self, record, event):
+    @classmethod 
+    def is_event_overlaps_record(record, event):
         return (event.start < record.stop) & (event.stop > record.start)
 
     def get_error_type(self, type_error):
@@ -272,7 +273,8 @@ class CalendarEvent(models.Model):
         self.verify_client_in_participants(vals)
         return super(CalendarEvent, self).create(vals)
 
-    def verify_client_in_participants(self, vals):
+    @staticmethod
+    def verify_client_in_participants(vals):
         if 'is_task_event' in vals and vals['is_task_event']:
             return
         if 'client_id' in vals and vals['client_id']:

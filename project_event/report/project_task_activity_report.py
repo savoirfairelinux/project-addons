@@ -62,7 +62,8 @@ class ReportWeekly(models.AbstractModel):
             })
         return activities_docs
 
-    def get_task_values(self, tasks):
+    @staticmethod
+    def get_task_values(tasks):
         table_lines = []
         for task in tasks:
             for employee in task.employee_ids:

@@ -154,7 +154,8 @@ class Project(models.Model):
             self.send_message('accepted')
         self.write({'state': 'accepted'})
 
-    def child_reservation(self, child):
+    @staticmethod
+    def child_reservation(child):
         child.draft_resources_reservation()
         if child.task_state in ['draft', 'option', 'postponed',
                                 'canceled']:
@@ -162,7 +163,8 @@ class Project(models.Model):
         child.open_resources_reservation()
         child.write({'task_state': 'requested'})
 
-    def get_message_body(self, action):
+    @staticmethod
+    def get_message_body(action):
         switcher = {
             'draft': ' ',
             'option': _('The following is Optional and \
