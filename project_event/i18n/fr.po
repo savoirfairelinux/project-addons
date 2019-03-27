@@ -21,7 +21,7 @@ msgstr ""
 #: code:addons/project_event/models/project_task.py:944
 #, python-format
 msgid "%s (copy)"
-msgstr "%s (copy)"
+msgstr ""
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:182
