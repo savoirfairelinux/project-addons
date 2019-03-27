@@ -196,7 +196,7 @@ class CalendarEvent(models.Model):
                                 ) % resource.name,
                             )
 
-    @classmethod 
+    @classmethod
     def is_event_overlaps_record(record, event):
         return (event.start < record.stop) & (event.stop > record.start)
 
