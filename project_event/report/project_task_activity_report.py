@@ -1,7 +1,7 @@
 # © 2019 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import models, api, _
+from odoo import models, api, _, fields
 from datetime import datetime
 from operator import itemgetter
 
@@ -52,8 +52,8 @@ class ReportWeekly(models.AbstractModel):
                 'phone_label_2': self.phone_label_2,
                 'name': activity.name,
                 'client_id': activity.partner_id.name,
-                'start': activity.date_start,
-                'stop': activity.date_end,
+                'start': self.get_tz_format(activity.date_start),
+                'stop': self.get_tz_format(activity.date_end),
                 'tasks': self.get_task_values(activity.child_ids),
                 'description': activity.description,
                 'activity_notes': activity.notes,
@@ -61,6 +61,10 @@ class ReportWeekly(models.AbstractModel):
                 'tasks_details': self.get_tasks_details(activity.child_ids),
             })
         return activities_docs
+
+    def get_tz_format(self, date_str):
+        return fields.Datetime.context_timestamp(self, datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S'))\
+        .strftime('%Y-%m-%d %H:%M:%S')
 
     def get_task_values(self, tasks):
         table_lines = []
@@ -111,10 +115,10 @@ class ReportWeekly(models.AbstractModel):
                     'resource': 'NA'
                 })
             tasks_details[-1].update({
-                'expected_start': task.date_start,
-                'expected_end': task.date_end,
-                'real_start': task.real_date_start,
-                'real_end': task.real_date_end,
+                'expected_start': self.get_tz_format(task.date_start),
+                'expected_end': self.get_tz_format(task.date_end),
+                'real_start': self.get_tz_format(task.real_date_start),
+                'real_end': self.get_tz_format(task.real_date_end),
                 'duration': task.actual_total_time,
             })
         return tasks_details
