@@ -961,14 +961,20 @@ msgstr "Spectateurs"
 #. module: project_event
 #: code:addons/project_event/models/project_task.py:230
 #, python-format
-msgid "Spectators value should be in the range[0-1000000]"
-msgstr "La valeur des spectateurs doit être comprise dans la plage [0-1000000]"
+msgid "Spectators value should be in the range["
+msgstr "Le nombre de spectateurs doit être compris entre ["
 
 #. module: project_event
 #: code:addons/project_event/models/project_task.py:225
 #, python-format
 msgid "Spectators value should be numeric"
-msgstr "La valeur des spectateurs doit être numérique"
+msgstr "La valeur du champ Spectateurs doit être numérique"
+
+#. module: project_event
+#: code:addons/project_event/models/project_task.py:272
+#, python-format
+msgid "Actual Start Time should be before Actual End Time"
+msgstr "L'heure de début réelle doit être antérieure à l'heure de fin réelle"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_wizard_start_time
@@ -1147,12 +1153,6 @@ msgstr "Modèles d'événements"
 #, python-format
 msgid "The Following resources are already booked:<br>"
 msgstr "Ces ressources sont déjà réservées:<br>"
-
-#. module: project_event
-#: code:addons/project_event/models/project_task.py:217
-#, python-format
-msgid "The Input value should be numeric"
-msgstr "La valeur de l'entrée doit être numérique"
 
 #. module: project_event
 #: code:addons/project_event/models/task_category.py:38
