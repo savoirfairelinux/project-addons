@@ -560,3 +560,11 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.activity_3.spectators = '999999999999'
         with self.assertRaises(exceptions.ValidationError):
             self.activity_3.onchange_spectators()
+
+    def test_220_get_parent_project_id(self):
+        self.task_2.parent_id = self.activity_2
+        self.activity_2.project_id = self.project_2
+        self.assertEqual(
+            self.task_2.get_parent_project_id(),
+            self.project_2.id
+        )

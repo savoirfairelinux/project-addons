@@ -273,6 +273,34 @@
                         <page string="Notes">
                             <field name="notes" />
                         </page>
+                        <page string="Timesheets">
+                            <group>
+                                <group>
+                                    <field name="planned_hours" widget="float_time"/>
+                                </group>
+                                <group>
+                                    <field name="progress" widget="progressbar"/>
+                                </group>
+                            </group>
+                            <field name="timesheet_ids" context="{'default_project_id': project_id}">
+                                <tree editable="bottom" string="Timesheet Activities" default_order="date">
+                                    <field name="date"/>
+                                    <field name="user_id" invisible="1"/>
+                                    <field name="employee_id" required="1"/>
+                                    <field name="name"/>
+                                    <field name="unit_amount" string="Duration" widget="float_time"/>
+                                    <field name="project_id" invisible="1"/>
+                                </tree>
+                            </field>
+                            <group>
+                                <group class="oe_subtotal_footer oe_right" name="project_hours">
+                                    <field name="effective_hours" widget="float_time" />
+                                    <field name="children_hours" widget="float_time" attrs="{'invisible' : [('children_hours', '=', 0.0)]}" />
+                                    <field name="total_hours_spent" widget="float_time" class="oe_subtotal_footer_separator" attrs="{'invisible' : [('children_hours', '=', 0.0)]}" />
+                                    <field name="remaining_hours" widget="float_time" class="oe_subtotal_footer_separator" readonly="1"/>
+                                </group>
+                            </group>
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
