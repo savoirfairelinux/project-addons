@@ -351,16 +351,19 @@ class Task(models.Model):
         vals['activity_task_type'] = 'task'
         vals['is_main_task'] = True
         self.create_task(vals)
-
-    def is_new_task(self, vals):
+    
+    @staticmethod
+    def is_new_task(vals):
         return 'activity_task_type' in vals\
                and vals['activity_task_type'] == 'task'
 
-    def is_new_activity(self, vals):
+    @staticmethod
+    def is_new_activity(vals):
         return 'activity_task_type' in vals\
                and vals['activity_task_type'] == 'activity'
 
-    def get_is_from_template(self, vals):
+    @staticmethod
+    def get_is_from_template(vals):
         return 'is_from_template' in vals and vals['is_from_template']
 
     @api.multi
@@ -383,7 +386,8 @@ class Task(models.Model):
             self.create_children_from_activity_create(children, new_activity.id)
         return new_activity
 
-    def activity_has_children(self, vals):
+    @staticmethod
+    def activity_has_children(vals):
         if 'child_ids' in vals:
             return vals.pop('child_ids')
         else:
@@ -558,8 +562,8 @@ class Task(models.Model):
                             activity_date_start,
                             '%Y-%m-%d %H:%M:%S'
                         )
-
-    def get_task_order(self, task_ds, activity_ds, format):
+    @staticmethod
+    def get_task_order(task_ds, activity_ds, format):
         time_diff = datetime.strptime(task_ds, format) \
                     - datetime.strptime(activity_ds, format)
         return time_diff.days * 24 * 60 + time_diff.seconds / 60
