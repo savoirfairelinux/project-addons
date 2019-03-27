@@ -85,7 +85,7 @@ class ReportWeekly(models.AbstractModel):
     def get_tasks_details(self, tasks):
         tasks_details = []
         for task in tasks:
-            if task.resource_type == 'room':
+            if task.resource_type == 'room' and task.room_id:
                 resources_list = _('Room: ') + task.room_id.name + '<br/>' +\
                     _('Equipment: <br/>')
                 tab = '&nbsp;&nbsp;&nbsp;&nbsp;'
@@ -96,7 +96,7 @@ class ReportWeekly(models.AbstractModel):
                     'resource_type': 'Room',
                     'resource': resources_list,
                 })
-            elif task.resource_type == 'equipment':
+            elif task.resource_type == 'equipment' and task.equipment_id:
                 tasks_details.append({
                     'task': task.name,
                     'resource_type': 'Equipment',
@@ -117,8 +117,8 @@ class ReportWeekly(models.AbstractModel):
             tasks_details[-1].update({
                 'expected_start': self.get_tz_format(task.date_start),
                 'expected_end': self.get_tz_format(task.date_end),
-                'real_start': self.get_tz_format(task.real_date_start),
-                'real_end': self.get_tz_format(task.real_date_end),
+                'real_start': self.get_tz_format(task.real_date_start) if task.real_date_start else '',
+                'real_end': self.get_tz_format(task.real_date_end) if task.real_date_end else '',
                 'duration': task.actual_total_time,
             })
         return tasks_details
