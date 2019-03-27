@@ -494,7 +494,7 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.assertEqual(diff, "00:00")
 
         # Test case 2: Test for different actual start and end date
-        task_vals_4 = {
+        task_vals_2 = {
             'name': 'Sample Task 2',
             'activity_task_type': 'task',
             'partner_id': self.project_1.partner_id.id,
@@ -504,8 +504,8 @@ class TestProjectEventTask(TestProjectEventCommon):
             'real_date_start': current_date_str,
             'real_date_end': current_date_plus_str,
         }
-        task_4 = self.Tasks.create(task_vals_4)
-        diff = task_4.actual_total_time
+        task_2 = self.Tasks.create(task_vals_2)
+        diff = task_2.actual_total_time
         self.assertEqual(diff, "01:30")
 
     def test_210_onchange_spectators(self):
