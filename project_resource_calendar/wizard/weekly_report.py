@@ -1,7 +1,7 @@
 # Copyright 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import models, api
+from odoo import models, api, fields
 from datetime import datetime, timedelta
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
 
@@ -32,11 +32,15 @@ class ReportWeekly(models.AbstractModel):
         for event in events:
             docs.append({
                 'name': event.name,
-                'start': event.start,
-                'stop': event.stop,
+                'start': self.get_tz_format(event.start),
+                'stop': self.get_tz_format(event.stop),
                 'weekday': event.weekday_number,
             })
         return docs
+
+    def get_tz_format(self, date_str):
+        return fields.Datetime.context_timestamp(self, datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S'))\
+        .strftime('%Y-%m-%d %H:%M:%S')
 
     @staticmethod
     def get_events_on_period(start, stop, events):
