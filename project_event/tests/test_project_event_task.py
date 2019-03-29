@@ -2,8 +2,8 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
 from datetime import datetime, timedelta
-
-from odoo import fields, models
+from odoo import exceptions
+from odoo import fields
 from odoo.addons.project_event.tests.common import TestProjectEventCommon
 
 
@@ -11,6 +11,19 @@ class TestProjectEventTask(TestProjectEventCommon):
 
     def setUp(self):
         super(TestProjectEventTask, self).setUp()
+        self.activity_3 = self.Tasks.create({
+            'name': 'Test Activity 3',
+            'activity_task_type': 'activity',
+            'project_id': self.project_1.id,
+            'responsible_id': self.project_1.responsible_id.id,
+            'partner_id': self.project_1.partner_id.id,
+            'category_id': self.category_1.id,
+            'room_id': self.room_1.id,
+            'spectators': '-',
+            'date_start': fields.Datetime.to_string(datetime.today()),
+            'date_end': fields.Datetime.to_string(datetime.today() +
+                                                  timedelta(hours=4)),
+        })
 
     def test_010_compute_project_task_log(self):
         self.AuditLogObj = self.env['auditlog.log']
@@ -459,7 +472,55 @@ class TestProjectEventTask(TestProjectEventCommon):
             calendar_event = child.get_calendar_event()
             self.assertEqual(calendar_event.state, 'draft')
 
-    def test_200_get_parent_project_id(self):
+    def test_200_compute_actual_total_time(self):
+        current_date = datetime.today()
+        current_date_plus = current_date + timedelta(minutes=90)
+        current_date_str = fields.Datetime.to_string(current_date)
+        current_date_plus_str = fields.Datetime.to_string(
+            current_date_plus)
+        # Test case 1: Test for same actual start and end date
+        task_vals_1 = {
+            'name': 'Sample Task 1',
+            'activity_task_type': 'task',
+            'partner_id': self.project_1.partner_id.id,
+            'room_id': self.room_1.id,
+            'date_start': current_date_str,
+            'date_end': current_date_plus_str,
+            'real_date_start': current_date_str,
+            'real_date_end': current_date_str,
+        }
+        task_1 = self.Tasks.create(task_vals_1)
+        diff = task_1.actual_total_time
+        self.assertEqual(diff, "00:00")
+
+        # Test case 2: Test for different actual start and end date
+        task_vals_2 = {
+            'name': 'Sample Task 2',
+            'activity_task_type': 'task',
+            'partner_id': self.project_1.partner_id.id,
+            'room_id': self.room_1.id,
+            'date_start': current_date_str,
+            'date_end': current_date_plus_str,
+            'real_date_start': current_date_str,
+            'real_date_end': current_date_plus_str,
+        }
+        task_2 = self.Tasks.create(task_vals_2)
+        diff = task_2.actual_total_time
+        self.assertEqual(diff, "01:30")
+
+    def test_210_onchange_spectators(self):
+        self.assertEqual(self.activity_3.spectators, '-')
+        self.activity_3.spectators = '123'
+        self.activity_3.onchange_spectators()
+        self.assertEqual(self.activity_3.spectators, '123')
+        self.activity_3.spectators = 'sfl'
+        with self.assertRaises(exceptions.ValidationError):
+            self.activity_3.onchange_spectators()
+        self.activity_3.spectators = '999999999999'
+        with self.assertRaises(exceptions.ValidationError):
+            self.activity_3.onchange_spectators()
+
+    def test_220_get_parent_project_id(self):
         self.task_2.parent_id = self.activity_2
         self.activity_2.project_id = self.project_2
         self.assertEqual(

@@ -26,14 +26,10 @@
     <template id="project_task_activity_report_view">
       <div class="header" style="border-bottom: 2px solid black">
         <h3 class="text-center">   
-          <strong>
-            <t t-esc="title"/>
-              </strong>
+          <strong>Activity's work slips</strong>
         </h3>
         <h4 class="text-center">
-          <strong>
-            <t t-esc="print_date_text"/>
-          </strong>
+          <strong>Print Date: </strong>
           <t t-esc="today"/>
         </h4>
       </div>
@@ -43,37 +39,30 @@
       <div style="border-bottom: 2px solid black">
         <table class="table">
           <tr>
-            <td> <t t-esc="activity_label"/> <t t-esc="name"/>  </td>
+            <td>Activity: <t t-esc="name"/>  </td>
           </tr>
           <tr>
-            <td width="50%"> <t t-esc="date_label"/>
-              <t t-esc="datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d')"/>
+            <td width="50%">Date: <t t-esc="datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d')"/>
             </td>
-            <td width="50%"> <t t-esc="number_spectators_label"/></td>
+            <td width="50%">Number of spectators: <t t-esc="spectators"/> </td> 
             </tr>
             <tr>
-              <td> 
-                <t t-esc="start_hour_label"/>
-                <t t-esc="datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>              
+              <td>Hour: <t t-esc="datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>              
               </td>
-              <td> 
-                <t t-esc="end_hour_label"/>
-                <t t-esc="datetime.datetime.strptime(stop, '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> 
+              <td>Expected End Time: <t t-esc="datetime.datetime.strptime(stop, '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/> 
               </td>
             </tr>
             <tr>
-              <td> 
-                <t t-esc="client_label"/> 
-                <t t-esc="client_id"/> 
+              <td>Client: <t t-esc="client_id"/> 
               </td>
             </tr>
              <tr>
-              <td> <t t-esc="contact_label"/></td>
-              <td> <t t-esc="phone_label"/></td>
+              <td>Contact 1: </td>
+              <td>Phone: </td>
             </tr>
             <tr>
-              <td> <t t-esc="contact_label_2"/></td>
-              <td> <t t-esc="phone_label_2"/></td>
+              <td>Contact 2: </td>
+              <td>Phone: </td>
             </tr>           
           </table>
         </div>
@@ -84,14 +73,14 @@
               <th>Department</th>
               <th>Employee</th>
               <th>Expected Arrival</th>
-              <th>Expected Departure</th>
+              <th>Real Arrival</th>
             </tr>
             <t t-foreach="tasks" t-as="task">
               <tr>
                 <td> <t t-esc="task['department']"/></td>
                 <td> <t t-esc="task['employee']"/></td>
                 <td> <t t-esc="datetime.datetime.strptime(task['expected_start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
-                <td> <t t-esc="datetime.datetime.strptime(task['expected_departure'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
+                <td> <t t-esc="datetime.datetime.strptime(task['real_start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
               </tr>
             </t>
           </table>
@@ -101,18 +90,14 @@
         <br/>
         <div style="border-bottom: 2px solid black">
           <h4>
-            <strong>
-              Technical Reminder / Memo:
-            </strong>
+            <strong>Technical Reminder / Memo: </strong>
           </h4>
           <t t-raw="description"/> 
         </div>
         <br/>
         <div>
           <h4>
-            <strong>
-              Remarks:
-            </strong>
+            <strong>Remarks: </strong>
           </h4>
           <t t-foreach="remarks" t-as="remark">
             <div>
@@ -126,9 +111,7 @@
       <br/>
       <div style="page-break-before:always;">
         <h4>
-          <strong>
-            Task Listing:
-          </strong>
+          <strong>Task Listing: </strong>
         </h4>
         <table class="table">
             <tr>
@@ -150,8 +133,16 @@
                 <td> <t t-esc="task['task']"/></td>
                 <td> <t t-esc="datetime.datetime.strptime(task['expected_start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
                 <td> <t t-raw="datetime.datetime.strptime(task['expected_end'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
-                <td> <t t-raw="task['real_start']"/></td>
-                <td> <t t-raw="task['real_end']"/></td>
+                <td>
+                  <t t-if="task['real_start']"> 
+                    <t t-esc="datetime.datetime.strptime(task['real_start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                  </t>
+                </td>
+                <td>
+                  <t t-if="task['real_end']">                  
+                    <t t-esc="datetime.datetime.strptime(task['real_end'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                  </t>
+                </td>
                 <td> <t t-raw="task['duration']"/></td>
               </tr>
             </t>
@@ -170,9 +161,7 @@
         <br/>
         <div>
           <h4>
-            <strong>
-              List of equipment used:
-            </strong>
+            <strong>List of equipment used: </strong>
           </h4>
           <table class="table">
             <tr>

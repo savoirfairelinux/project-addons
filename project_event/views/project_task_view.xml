@@ -86,7 +86,16 @@
                             <field name="notes"/>
                         </page>
                         <page string="Technical Sheet">
-                            <field name="spectators"/>
+                        <group>
+                            <field name="spectators" style='max-width: 900px; width: 100px'/>
+                            <field name="table_child_ids" widget="widget_table" options="{
+                            'field_name': 'child_ids',
+                            'datatable_params':{'searching': False,
+                            'paging': False,
+                            'info': False},
+                            'fields': ['name','date_start', 'date_end', 'real_date_start', 'real_date_end', 'actual_total_time'],
+                            'headers': ['Name','Date Start', 'Date End', 'Real Date Start', 'Real Date End', 'Actual Total Time']}" />
+                        </group>                        
                         </page>
                     </notebook>
                 </sheet>
@@ -192,8 +201,10 @@
 
                         </group>
                         <group>
-                            <field name="date_start" required="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
-                            <field name="date_end" required="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                                <field name="date_start" required="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                                <field name="date_end" required="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                                <field name="real_date_start"/>
+                                <field name="real_date_end"/>
                         </group>
                         <group>
                             <div>
@@ -319,6 +330,7 @@
             </tree>
         </field>
     </record>
+
     <record id="project_activity_search" model="ir.ui.view">
         <field name="name">Project Activity Search</field>
         <field name="model">project.task</field>
