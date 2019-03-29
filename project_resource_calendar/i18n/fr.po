@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2019-02-21 16:26-0500\n"
-"PO-Revision-Date: 2019-02-21 16:37-0500\n"
+"PO-Revision-Date: 2019-04-01 12:32-0400\n"
 "Last-Translator: Rim BEN DHAOU <rim.bendhaou@savoirfairelinux.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: project_resource_calendar
 #: code:addons/project_resource_calendar/models/calendar_event.py:110
@@ -126,11 +126,8 @@ msgstr "Capacité"
 #. module: project_resource_calendar
 #: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_instrument_allow_double_book
 #: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_room_allow_double_book
-msgid ""
-"Check if this resource can be booked in more than one meeting or event at "
-"the same time."
-msgstr ""
-"Vérifier si la ressource peut être réservée plusieurs fois aux même temps."
+msgid "Check if this resource can be booked in more than one meeting or event at the same time."
+msgstr "Vérifier si la ressource peut être réservée plusieurs fois aux même temps."
 
 #. module: project_resource_calendar
 #: model:ir.actions.act_window,help:project_resource_calendar.action_calendar_event_gantt
@@ -361,6 +358,10 @@ msgstr "Réunions Gantt"
 
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_miscellaneous
+#: model:ir.ui.menu,name:project_resource_calendar.miscellaneous_sub_menu
+#: model:ir.actions.act_window,name:project_resource_calendar.action_resource_calendar_miscellaneous
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_miscellaneous_form
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_miscellaneous_tree
 msgid "Miscellaneous"
 msgstr "Divers"
 
@@ -647,29 +648,23 @@ msgstr "Tâche"
 
 #. module: project_resource_calendar
 #: model:ir.actions.act_window,help:project_resource_calendar.action_calendar_event_gantt
-msgid ""
-"The calendar is shared between employees and fully integrated with\n"
+msgid "The calendar is shared between employees and fully integrated with\n"
 "            other applications such as the employee leaves or the business\n"
 "            opportunities."
-msgstr ""
-"Le calendrier est partagé avec les employés et complètement intégré à\n"
+msgstr "Le calendrier est partagé avec les employés et complètement intégré à\n"
 " d'autres applications comme celles des congés ou des opportunités\n"
 " commerciales."
 
 #. module: project_resource_calendar
 #: code:addons/project_resource_calendar/models/calendar_event.py:166
 #, python-format
-msgid ""
-"The resource, %s, cannot be double-booked with any overlapping meetings or "
-"events."
+msgid "The resource, %s, cannot be double-booked with any overlapping meetings or events."
 msgstr "La ressource, %s, est déjà réservée pour la période spécifiée."
 
 #. module: project_resource_calendar
 #: code:addons/project_resource_calendar/models/calendar_event.py:158
 #, python-format
-msgid ""
-"The room, %s,  cannot be double-booked with any overlapping meetings or "
-"events."
+msgid "The room, %s,  cannot be double-booked with any overlapping meetings or events."
 msgstr "La salle, %s, est déjà réservée pour la période spécifiée."
 
 #. module: project_resource_calendar
@@ -782,3 +777,4 @@ msgstr "Rapport d'événement hebdomadaire"
 #: model:ir.model,name:project_resource_calendar.model_weekly_report_wizard
 msgid "weekly.report.wizard"
 msgstr "weekly.report.wizard"
+

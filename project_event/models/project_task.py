@@ -622,10 +622,11 @@ class Task(models.Model):
                             activity_date_start,
                             '%Y-%m-%d %H:%M:%S'
                         )
+
     @staticmethod
     def get_task_order(task_ds, activity_ds, format):
         time_diff = datetime.strptime(task_ds, format) \
-            - datetime.strptime(activity_ds, format)
+                    - datetime.strptime(activity_ds, format)
         return time_diff.days * 24 * 60 + time_diff.seconds / 60
 
     def action_done(self):
