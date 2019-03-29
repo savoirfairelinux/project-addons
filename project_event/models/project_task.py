@@ -6,8 +6,23 @@ from dateutil.relativedelta import relativedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
+MINUTES_IN_HOUR = 60
+CONVERT_SECONDS_TO_MINUTE = 60
+HOURS_IN_DAY = 24
 MIN_SPECTATORS_VALUES_LIMIT = 0
 MAX_SPECTATORS_VALUES_LIMIT = 1000000
+
+MSG_OPTION = 'The following is optional and \
+                       appears as crosshatched on your calendar'
+MSG_REQUESTED = 'The following is requested'
+MSG_ACCEPTED = 'he following is approved'
+MSG_POSTPONED = 'The following is postponed \
+                        and no longer appear on your calendars'
+MSG_CANCELED = 'The following is canceled\
+                         and no longer on your calendars'
+MSG_RES = 'The following resources are already booked:<br>'
+MSG_CONFIRM = 'Please confirm your reservation.<br>'
+MSG_CONTINUE = 'Do you want to continue?'
 
 
 class Task(models.Model):
@@ -640,7 +655,8 @@ class Task(models.Model):
     def get_task_order(task_ds, activity_ds, format):
         time_diff = datetime.strptime(task_ds, format) \
                     - datetime.strptime(activity_ds, format)
-        return time_diff.days * 24 * 60 + time_diff.seconds / 60
+        return time_diff.days * HOURS_IN_DAY * MINUTES_IN_HOUR \
+            + time_diff.seconds / CONVERT_SECONDS_TO_MINUTE
 
     def action_done(self):
         self.open_resources_reservation()
@@ -880,72 +896,17 @@ class Task(models.Model):
         child.open_resources_reservation()
         child.write({'task_state': 'requested'})
 
-    def send_message(self, action):
-        self.env['mail.message'].create(self.get_message(action))
-
-    def is_resource_booked(self):
-        if self.room_id:
-            overlaps = self.env['calendar.event'].search([
-                ('room_id', '=', self.room_id.id),
-                ('start', '<', self.date_end),
-                ('stop', '>', self.date_start),
-            ])
-            overlaps_ids = overlaps.ids
-            for calendar_event in overlaps_ids:
-                if self.env['calendar.event'] \
-                        .browse(calendar_event).event_task_id.id == self.id:
-                    overlaps_ids.remove(calendar_event)
-            if len(overlaps_ids) > 0:
-                return True
-        if self.equipment_id:
-            overlaps_equipment = self.env['calendar.event'].search([
-                ('equipment_ids', 'in', [self.equipment_id.id]),
-                ('start', '<', self.date_end),
-                ('stop', '>', self.date_start),
-            ])
-            if len(overlaps_equipment) > 0:
-                return True
-        return False
-
-    @api.multi
-    def get_confirmation_wizard(self, action):
-        self.ensure_one()
-        res = self.get_booked_resources()
-        if res != '':
-            res = _('The following resources are already booked:<br>') + res
-        message = _('Please confirm your reservation.<br>') + res + _(
-            'Do you want to continue?')
-        new_wizard = self.env['reservation.validation.wiz'].create(
-            {
-                'task_id': self.id,
-                'message': message,
-                'action': action,
-            }
-        )
-        return {
-            'name': 'Confirm reservation',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'reservation.validation.wiz',
-            'target': 'new',
-            'res_id': new_wizard.id,
-        }
-
     @staticmethod
     def get_message_body(action):
         switcher = {
             'draft': ' ',
-            'option': _('The following is optional and \
-                            appears as crosshatched on your calendar'),
-            'requested': _('The following is requested'),
-            'accepted': _('The following is approved'),
+            'option': _(MSG_OPTION),
+            'requested': _(MSG_REQUESTED),
+            'accepted': _(MSG_ACCEPTED),
             'read': ' ',
-            'postponed': _('The following is postponed \
-                            and no longer appear on your calendars'),
+            'postponed': _(MSG_POSTPONED),
             'done': ' ',
-            'canceled': _('The following is canceled\
-                             and no longer on your calendars')
+            'canceled': _(MSG_CANCELED)
         }
         return switcher.get(action)
 
@@ -981,4 +942,55 @@ class Task(models.Model):
             'reply_to': 'Administrator <admin@yourcompany.example.com>',
             'res_id': self.id,
             'subject': self.code
+        }
+
+    def send_message(self, action):
+        self.env['mail.message'].create(self.get_message(action))
+
+    def is_resource_booked(self):
+        if self.room_id:
+            overlaps = self.env['calendar.event'].search([
+                ('room_id', '=', self.room_id.id),
+                ('start', '<', self.date_end),
+                ('stop', '>', self.date_start),
+            ])
+            overlaps_ids = overlaps.ids
+            for calendar_event in overlaps_ids:
+                if self.env['calendar.event'] \
+                        .browse(calendar_event).event_task_id.id == self.id:
+                    overlaps_ids.remove(calendar_event)
+            if len(overlaps_ids) > 0:
+                return True
+        if self.equipment_id:
+            overlaps_equipment = self.env['calendar.event'].search([
+                ('equipment_ids', 'in', [self.equipment_id.id]),
+                ('start', '<', self.date_end),
+                ('stop', '>', self.date_start),
+            ])
+            if len(overlaps_equipment) > 0:
+                return True
+        return False
+
+    @api.multi
+    def get_confirmation_wizard(self, action):
+        self.ensure_one()
+        res = self.get_booked_resources()
+        if res != '':
+            res = _(MSG_RES) + res
+        message = _(MSG_CONFIRM) + res + _(MSG_CONTINUE)
+        new_wizard = self.env['reservation.validation.wiz'].create(
+            {
+                'task_id': self.id,
+                'message': message,
+                'action': action,
+            }
+        )
+        return {
+            'name': 'Confirm reservation',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'reservation.validation.wiz',
+            'target': 'new',
+            'res_id': new_wizard.id,
         }
