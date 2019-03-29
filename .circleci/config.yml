@@ -19,10 +19,14 @@ jobs:
       - run:
           name: Clone Server Tools
           command: git clone https://github.com/OCA/server-tools  && cd server-tools && git checkout 11.0 && cd ..
-      
+ 
       - run:
           name: Clone Web
           command: git clone https://github.com/OCA/web.git && cd web && git checkout 11.0 && cd ..
+
+      - run:
+          name: Clone Web Addons
+          command: git clone https://github.com/savoirfairelinux/web-addons  && cd web-addons && git checkout 11.0 && cd ..
 
       - run:
           name: Wait for PostgreSQL
@@ -43,6 +47,10 @@ jobs:
       - run:
           name: MV web_timeline
           command: mkdir web_timeline && mv ./web/web_timeline/* ./web_timeline
+          
+      - run:
+          name: MV web_widget_table
+          command: mkdir web_widget_table && mv ./web-addons/web_widget_table/* ./web_widget_table
       
       - run:
           name: MV calendar_resource
