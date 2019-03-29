@@ -42,8 +42,7 @@ class ReportWeekly(models.AbstractModel):
         return fields.Datetime.context_timestamp(self, datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S'))\
         .strftime('%Y-%m-%d %H:%M:%S')
 
-    @staticmethod
-    def get_task_values(tasks):
+    def get_task_values(self, tasks):
         table_lines = []
         for task in tasks:
             for employee in task.employee_ids:
