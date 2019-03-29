@@ -374,7 +374,8 @@ class Task(models.Model):
                                       self.get_error_type(
                                           'RESOURCE_TYPE_ERROR'))
 
-    def get_error_type(self, type_error):
+    @staticmethod
+    def get_error_type(type_error):
         error_msg = ""
         if type_error == 'RESOURCE_TYPE_ERROR':
             error_msg = _('this resource is not bookable')
@@ -409,15 +410,18 @@ class Task(models.Model):
         vals['is_main_task'] = True
         self.create_task(vals)
 
-    def is_new_task(self, vals):
-        return 'activity_task_type' in vals \
+    @staticmethod
+    def is_new_task(vals):
+        return 'activity_task_type' in vals\
                and vals['activity_task_type'] == 'task'
 
-    def is_new_activity(self, vals):
-        return 'activity_task_type' in vals \
+    @staticmethod
+    def is_new_activity(vals):
+        return 'activity_task_type' in vals\
                and vals['activity_task_type'] == 'activity'
 
-    def get_is_from_template(self, vals):
+    @staticmethod
+    def get_is_from_template(vals):
         return 'is_from_template' in vals and vals['is_from_template']
 
     @api.multi
@@ -441,7 +445,8 @@ class Task(models.Model):
                 children, new_activity.id)
         return new_activity
 
-    def activity_has_children(self, vals):
+    @staticmethod
+    def activity_has_children(vals):
         if 'child_ids' in vals:
             return vals.pop('child_ids')
         else:
@@ -555,7 +560,8 @@ class Task(models.Model):
                     update_vals[field_names[index]] = vals[field_names[index]]
         return update_vals
 
-    def update_value_equipment_id(self, vals):
+    @staticmethod
+    def update_value_equipment_id(vals):
         set_value = {}
         set_value['equipment_ids'] = \
             [(6, 0, [vals['equipment_id']])]
@@ -616,8 +622,8 @@ class Task(models.Model):
                             activity_date_start,
                             '%Y-%m-%d %H:%M:%S'
                         )
-
-    def get_task_order(self, task_ds, activity_ds, format):
+    @staticmethod
+    def get_task_order(task_ds, activity_ds, format):
         time_diff = datetime.strptime(task_ds, format) \
             - datetime.strptime(activity_ds, format)
         return time_diff.days * 24 * 60 + time_diff.seconds / 60
@@ -851,7 +857,8 @@ class Task(models.Model):
         self.open_resources_reservation()
         self.write({'task_state': 'accepted'})
 
-    def child_reservation(self, child):
+    @staticmethod
+    def child_reservation(child):
         child.draft_resources_reservation()
         if child.task_state in ['draft', 'option', 'postponed',
                                 'canceled']:
@@ -859,7 +866,8 @@ class Task(models.Model):
         child.open_resources_reservation()
         child.write({'task_state': 'requested'})
 
-    def get_message_body(self, action):
+    @staticmethod
+    def get_message_body(action):
         switcher = {
             'draft': ' ',
             'option': _('The following is Optional and \

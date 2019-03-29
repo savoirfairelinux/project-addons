@@ -99,7 +99,8 @@ class TestSecurity(TestCalendarEventCommon):
         group = self.env['res.groups'].browse(group_id)
         return group.model_access
 
-    def has_read_permission(self, access_rule):
+    @staticmethod
+    def has_read_permission(access_rule):
         return access_rule.perm_read
 
     def cannot_create_room(self, user_id, room_name):

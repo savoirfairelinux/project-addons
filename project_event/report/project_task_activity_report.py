@@ -9,19 +9,6 @@ from operator import itemgetter
 class ReportWeekly(models.AbstractModel):
     _name = 'report.project_event.project_task_activity_report_view'
 
-    title = _("Activity's work slips")
-    print_date_text = _("Print Date")
-    activity_label = _("Activity: ")
-    date_label = _("Date: ")
-    start_hour_label = _("Hour: ")
-    end_hour_label = _("Expected End Time: ")
-    number_spectators_label = _("Number of spectators: ")
-    client_label = _("Client: ")
-    contact_label = _("Contact 1:")
-    contact_label_2 = _("Contact 2:")
-    phone_label = _("Phone: ")
-    phone_label_2 = _("Phone: ")
-
     @api.model
     def get_report_values(self, docids, data=None):
         today = datetime.now().date().strftime("%d-%m-%Y")
@@ -38,22 +25,11 @@ class ReportWeekly(models.AbstractModel):
         activities = self.env['project.task'].browse(docids)
         for activity in activities:
             activities_docs.append({
-                'title': self.title,
-                'print_date_text': self.print_date_text,
-                'activity_label': self.activity_label,
-                'date_label': self.date_label,
-                'start_hour_label': self.start_hour_label,
-                'end_hour_label': self.end_hour_label,
-                'number_spectators_label': self.number_spectators_label,
-                'client_label': self.client_label,
-                'contact_label': self.contact_label,
-                'contact_label_2': self.contact_label_2,
-                'phone_label': self.phone_label,
-                'phone_label_2': self.phone_label_2,
                 'name': activity.name,
                 'client_id': activity.partner_id.name,
                 'start': self.get_tz_format(activity.date_start),
                 'stop': self.get_tz_format(activity.date_end),
+                'spectators': activity.spectators,
                 'tasks': self.get_task_values(activity.child_ids),
                 'description': activity.description,
                 'activity_notes': activity.notes,
@@ -66,16 +42,17 @@ class ReportWeekly(models.AbstractModel):
         return fields.Datetime.context_timestamp(self, datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S'))\
         .strftime('%Y-%m-%d %H:%M:%S')
 
-    def get_task_values(self, tasks):
+    @staticmethod
+    def get_task_values(tasks):
         table_lines = []
         for task in tasks:
             for employee in task.employee_ids:
                 table_lines.append({
                     'department': task.department_id.name,
-                    'expected_start': task.date_start,
-                    'expected_departure': task.date_end,
+                    'expected_start': self.get_tz_format(task.date_start),
                     'employee': employee.name,
                     'order': task.task_order,
+                    'real_start':  self.get_tz_format(task.real_date_start) if task.real_date_start else '',
                 })
         table_lines_sorted = sorted(
             table_lines, key=itemgetter(

@@ -108,7 +108,8 @@ class TestSecurity(TestProjectEventCommon):
         acls += ' 1) ' if acl.perm_unlink else ' 0) '
         return acls
 
-    def get_crud_rule(self, rule):
+    @staticmethod
+    def get_crud_rule(rule):
         rule_crud = ' ('
         rule_crud += ' 1,' if rule.perm_read else ' 0,'
         rule_crud += ' 1,' if rule.perm_write else ' 0,'
@@ -140,7 +141,8 @@ class TestSecurity(TestProjectEventCommon):
         ir_model = self.get_ir_model_from_model(model)
         return self.env['ir.rule'].search([('model_id', '=', ir_model.id)])
 
-    def get_rules_applied_to_user(self, user):
+    @staticmethod
+    def get_rules_applied_to_user(user):
         rules = []
         for group in user.groups_id:
             rules.append({
