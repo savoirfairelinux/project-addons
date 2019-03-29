@@ -22,6 +22,10 @@ class TaskCategory(models.Model):
     is_default = fields.Boolean(
         string='Default',
     )
+    font_color = fields.Selection([
+        ('black', 'Black (Default)'),
+        ('white', 'White')],
+         default='black')
 
     @api.constrains('is_default')
     def _change_is_default(self):
@@ -47,5 +51,7 @@ class TaskCategory(models.Model):
     def get_category_list(self):
         return list(map(lambda category: {"id": category.id,
                                           "name": category.name,
-                                          "color": category.color},
+                                          "color": category.color,
+                                          "font_color": category.font_color,
+                                          },
                         self.env['task.category'].search([])))

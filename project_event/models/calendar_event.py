@@ -21,6 +21,10 @@ class CalendarEvent(models.Model):
         string='Client Type',
     )
     color = fields.Char(related='category_id.color')
+    font_color = fields.Selection([
+        ('black', 'Black (Default)'),
+        ('white', 'White')],
+        related='category_id.font_color')
     client_tag = fields.Many2one(
         string='Client Tag',
         related='client_id.tag_id'
