@@ -366,7 +366,7 @@
         <field name="model">project.task</field>
         <field name="arch" type="xml">
             <calendar string="Calendar View" date_start="date_start"
-                      date_stop="date_end">
+                      date_stop="date_end" quick_add="False">
                 <field name="name"/>
                 <field name="code"/>
                 <field name="project_id" string="Event"/>
@@ -381,11 +381,7 @@
         <field name="model">project.task</field>
         <field name="arch" type="xml">
             <calendar string="Calendar View" date_start="date_start"
-                      date_stop="date_end"
-                      form_view_id="%(project_event.project_event_task_form)s"
-                      readonly_form_view_id="%(project_event.project_event_task_form)s"
-                      quick_add="False"
-                      event_open_popup="True">
+                      date_stop="date_end" quick_add="False">
                 <field name="name"/>
                 <field name="code"/>
                 <field name="parent_id" string="Activity"/>
