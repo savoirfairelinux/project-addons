@@ -35,8 +35,6 @@
         'views/room_view.xml',
         'views/instrument_view.xml',
         'templates/assets.xml',
-        'report/calendar_event_report_view.xml',
-        'report/calendar_event_templates.xml',
         'report/calendar_event_report.xml',
         'report/calendar_event_print_template.xml',
         'wizard/weekly_report_wizard.xml',
