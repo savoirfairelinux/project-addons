@@ -83,7 +83,9 @@
                 <t t-if="task['real_start']"> 
                   <td> <t t-esc="datetime.datetime.strptime(task['real_start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
                 </t>
-                
+                <t t-else="">
+                  <td></td>
+                </t>
               </tr>
             </t>
           </table>
