@@ -376,17 +376,15 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="project_event_task_calendar">
+<record model="ir.ui.view" id="project_event_task_calendar">
         <field name="name">project.event.task.calendar</field>
         <field name="model">project.task</field>
         <field name="arch" type="xml">
             <calendar string="Calendar View" date_start="date_start"
                       date_stop="date_end" quick_add="False">
-                <field name="name"/>
-                <field name="code"/>
-                <field name="parent_id" string="Activity"/>
-                <field name="date_start"/>
-                <field name="date_end"/>
+                <field name="complete_name"/>
+                <field name="partner_id"  string="Task Client" eval="ref('project_event_activity_form')"/>
+                <field name="room_id" string="Room"/>            
             </calendar>
         </field>
     </record>
