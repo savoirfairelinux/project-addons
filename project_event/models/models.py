@@ -19,6 +19,8 @@ def get_formview_id(self, access_uid=None):
     if self._name == 'project.task':
         if self.activity_task_type == 'task':
             return self.env.ref('project_event.project_event_task_form').id
+        elif self.activity_task_type == 'activity':
+            return self.env.ref('project_event.project_event_activity_form').id
     return False
 
 
