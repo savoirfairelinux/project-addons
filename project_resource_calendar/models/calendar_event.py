@@ -141,8 +141,8 @@ class CalendarEvent(models.Model):
 
     def _get_res_partners_names(self):
         return str(list(map(lambda partner:
-                                              str(partner.name),
-                                              self.partner_ids)))\
+                            str(partner.name),
+                            self.partner_ids))) \
             .replace('[', '').replace(']', '').replace("'", "")
 
     @api.one
@@ -260,7 +260,7 @@ class CalendarEvent(models.Model):
             tzinfo=tz,
             format='EEEE dd MMMM yyyy',
             locale=lang)
-        return formatted_date
+        return formatted_date.title()
 
     def print_calendar_report(self):
         return self.env.ref(
