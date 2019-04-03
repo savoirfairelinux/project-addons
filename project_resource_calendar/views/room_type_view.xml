@@ -6,11 +6,15 @@
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
+    <menuitem id="configuration_sub_menu"
+              name="Configuration"
+              parent="calendar.mail_menu_calendar"
+              sequence="310"
+              groups="group_resource_calendar_manager"/>
     <menuitem id="room_type_sub_menu"
               name="Room Types"
-              parent="resource.menu_resource_config"
+              parent="configuration_sub_menu"
               action="action_resource_room_type"
-              sequence="13"
               groups="group_resource_calendar_manager"/>
     <record id="resource_room_type_tree" model="ir.ui.view">
         <field name="name">Room Type Tree</field>

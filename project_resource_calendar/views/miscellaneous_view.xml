@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_resource_calendar_miscellaneous" model="ir.actions.act_window">
+        <field name="name">Miscellaneous</field>
+        <field name="res_model">resource.calendar.miscellaneous</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="miscellaneous_sub_menu"
+              name="Miscellaneous"
+              parent="configuration_sub_menu"
+              action="action_resource_calendar_miscellaneous"
+              sequence="30"
+              groups="group_resource_calendar_manager"/>
+    <record id="resource_calendar_miscellaneous_tree" model="ir.ui.view">
+        <field name="name">Miscellaneous Tree</field>
+        <field name="model">resource.calendar.miscellaneous</field>
+        <field name="arch" type="xml">
+            <tree string="Miscellaneous">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+    <record id="resource_calendar_miscellaneous_form" model="ir.ui.view">
+        <field name="name">Miscellaneous Form</field>
+        <field name="model">resource.calendar.miscellaneous</field>
+        <field name="arch" type="xml">
+            <form string="Miscellaneous">
+                <sheet>
+                    <group>
+                        <div>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
