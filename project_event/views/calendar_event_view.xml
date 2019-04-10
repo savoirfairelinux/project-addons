@@ -6,26 +6,23 @@
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar_resource.view_calendar_event_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//div[@class='oe_title']" position="after">
-                <label for="category_id" class="oe_edit_only"/>
-                <h2>
-                    <field name="category_id" 
-                           attrs="{'readonly': [('is_task_event','=',True)], 'required': True}"
-                           style="font-size: 13px;" />
-                </h2>
-                <label for="sector_id" class="oe_edit_only"/>
-                <h2>
-                    <field name="sector_id" 
-                           attrs="{'readonly': [('is_task_event','=',True)]}"
-                           style="font-size: 13px;" />
-                </h2>
-            </xpath>
             <xpath expr="//field[@name='client_id']" position="after">
                 <field name="client_tag" 
                        placeholder="Client Tag"  
                        readonly="1" 
                        style="font-size: 13px;"/>
                 <field name="client_type" placeholder="Client Type" attrs="{'readonly': [('is_task_event','=',True)]}"/>
+            </xpath>
+            <xpath expr="//div[@class='oe_title']" position="after">
+                    <group>
+                    <field name="category_id" 
+                           attrs="{'readonly': [('is_task_event','=',True)], 'required': True}"
+                           style="font-size: 13px;" />
+
+                    <field name="sector_id" 
+                           attrs="{'readonly': [('is_task_event','=',True)]}"
+                           style="font-size: 13px;" />
+                    </group>                
             </xpath>
         </field>
     </record>
@@ -42,7 +39,7 @@
                 <field name="category_id" attrs="{'readonly': [('is_task_event','=',True)]}"/>
             </xpath>
             <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="client_id" attrs="{'readonly': [('is_task_event','=',True)], 'invisible': [('is_task_event','=',False)]}"/>
+                <field name="client_id" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 <field name="client_type" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 <field name="sector_id" attrs="{'readonly': [('is_task_event','=',True)]}"/>
             </xpath>
