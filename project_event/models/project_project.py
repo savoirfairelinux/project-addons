@@ -167,7 +167,7 @@ class Project(models.Model):
     def get_message_body(action):
         switcher = {
             'draft': ' ',
-            'option': _('The following is Optional and \
+            'option': _('The following is optional and \
                         appears as crosshatched on your calendar'),
             'accepted': _('The following is approved'),
             'postponed': _('The following is postponed \
@@ -210,8 +210,8 @@ class Project(models.Model):
         for activity in self.task_ids:
             res += activity.get_booked_resources()
         if res != '':
-            res = _('The Following resources are already booked:<br>') + res
-        message = _('Please Confirm your reservation.<br>') + res + _(
+            res = _('The following resources are already booked:<br>') + res
+        message = _('Please confirm your reservation.<br>') + res + _(
             'Do you want to continue?')
         new_wizard = self.env['reservation.validation.wiz'].create(
             {

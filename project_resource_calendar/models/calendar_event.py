@@ -132,11 +132,11 @@ class CalendarEvent(models.Model):
         if self.recurrency:
             if self.end_type == 'end_date':
                 self.recurrence_type = str(self.interval) + _(" Time(s)") + \
-                    str(self.rrule_type) + _(" until ") + \
+                        _(str(self.rrule_type)) + _(" until ") + \
                     self.final_date
             else:
                 self.recurrence_type = str(self.interval) + _(" Time(s) ") + \
-                    str(self.rrule_type) + _(" for ") + \
+                        _(str(self.rrule_type)) + _(" for ") + \
                     str(self.count) + _(" Time(s)")
 
     def _get_res_partners_names(self):

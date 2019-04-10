@@ -6,25 +6,25 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-27 15:05-0500\n"
-"PO-Revision-Date: 2019-03-27 16:26-0500\n"
-"Last-Translator: Luis Garcia Ruiz <luis.garcia@savoirfairelinux.com>\n"
+"POT-Creation-Date: 2019-04-10 18:48-0400\n"
+"PO-Revision-Date: 2019-04-10 18:49-0400\n"
+"Last-Translator: Rim BEN DHAOU <rim.bendhaou@savoirfairelinux.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:944
+#: code:addons/project_event/models/project_task.py:953
 #, python-format
 msgid "%s (copy)"
 msgstr ""
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:182
+#: code:addons/project_event/models/project_project.py:184
 #, python-format
 msgid "<br> Tasks: "
 msgstr "<br> Tâches: "
@@ -120,7 +120,6 @@ msgstr "Activités à modifier"
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_tree
 #: model:ir.ui.view,arch_db:project_event.project_event_form
-#: model:ir.ui.view,arch_db:project_event.project_event_task_calendar
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_tree
 #: model:ir.ui.view,arch_db:project_event.project_task_search
@@ -191,13 +190,13 @@ msgid "Activity:"
 msgstr "Activité:"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:182
+#: code:addons/project_event/models/project_project.py:184
 #, python-format
 msgid "Activity: "
 msgstr "Activité: "
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:882
+#: code:addons/project_event/models/project_task.py:891
 #, python-format
 msgid "Activity: <br>"
 msgstr "Activité: <br>"
@@ -459,8 +458,8 @@ msgid "Display Name"
 msgstr "Nom à afficher"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:212
-#: code:addons/project_event/models/project_task.py:956
+#: code:addons/project_event/models/project_project.py:214
+#: code:addons/project_event/models/project_task.py:965
 #, python-format
 msgid "Do you want to continue?"
 msgstr "Voulez vous continuer?"
@@ -540,10 +539,10 @@ msgid "Equipment"
 msgstr "Équipement"
 
 #. module: project_event
-#: code:addons/project_event/report/project_task_activity_report.py:65
+#: code:addons/project_event/report/project_task_activity_report.py:66
 #, python-format
 msgid "Equipment: <br/>"
-msgstr "Equipment: <br/>"
+msgstr "Équipement: <br/>"
 
 #. module: project_event
 #: model:ir.model,name:project_event.model_calendar_event
@@ -636,7 +635,7 @@ msgstr ""
 "                    avant validation."
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:180
+#: code:addons/project_event/models/project_project.py:182
 #, python-format
 msgid "Event: <br>"
 msgstr "Événement: <br>"
@@ -687,7 +686,7 @@ msgstr "Horaire Prévu"
 #: model:ir.ui.view,arch_db:project_event.res_partner_sector_for_view
 #: model:ir.ui.view,arch_db:project_event.view_project_project_search
 msgid "Faculty Sectors"
-msgstr "Secteur de Faculté"
+msgstr "Secteur"
 
 #. module: project_event
 #: model:ir.module.category,description:project_event.module_category_event_acad
@@ -882,10 +881,10 @@ msgid "Phone:"
 msgstr "Téléphone :"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:212
-#: code:addons/project_event/models/project_task.py:956
+#: code:addons/project_event/models/project_project.py:214
+#: code:addons/project_event/models/project_task.py:965
 #, python-format
-msgid "Please Confirm your reservation.<br>"
+msgid "Please confirm your reservation.<br>"
 msgstr "Veuillez confirmer la réservation.<br>"
 
 #. module: project_event
@@ -1048,6 +1047,7 @@ msgstr "Retourner à l'option"
 #: model:ir.ui.view,arch_db:project_event.activity_task_template_form
 #: model:ir.ui.view,arch_db:project_event.activity_task_template_tree
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
+#: model:ir.ui.view,arch_db:project_event.project_event_task_calendar
 #: model:ir.ui.view,arch_db:project_event.project_event_task_tree
 #: model:ir.ui.view,arch_db:project_event.project_task_search
 #: model:ir.ui.view,arch_db:project_event.view_orphan_task_event_wizard
@@ -1060,10 +1060,10 @@ msgid "Room"
 msgstr "Salle"
 
 #. module: project_event
-#: code:addons/project_event/report/project_task_activity_report.py:64
+#: code:addons/project_event/report/project_task_activity_report.py:65
 #, python-format
 msgid "Room: "
-msgstr "Salle:"
+msgstr "Salle: "
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.view_project_project_search
@@ -1163,6 +1163,7 @@ msgstr "Catégorie de tâches"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_activity_search
+#: model:ir.ui.view,arch_db:project_event.project_event_task_calendar
 #: model:ir.ui.view,arch_db:project_event.project_task_search
 msgid "Task Client"
 msgstr "Client de la tâche"
@@ -1226,7 +1227,7 @@ msgid "Task/Activity Responsible"
 msgstr "Responsable de la tâche/activité"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:890
+#: code:addons/project_event/models/project_task.py:899
 #, python-format
 msgid "Task: <br>"
 msgstr "Tâche: <br>"
@@ -1256,7 +1257,7 @@ msgid "Tasks to Edit"
 msgstr "Tâches à modifier"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:883
+#: code:addons/project_event/models/project_task.py:892
 #, python-format
 msgid "Tasks: <br>"
 msgstr "Tâches: <br>"
@@ -1282,10 +1283,10 @@ msgid "Templates Events"
 msgstr "Modèles d'événements"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:211
-#: code:addons/project_event/models/project_task.py:955
+#: code:addons/project_event/models/project_project.py:213
+#: code:addons/project_event/models/project_task.py:964
 #, python-format
-msgid "The Following resources are already booked:<br>"
+msgid "The following resources are already booked:<br>"
 msgstr "Ces ressources sont déjà réservées:<br>"
 
 #. module: project_event
@@ -1299,25 +1300,25 @@ msgstr ""
 "catégorie par défaut:"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:168
-#: code:addons/project_event/models/project_task.py:865
+#: code:addons/project_event/models/project_project.py:170
+#: code:addons/project_event/models/project_task.py:874
 #, python-format
 msgid ""
-"The following is Optional and                         appears as "
+"The following is optional and                         appears as "
 "crosshatched on your calendar"
 msgstr ""
 "L'élément suivant est Optionnel et apparaît en hachuré dans le calendrier"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:170
-#: code:addons/project_event/models/project_task.py:868
+#: code:addons/project_event/models/project_project.py:172
+#: code:addons/project_event/models/project_task.py:877
 #, python-format
 msgid "The following is approved"
 msgstr "L'élément suivant est approuvé"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:173
-#: code:addons/project_event/models/project_task.py:873
+#: code:addons/project_event/models/project_project.py:175
+#: code:addons/project_event/models/project_task.py:882
 #, python-format
 msgid ""
 "The following is canceled                         and no longer on your "
@@ -1325,8 +1326,8 @@ msgid ""
 msgstr "L'élément suivant est annulé et n'est plus affiché dans le calendrier"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:171
-#: code:addons/project_event/models/project_task.py:870
+#: code:addons/project_event/models/project_project.py:173
+#: code:addons/project_event/models/project_task.py:879
 #, python-format
 msgid ""
 "The following is postponed                         and no longer appear on "
@@ -1334,7 +1335,7 @@ msgid ""
 msgstr "L'élément suivant est reporté et n’apparaît plus sur le calendrier"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:867
+#: code:addons/project_event/models/project_task.py:876
 #, python-format
 msgid "The following is requested"
 msgstr "L'élément suivant est demandé"
@@ -1346,7 +1347,7 @@ msgid "The task should be related to a project!"
 msgstr "La tâche doit être reliée à un projet"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:384
+#: code:addons/project_event/models/project_task.py:385
 #, python-format
 msgid "There must be a responsible or a client"
 msgstr "Il faut avoir un responsable ou un client "
@@ -1408,6 +1409,12 @@ msgid "Workflow:"
 msgstr "Workflow:"
 
 #. module: project_event
+#: code:addons/project_event/models/mail_thread.py:32
+#, python-format
+msgid "created/modified"
+msgstr "créé(e)/modifié(e)"
+
+#. module: project_event
 #: model:ir.model,name:project_event.model_report_project_event_project_task_activity_report_view
 msgid "report.project_event.project_task_activity_report_view"
 msgstr "report.project_event.project_task_activity_report_view"
@@ -1423,13 +1430,13 @@ msgid "res.partner.sector"
 msgstr "res.partner.sector"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:380
+#: code:addons/project_event/models/project_task.py:381
 #, python-format
 msgid "this resource is not bookable"
-msgstr "Cette ressource n'est pas réservable"
+msgstr "cette ressource est non réservable"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:382
+#: code:addons/project_event/models/project_task.py:383
 #, python-format
 msgid "this room is not bookable"
 msgstr "Cette salle n'est pas réservable"
