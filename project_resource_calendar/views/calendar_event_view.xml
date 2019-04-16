@@ -92,6 +92,9 @@
                            class="oe_inline" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 </group>
             </xpath>
+            <xpath expr="//field[@name='final_date']" position="attributes">
+                <attribute name="attrs">{'invisible': [('end_type', '!=', 'end_date')],'required': [('end_type', '=', 'end_date'), ('recurrency', '=', True)]}</attribute>
+            </xpath>
         </field>
     </record>
 
