@@ -7,6 +7,10 @@ from odoo import fields, models
 class Resource(models.Model):
     _inherit = 'resource.resource'
 
+    name = fields.Char(
+        required=True,
+        string='Name',
+    )
     resource_type = fields.Selection(
         [('user', 'Human'),
          ('material', 'Material'),
