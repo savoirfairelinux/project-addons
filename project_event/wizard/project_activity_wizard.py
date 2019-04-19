@@ -37,6 +37,13 @@ class ProjectActivityWizard(models.TransientModel):
         'resource.calendar.room',
         string='Room',
     )
+    department_id = fields.Many2one(
+        'hr.department',
+        string='Main task department',
+    )
+    duration = fields.Integer(
+        string='Duration',
+    )
     date_start = fields.Datetime(
         string='Starting Date',
         default=fields.Datetime.now,
@@ -55,6 +62,10 @@ class ProjectActivityWizard(models.TransientModel):
         'activity_wiz_id',
         string='Tasks to Edit',
     )
+    general_room_id = fields.Many2one(
+        'resource.calendar.room',
+        string='General Room',
+    )
 
     @api.onchange('template_id')
     def _onchange_template_id(self):
@@ -63,8 +74,17 @@ class ProjectActivityWizard(models.TransientModel):
             self.activity_resp_id = self.template_id.temp_resp_id
             self.category_id = self.template_id.category_id
             self.room_id = self.template_id.room_id
+            self.department_id = self.template_id.department_id
+            self.duration = self.template_id.duration
             self.description = self.template_id.description
             self.notes = self.template_id.notes
+
+    @api.onchange('general_room_id')
+    def _onchange_general_room_id(self):
+        if self.general_room_id:
+            for act in self.task_line_ids:
+                if act.resource_type == 'room':
+                    act.room_id = self.general_room_id
 
     @api.multi
     def add_flexible_tasks(self):
@@ -77,11 +97,14 @@ class ProjectActivityWizard(models.TransientModel):
                 'template_id': task.id,
                 'activity_wiz_id': self.id,
                 'task_name': task.name,
-                'task_resp_id': task.temp_resp_id.id,
+                'task_resp_id': self.activity_resp_id and self.activity_resp_id.id or task.temp_resp_id.id,
+                'task_partner_id': self.activity_partner_id and self.activity_partner_id.id or False,
                 'category_id': task.category_id.id,
                 'resource_type': task.resource_type,
                 'equipment_id': task.equipment_id.id,
-                'room_id': task.room_id.id,
+                'room_id': (
+                    self.room_id and self.room_id.id or task.room_id.id
+                ) if task.resource_type == 'room' else False,
                 'department_id': task.department_id.id,
                 'employee_ids': [(4, e.id) for e in task.employee_ids],
                 'duration': task.duration,
@@ -114,11 +137,12 @@ class ProjectActivityWizard(models.TransientModel):
             'category_id': self.category_id.id,
             'activity_task_type': 'activity',
             'room_id': self.room_id.id,
+            'department_id': self.department_id.id,
             'date_start': self.date_start,
-            'date_end': self.date_end,
+            'date_end': fields.Datetime.from_string(
+                self.date_start) + relativedelta(minutes=self.duration),
             'description': self.description,
             'notes': self.notes,
-            'is_from_template': True,
             'child_ids': [
                 (0,
                  0,
@@ -145,8 +169,6 @@ class ProjectActivityWizard(models.TransientModel):
                      ),
                      'notes': task.notes,
                      'description': task.description,
-                     'is_from_template': True,
-                     'is_main_task': task.template_id.is_main_task,
                  }
                  ) for task in tasks],
         }

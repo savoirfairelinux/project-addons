@@ -78,12 +78,11 @@ class TestEventCreationFromWizard(TestProjectEventCommon):
             ('room_id', '=', self.room_1.id),
             ('activity_task_type', '=', 'activity'),
             ('notes', '=', self.activity_template1.notes),
-            ('is_from_template', '=', True),
         ])
         self.assertEqual(len(project_ids[0].task_ids), 1)
         self.assertEqual(len(activity_ids), 1)
         # check tasks are created
-        self.assertEqual(len(project_ids[0].task_ids.child_ids), 2)
+        self.assertEqual(len(project_ids[0].task_ids.child_ids), 3)
         task_ids = self.Tasks.search([
             ('name', '=', "Task Test Template 1"),
             ('parent_id', '=', activity_ids[0].id),
@@ -91,7 +90,6 @@ class TestEventCreationFromWizard(TestProjectEventCommon):
             ('room_id', '=', self.room_1.id),
             ('activity_task_type', '=', 'task'),
             ('notes', '=', self.task_template1.notes),
-            ('is_from_template', '=', True),
         ])
         self.assertEqual(len(task_ids), 1)
 
@@ -113,7 +111,6 @@ class TestEventCreationFromWizard(TestProjectEventCommon):
             ('resource_type', '=', self.task_template1.resource_type),
             ('description', '=', self.task_template1.description),
             ('notes', '=', self.task_template1.notes),
-            ('is_from_template', '=', True),
         ])
         self.assertEqual(len(task_ids), 1)
 
@@ -132,11 +129,10 @@ class TestEventCreationFromWizard(TestProjectEventCommon):
             ('room_id', '=', self.room_1.id),
             ('activity_task_type', '=', 'activity'),
             ('notes', '=', self.activity_template1.notes),
-            ('is_from_template', '=', True),
         ])
         self.assertEqual(len(activity_ids), 1)
         # check tasks are created
-        self.assertEqual(len(activity_ids[0].child_ids), 2)
+        self.assertEqual(len(activity_ids[0].child_ids), 3)
         task_ids = self.Tasks.search([
             ('name', '=', "Task Test Template 1"),
             ('parent_id', '=', activity_ids[0].id),
@@ -144,6 +140,5 @@ class TestEventCreationFromWizard(TestProjectEventCommon):
             ('room_id', '=', self.room_1.id),
             ('activity_task_type', '=', 'task'),
             ('notes', '=', self.task_template1.notes),
-            ('is_from_template', '=', True),
         ])
         self.assertEqual(len(task_ids), 1)

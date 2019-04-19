@@ -49,14 +49,14 @@
         <field name="model">task.template</field>
         <field name="arch" type="xml">
             <tree string="Task Template" decoration-danger="is_main_task == True">
+                <field name="name"/>
                 <field name="resource_type"/>
                 <field name="equipment_id" string="Equipment"/>
                 <field name="room_id" string="Room"/>
-                <field name="name"/>
                 <field name="category_id"/>
                 <field name="temp_resp_id"/>
                 <field name="department_id"/>
-                <field name="is_main_task"/>
+                <field name="is_main_task" invisible="1"/>
             </tree>
         </field>
     </record>
