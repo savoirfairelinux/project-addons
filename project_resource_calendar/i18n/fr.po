@@ -810,3 +810,8 @@ msgstr "Nom"
 #: model:ir.model.fields,field_description:resource.field_resource_calendar_instrument_name
 msgid "Name"
 msgstr "Nom"
+
+#: code:addons/project_resource_calendar/models/calendar_event.py:210
+#, python-format
+msgid "Clone task cannot be deleted"
+msgstr "La tâche clonée ne peut pas être supprimée"

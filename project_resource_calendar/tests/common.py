@@ -49,7 +49,6 @@ class TestCalendarEventCommon(common.TransactionCase):
             'recurrency': True,
             'state': 'open',
         })
-
         self.partner_1 = self.Partners.create({
             'name': 'Partner 1',
         })
