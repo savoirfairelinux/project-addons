@@ -132,11 +132,11 @@ class CalendarEvent(models.Model):
         if self.recurrency:
             if self.end_type == 'end_date':
                 self.recurrence_type = str(self.interval) + _(" Time(s)") + \
-                        _(str(self.rrule_type)) + _(" until ") + \
+                    _(str(self.rrule_type)) + _(" until ") + \
                     self.final_date
             else:
                 self.recurrence_type = str(self.interval) + _(" Time(s) ") + \
-                        _(str(self.rrule_type)) + _(" for ") + \
+                    _(str(self.rrule_type)) + _(" for ") + \
                     str(self.count) + _(" Time(s)")
 
     def _get_res_partners_names(self):
@@ -159,6 +159,19 @@ class CalendarEvent(models.Model):
             self.weekday_number = datetime.strptime(
                 self.start_datetime, '%Y-%m-%d %H:%M:%S'
             ).weekday()
+
+    @api.constrains('interval')
+    def _check_interval_greater_than_0(self):
+        for record in self:
+            if record.interval < 1:
+                raise ValidationError(_('The interval must be greater than 0'))
+    
+    @api.constrains('count')
+    def _check_count_greater_than_0(self):
+        for record in self:
+            if record.count < 1:
+                raise ValidationError(
+                    _('The number of repetitions must be greater than 0'))
 
     @api.multi
     @api.constrains('room_id', 'start', 'stop', 'equipment_ids')
@@ -246,7 +259,7 @@ class CalendarEvent(models.Model):
                     date_to_format = self.start_datetime
         lang = self.env['res.users'].browse(self.env.uid).lang or 'en_US'
         tz = self.env['res.users'].browse(self.env.uid).tz or 'utc'
-        if not datetime == type(date_to_format):
+        if not isinstance(date_to_format, datetime):
             if self.allday:
                 date_to_format = datetime.strptime(
                     date_to_format, '%Y-%m-%d'
@@ -289,7 +302,7 @@ class CalendarEvent(models.Model):
 
     def validate_client_id_write(self, vals):
         if self.is_task_event or (
-                        'is_task_event' in vals and vals['is_task_event']):
+                'is_task_event' in vals and vals['is_task_event']):
             return
         if 'client_id' in vals:
             partners = self.partner_ids.ids
