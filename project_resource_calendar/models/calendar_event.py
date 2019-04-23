@@ -27,7 +27,7 @@ class CalendarEvent(models.Model):
         string='Floor',
         related='room_id.floor',
     )
-    allow_double_book = fields.Boolean(
+    allow_room_double_booking = fields.Boolean(
         string='Allow double book',
         related='room_id.allow_double_book',
     )
@@ -36,9 +36,9 @@ class CalendarEvent(models.Model):
         comodel_name='resource.calendar.instrument',
         ondelete='set null',
     )
-    non_bookable_equipment_ids = fields.Many2many(
+    none_double_bookable_equipment_ids = fields.Many2many(
         string='Non bookable equipment',
-        compute='_get_non_bookable_equipments',
+        compute='_get_none_double_bookable_equipments',
         comodel_name='resource.calendar.instrument',
         ondelete='set null',
     )
@@ -127,7 +127,8 @@ class CalendarEvent(models.Model):
     )
 
     @api.one
-    def _get_non_bookable_equipments(self):
+    @api.depends('room_id')
+    def _get_none_double_bookable_equipments(self):
         non_bookable_equipments = []
         for equipment in self.equipment_ids:
             if equipment.allow_double_book == False:

@@ -12,4 +12,9 @@
                   rel="stylesheet"/>
         </xpath>
     </template>
+    <template id="assets_backend" name="renderer_setting_assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/project_resource_calendar/static/src/js/event_overlap.js"></script>
+        </xpath>
+    </template>
 </odoo>

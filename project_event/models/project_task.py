@@ -650,6 +650,7 @@ class Task(models.Model):
         else:
             self.do_clone_task_reservation()
 
+
     def get_booked_resources(self):
         res = ''
         if self.activity_task_type == 'task':
