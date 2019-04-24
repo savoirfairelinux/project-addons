@@ -132,12 +132,12 @@ class CalendarEvent(models.Model):
         if self.recurrency:
             if self.end_type == 'end_date':
                 self.recurrence_type = str(self.interval) + _(" Time(s)") + \
-                        _(str(self.rrule_type)) + _(" until ") + \
-                    self.final_date
+                                       _(str(self.rrule_type)) + _(" until ") + \
+                                       self.final_date
             else:
                 self.recurrence_type = str(self.interval) + _(" Time(s) ") + \
-                        _(str(self.rrule_type)) + _(" for ") + \
-                    str(self.count) + _(" Time(s)")
+                                       _(str(self.rrule_type)) + _(" for ") + \
+                                       str(self.count) + _(" Time(s)")
 
     def _get_res_partners_names(self):
         return str(list(map(lambda partner:
@@ -206,6 +206,8 @@ class CalendarEvent(models.Model):
             error_msg = _('this resource is not bookable')
         if type_error == 'ROOM_TYPE_ERROR':
             error_msg = _('this room is not bookable')
+        if type_error == 'TASK_CLONE_ERROR':
+            error_msg = _('Clone task cannot be deleted')
         return error_msg
 
     @api.multi
@@ -305,3 +307,14 @@ class CalendarEvent(models.Model):
             if 'partner_ids' in vals and self.client_id.id not in vals['partner_ids'][0][2]:
                 vals['partner_ids'] = [
                     (6, 0, vals['partner_ids'][0][2] + [self.client_id.id])]
+
+    @api.multi
+    def unlink(self):
+        for record in self:
+            if record.event_task_id:
+                raise ValidationError(
+                    _(
+                        self.get_error_type('TASK_CLONE_ERROR')
+                    )
+                )
+        return super(CalendarEvent, self).unlink()
