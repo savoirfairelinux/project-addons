@@ -4,6 +4,7 @@
 from datetime import datetime, timedelta
 from odoo import fields
 from odoo.addons.project_event.tests.common import TestProjectEventCommon
+from odoo import exceptions
 
 
 class TestCalendarEvent(TestProjectEventCommon):
@@ -26,3 +27,25 @@ class TestCalendarEvent(TestProjectEventCommon):
             self.partner_2.tag_id.client_type,
             self.calendar_event.client_type
         )
+
+    def test_020_unlink(self):
+        task_unlink_test = self.Tasks.create({
+            'name': 'Task name for unlink test',
+            'activity_task_type': 'task',
+            'responsible_id': self.responsible_1.id,
+            'partner_id': self.partner_1.id,
+            'room_id': self.room_1.id,
+            'resource_type': 'room',
+            'date_start': fields.Datetime.to_string(datetime.today()),
+            'date_end': fields.Datetime.to_string(datetime.today() +
+                                                  timedelta(hours=4)),
+        })
+        res = task_unlink_test.action_option()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_reservation()
+        self.assertEqual(
+            len(task_unlink_test.info_calendar_event()),
+            1
+        )
+        with self.assertRaises(exceptions.ValidationError):
+            task_unlink_test.info_calendar_event().unlink()
