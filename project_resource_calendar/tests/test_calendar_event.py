@@ -13,11 +13,15 @@ class TestCalendarEvent(TestCalendarEventCommon):
     def setUp(self):
         super(TestCalendarEvent, self).setUp()
         self.Calendar = self.env['calendar.event']
-
         self.pre_room_id = self.Rooms.create({
             'name': 'Test Room id before onchange method execution',
             'resource_type': 'room',
             'allow_double_book': True,
+        })
+        self.not_double_bookable_room_id = self.Rooms.create({
+            'name': 'Test Room id before onchange method execution',
+            'resource_type': 'room',
+            'allow_double_book': False,
         })
         self.post_room_id = self.Rooms.create({
             'name': 'Test Room id after onchange method execution',
@@ -181,3 +185,65 @@ class TestCalendarEvent(TestCalendarEventCommon):
             self.post_room_id.floor,
             self.calendar_event1.room_floor
         )
+    
+    def test_xxx_create_confirmation_prompt_to_reserve_double_booked_ressource_allowed(self):
+        calendar_event_1 = self.Calendar.create(self.vals)
+        calendar_event_2 = self.Calendar.create(self.vals)
+    
+    def test_xxx_write_confirmation_prompt_to_reserve_double_booked_ressource_allowed(self):
+        calendar_event_1 = self.calendar_event
+        calendar_event_2 = self.self.Calendar.create({
+            'name': 'Event with same room as calendar_event_1',
+            'room_id': self.pre_room_id.id,
+            'start': fields.Datetime.to_string(datetime.today() - timedelta(hours=4)),
+            'stop': fields.Datetime.to_string(datetime.today() -
+                                              timedelta(hours=1)),
+            'recurrent_state': 'No',
+            'recurrence_type': 'datetype',
+            'partner_ids': [(6, 0, [self.partner_1.id])],
+            'client_id': self.partner_1.id,
+            })
+        self.assertIsInstance(
+          calendar_event_2.write({
+            'start': fields.Datetime.to_string(datetime.today()),
+            'stop': fields.Datetime.to_string(datetime.today() +
+                                              timedelta(hours=4)),
+        }))
+
+    def test_120_create_raises_error_reserve_double_booked_ressource_not_allowed(self):
+        self.pre_room_id.update({'allow_double_book': False})
+        with self.assertRaises(ValidationError):
+             self.Calendar.create({
+            'name': 'Overlapping Event with same non double bookable room',
+            'room_id': self.pre_room_id.id,
+            'start': fields.Datetime.to_string(datetime.today()),
+            'stop': fields.Datetime.to_string(datetime.today() +
+                                              timedelta(hours=4)),
+            'recurrent_state': 'No',
+            'recurrence_type': 'datetype',
+            'partner_ids': [(6, 0, [self.partner_1.id])],
+            'client_id': self.partner_1.id,
+            })
+    
+    def test_130_write_raises_error_reserve_double_booked_ressource_not_allowed(self):
+        self.pre_room_id.update({'allow_double_book': False})
+        calendar_event_1 = self.Calendar.create({
+            'name': 'Overlapping Method with same non double bookable room',
+            'room_id': self.pre_room_id.id,
+            'start': fields.Datetime.to_string(datetime.today() -
+                                              timedelta(hours=4)),
+            'stop': fields.Datetime.to_string(datetime.today() -
+                                              timedelta(hours=1)),
+            'recurrent_state': 'No',
+            'recurrence_type': 'datetype',
+            'partner_ids': [(6, 0, [self.partner_1.id])],
+            'client_id': self.partner_1.id,
+            })  
+        with self.assertRaises(ValidationError):
+             calendar_event_1.write({
+                 'start': fields.Datetime.to_string(datetime.today()),
+                  'stop': fields.Datetime.to_string(datetime.today() +
+                                              timedelta(hours=4)),
+             }) 
+        
+        # if overlaps with event same resource display option to continue write or abort

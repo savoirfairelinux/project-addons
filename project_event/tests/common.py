@@ -96,6 +96,11 @@ class TestProjectEventCommon(common.TransactionCase):
             'resource_type': 'room',
             'allow_double_book': True,
         })
+        self.room_non_double_bookable = self.Rooms.create({
+            'name': 'Test Room Non Double Bookable',
+            'resource_type': 'room',
+            'allow_double_book': False,
+        })
         self.instrument_1 = self.Instruments.create({
             'name': 'Test Intrument Room 1',
             'resource_type': 'material',

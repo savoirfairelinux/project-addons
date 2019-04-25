@@ -160,41 +160,47 @@ class CalendarEvent(models.Model):
                 self.start_datetime, '%Y-%m-%d %H:%M:%S'
             ).weekday()
 
-    @api.multi
-    @api.constrains('room_id', 'start', 'stop', 'equipment_ids')
-    def _check_resources_double_book(self):
-        for record in self:
-            if record._event_in_past() or record.state == 'cancelled':
-                continue
-            room = record.room_id.filtered(
-                lambda s: s.allow_double_book is False
-            )
-            equipment = record.equipment_ids.filtered(
-                lambda s: s.allow_double_book is False
-            )
-            if not any(room) and not any(equipment):
-                continue
-            events = self.env['calendar.event'].search([
-                ('id', '!=', record.id),
-            ])
-            for event in events:
-                if self.is_event_overlaps_record(record, event):
-                    for resource in event.mapped(lambda s: s.room_id):
-                        if resource.id == record.room_id.id:
-                            raise ValidationError(
-                                _(
-                                    'The room %s cannot be double-booked '
-                                    'with any overlapping meetings or events.',
-                                ) % resource.name,
-                            )
-                    for resource in event.mapped(lambda s: s.equipment_ids):
-                        if resource.id in record.equipment_ids.ids:
-                            raise ValidationError(
-                                _(
-                                    'The resource %s cannot be double-booked '
-                                    'with any overlapping meetings or events.',
-                                ) % resource.name,
-                            )
+    # @api.multi
+    # @api.constrains('room_id', 'start', 'stop', 'equipment_ids')
+    # def _check_resources_double_book(self):
+    #     for record in self:
+    #         if record._event_in_past() or record.state == 'cancelled':
+    #             continue
+    #         room = record.room_id.filtered(
+    #             lambda s: s.allow_double_book is False
+    #         )
+    #         allowed_double_book_room = record.room_id.filtered(
+    #             lambda s: s.allow_double_book is True
+    #         )
+    #         equipment = record.equipment_ids.filtered(
+    #             lambda s: s.allow_double_book is False
+    #         )
+    #         allowed_double_book_equipment = record.equipment_ids.filtered(
+    #             lambda s: s.allow_double_book is True
+    #         )
+    #         if not any(room) and not any(equipment):
+    #             continue
+    #         events = self.env['calendar.event'].search([
+    #             ('id', '!=', record.id),
+    #         ])
+    #         for event in events:
+    #             if self.is_event_overlaps_record(record, event):
+    #                 for resource in event.mapped(lambda s: s.room_id):
+    #                     if resource.id == record.room_id.id:
+    #                         raise ValidationError(
+    #                             _(
+    #                                 'The room %s cannot be double-booked '
+    #                                 'with any overlapping meetings or events.',
+    #                             ) % resource.name,
+    #                         )
+    #                 for resource in event.mapped(lambda s: s.equipment_ids):
+    #                     if resource.id in record.equipment_ids.ids:
+    #                         raise ValidationError(
+    #                             _(
+    #                                 'The resource %s cannot be double-booked '
+    #                                 'with any overlapping meetings or events.',
+    #                             ) % resource.name,
+    #                         )
 
     @staticmethod
     def is_event_overlaps_record(record, event):
@@ -309,6 +315,7 @@ class CalendarEvent(models.Model):
                     (6, 0, vals['partner_ids'][0][2] + [self.client_id.id])]
 
     @api.multi
+<<<<<<< Updated upstream
     def unlink(self):
         for record in self:
             if record.event_task_id:
@@ -318,3 +325,28 @@ class CalendarEvent(models.Model):
                     )
                 )
         return super(CalendarEvent, self).unlink()
+=======
+    def get_confirmation_wizard(self, action):
+        self.ensure_one()
+        res = ''
+        if res != '':
+            res = _('The Following resources are already booked:<br>') + res
+        message = _('Please Confirm your reservation.<br>') + res + _(
+            'Do you want to continue?')
+        new_wizard = self.env['reservation.validation.wiz'].create(
+            {
+                'task_id': self.id,
+                'message': message,
+                'action': action,
+            }
+        )
+        return {
+            'name': 'Confirm double booking reservation',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'doublebooking.validation.wiz',
+            'target': 'new',
+            'res_id': new_wizard.id,
+        }
+>>>>>>> Stashed changes

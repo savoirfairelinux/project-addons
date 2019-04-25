@@ -24,6 +24,19 @@ class TestProjectEventTask(TestProjectEventCommon):
             'date_end': fields.Datetime.to_string(datetime.today() +
                                                   timedelta(hours=4)),
         })
+        self.activity_4 = self.Tasks.create({
+            'name': 'Test Activity 4',
+            'activity_task_type': 'activity',
+            'project_id': self.project_1.id,
+            'responsible_id': self.project_1.responsible_id.id,
+            'partner_id': self.project_1.partner_id.id,
+            'category_id': self.category_1.id,
+            'room_id': self.room_non_double_bookable.id,
+            'spectators': '-',
+            'date_start': fields.Datetime.to_string(datetime.today()),
+            'date_end': fields.Datetime.to_string(datetime.today() +
+                                                  timedelta(hours=4)),
+        })
 
     def test_010_compute_project_task_log(self):
         self.AuditLogObj = self.env['auditlog.log']
@@ -527,3 +540,35 @@ class TestProjectEventTask(TestProjectEventCommon):
             self.task_2.get_parent_project_id(),
             self.project_2.id
         )
+    def test_120_write_requested_task_raises_error_reserve_double_booked_ressource_not_allowed(self):
+        res =self.activity_4.action_accept()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_request_reservation()
+        res=self.task_2.action_request()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_request_reservation()
+        with self.assertRaises(exceptions.ValidationError):
+            self.task_2.write({'room_id': self.room_non_double_bookable.id})
+
+
+    def test_130_write_raises_prompt_reserve_double_booked_ressource_allowed(self):
+        self.pre_room_id.update({'allow_double_book': False})
+        calendar_event_1 = self.Calendar.create({
+            'name': 'Overlapping Method with same non double bookable room',
+            'room_id': self.pre_room_id.id,
+            'start': fields.Datetime.to_string(datetime.today() -
+                                              timedelta(hours=4)),
+            'stop': fields.Datetime.to_string(datetime.today() -
+                                              timedelta(hours=1)),
+            'recurrent_state': 'No',
+            'recurrence_type': 'datetype',
+            'partner_ids': [(6, 0, [self.partner_1.id])],
+            'client_id': self.partner_1.id,
+            })  
+        with self.assertRaises(ValidationError):
+             calendar_event_1.write({
+                 'start': fields.Datetime.to_string(datetime.today()),
+                  'stop': fields.Datetime.to_string(datetime.today() +
+                                              timedelta(hours=4)),
+             }) 
+        # test_120_write_requested_task_raises_error_reserve_double_booked_ressource_not_allowed
