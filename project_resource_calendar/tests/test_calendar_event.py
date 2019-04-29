@@ -181,3 +181,14 @@ class TestCalendarEvent(TestCalendarEventCommon):
             self.post_room_id.floor,
             self.calendar_event1.room_floor
         )
+
+    def test_120_calendar_event_recurrency_inverval_must_be_greater_than_0(
+            self):
+        with self.assertRaises(ValidationError):
+            self.calendar_event.write({
+                'rrule_type': 'daily', 'recurrency': True, 'interval': 0, 'count': 2})
+
+    def test_130_calendar_event_recurrency_count_must_be_greater_than_0(self):
+        with self.assertRaises(ValidationError):
+            self.calendar_event.write(
+                {'rrule_type': 'daily', 'recurrency': True, 'count': 0})
