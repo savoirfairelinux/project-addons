@@ -12,6 +12,37 @@ class Project(models.Model):
         string='Number',
         track_visibility='onchange',
     )
+    description = fields.Html(
+        string='Description'
+    )
+    notes = fields.Html(
+        string='Notes',
+        track_visibility='onchange',
+    )
+    event_log_count = fields.Integer(
+        string='Event Logs',
+        compute='_compute_event_log_count',
+    )
+    project_type = fields.Selection(
+        [
+            ('event', 'Event'),
+            ('project', 'Project'),
+        ],
+        string='Type',
+        default='project',
+    )
+    state = fields.Selection(
+        [
+            ('draft', 'Draft'),
+            ('option', 'Option'),
+            ('accepted', 'Accepted'),
+            ('postponed', 'Postponed'),
+            ('canceled', 'Canceled')
+        ],
+        string='State',
+        default='draft',
+        track_visibility='onchange',
+    )
     responsible_id = fields.Many2one(
         'res.partner',
         string='Event Responsible',
@@ -32,42 +63,30 @@ class Project(models.Model):
         string='Faculty Sectors',
         track_visibility='onchange',
     )
-    project_type = fields.Selection(
-        [
-            ('event', 'Event'),
-            ('project', 'Project'),
-        ],
-        string='Type',
-        default='project',
-    )
-    description = fields.Html(
-        string='Description'
-    )
-    notes = fields.Html(
-        string='Notes',
-        track_visibility='onchange',
-    )
-    state = fields.Selection(
-        [
-            ('draft', 'Draft'),
-            ('option', 'Option'),
-            ('accepted', 'Accepted'),
-            ('postponed', 'Postponed'),
-            ('canceled', 'Canceled')
-        ],
-        string='State',
-        default='draft',
-        track_visibility='onchange',
-    )
-    event_log_count = fields.Integer(
-        string='Event Logs',
-        compute='_compute_event_log_count',
-    )
 
-    @api.onchange('partner_id')
-    def _onchange_partner_id(self):
-        if self.partner_id:
-            self.client_type = self.partner_id.tag_id.client_type
+    @api.model
+    def create(self, vals):
+        if 'project_type' in vals:
+            if vals['project_type'] == 'event':
+                vals['code'] = self.env['ir.sequence'] \
+                    .next_by_code('project.project')
+        return super(Project, self).create(vals)
+
+    @api.multi
+    def write(self, vals):
+        super(Project, self).write(vals)
+        if self.project_type == 'event':
+            self.write_activity(vals)
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|', ('name', operator, name),
+                      ('code', operator, name)]
+        return super(Project, self).search(
+            domain + args, limit=limit).name_get()
 
     def _compute_event_log_count(self):
         for rec in self:
@@ -77,11 +96,10 @@ class Project(models.Model):
                 ('res_id', '=', rec.id)
             ])
 
-    @api.multi
-    def write(self, vals):
-        super(Project, self).write(vals)
-        if self.project_type == 'event':
-            self.write_activity(vals)
+    @api.onchange('partner_id')
+    def _onchange_partner_id(self):
+        if self.partner_id:
+            self.client_type = self.partner_id.tag_id.client_type
 
     @api.multi
     def write_activity(self, vals):
@@ -122,24 +140,6 @@ class Project(models.Model):
                 activity.action_postpone()
         self.write({'state': 'postponed'})
 
-    @api.model
-    def create(self, vals):
-        if 'project_type' in vals:
-            if vals['project_type'] == 'event':
-                vals['code'] = self.env['ir.sequence'] \
-                    .next_by_code('project.project')
-        return super(Project, self).create(vals)
-
-    @api.model
-    def name_search(self, name='', args=None, operator='ilike', limit=100):
-        args = args or []
-        domain = []
-        if name:
-            domain = ['|', ('name', operator, name),
-                      ('code', operator, name)]
-        return super(Project, self).search(
-            domain + args, limit=limit).name_get()
-
     @api.multi
     def confirm_accept_reservation(self):
         for activity in self.task_ids:
@@ -154,28 +154,31 @@ class Project(models.Model):
             self.send_message('accepted')
         self.write({'state': 'accepted'})
 
-    @staticmethod
-    def child_reservation(child):
-        child.draft_resources_reservation()
-        if child.task_state in ['draft', 'option', 'postponed',
-                                'canceled']:
-            child.send_message('requested')
-        child.open_resources_reservation()
-        child.write({'task_state': 'requested'})
+    def get_confirmation_wizard(self, action):
+        res = ''
+        for activity in self.task_ids:
+            res += activity.get_booked_resources()
+        if res != '':
+            res = _('The following resources are already booked:<br>') + res
+        message = _('Please confirm your reservation.<br>') + res + _(
+            'Do you want to continue?')
+        new_wizard = self.env['reservation.validation.wiz'].create(
+            {
+                'event_id': self.id,
+                'message': message,
+                'action': action,
+            }
+        )
 
-    @staticmethod
-    def get_message_body(action):
-        switcher = {
-            'draft': ' ',
-            'option': _('The following is optional and \
-                        appears as crosshatched on your calendar'),
-            'accepted': _('The following is approved'),
-            'postponed': _('The following is postponed \
-                        and no longer appear on your calendars'),
-            'canceled': _('The following is canceled\
-                         and no longer on your calendars')
+        return {
+            'name': 'Confirm reservation',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'reservation.validation.wiz',
+            'target': 'new',
+            'res_id': new_wizard.id,
         }
-        return switcher.get(action)
 
     def get_message(self, action):
         message = '<br>'
@@ -205,28 +208,25 @@ class Project(models.Model):
     def send_message(self, action):
         self.env['mail.message'].create(self.get_message(action))
 
-    def get_confirmation_wizard(self, action):
-        res = ''
-        for activity in self.task_ids:
-            res += activity.get_booked_resources()
-        if res != '':
-            res = _('The following resources are already booked:<br>') + res
-        message = _('Please confirm your reservation.<br>') + res + _(
-            'Do you want to continue?')
-        new_wizard = self.env['reservation.validation.wiz'].create(
-            {
-                'event_id': self.id,
-                'message': message,
-                'action': action,
-            }
-        )
+    @staticmethod
+    def child_reservation(child):
+        child.draft_resources_reservation()
+        if child.task_state in ['draft', 'option', 'postponed',
+                                'canceled']:
+            child.send_message('requested')
+        child.open_resources_reservation()
+        child.write({'task_state': 'requested'})
 
-        return {
-            'name': 'Confirm reservation',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'reservation.validation.wiz',
-            'target': 'new',
-            'res_id': new_wizard.id,
+    @staticmethod
+    def get_message_body(action):
+        switcher = {
+            'draft': ' ',
+            'option': _('The following is optional and \
+                        appears as crosshatched on your calendar'),
+            'accepted': _('The following is approved'),
+            'postponed': _('The following is postponed \
+                        and no longer appear on your calendars'),
+            'canceled': _('The following is canceled\
+                         and no longer on your calendars')
         }
+        return switcher.get(action)
