@@ -28,36 +28,53 @@ class Task(models.Model):
         compute='_compute_complete_name',
         store=True
     )
-    activity_task_type = fields.Selection(
-        [
-            ('activity', 'Activity'),
-            ('task', 'Task'),
-        ],
-        string='Type',
+    task_order = fields.Integer(
+        string='Task order',
+        store=True,
+        readonly=True,
+        compute='_compute_order_task',
     )
-    parent_id = fields.Many2one(
-        'project.task',
+    reservation_event_id = fields.Integer(
+        string='Reservation event',
+    )
+    report_done_required = fields.Boolean(
+        string='Report done required',
         track_visibility='onchange',
     )
-    responsible_id = fields.Many2one(
-        'res.partner',
-        string='Task/Activity Responsible',
+    notes = fields.Html(
+        string='Notes',
         track_visibility='onchange',
     )
-    partner_id = fields.Many2one(
-        'res.partner',
-        string='Client',
-        track_visibility='onchange',
+    project_task_log = fields.Integer(
+        string='Project Task Logs',
+        compute='_compute_project_task_log',
     )
-    client_type = fields.Many2one(
-        'res.partner.category.type',
-        string='Client Type',
-        track_visibility='onchange',
+    asterisk_validate_record = fields.Char(
+        string='*',
+        compute='_compute_asterisk_column',
     )
-    sector_id = fields.Many2one(
-        'res.partner.sector',
-        string='Faculty Sectors',
-        track_visibility='onchange',
+    is_main_task = fields.Boolean(
+        string='Is Main Task',
+        default=False,
+    )
+    is_from_template = fields.Boolean(
+        string='Is Created From Template',
+        default=False,
+    )
+    spectators = fields.Char(
+        string='Spectators',
+        size=10,
+        default='-',
+    )
+    table_child_ids = fields.Char(
+        store=False
+    )
+    actual_total_time = fields.Char(
+        string='Actual Total Time',
+        compute='_compute_actual_total_time',
+    )
+    color = fields.Char(
+        related='category_id.color'
     )
     date_start = fields.Datetime(
         string='Starting Date',
@@ -72,37 +89,18 @@ class Task(models.Model):
         copy=False,
         track_visibility='onchange',
     )
-    task_order = fields.Integer(
-        string='Task order',
-        store=True,
-        readonly=True,
-        compute='_compute_order_task',
+    real_date_start = fields.Datetime(
+        string='Actual Start Time',
     )
-    category_id = fields.Many2one(
-        'task.category',
-        string='Category',
-        default=lambda self: self.env['task.category'].search(
-            [('is_default', '=', True)]),
-        track_visibility='onchange',
+    real_date_end = fields.Datetime(
+        string='Actual End Time',
     )
-    color = fields.Char(related='category_id.color')
-    department_id = fields.Many2one(
-        'hr.department',
-        string='Department',
-        track_visibility='onchange',
-    )
-    employee_ids = fields.Many2many(
-        'hr.employee', 'task_emp_rel',
-        'task_id', 'employee_id',
-        string='Employees',
-        track_visibility='onchange',
-    )
-    user_id = fields.Many2one(
-        'res.users',
-        string='Created by',
-        default=lambda self: self.env.uid,
-        index=True,
-        track_visibility='onchange',
+    activity_task_type = fields.Selection(
+        [
+            ('activity', 'Activity'),
+            ('task', 'Task'),
+        ],
+        string='Type',
     )
     resource_type = fields.Selection([
         ('user', 'Human'),
@@ -110,18 +108,6 @@ class Task(models.Model):
         ('room', 'Room')],
         string='Resource Type',
         default='room',
-        track_visibility='onchange',
-    )
-    room_id = fields.Many2one(
-        string='Room',
-        comodel_name='resource.calendar.room',
-        ondelete='set null',
-        track_visibility='onchange',
-    )
-    equipment_id = fields.Many2one(
-        string='Equip./Service',
-        comodel_name='resource.calendar.instrument',
-        ondelete='set null',
         track_visibility='onchange',
     )
     task_state = fields.Selection([
@@ -166,11 +152,65 @@ class Task(models.Model):
         default='draft',
         compute='_compute_task_state_visible'
     )
-    reservation_event_id = fields.Integer(
-        string='Reservation event',
+    parent_id = fields.Many2one(
+        'project.task',
+        track_visibility='onchange',
     )
-    report_done_required = fields.Boolean(
-        string='Report done required',
+    responsible_id = fields.Many2one(
+        'res.partner',
+        string='Task/Activity Responsible',
+        track_visibility='onchange',
+    )
+    partner_id = fields.Many2one(
+        'res.partner',
+        string='Client',
+        track_visibility='onchange',
+    )
+    client_type = fields.Many2one(
+        'res.partner.category.type',
+        string='Client Type',
+        track_visibility='onchange',
+    )
+    sector_id = fields.Many2one(
+        'res.partner.sector',
+        string='Faculty Sectors',
+        track_visibility='onchange',
+    )
+    category_id = fields.Many2one(
+        'task.category',
+        string='Category',
+        default=lambda self: self.env['task.category'].search(
+            [('is_default', '=', True)]),
+        track_visibility='onchange',
+    )
+    department_id = fields.Many2one(
+        'hr.department',
+        string='Department',
+        track_visibility='onchange',
+    )
+    employee_ids = fields.Many2many(
+        'hr.employee', 'task_emp_rel',
+        'task_id', 'employee_id',
+        string='Employees',
+        track_visibility='onchange',
+    )
+    user_id = fields.Many2one(
+        'res.users',
+        string='Created by',
+        default=lambda self: self.env.uid,
+        index=True,
+        track_visibility='onchange',
+    )
+    room_id = fields.Many2one(
+        string='Room',
+        comodel_name='resource.calendar.room',
+        ondelete='set null',
+        track_visibility='onchange',
+    )
+    equipment_id = fields.Many2one(
+        string='Equip./Service',
+        comodel_name='resource.calendar.instrument',
+        ondelete='set null',
         track_visibility='onchange',
     )
     preceding_task_ids = fields.Many2many(
@@ -189,67 +229,43 @@ class Task(models.Model):
         column2='project_task_id',
         track_visibility='onchange',
     )
-    notes = fields.Html(
-        string='Notes',
-        track_visibility='onchange',
-    )
-    project_task_log = fields.Integer(
-        string='Project Task Logs',
-        compute='_compute_project_task_log',
-    )
-    asterisk_validate_record = fields.Char(
-        string='*',
-        compute='_compute_asterisk_column',
-    )
-    is_main_task = fields.Boolean(
-        string='Is Main Task',
-        default=False,
-    )
-    is_from_template = fields.Boolean(
-        string='Is Created From Template',
-        default=False,
-    )
-    spectators = fields.Char(
-        string='Spectators',
-        size=10,
-        default='-',
-    )
-    table_child_ids = fields.Char(
-        store=False
-    )
-    real_date_start = fields.Datetime(
-        string='Actual Start Time',
-    )
-    real_date_end = fields.Datetime(
-        string='Actual End Time',
-    )
-    actual_total_time = fields.Char(
-        string='Actual Total Time',
-        compute='_compute_actual_total_time',
-    )
 
-    @api.onchange('spectators')
-    def onchange_spectators(self):
-        if self.spectators:
-            if self.spectators == '-':
-                return
-            try:
-                valid_spectators = int(self.spectators)
-            except Exception:
-                raise ValidationError(_('Spectators value should be numeric'))
-            if valid_spectators >= MIN_SPECTATORS_VALUES_LIMIT and \
-                    valid_spectators < MAX_SPECTATORS_VALUES_LIMIT:
-                self.spectators = valid_spectators
-            else:
-                raise ValidationError(
-                    _(
-                        'Spectators value should be in the range[' +
-                        str(MIN_SPECTATORS_VALUES_LIMIT) +
-                        '-' +
-                        str(MAX_SPECTATORS_VALUES_LIMIT) +
-                        ']'))
+    @api.model
+    def create(self, vals):
+        if self.is_new_activity(vals):
+            return self.create_activity(vals)
+        elif self.is_new_task(vals):
+            return self.create_task(vals)
         else:
-            self.spectators = '0'
+            return super(Task, self).create(vals)
+
+    @api.multi
+    def write(self, vals):
+        if self.is_activity():
+            return self.write_activity(vals)
+        else:
+            self.update_reservation_event(vals)
+            return super(Task, self).write(vals)
+
+    @api.multi
+    def copy(self, default=None):
+        if default is None:
+            default = {}
+        if not default.get('name'):
+            default['name'] = _("%s (copy)") % self.name
+        if 'remaining_hours' not in default:
+            default['remaining_hours'] = self.planned_hours
+        default['task_state'] = 'draft'
+        return super(Task, self).copy(default)
+
+    @api.model
+    def name_search(self, name='', args=None, operator='ilike', limit=100):
+        args = args or []
+        domain = []
+        if name:
+            domain = ['|', ('name', operator, name),
+                      ('code', operator, name)]
+        return super(Task, self).search(domain + args, limit=limit).name_get()
 
     @api.one
     @api.depends('real_date_start', 'real_date_end')
@@ -296,6 +312,49 @@ class Task(models.Model):
             else:
                 rec.asterisk_validate_record = " "
 
+    @api.depends('task_state')
+    def _compute_task_state_visible(self):
+        for rec in self:
+            rec.task_state_report_done_required = rec.task_state
+            rec.task_state_report_not_done_required = rec.task_state
+
+    @api.multi
+    @api.depends('date_start', 'parent_id.date_start')
+    def _compute_order_task(self):
+        for task in self:
+            if task.activity_task_type == 'task':
+                if task.parent_id and task.parent_id.date_start:
+                    activity_date_start = task.parent_id.date_start
+                    if task.date_start:
+                        task.task_order = self.get_task_order(
+                            task.date_start,
+                            activity_date_start,
+                            '%Y-%m-%d %H:%M:%S'
+                        )
+
+    @api.onchange('spectators')
+    def onchange_spectators(self):
+        if self.spectators:
+            if self.spectators == '-':
+                return
+            try:
+                valid_spectators = int(self.spectators)
+            except Exception:
+                raise ValidationError(_('Spectators value should be numeric'))
+            if valid_spectators >= MIN_SPECTATORS_VALUES_LIMIT and \
+                    valid_spectators < MAX_SPECTATORS_VALUES_LIMIT:
+                self.spectators = valid_spectators
+            else:
+                raise ValidationError(
+                    _(
+                        'Spectators value should be in the range[' +
+                        str(MIN_SPECTATORS_VALUES_LIMIT) +
+                        '-' +
+                        str(MAX_SPECTATORS_VALUES_LIMIT) +
+                        ']'))
+        else:
+            self.spectators = '0'
+
     @api.onchange('project_id')
     def onchange_project_id(self):
         self._onchange_project()
@@ -322,19 +381,11 @@ class Task(models.Model):
         for succeeding in self.succeeding_task_ids:
             succeeding.preceding_task_ids = [(4, self.id, 0)]
 
-    def clean_preceding(self):
-        for succeeding in self.succeeding_task_ids:
-            succeeding.preceding_task_ids = [(2, self.id, 0)]
-
     @api.onchange('preceding_task_ids')
     def update_succeeding(self):
         self.clean_succeeding()
         for preceding in self.preceding_task_ids:
             preceding.succeeding_task_ids = [(4, self.id, 0)]
-
-    def clean_succeeding(self):
-        for preceding in self.preceding_task_ids:
-            preceding.succeeding_task_ids = [(2, self.id, 0)]
 
     @api.onchange('resource_type')
     def _onchange_resource_type(self):
@@ -361,6 +412,20 @@ class Task(models.Model):
         if self.partner_id:
             self.client_type = self.partner_id.tag_id.client_type
 
+    @api.constrains('parent_id')
+    def _check_subtask_project(self):
+        for task in self:
+            if task.activity_task_type is False:
+                super(Task, task)._check_subtask_project()
+
+    def clean_preceding(self):
+        for succeeding in self.succeeding_task_ids:
+            succeeding.preceding_task_ids = [(2, self.id, 0)]
+
+    def clean_succeeding(self):
+        for preceding in self.preceding_task_ids:
+            preceding.succeeding_task_ids = [(2, self.id, 0)]
+
     def verify_room_bookable(self):
         if self.room_id:
             if not self.room_id.is_bookable:
@@ -384,21 +449,6 @@ class Task(models.Model):
         if type_error == 'CLIENT_TYPE_ERROR':
             error_msg = _('There must be a responsible or a client')
         return error_msg
-
-    @api.constrains('parent_id')
-    def _check_subtask_project(self):
-        for task in self:
-            if task.activity_task_type is False:
-                super(Task, task)._check_subtask_project()
-
-    @api.model
-    def create(self, vals):
-        if self.is_new_activity(vals):
-            return self.create_activity(vals)
-        elif self.is_new_task(vals):
-            return self.create_task(vals)
-        else:
-            return super(Task, self).create(vals)
 
     def create_main_task(self, vals, parent_id):
         vals['parent_id'] = parent_id
@@ -456,14 +506,6 @@ class Task(models.Model):
         for child in children:
             child[2]['parent_id'] = parent_id
             self.create_task(child[2])
-
-    @api.multi
-    def write(self, vals):
-        if self.is_activity():
-            return self.write_activity(vals)
-        else:
-            self.update_reservation_event(vals)
-            return super(Task, self).write(vals)
 
     def is_activity(self):
         return self.activity_task_type == 'activity'
@@ -581,15 +623,6 @@ class Task(models.Model):
                 vals['employee_ids'][0][2]))]
         return set_value
 
-    @api.model
-    def name_search(self, name='', args=None, operator='ilike', limit=100):
-        args = args or []
-        domain = []
-        if name:
-            domain = ['|', ('name', operator, name),
-                      ('code', operator, name)]
-        return super(Task, self).search(domain + args, limit=limit).name_get()
-
     @api.multi
     @api.depends('name', 'code')
     def name_get(self):
@@ -601,26 +634,6 @@ class Task(models.Model):
                 name = task.name
             result.append((task.id, name))
         return result
-
-    @api.depends('task_state')
-    def _compute_task_state_visible(self):
-        for rec in self:
-            rec.task_state_report_done_required = rec.task_state
-            rec.task_state_report_not_done_required = rec.task_state
-
-    @api.multi
-    @api.depends('date_start', 'parent_id.date_start')
-    def _compute_order_task(self):
-        for task in self:
-            if task.activity_task_type == 'task':
-                if task.parent_id and task.parent_id.date_start:
-                    activity_date_start = task.parent_id.date_start
-                    if task.date_start:
-                        task.task_order = self.get_task_order(
-                            task.date_start,
-                            activity_date_start,
-                            '%Y-%m-%d %H:%M:%S'
-                        )
 
     @staticmethod
     def get_task_order(task_ds, activity_ds, format):
@@ -866,20 +879,72 @@ class Task(models.Model):
         child.open_resources_reservation()
         child.write({'task_state': 'requested'})
 
+    def send_message(self, action):
+        self.env['mail.message'].create(self.get_message(action))
+
+    def is_resource_booked(self):
+        if self.room_id:
+            overlaps = self.env['calendar.event'].search([
+                ('room_id', '=', self.room_id.id),
+                ('start', '<', self.date_end),
+                ('stop', '>', self.date_start),
+            ])
+            overlaps_ids = overlaps.ids
+            for calendar_event in overlaps_ids:
+                if self.env['calendar.event'] \
+                        .browse(calendar_event).event_task_id.id == self.id:
+                    overlaps_ids.remove(calendar_event)
+            if len(overlaps_ids) > 0:
+                return True
+        if self.equipment_id:
+            overlaps_equipment = self.env['calendar.event'].search([
+                ('equipment_ids', 'in', [self.equipment_id.id]),
+                ('start', '<', self.date_end),
+                ('stop', '>', self.date_start),
+            ])
+            if len(overlaps_equipment) > 0:
+                return True
+        return False
+
+    @api.multi
+    def get_confirmation_wizard(self, action):
+        self.ensure_one()
+        res = self.get_booked_resources()
+        if res != '':
+            res = _('The following resources are already booked:<br>') + res
+        message = _('Please confirm your reservation.<br>') + res + _(
+            'Do you want to continue?')
+        new_wizard = self.env['reservation.validation.wiz'].create(
+            {
+                'task_id': self.id,
+                'message': message,
+                'action': action,
+            }
+        )
+        return {
+            'name': 'Confirm reservation',
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'reservation.validation.wiz',
+            'target': 'new',
+            'res_id': new_wizard.id,
+        }
+
     @staticmethod
     def get_message_body(action):
         switcher = {
             'draft': ' ',
             'option': _('The following is optional and \
-                        appears as crosshatched on your calendar'),
+                            appears as crosshatched on your calendar'),
             'requested': _('The following is requested'),
             'accepted': _('The following is approved'),
             'read': ' ',
             'postponed': _('The following is postponed \
-                        and no longer appear on your calendars'),
+                            and no longer appear on your calendars'),
             'done': ' ',
             'canceled': _('The following is canceled\
-                         and no longer on your calendars')
+                             and no longer on your calendars')
         }
         return switcher.get(action)
 
@@ -915,67 +980,4 @@ class Task(models.Model):
             'reply_to': 'Administrator <admin@yourcompany.example.com>',
             'res_id': self.id,
             'subject': self.code
-        }
-
-    def send_message(self, action):
-        self.env['mail.message'].create(self.get_message(action))
-
-    def is_resource_booked(self):
-        if self.room_id:
-            overlaps = self.env['calendar.event'].search([
-                ('room_id', '=', self.room_id.id),
-                ('start', '<', self.date_end),
-                ('stop', '>', self.date_start),
-            ])
-            overlaps_ids = overlaps.ids
-            for calendar_event in overlaps_ids:
-                if self.env['calendar.event'] \
-                        .browse(calendar_event).event_task_id.id == self.id:
-                    overlaps_ids.remove(calendar_event)
-            if len(overlaps_ids) > 0:
-                return True
-        if self.equipment_id:
-            overlaps_equipment = self.env['calendar.event'].search([
-                ('equipment_ids', 'in', [self.equipment_id.id]),
-                ('start', '<', self.date_end),
-                ('stop', '>', self.date_start),
-            ])
-            if len(overlaps_equipment) > 0:
-                return True
-        return False
-
-    @api.multi
-    def copy(self, default=None):
-        if default is None:
-            default = {}
-        if not default.get('name'):
-            default['name'] = _("%s (copy)") % self.name
-        if 'remaining_hours' not in default:
-            default['remaining_hours'] = self.planned_hours
-        default['task_state'] = 'draft'
-        return super(Task, self).copy(default)
-
-    @api.multi
-    def get_confirmation_wizard(self, action):
-        self.ensure_one()
-        res = self.get_booked_resources()
-        if res != '':
-            res = _('The following resources are already booked:<br>') + res
-        message = _('Please confirm your reservation.<br>') + res + _(
-            'Do you want to continue?')
-        new_wizard = self.env['reservation.validation.wiz'].create(
-            {
-                'task_id': self.id,
-                'message': message,
-                'action': action,
-            }
-        )
-        return {
-            'name': 'Confirm reservation',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'reservation.validation.wiz',
-            'target': 'new',
-            'res_id': new_wizard.id,
         }
