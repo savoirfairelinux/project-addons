@@ -132,21 +132,17 @@ class CalendarEvent(models.Model):
         if self.recurrency:
             if self.end_type == 'end_date':
                 self.recurrence_type = str(self.interval) + _(" Time(s)") + \
-<<<<<<< HEAD
-                    _(str(self.rrule_type)) + _(" until ") + \
-                    self.final_date
-            else:
-                self.recurrence_type = str(self.interval) + _(" Time(s) ") + \
-                    _(str(self.rrule_type)) + _(" for ") + \
-                    str(self.count) + _(" Time(s)")
-=======
+
+    def _calculate_recurrence_type(self):
+        if self.recurrency:
+            if self.end_type == 'end_date':
+                self.recurrence_type = str(self.interval) + _(" Time(s)") + \
                                        _(str(self.rrule_type)) + _(" until ") + \
                                        self.final_date
             else:
                 self.recurrence_type = str(self.interval) + _(" Time(s) ") + \
                                        _(str(self.rrule_type)) + _(" for ") + \
                                        str(self.count) + _(" Time(s)")
->>>>>>> 110c584... [FIX] Prevent the removal of a clone calendar.event (#424)
 
     def _get_res_partners_names(self):
         return str(list(map(lambda partner:
