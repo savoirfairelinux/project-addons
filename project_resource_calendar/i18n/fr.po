@@ -632,6 +632,18 @@ msgstr ""
 " commerciales."
 
 #. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:167
+#, python-format
+msgid "The interval must be greater than 0"
+msgstr "L'intervalle doit être supérieur à zero"
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:174
+#, python-format
+msgid "The number of repetitions must be greater than 0"
+msgstr "Le nombre de répétitions doit être supérieur à zero"
+
+#. module: project_resource_calendar
 #: code:addons/project_resource_calendar/models/calendar_event.py:193
 #, python-format
 msgid ""

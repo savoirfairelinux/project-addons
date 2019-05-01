@@ -160,6 +160,19 @@ class CalendarEvent(models.Model):
                 self.start_datetime, '%Y-%m-%d %H:%M:%S'
             ).weekday()
 
+    @api.constrains('interval')
+    def _check_interval_greater_than_0(self):
+        for record in self:
+            if record.interval < 1:
+                raise ValidationError(_('The interval must be greater than 0'))
+
+    @api.constrains('count')
+    def _check_count_greater_than_0(self):
+        for record in self:
+            if record.count < 1:
+                raise ValidationError(
+                    _('The number of repetitions must be greater than 0'))
+
     @api.multi
     @api.constrains('room_id', 'start', 'stop', 'equipment_ids')
     def _check_resources_double_book(self):
