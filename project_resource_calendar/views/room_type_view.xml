@@ -21,7 +21,8 @@
         <field name="model">resource.calendar.room.type</field>
         <field name="arch" type="xml">
             <tree string="room_type">
-                <field name='name'/>
+                 <field name="name"/>
+                <field name="sequence"/>
             </tree>
         </field>
     </record>
@@ -31,11 +32,10 @@
         <field name="arch" type="xml">
             <form string="Room">
                 <sheet>
-                    <div>
-                        <h1>
-                            <field name="name"/>
-                        </h1>
-                    </div>
+                    <group>
+                        <field name="name"/>
+                        <field name="sequence"/>
+                   </group>
                 </sheet>
             </form>
         </field>
