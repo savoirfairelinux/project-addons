@@ -110,6 +110,11 @@ class Task(models.Model):
     real_date_end = fields.Datetime(
         string='Actual End Time',
     )
+    font_color = fields.Selection([
+        ('black', 'Black (Default)'),
+        ('white', 'White')],
+        related='category_id.font_color'
+    )
     activity_task_type = fields.Selection(
         [
             ('activity', 'Activity'),

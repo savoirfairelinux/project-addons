@@ -195,8 +195,9 @@
                                    options="{'no_create_edit': True}"
                                    domain="[('activity_task_type','=','activity')]" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
                             <field name="category_id" required="1"  attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
-                            <field name="color" widget="color" readonly="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
-                            <field name="activity_task_type" invisible="1" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
+                            <field name="color" widget="color" readonly="1"/>
+                            <field name="font_color" invisible="1"/>
+                            <field name="activity_task_type" invisible="1"/>
                             <field name="report_done_required" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
 
                         </group>
