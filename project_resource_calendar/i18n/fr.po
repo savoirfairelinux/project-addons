@@ -825,5 +825,5 @@ msgstr "Nom"
 
 #: code:addons/project_resource_calendar/models/calendar_event.py:210
 #, python-format
-msgid "Clone task cannot be deleted"
-msgstr "La tâche clonée ne peut pas être supprimée"
+msgid "This reservation can only be deleted from the Event module."
+msgstr "Cette réservation doit être supprimée à partir du module Événement exclusivement."
