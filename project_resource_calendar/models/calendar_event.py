@@ -220,7 +220,7 @@ class CalendarEvent(models.Model):
         if type_error == 'ROOM_TYPE_ERROR':
             error_msg = _('this room is not bookable')
         if type_error == 'TASK_CLONE_ERROR':
-            error_msg = _('Clone task cannot be deleted')
+            error_msg = _('This reservation can only be deleted from the Event module.')
         return error_msg
 
     @api.multi
