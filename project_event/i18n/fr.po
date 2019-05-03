@@ -1457,3 +1457,9 @@ msgstr "cette ressource est non réservable"
 #, python-format
 msgid "this room is not bookable"
 msgstr "Cette salle n'est pas réservable"
+
+#. module: project
+#: model:ir.model.fields,field_description:project.field_project_task_name
+#: model:ir.model.fields,field_description:project.field_report_project_task_user_name
+msgid "Task Title"
+msgstr "Titre"
