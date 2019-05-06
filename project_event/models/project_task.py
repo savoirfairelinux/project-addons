@@ -312,7 +312,7 @@ class Task(models.Model):
     @api.depends('name', 'code')
     def _compute_complete_name(self):
         for task in self:
-            if task.activity_task_type == 'task':
+            if task.is_type_task():
                 task.complete_name = '%s / %s' % (task.code, task.name)
             else:
                 task.complete_name = task.name
@@ -530,6 +530,9 @@ class Task(models.Model):
     def is_activity(self):
         return self.activity_task_type == 'activity'
 
+    def is_type_task(self):
+        return self.activity_task_type == 'task'
+
     @api.multi
     def write_activity(self, vals):
         self.write_main_task(vals)
@@ -649,7 +652,7 @@ class Task(models.Model):
     def name_get(self):
         result = []
         for task in self:
-            if task.activity_task_type == 'task':
+            if task.is_type_task():
                 name = task.code + '/' + task.name
             else:
                 name = task.name
@@ -687,7 +690,7 @@ class Task(models.Model):
 
     def get_booked_resources(self):
         res = ''
-        if self.activity_task_type == 'task':
+        if self.is_type_task():
             if self.is_resource_booked():
                 res += self.room_id.name + '<br>' if (
                     self.room_id) else self.equipment_id.name + '<br>'
@@ -825,7 +828,7 @@ class Task(models.Model):
 
     @api.multi
     def action_cancel(self):
-        if self.activity_task_type == 'task' and \
+        if self.is_type_task() and \
                 self.task_state in ['requested', 'read', 'postponed',
                                     'accepted']:
             self.send_message('canceled')
@@ -858,7 +861,7 @@ class Task(models.Model):
 
     @api.multi
     def action_postpone(self):
-        if self.activity_task_type == 'task' and self.task_state in \
+        if self.is_type_task() and self.task_state in \
                 ['requested', 'read', 'canceled', 'accepted']:
             self.draft_resources_reservation()
             self.send_message('postponed')
@@ -875,8 +878,8 @@ class Task(models.Model):
     @api.multi
     def confirm_reservation(self):
         self.draft_resources_reservation()
-        if self.activity_task_type == 'task' and self.task_state in \
-                ['draft', 'option', 'postponed', 'canceled']:
+        if self.is_type_task() and\
+                self.check_task_state(self.task_state):
             self.send_message('requested')
         self.open_resources_reservation()
         self.write({'task_state': 'requested'})
@@ -884,19 +887,16 @@ class Task(models.Model):
     @api.multi
     def confirm_accept_reservation(self):
         if self.is_activity():
-            if self.task_state in \
-                    ['draft', 'option', 'postponed', 'canceled']:
+            if self.check_task_state(self.task_state):
                 for child in self.child_ids:
                     self.child_reservation(child)
                 self.send_message('requested')
         self.open_resources_reservation()
         self.write({'task_state': 'accepted'})
 
-    @staticmethod
-    def child_reservation(child):
+    def child_reservation(self, child):
         child.draft_resources_reservation()
-        if child.task_state in ['draft', 'option', 'postponed',
-                                'canceled']:
+        if self.check_task_state(child.task_state):
             child.send_message('requested')
         child.open_resources_reservation()
         child.write({'task_state': 'requested'})
@@ -999,3 +999,8 @@ class Task(models.Model):
             'target': 'new',
             'res_id': new_wizard.id,
         }
+
+    @staticmethod
+    def check_task_state(task_state_in):
+        return task_state_in in \
+                ['draft', 'option', 'postponed', 'canceled']
