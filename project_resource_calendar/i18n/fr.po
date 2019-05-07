@@ -827,3 +827,27 @@ msgstr "Nom"
 #, python-format
 msgid "This reservation can only be deleted from the Event module."
 msgstr "Cette réservation doit être supprimée à partir du module Événement exclusivement."
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:133
+#, python-format
+msgid "Day(s)"
+msgstr "par jour"
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:133
+#, python-format
+msgid "Month(s)"
+msgstr "par mois"
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:133
+#, python-format
+msgid "Week(s)"
+msgstr "par semaine"
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:134
+#, python-format
+msgid "Year(s)"
+msgstr "par année"
