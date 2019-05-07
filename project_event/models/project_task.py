@@ -779,6 +779,7 @@ class Task(models.Model):
             reserve_event.write(
                 {'state': 'cancelled'}
             )
+            reserve_event.event_task_id = False
 
     @api.multi
     def draft_resources_reservation(self):
@@ -830,12 +831,13 @@ class Task(models.Model):
     def action_cancel(self):
         if self.is_type_task() and \
                 self.task_state in ['requested', 'read', 'postponed',
-                                    'accepted']:
+                                    'accepted', 'option']:
             self.send_message('canceled')
             self.cancel_resources_reservation()
+            self.reservation_event_id = False
             self.write({'task_state': 'canceled'})
         elif self.is_activity():
-            if self.task_state == 'accepted':
+            if self.task_state == 'approved':
                 for child in self.child_ids:
                     child.action_cancel()
                 self.send_message('canceled')
@@ -855,18 +857,12 @@ class Task(models.Model):
         self.write({'task_state': 'read'})
 
     @api.multi
-    def action_draft(self):
-        self.write({'task_state': 'draft'})
-        self.draft_resources_reservation()
-
-    @api.multi
     def action_postpone(self):
         if self.is_type_task() and self.task_state in \
                 ['requested', 'read', 'canceled', 'accepted']:
-            self.draft_resources_reservation()
             self.send_message('postponed')
         elif self.is_activity():
-            if self.task_state == 'accepted':
+            if self.task_state == 'approved':
                 for child in self.child_ids:
                     child.action_postpone()
                 self.send_message('postponed')
@@ -891,8 +887,10 @@ class Task(models.Model):
                 for child in self.child_ids:
                     self.child_reservation(child)
                 self.send_message('requested')
+            self.write({'task_state': 'approved'})
         self.open_resources_reservation()
-        self.write({'task_state': 'accepted'})
+        if self.is_type_task():
+            self.write({'task_state': 'accepted'})
 
     def child_reservation(self, child):
         child.draft_resources_reservation()
@@ -959,6 +957,7 @@ class Task(models.Model):
                 ('room_id', '=', self.room_id.id),
                 ('start', '<', self.date_end),
                 ('stop', '>', self.date_start),
+                ('state', '!=', 'cancelled'),
             ])
             overlaps_ids = overlaps.ids
             for calendar_event in overlaps_ids:
@@ -972,6 +971,7 @@ class Task(models.Model):
                 ('equipment_ids', 'in', [self.equipment_id.id]),
                 ('start', '<', self.date_end),
                 ('stop', '>', self.date_start),
+                ('state', '!=', 'cancelled'),
             ])
             if len(overlaps_equipment) > 0:
                 return True
