@@ -130,14 +130,20 @@ class CalendarEvent(models.Model):
 
     def _calculate_recurrence_type(self):
         if self.recurrency:
+            recurrence_frequency = {
+                'daily': _('Day(s)'),
+                'weekly': _('Week(s)'),
+                'monthly': _('Month(s)'),
+                'yearly': _('Year(s)')
+            }
             if self.end_type == 'end_date':
-                self.recurrence_type = str(self.interval) + _(" Time(s)") + \
-                                       _(str(self.rrule_type)) + _(" until ") + \
-                                       self.final_date
+                self.recurrence_type = str(self.interval) + _(" Time(s) ") + \
+                    _(recurrence_frequency[self.rrule_type]) + _(" until ") + \
+                    self.final_date
             else:
                 self.recurrence_type = str(self.interval) + _(" Time(s) ") + \
-                                       _(str(self.rrule_type)) + _(" for ") + \
-                                       str(self.count) + _(" Time(s)")
+                    _(recurrence_frequency[self.rrule_type]) + _(" for ") + \
+                    str(self.count) + _(" Time(s)")
 
     def _get_res_partners_names(self):
         return str(list(map(lambda partner:
