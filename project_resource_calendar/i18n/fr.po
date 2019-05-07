@@ -34,7 +34,7 @@ msgstr " fois "
 #: code:addons/project_resource_calendar/models/calendar_event.py:139
 #, python-format
 msgid " for "
-msgstr " pendant "
+msgstr " pour "
 
 #. module: project_resource_calendar
 #: code:addons/project_resource_calendar/models/calendar_event.py:135
