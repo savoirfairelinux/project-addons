@@ -50,7 +50,7 @@ msgstr "<span> à </span>"
 #. module: project_resource_calendar
 #: model:ir.ui.view,arch_db:project_resource_calendar.weekly_report_view
 msgid "<strong>Reservation Bookings Schedule </strong>"
-msgstr "<strong>Horaires de réservation </strong>"
+msgstr "<strong>Horaire des réservations </strong>"
 
 #. module: project_resource_calendar
 #: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_instrument_photo

@@ -16,6 +16,12 @@
     text-align: center;
 }
 
+.dt-report-left-80{
+    width: 80%;
+    float: left;
+    text-align: left;
+}
+
 .dt-left_align {
     width: 30%;
     float: left;
