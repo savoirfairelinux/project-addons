@@ -601,6 +601,12 @@ msgid "Service"
 msgstr "Service"
 
 #. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_sequence
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type_sequence
+msgid "Sequence"
+msgstr "Séquence"
+
+#. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_weekly_report_wizard_date_start
 msgid "Start Date"
 msgstr "Date de début"
