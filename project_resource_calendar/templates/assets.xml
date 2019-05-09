@@ -12,4 +12,9 @@
                   rel="stylesheet"/>
         </xpath>
     </template>
+    <template id="assets_backend" name="update event wizard" inherit_id="web.assets_backend">
+        <xpath expr="//script[last()]" position="after">
+            <script type="text/javascript" src="/project_resource_calendar/static/src/js/update_event_wizard.js"/>
+        </xpath>
+    </template>
 </odoo>

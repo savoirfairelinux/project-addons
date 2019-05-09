@@ -3,3 +3,4 @@
 
 from . import weekly_report_wizard
 from . import weekly_report
+from . import reservation_validation_wiz
