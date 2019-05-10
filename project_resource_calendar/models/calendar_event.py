@@ -275,7 +275,7 @@ class CalendarEvent(models.Model):
             tzinfo=tz,
             format='EEEE dd MMMM yyyy',
             locale=lang)
-        return formatted_date.title()
+        return formatted_date.capitalize()
 
     def print_calendar_report(self):
         return self.env.ref(
