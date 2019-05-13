@@ -226,7 +226,8 @@ class CalendarEvent(models.Model):
         if type_error == 'ROOM_TYPE_ERROR':
             error_msg = _('this room is not bookable')
         if type_error == 'TASK_CLONE_ERROR':
-            error_msg = _('This reservation can only be deleted from the Event module.')
+            error_msg = _(
+                'This reservation can only be deleted from the Event module.')
         return error_msg
 
     @api.multi
@@ -267,7 +268,7 @@ class CalendarEvent(models.Model):
                     date_to_format = self.start_datetime
         lang = self.env['res.users'].browse(self.env.uid).lang or 'en_US'
         tz = self.env['res.users'].browse(self.env.uid).tz or 'utc'
-        if not datetime == type(date_to_format):
+        if not isinstance(date_to_format, datetime):
             if self.allday:
                 date_to_format = datetime.strptime(
                     date_to_format, '%Y-%m-%d'
@@ -310,7 +311,7 @@ class CalendarEvent(models.Model):
 
     def validate_client_id_write(self, vals):
         if self.is_task_event or (
-                        'is_task_event' in vals and vals['is_task_event']):
+                'is_task_event' in vals and vals['is_task_event']):
             return
         if 'client_id' in vals:
             partners = self.partner_ids.ids

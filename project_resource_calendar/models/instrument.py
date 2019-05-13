@@ -22,7 +22,7 @@ class Instrument(models.Model):
         ('consumable', 'Consumable'),
         ('instrument', 'Instrument'),
         ('service', 'Service'),
-        ],
+    ],
         string='Type',
         index=True,
         default='instrument',

@@ -662,7 +662,7 @@ class Task(models.Model):
     @staticmethod
     def get_task_order(task_ds, activity_ds, format):
         time_diff = datetime.strptime(task_ds, format) \
-                    - datetime.strptime(activity_ds, format)
+            - datetime.strptime(activity_ds, format)
         return time_diff.days * HOURS_IN_DAY * MINUTES_IN_HOUR \
             + time_diff.seconds / CONVERT_SECONDS_TO_MINUTE
 
@@ -1003,4 +1003,4 @@ class Task(models.Model):
     @staticmethod
     def check_task_state(task_state_in):
         return task_state_in in \
-                ['draft', 'option', 'postponed', 'canceled']
+            ['draft', 'option', 'postponed', 'canceled']

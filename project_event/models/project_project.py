@@ -99,7 +99,7 @@ class Project(models.Model):
         if self.state == 'accepted':
             self.send_message('canceled')
         for activity in self.task_ids:
-                activity.action_cancel()
+            activity.action_cancel()
         self.write({'state': 'canceled'})
 
     @api.multi
@@ -119,7 +119,7 @@ class Project(models.Model):
         if self.state == 'accepted':
             self.send_message('postponed')
         for activity in self.task_ids:
-                activity.action_postpone()
+            activity.action_postpone()
         self.write({'state': 'postponed'})
 
     @api.model
@@ -144,7 +144,7 @@ class Project(models.Model):
     def confirm_accept_reservation(self):
         for activity in self.task_ids:
             if activity.task_state in [
-                        'draft', 'option', 'postponed', 'canceled']:
+                    'draft', 'option', 'postponed', 'canceled']:
                 for child in activity.child_ids:
                     self.child_reservation(child)
                 activity.send_message('requested')
@@ -191,7 +191,7 @@ class Project(models.Model):
         return {
             'body': self.get_message_body(action) + message,
             'channel_ids': [(6, 0, [self.env.ref
-                            ('project.mail_channel_project_task_event').id])],
+                                    ('project.mail_channel_project_task_event').id])],
             'email_from': 'Administrator <admin@yourcompany.example.com>',
             'message_type': 'notification',
             'model': 'project.project',

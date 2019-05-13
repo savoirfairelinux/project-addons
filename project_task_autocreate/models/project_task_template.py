@@ -439,4 +439,4 @@ class ProjectTaskTemplate(models.Model):
                 'field_type': relation,
                 'examples': '\n'.join(
                     ['object.%s' % n for n in field_names])
-              })
+            })
