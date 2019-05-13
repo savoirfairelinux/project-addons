@@ -13,7 +13,7 @@ class TestRoom(TestCalendarEventCommon):
                           'model_resource_calendar_room'
 
         self.room = self.Rooms.create({
-            'name':  'Test Room for Auditlog Testing',
+            'name': 'Test Room for Auditlog Testing',
             'resource_type': 'room',
             'allow_double_book': True,
         })

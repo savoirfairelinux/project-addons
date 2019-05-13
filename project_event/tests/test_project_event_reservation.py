@@ -25,17 +25,17 @@ class TestProjectEventReservation(TestProjectEventCommon):
                 datetime.today() + timedelta(hours=4)
             ),
             'child_ids': [(0, 0,
-              {
-                  'name': 'Test Task Activity 1',
-                  'activity_task_type': 'task',
-                  'responsible_id': self.project_1.responsible_id.id,
-                  'partner_id': self.project_1.partner_id.id,
-                  'room_id': self.room_1.id,
-                  'date_start': fields.Datetime.to_string(datetime.today()),
-                  'date_end': fields.Datetime.to_string(
-                      datetime.today() + timedelta(hours=4)
-                  ),
-              })],
+                           {
+                               'name': 'Test Task Activity 1',
+                               'activity_task_type': 'task',
+                               'responsible_id': self.project_1.responsible_id.id,
+                               'partner_id': self.project_1.partner_id.id,
+                               'room_id': self.room_1.id,
+                               'date_start': fields.Datetime.to_string(datetime.today()),
+                               'date_end': fields.Datetime.to_string(
+                                   datetime.today() + timedelta(hours=4)
+                               ),
+                           })],
         })
 
         self.activity_2 = self.Tasks.create({

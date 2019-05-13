@@ -17,12 +17,18 @@ class MailThread(models.AbstractModel):
          - a list of changes (initial value, new value, column name, column info) """
         self.ensure_one()
         changes = set()  # contains always and onchange tracked fields that changed
-        displays = set()  # contains always tracked field that did not change but displayed for information
+        # contains always tracked field that did not change but displayed for
+        # information
+        displays = set()
         tracking_value_ids = []
         display_values_ids = []
-        # generate tracked_values data structure: {'col_name': {col_info, new_value, old_value}}
+        # generate tracked_values data structure: {'col_name': {col_info,
+        # new_value, old_value}}
         for col_name, col_info in tracked_fields.items():
-            track_visibility = getattr(self._fields[col_name], 'track_visibility', 'onchange')
+            track_visibility = getattr(
+                self._fields[col_name],
+                'track_visibility',
+                'onchange')
             initial_value = initial[col_name]
             new_value = getattr(self, col_name)
 
@@ -31,13 +37,10 @@ class MailThread(models.AbstractModel):
                 if new_value != initial_value:
                     new_value = _('created/modified')
 
-            if new_value != initial_value and (new_value or initial_value):  # because browse null != False
+            if new_value != initial_value and (
+                    new_value or initial_value):  # because browse null != False
                 tracking = self.env['mail.tracking.value'].create_tracking_values(
-                                initial_value,
-                                new_value,
-                                col_name,
-                                col_info
-                )
+                    initial_value, new_value, col_name, col_info)
                 if tracking:
                     tracking_value_ids.append([0, 0, tracking])
 
@@ -47,11 +50,7 @@ class MailThread(models.AbstractModel):
             # 'always' tracked fields in separate variable; added if other changes
             elif new_value == initial_value and track_visibility == 'always' and col_name in tracked_fields:
                 tracking = self.env['mail.tracking.value'].create_tracking_values(
-                    initial_value,
-                    initial_value,
-                    col_name,
-                    col_info
-                )
+                    initial_value, initial_value, col_name, col_info)
                 if tracking:
                     display_values_ids.append([0, 0, tracking])
                     displays.add(col_name)

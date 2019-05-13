@@ -130,7 +130,13 @@ class TestSecurity(TestCalendarEventCommon):
             len(self.Events.sudo(self.user_base.id).search([])),
             0)
 
-    def create_event(self, name, partner_ids=[], room_id=None, user_id=1, equipment_ids=[]):
+    def create_event(
+            self,
+            name,
+            partner_ids=[],
+            room_id=None,
+            user_id=1,
+            equipment_ids=[]):
         return self.Events.sudo(user_id).create({
             'name': name,
             'start': fields.Datetime.to_string(datetime.today()),

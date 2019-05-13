@@ -39,8 +39,8 @@ class ReportWeekly(models.AbstractModel):
         return activities_docs
 
     def get_tz_format(self, date_str):
-        return fields.Datetime.context_timestamp(self, datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S'))\
-        .strftime('%Y-%m-%d %H:%M:%S')
+        return fields.Datetime.context_timestamp(self, datetime.strptime(
+            date_str, '%Y-%m-%d %H:%M:%S')) .strftime('%Y-%m-%d %H:%M:%S')
 
     def get_task_values(self, tasks):
         table_lines = []
@@ -51,7 +51,7 @@ class ReportWeekly(models.AbstractModel):
                     'expected_start': self.get_tz_format(task.date_start),
                     'employee': employee.name,
                     'order': task.task_order,
-                    'real_start':  self.get_tz_format(task.real_date_start) if task.real_date_start else '',
+                    'real_start': self.get_tz_format(task.real_date_start) if task.real_date_start else '',
                 })
         table_lines_sorted = sorted(
             table_lines, key=itemgetter(

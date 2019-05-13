@@ -45,7 +45,8 @@ class WeeklyReportWizard(models.TransientModel):
     @staticmethod
     def _get_current_friday():
         today = datetime.date.today()
-        return today - datetime.timedelta(days=today.weekday()) + datetime.timedelta(days=4)
+        return today - \
+            datetime.timedelta(days=today.weekday()) + datetime.timedelta(days=4)
 
     @api.multi
     def get_report(self):
@@ -60,4 +61,5 @@ class WeeklyReportWizard(models.TransientModel):
                 'state': self.state,
             },
         }
-        return self.env.ref('project_resource_calendar.weekly_report').report_action(self, data=data)
+        return self.env.ref(
+            'project_resource_calendar.weekly_report').report_action(self, data=data)

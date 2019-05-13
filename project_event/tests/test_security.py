@@ -432,8 +432,10 @@ class TestSecurity(TestProjectEventCommon):
             self.ActivityTemplate.sudo(self.user_manager).search([]))
 
     def test_460_project_manager_can_write_project_template_activity(self):
-        self.assertTrue(self.activity_template_1.sudo(self.user_manager.id).write(
-            {}))
+        self.assertTrue(
+            self.activity_template_1.sudo(
+                self.user_manager.id).write(
+                {}))
 
     def test_470_project_manager_can_create_project_template_activity(self):
         activity_template_created = self.ActivityTemplate.sudo(

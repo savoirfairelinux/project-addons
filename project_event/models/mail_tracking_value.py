@@ -11,10 +11,24 @@ class MailTracking(models.Model):
     _inherit = ['mail.tracking.value']
 
     @api.model
-    def create_tracking_values(self, initial_value, new_value, col_name, col_info):
+    def create_tracking_values(
+            self,
+            initial_value,
+            new_value,
+            col_name,
+            col_info):
         tracked = True
-        values = {'field': col_name, 'field_desc': col_info['string'], 'field_type': col_info['type']}
-        if col_info['type'] in ['integer', 'float', 'char', 'text', 'datetime', 'monetary']:
+        values = {
+            'field': col_name,
+            'field_desc': col_info['string'],
+            'field_type': col_info['type']}
+        if col_info['type'] in [
+            'integer',
+            'float',
+            'char',
+            'text',
+            'datetime',
+                'monetary']:
             values.update({
                 'old_value_%s' % col_info['type']: initial_value,
                 'new_value_%s' % col_info['type']: new_value
@@ -25,14 +39,23 @@ class MailTracking(models.Model):
                 'new_value_%s' % col_info['type']: new_value
             })
         elif col_info['type'] == 'date':
-            values.update({
-                'old_value_datetime': initial_value and datetime.strftime(
-                    datetime.combine(datetime.strptime(initial_value, tools.DEFAULT_SERVER_DATE_FORMAT),
-                                     datetime.min.time()), tools.DEFAULT_SERVER_DATETIME_FORMAT) or False,
-                'new_value_datetime': new_value and datetime.strftime(
-                    datetime.combine(datetime.strptime(new_value, tools.DEFAULT_SERVER_DATE_FORMAT),
-                                     datetime.min.time()), tools.DEFAULT_SERVER_DATETIME_FORMAT) or False,
-            })
+            values.update(
+                {
+                    'old_value_datetime': initial_value and datetime.strftime(
+                        datetime.combine(
+                            datetime.strptime(
+                                initial_value,
+                                tools.DEFAULT_SERVER_DATE_FORMAT),
+                            datetime.min.time()),
+                        tools.DEFAULT_SERVER_DATETIME_FORMAT) or False,
+                    'new_value_datetime': new_value and datetime.strftime(
+                        datetime.combine(
+                            datetime.strptime(
+                                new_value,
+                                tools.DEFAULT_SERVER_DATE_FORMAT),
+                            datetime.min.time()),
+                        tools.DEFAULT_SERVER_DATETIME_FORMAT) or False,
+                })
         elif col_info['type'] == 'boolean':
             values.update({
                 'old_value_integer': initial_value,
