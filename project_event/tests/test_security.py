@@ -223,15 +223,13 @@ class TestSecurity(TestProjectEventCommon):
             self.project_3.sudo(self.user_manager).unlink()
         )
 
-    def test_130_user_can_only_read_project_task_type_activity(self):
-            """test_130_project_user_can_only_read_project_task_type_
-            activity_if_task_children_has_user_as_participant"""
+    def test_130_project_user_can_only_read_project_task_type_activity_if_task_children_has_user_as_participant(
+            self):
         self.get_user_acls_and_rules_to_model(self.project_user, self.Tasks)
         self.assertEqual(
             len(self.Tasks.sudo(self.project_user.id).search([])),
             0)
-        task_with_user_participant =\
-            self.create_task_project_user_participant()
+        task_with_user_participant = self.create_task_project_user_participant()
         self.assertEqual(
             self.Tasks.sudo(self.project_user.id).browse(
                 task_with_user_participant.parent_id.id),
