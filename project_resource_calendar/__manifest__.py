@@ -33,6 +33,8 @@
         'views/resource_view.xml',
         'views/room_view.xml',
         'views/instrument_view.xml',
+        'views/res_partner_view.xml',
+        'views/hr_employee_view.xml',
         'templates/assets.xml',
         'report/calendar_event_report.xml',
         'report/calendar_event_print_template.xml',
