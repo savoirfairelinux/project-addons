@@ -17,5 +17,4 @@ William Beverly <william.beverly@savoirfairelinux.com>
 More information
 ----------------
 * Module developed and tested with Odoo version 11.0
-* For questions, please contact our support services
-(support@savoirfairelinux.com)
+* For questions, please contact our support services (support@savoirfairelinux.com)

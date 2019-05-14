@@ -53,11 +53,11 @@ class TestCalendarEvent(TestCalendarEventCommon):
 
     def test_020_calculate_recurrent(self):
         self.recurrency = False
-        self.calendar_event._calculate_recurrent()
+        self.calendar_event._compute_calculate_recurrent()
         self.assertEqual(self.calendar_event.recurrent_state, 'No')
 
         self.recurrency = True
-        self.calendar_event._calculate_recurrent()
+        self.calendar_event._compute_calculate_recurrent()
         self.calendar_event.recurrent_state = 'Yes'
         self.assertEqual(self.calendar_event.recurrent_state, 'Yes')
 
@@ -65,13 +65,13 @@ class TestCalendarEvent(TestCalendarEventCommon):
         self.end_type = 'end_date'
         self.recurrency = True
         self.calendar_event.recurrence_type = 'datetype'
-        self.calendar_event._calculate_recurrence_type()
+        self.calendar_event._compute_calculate_recurrence_type()
         self.assertEqual(self.calendar_event.recurrence_type, 'datetype')
 
         self.recurrency = True
         self.end_type = 'others'
         self.calendar_event.recurrence_type = 'Iternationtype'
-        self.calendar_event._calculate_recurrence_type()
+        self.calendar_event._compute_calculate_recurrence_type()
         self.assertEqual(self.calendar_event.recurrence_type, 'Iternationtype')
 
     def test_040_get_client_id_partner_ids_names(self):
