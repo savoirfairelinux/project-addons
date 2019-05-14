@@ -118,7 +118,6 @@ class ProjectTaskWizard(models.TransientModel):
             'description': self.description,
             'notes': self.notes,
             'activity_task_type': 'task',
-            'is_from_template': True,
         }
         if self.resource_type:
             if self.resource_type == 'room':
