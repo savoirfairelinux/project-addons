@@ -4,7 +4,8 @@
 from datetime import datetime, timedelta
 
 from odoo import fields
-from odoo.addons.project_resource_calendar.tests.common import TestCalendarEventCommon
+from odoo.addons.project_resource_calendar.tests.common \
+    import TestCalendarEventCommon
 from odoo.exceptions import ValidationError
 
 
@@ -52,11 +53,11 @@ class TestCalendarEvent(TestCalendarEventCommon):
 
     def test_020_calculate_recurrent(self):
         self.recurrency = False
-        self.calendar_event._calculate_recurrent()
+        self.calendar_event._compute_calculate_recurrent()
         self.assertEqual(self.calendar_event.recurrent_state, 'No')
 
         self.recurrency = True
-        self.calendar_event._calculate_recurrent()
+        self.calendar_event._compute_calculate_recurrent()
         self.calendar_event.recurrent_state = 'Yes'
         self.assertEqual(self.calendar_event.recurrent_state, 'Yes')
 
@@ -64,13 +65,13 @@ class TestCalendarEvent(TestCalendarEventCommon):
         self.end_type = 'end_date'
         self.recurrency = True
         self.calendar_event.recurrence_type = 'datetype'
-        self.calendar_event._calculate_recurrence_type()
+        self.calendar_event._compute_calculate_recurrence_type()
         self.assertEqual(self.calendar_event.recurrence_type, 'datetype')
 
         self.recurrency = True
         self.end_type = 'others'
         self.calendar_event.recurrence_type = 'Iternationtype'
-        self.calendar_event._calculate_recurrence_type()
+        self.calendar_event._compute_calculate_recurrence_type()
         self.assertEqual(self.calendar_event.recurrence_type, 'Iternationtype')
 
     def test_040_get_client_id_partner_ids_names(self):
@@ -131,7 +132,7 @@ class TestCalendarEvent(TestCalendarEventCommon):
                 'recurrent_state': 'No',
             })
 
-    def test_070_calendar_event_with_is_not_task_event_client_becomes_a_participant(
+    def test_070_with_is_not_task_event_client_becomes_a_participant(
             self):
         vals = {
             'name': 'Calendar Event onchange method execution',
@@ -147,11 +148,11 @@ class TestCalendarEvent(TestCalendarEventCommon):
         calendar_event_new = self.Calendar.create(vals)
         self.assertIn(self.partner_3, calendar_event_new.partner_ids)
 
-    def test_080_calendar_event_write_add_client_to_participants(self):
+    def test_080_write_add_client_to_participants(self):
         self.calendar_event.write({'client_id': self.partner_3.id})
         self.assertIn(self.partner_3, self.calendar_event.partner_ids)
 
-    def test_090_calendar_event_cannot_remove_client_from_participants(self):
+    def test_090_cannot_remove_client_from_participants(self):
         partners_before_delete_client_id = self.calendar_event.partner_ids.ids
         self.calendar_event.write(
             {'partner_ids': [(6, 0, [self.partner_2.id])]})
@@ -159,7 +160,7 @@ class TestCalendarEvent(TestCalendarEventCommon):
             self.calendar_event.partner_ids.ids,
             partners_before_delete_client_id)
 
-    def test_100_calendar_event_change_client_with_no_participants_puts_new_participant(
+    def test_100_change_client_with_no_participants_puts_new_participant(
             self):
         partner_4 = self.Partners.create({
             'name': 'Partner 4',
@@ -168,7 +169,7 @@ class TestCalendarEvent(TestCalendarEventCommon):
             {'client_id': partner_4.id, 'partner_ids': [(6, 0, [])]})
         self.assertEqual(self.calendar_event.partner_ids.ids, [partner_4.id])
 
-    def test_110_calendar_event_floor(self):
+    def test_110_floor(self):
         self.calendar_event1 = self.Calendar.create({
             'name': 'Calendar Event Test floor',
             'room_id': self.post_room_id.id,
@@ -182,13 +183,17 @@ class TestCalendarEvent(TestCalendarEventCommon):
             self.calendar_event1.room_floor
         )
 
-    def test_120_calendar_event_recurrency_inverval_must_be_greater_than_0(
+    def test_120_recurrency_inverval_must_be_greater_than_0(
             self):
         with self.assertRaises(ValidationError):
             self.calendar_event.write({
-                'rrule_type': 'daily', 'recurrency': True, 'interval': 0, 'count': 2})
+                'rrule_type': 'daily',
+                'recurrency': True,
+                'interval': 0,
+                'count': 2
+            })
 
-    def test_130_calendar_event_recurrency_count_must_be_greater_than_0(self):
+    def test_130_recurrency_count_must_be_greater_than_0(self):
         with self.assertRaises(ValidationError):
             self.calendar_event.write(
                 {'rrule_type': 'daily', 'recurrency': True, 'count': 0})

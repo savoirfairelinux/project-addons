@@ -97,8 +97,14 @@ class ProjectActivityWizard(models.TransientModel):
                 'template_id': task.id,
                 'activity_wiz_id': self.id,
                 'task_name': task.name,
-                'task_resp_id': self.activity_resp_id and self.activity_resp_id.id or task.temp_resp_id.id,
-                'task_partner_id': self.activity_partner_id and self.activity_partner_id.id or False,
+                'task_resp_id':
+                self.activity_resp_id and
+                self.activity_resp_id.id or
+                task.temp_resp_id.id,
+                'task_partner_id':
+                self.activity_partner_id and
+                self.activity_partner_id.id or
+                False,
                 'category_id': task.category_id.id,
                 'resource_type': task.resource_type,
                 'equipment_id': task.equipment_id.id,

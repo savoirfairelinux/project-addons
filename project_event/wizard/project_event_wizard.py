@@ -163,7 +163,8 @@ class ProjectEventWizard(models.TransientModel):
                          'partner_id': task.task_partner_id.id,
                          'category_id': task.category_id.id,
                          'department_id': task.department_id.id,
-                         'employee_ids': [(4, e.id) for e in task.employee_ids],
+                         'employee_ids':
+                         [(4, e.id) for e in task.employee_ids],
                          'resource_type': task.resource_type,
                          'equipment_id': task.equipment_id.id,
                          'room_id': task.room_id.id,

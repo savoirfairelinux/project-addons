@@ -916,6 +916,7 @@ class Task(models.Model):
         return switcher.get(action)
 
     def get_message(self, action):
+        mail_channel = 'project.mail_channel_project_task_event'
         message = '<br>'
         if self.is_activity():
             responsible = self.responsible_id.id
@@ -938,7 +939,7 @@ class Task(models.Model):
         return {
             'body': self.get_message_body(action) + message,
             'channel_ids': [(6, 0, [self.env.ref
-                                    ('project.mail_channel_project_task_event').id])],
+                                    (mail_channel).id])],
             'email_from': 'Administrator <admin@yourcompany.example.com>',
             'message_type': 'notification',
             'model': 'project.task',

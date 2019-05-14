@@ -9,17 +9,28 @@ class IrActionsReport(models.Model):
 
     @api.noguess
     def report_action(self, docids, data=None, config=True):
-        """Override this method to hundel the special format of the ids of a recurrent calendar.event.
+        """Override this method to hundel the special
+           format of the ids of a recurrent calendar.event.
 
-        :param docids: id/ids/browserecord of the records to print (if not used, pass an empty list)
+        :param docids: id/ids/browserecord of the records to print
+        (if not used, pass an empty list)
         :param report_name: Name of the template to generate an action for
         """
         discard_logo_check = self.env.context.get('discard_logo_check')
-        if (self.env.uid == SUPERUSER_ID) and (
-            (not self.env.user.company_id.external_report_layout) or (
-                not discard_logo_check and not self.env.user.company_id.logo)) and config:
+        if (
+            (self.env.uid == SUPERUSER_ID) and
+            (
+                (
+                    not self.env.user.company_id.external_report_layout) or
+                (not discard_logo_check and not
+                 self.env.user.company_id.logo
+                 )
+            ) and
+            config
+        ):
             template = self.env.ref(
-                'base.view_company_report_form_with_print') if self.env.context.get(
+                'base.view_company_report_form_with_print')\
+                if self.env.context.get(
                 'from_transient_model', False) else self.env.ref(
                 'base.view_company_report_form')
             return {
