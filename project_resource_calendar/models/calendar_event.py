@@ -175,7 +175,7 @@ class CalendarEvent(models.Model):
             attendees = record.partner_ids.filtered(
                 lambda s: s.allow_double_book is False
             )
-            if not any(room) and not any(equipment) and not any(attendees):
+            if not room and not equipment and not attendees:
                 continue
             events = self.env['calendar.event'].search([
                 ('id', '!=', record.id),
