@@ -252,9 +252,6 @@ class TestSecurity(TestProjectEventCommon):
 
     def test_140_user_can_read_pt_type_task(
             self):
-            """test_140_user_can_read_pt_type
-            task_if_one_or_more_parent_children_
-            has_user_as_participant"""
         self.assertEqual(
             len(self.Tasks.sudo(self.project_user.id).search([])),
             0)
