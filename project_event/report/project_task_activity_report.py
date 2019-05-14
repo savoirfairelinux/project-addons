@@ -51,7 +51,9 @@ class ReportWeekly(models.AbstractModel):
                     'expected_start': self.get_tz_format(task.date_start),
                     'employee': employee.name,
                     'order': task.task_order,
-                    'real_start': self.get_tz_format(task.real_date_start) if task.real_date_start else '',
+                    'real_start':
+                    self.get_tz_format(task.real_date_start) if (
+                        task.real_date_start) else '',
                 })
         table_lines_sorted = sorted(
             table_lines, key=itemgetter(

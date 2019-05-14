@@ -37,6 +37,6 @@ class Instrument(models.Model):
         for rec in self:
             rec.instrument_log_count = self.env['auditlog.log'].search_count([
                 ('model_id', '=', self.env.ref(
-                insmnt).id),
+                    insmnt).id),
                 ('res_id', '=', rec.id)
             ])

@@ -2,7 +2,6 @@
 # License LGPL-3.0 or Later (http://www.gnu.org/licenses/lgpl).
 
 from odoo import api, fields, models
-from dateutil.relativedelta import relativedelta
 
 
 class ProjectTaskWizard(models.TransientModel):

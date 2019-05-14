@@ -52,7 +52,8 @@ class MailThread(models.AbstractModel):
                 track_visibility == 'always' and
                 col_name in tracked_fields
             ):
-                tracking = self.env['mail.tracking.value'].create_tracking_values(
+                tracking =
+                self.env['mail.tracking.value'].create_tracking_values(
                     initial_value, initial_value, col_name, col_info)
                 if tracking:
                     display_values_ids.append([0, 0, tracking])
