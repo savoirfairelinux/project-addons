@@ -21,6 +21,7 @@ class MailThread(models.AbstractModel):
         displays = set()
         tracking_value_ids = []
         display_values_ids = []
+        TrackingValue = self.env['mail.tracking.value']
         # generate tracked_values data structure: {'col_name': {col_info,
         # new_value, old_value}}
         for col_name, col_info in tracked_fields.items():
@@ -38,7 +39,6 @@ class MailThread(models.AbstractModel):
 
             if new_value != initial_value and (
                     new_value or initial_value):
-                TrackingValue = self.env['mail.tracking.value']
                 tracking = TrackingValue.create_tracking_values(
                     initial_value, new_value, col_name, col_info)
                 if tracking:
@@ -52,8 +52,7 @@ class MailThread(models.AbstractModel):
                 track_visibility == 'always' and
                 col_name in tracked_fields
             ):
-                tracking =
-                self.env['mail.tracking.value'].create_tracking_values(
+                tracking = TrackingValue.create_tracking_values(
                     initial_value, initial_value, col_name, col_info)
                 if tracking:
                     display_values_ids.append([0, 0, tracking])
