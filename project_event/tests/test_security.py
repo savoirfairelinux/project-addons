@@ -231,8 +231,8 @@ class TestSecurity(TestProjectEventCommon):
         self.assertEqual(
             len(self.Tasks.sudo(self.project_user.id).search([])),
             0)
-        task_with_user_participant =
-        self.create_task_project_user_participant()
+        twup = self.create_task_project_user_participant()
+        task_with_user_participant = twup
         self.assertEqual(
             self.Tasks.sudo(self.project_user.id).browse(
                 task_with_user_participant.parent_id.id),
