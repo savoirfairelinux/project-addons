@@ -10,7 +10,8 @@ class CalendarEvent(models.Model):
     category_id = fields.Many2one(
         'task.category',
         string='Category',
-        default=lambda self: self.env['task.category'].search([('is_default', '=', True)])
+        default=lambda self: self.env['task.category'].search(
+            [('is_default', '=', True)])
     )
     sector_id = fields.Many2one(
         'res.partner.sector',

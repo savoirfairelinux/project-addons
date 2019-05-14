@@ -201,9 +201,10 @@ class TestSecurity(TestCalendarEventCommon):
         self.create_event(
             'Editor is participant', [], self.room_editor_user.id)
         events_room = self.Events.search(
-            [('room_id.tag_ids',
-             'in',
-             self.user_editor.employee_ids[0].category_ids.ids)])
+            [(
+                'room_id.tag_ids',
+                'in',
+                self.user_editor.employee_ids[0].category_ids.ids)])
         for event in events_room:
             self.assertEqual(
                 self.Events.sudo(self.user_editor.id).browse(event.id),

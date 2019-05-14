@@ -330,12 +330,15 @@ class CalendarEvent(models.Model):
                 partners = vals['partner_ids'][0][2]
                 if not vals['client_id'] in partners:
                     vals['partner_ids'] = [
-                        (6, 0, [vals['client_id']] + vals['partner_ids'][0][2])]
+                        (6, 0, [vals['client_id']] + \
+                            vals['partner_ids'][0][2])]
             else:
                 if not vals['client_id'] in partners:
                     vals['partner_ids'] = [(4, vals['client_id'], 0)]
         else:
-            if 'partner_ids' in vals and self.client_id.id not in vals['partner_ids'][0][2]:
+            if (
+                'partner_ids' in vals and
+                self.client_id.id not in vals['partner_ids'][0][2]):
                 vals['partner_ids'] = [
                     (6, 0, vals['partner_ids'][0][2] + [self.client_id.id])]
 

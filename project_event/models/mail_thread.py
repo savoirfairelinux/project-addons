@@ -14,7 +14,7 @@ class MailThread(models.AbstractModel):
         and initial values, return a structure that is a tuple containing :
 
          - a set of updated column names
-         - a list of changes 
+         - a list of changes
                     (initial value, new value, column name, column info) """
         self.ensure_one()
         changes = set()
@@ -48,10 +48,10 @@ class MailThread(models.AbstractModel):
                     changes.add(col_name)
 
             elif (
-                    new_value == initial_value and
-                    track_visibility == 'always' and
-                    col_name in tracked_fields
-                 ):
+                new_value == initial_value and
+                track_visibility == 'always' and
+                col_name in tracked_fields
+            ):
                 tracking = self.env['mail.tracking.value'].create_tracking_values(
                     initial_value, initial_value, col_name, col_info)
                 if tracking:

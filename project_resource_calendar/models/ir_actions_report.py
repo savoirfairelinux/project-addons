@@ -18,19 +18,19 @@ class IrActionsReport(models.Model):
         """
         discard_logo_check = self.env.context.get('discard_logo_check')
         if (
-            (self.env.uid == SUPERUSER_ID) and 
+            (self.env.uid == SUPERUSER_ID) and
             (
                 (
                     not self.env.user.company_id.external_report_layout) or
-                    (not discard_logo_check and not
+                (not discard_logo_check and not
                  self.env.user.company_id.logo
-                )
+                 )
             ) and
-             config
-           ):
+            config
+        ):
             template = self.env.ref(
                 'base.view_company_report_form_with_print')\
-                    if self.env.context.get(
+                if self.env.context.get(
                 'from_transient_model', False) else self.env.ref(
                 'base.view_company_report_form')
             return {

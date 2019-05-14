@@ -46,8 +46,8 @@ class WeeklyReportWizard(models.TransientModel):
     def _get_current_friday():
         today = datetime.date.today()
         return today - \
-            datetime.timedelta(days=today.weekday()) +\
-                datetime.timedelta(days=4)
+            datetime.timedelta(days=today.weekday()) + \
+            datetime.timedelta(days=4)
 
     @api.multi
     def get_report(self):
