@@ -18,9 +18,9 @@
                 <div align="right">
                     <h2>
                         <field name="event_task_id" readonly="1" context="{
-							'form_view_ref':'project_event.project_event_task_form',
-							'tree_view_ref':'project_event.project_event_task_tree'
-							}"/>
+                            'form_view_ref':'project_event.project_event_task_form',
+                            'tree_view_ref':'project_event.project_event_task_tree'
+                            }"/>
                     </h2>
                     <br/>
                 </div>
@@ -115,9 +115,9 @@
                 <div align="right">
                     <h2>
                         <field name="event_task_id" readonly="1" context="{
-							'form_view_ref':'project_event.project_event_task_form',
-							'tree_view_ref':'project_event.project_event_task_tree'
-							}"/>
+                            'form_view_ref':'project_event.project_event_task_form',
+                            'tree_view_ref':'project_event.project_event_task_tree'
+                            }"/>
                     </h2>
                 </div>
             </xpath>
