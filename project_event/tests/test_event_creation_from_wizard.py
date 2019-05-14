@@ -2,7 +2,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
 
-from odoo.addons.project_event.tests.common import TestProjectEventCommon
+from .common import TestProjectEventCommon
 
 
 class TestEventCreationFromWizard(TestProjectEventCommon):
