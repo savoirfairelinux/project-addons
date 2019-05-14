@@ -42,7 +42,7 @@ class CalendarEvent(models.Model):
         default='open')
     weekday_number = fields.Integer(
         string='Weekday number',
-        compute="_get_weekday_number"
+        compute="_compute_get_weekday_number"
     )
     event_task_id = fields.Many2one(
         string='Task',
@@ -89,15 +89,15 @@ class CalendarEvent(models.Model):
     )
     recurrent_state = fields.Char(
         string='Recurring',
-        compute='_calculate_recurrent'
+        compute='_compute_calculate_recurrent'
     )
     recurrence_type = fields.Char(
         string='Recurrence Type',
-        compute='_calculate_recurrence_type'
+        compute='_compute_calculate_recurrence_type'
     )
 
     client_id_partner_ids_names = fields.Char(
-        compute='_get_client_id_partner_ids_names'
+        compute='_compute_get_client_id_partner_ids_names'
     )
     client_id = fields.Many2one(
         'res.partner',
@@ -122,13 +122,13 @@ class CalendarEvent(models.Model):
             self.partner_ids = [(6, 0,
                                  [self.client_id.id] + self.partner_ids.ids)]
 
-    def _calculate_recurrent(self):
+    def _compute_calculate_recurrent(self):
         if self.recurrency:
             self.recurrent_state = _("Yes")
         else:
             self.recurrent_state = _("No")
 
-    def _calculate_recurrence_type(self):
+    def _compute_calculate_recurrence_type(self):
         if self.recurrency:
             recurrence_frequency = {
                 'daily': _('Day(s)'),
@@ -152,7 +152,7 @@ class CalendarEvent(models.Model):
             .replace('[', '').replace(']', '').replace("'", "")
 
     @api.one
-    def _get_client_id_partner_ids_names(self):
+    def _compute_get_client_id_partner_ids_names(self):
         if self.is_task_event:
             self.client_id_partner_ids_names = self.client_id.name
         else:
@@ -160,7 +160,7 @@ class CalendarEvent(models.Model):
 
     @api.one
     @api.depends('start_datetime')
-    def _get_weekday_number(self):
+    def _compute_get_weekday_number(self):
         if self.start_datetime:
             self.weekday_number = datetime.strptime(
                 self.start_datetime, '%Y-%m-%d %H:%M:%S'
