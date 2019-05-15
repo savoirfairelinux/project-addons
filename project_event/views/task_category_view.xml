@@ -23,12 +23,12 @@
                         <field name="sequence"/>
                         <field name="color" widget="color"/>
                         <field name="is_default"/>
+                        <field name="font_color" widget="radio"/>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
-
     <record id="task_category_tree" model="ir.ui.view">
         <field name="name">Category Tree</field>
         <field name="model">task.category</field>

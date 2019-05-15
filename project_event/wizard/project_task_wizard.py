@@ -2,7 +2,6 @@
 # License LGPL-3.0 or Later (http://www.gnu.org/licenses/lgpl).
 
 from odoo import api, fields, models
-from dateutil.relativedelta import relativedelta
 
 
 class ProjectTaskWizard(models.TransientModel):
@@ -118,7 +117,6 @@ class ProjectTaskWizard(models.TransientModel):
             'description': self.description,
             'notes': self.notes,
             'activity_task_type': 'task',
-            'is_from_template': True,
         }
         if self.resource_type:
             if self.resource_type == 'room':

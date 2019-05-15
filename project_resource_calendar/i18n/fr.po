@@ -50,7 +50,7 @@ msgstr "<span> à </span>"
 #. module: project_resource_calendar
 #: model:ir.ui.view,arch_db:project_resource_calendar.weekly_report_view
 msgid "<strong>Reservation Bookings Schedule </strong>"
-msgstr "<strong>Horaires de réservation </strong>"
+msgstr "<strong>Horaire des réservations </strong>"
 
 #. module: project_resource_calendar
 #: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_instrument_photo
@@ -601,6 +601,12 @@ msgid "Service"
 msgstr "Service"
 
 #. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_sequence
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type_sequence
+msgid "Sequence"
+msgstr "Séquence"
+
+#. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_weekly_report_wizard_date_start
 msgid "Start Date"
 msgstr "Date de début"
@@ -630,6 +636,18 @@ msgstr ""
 "Le calendrier est partagé avec les employés et complètement intégré à\n"
 " d'autres applications comme celles des congés ou des opportunités\n"
 " commerciales."
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:167
+#, python-format
+msgid "The interval must be greater than 0"
+msgstr "L'intervalle doit être supérieur à zero"
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:174
+#, python-format
+msgid "The number of repetitions must be greater than 0"
+msgstr "Le nombre de répétitions doit être supérieur à zero"
 
 #. module: project_resource_calendar
 #: code:addons/project_resource_calendar/models/calendar_event.py:193
@@ -813,5 +831,29 @@ msgstr "Nom"
 
 #: code:addons/project_resource_calendar/models/calendar_event.py:210
 #, python-format
-msgid "Clone task cannot be deleted"
-msgstr "La tâche clonée ne peut pas être supprimée"
+msgid "This reservation can only be deleted from the Event module."
+msgstr "Cette réservation doit être supprimée à partir du module Événement exclusivement."
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:133
+#, python-format
+msgid "Day(s)"
+msgstr "par jour"
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:133
+#, python-format
+msgid "Month(s)"
+msgstr "par mois"
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:133
+#, python-format
+msgid "Week(s)"
+msgstr "par semaine"
+
+#. module: project_resource_calendar
+#: code:addons/project_resource_calendar/models/calendar_event.py:134
+#, python-format
+msgid "Year(s)"
+msgstr "par année"

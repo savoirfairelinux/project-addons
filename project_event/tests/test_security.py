@@ -1,7 +1,7 @@
 # © 2019 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
-from odoo.addons.project_event.tests.common import TestProjectEventCommon
+from .common import TestProjectEventCommon
 from odoo import exceptions
 from odoo import fields
 from datetime import datetime, timedelta
@@ -96,8 +96,9 @@ class TestSecurity(TestProjectEventCommon):
             message += "\n"
             for a in acl['acls']:
                 message += "\t External id: " + a['external_id']\
-                    + self.get_crud_permissions_from_acl(a['external_id']) + "\n"
-        print(message)
+                    + self.get_crud_permissions_from_acl(a['external_id']) +\
+                    "\n"
+        # print(message)
 
     def get_crud_permissions_from_acl(self, external_id):
         acls = ' ('
@@ -221,14 +222,17 @@ class TestSecurity(TestProjectEventCommon):
         self.assertTrue(
             self.project_3.sudo(self.user_manager).unlink()
         )
+    # test_130_project_user_can_only_read_project
+    # _task_type_activity_if_task_children_has_user_as_participant
 
-    def test_130_project_user_can_only_read_project_task_type_activity_if_task_children_has_user_as_participant(
+    def test_130_user_can_read_pt_type_activity(
             self):
         self.get_user_acls_and_rules_to_model(self.project_user, self.Tasks)
         self.assertEqual(
             len(self.Tasks.sudo(self.project_user.id).search([])),
             0)
-        task_with_user_participant = self.create_task_project_user_participant()
+        twup = self.create_task_project_user_participant()
+        task_with_user_participant = twup
         self.assertEqual(
             self.Tasks.sudo(self.project_user.id).browse(
                 task_with_user_participant.parent_id.id),
@@ -249,12 +253,13 @@ class TestSecurity(TestProjectEventCommon):
             'employee_ids': [[6, False, [self.employee_base.id]]],
         })
 
-    def test_140_project_user_can_read_project_task_type_task_if_one_or_more_parent_children_has_user_as_participant(
+    def test_140_user_can_read_pt_type_task(
             self):
         self.assertEqual(
             len(self.Tasks.sudo(self.project_user.id).search([])),
             0)
-        task_with_user_participant = self.create_task_project_user_participant()
+        task_with_user_participant =\
+            self.create_task_project_user_participant()
         parent_activity = task_with_user_participant.parent_id
         parent_childen_ids = parent_activity.child_ids.ids
         self.assertEqual(
@@ -432,8 +437,10 @@ class TestSecurity(TestProjectEventCommon):
             self.ActivityTemplate.sudo(self.user_manager).search([]))
 
     def test_460_project_manager_can_write_project_template_activity(self):
-        self.assertTrue(self.activity_template_1.sudo(self.user_manager.id).write(
-            {}))
+        self.assertTrue(
+            self.activity_template_1.sudo(
+                self.user_manager.id).write(
+                {}))
 
     def test_470_project_manager_can_create_project_template_activity(self):
         activity_template_created = self.ActivityTemplate.sudo(

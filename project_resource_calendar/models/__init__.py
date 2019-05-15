@@ -7,3 +7,5 @@ from . import instrument
 from . import calendar_event
 from . import miscellaneous
 from . import ir_actions_report
+from . import res_partner
+from . import hr_employee

@@ -5,7 +5,11 @@ from odoo import fields, models
 
 class RoomType(models.Model):
     _name = 'resource.calendar.room.type'
+    _order = 'sequence, name'
 
     name = fields.Char(
         string='Room Type'
+    )
+    sequence = fields.Integer(
+        string='Sequence',
     )

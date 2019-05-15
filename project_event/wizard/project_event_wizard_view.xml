@@ -53,8 +53,9 @@
                             <field name="activity_partner_id"/>
                             <field name="category_id"/>
                             <field name="room_id"/>
+                            <field name="department_id"/>
                             <field name="date_start"/>
-                            <field name="date_end"/>
+                            <field name="duration"/>
                             <field name="description"/>
                             <field name="notes"/>
                         </tree>
@@ -66,8 +67,9 @@
                                 <field name="activity_partner_id"/>
                                 <field name="category_id"/>
                                 <field name="room_id"/>
+                                <field name="department_id"/>
                                 <field name="date_start"/>
-                                <field name="date_end"/>
+                                <field name="duration"/>
                                 <field name="description"/>
                                 <field name="notes"/>
                             </group>
@@ -87,6 +89,9 @@
         <field name="model">project.event.wizard</field>
         <field name="arch" type="xml">
             <form string="Task Wizard">
+                <group>
+                     <field name="general_room_id"/>
+                </group>
                 <group>
                     <field name="task_line_ids" nolabel="1">
                         <tree>
@@ -168,9 +173,10 @@
                     <field name="activity_resp_id"/>
                     <field name="activity_partner_id"/>
                     <field name="category_id"/>
+                    <field name="department_id"/>
                     <field name="room_id"/>
                     <field name="date_start"/>
-                    <field name="date_end"/>
+                    <field name="duration"/>
                 </group>
                 <notebook>
                     <page string="Description">
@@ -193,6 +199,9 @@
         <field name="model">project.activity.wizard</field>
         <field name="arch" type="xml">
             <form string="Task Wizard">
+                <group>
+                     <field name="general_room_id"/>
+                </group>
                 <group>
                     <field name="task_line_ids" nolabel="1">
                         <tree>

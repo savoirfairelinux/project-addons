@@ -5,7 +5,11 @@ from odoo import fields, models
 
 class Miscellaneous(models.Model):
     _name = 'resource.calendar.miscellaneous'
+    _order = 'sequence, name'
 
     name = fields.Char(
         string='Name',
+    )
+    sequence = fields.Integer(
+        string='Sequence',
     )

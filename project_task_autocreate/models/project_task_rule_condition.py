@@ -84,7 +84,7 @@ class ProjectTaskRuleCondition(models.Model):
             # So we add an OR operator in front of every domain part
             # starting at len(domain)-2
             if len(domain) > 1:
-                for i in range(len(domain)-2, -1, -1):
+                for i in range(len(domain) - 2, -1, -1):
                     domain.insert(i, '|')
         return domain
 
