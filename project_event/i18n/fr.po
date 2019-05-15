@@ -79,6 +79,11 @@ msgid "Accept"
 msgstr "Accepter"
 
 #. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_activity_form
+msgid "Approve"
+msgstr "Approuver"
+
+#. module: project_event
 #: selection:project.project,state:0 selection:project.task,task_state:0
 #: selection:project.task,task_state_report_done_required:0
 #: selection:project.task,task_state_report_not_done_required:0
@@ -642,8 +647,8 @@ msgstr ""
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:182
 #, python-format
-msgid "Event: <br>"
-msgstr "Événement: <br>"
+msgid "<br>Event: <br>"
+msgstr "<br>Événement: <br>"
 
 #. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_project_event
