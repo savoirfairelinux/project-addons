@@ -132,10 +132,14 @@ class TestSecurity(TestCalendarEventCommon):
     def create_event(
             self,
             name,
-            partner_ids=[],
+            partner_ids=None,
             room_id=None,
             user_id=1,
-            equipment_ids=[]):
+            equipment_ids=None):
+        if not partner_ids:
+            partner_ids = []
+        if not equipment_ids:
+            equipment_ids = []
         return self.Events.sudo(user_id).create({
             'name': name,
             'start': fields.Datetime.to_string(datetime.today()),
@@ -152,8 +156,10 @@ class TestSecurity(TestCalendarEventCommon):
             self,
             name,
             user_id,
-            partner_ids=[],
+            partner_ids=None,
             room_id=None):
+        if not partner_ids:
+            partner_ids = []
         calendar_event_user_event = self.create_event(
             name,
             partner_ids,
