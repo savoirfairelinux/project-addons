@@ -148,7 +148,12 @@ class TestSecurity(TestCalendarEventCommon):
             'equipment_ids': [(6, 0, equipment_ids)],
         })
 
-    def user_can_read_event(self, name, user_id, partner_ids=None, room_id=None):
+    def user_can_read_event(
+            self,
+            name,
+            user_id,
+            partner_ids=None,
+            room_id=None):
         calendar_event_user_event = self.create_event(
             name,
             partner_ids,
