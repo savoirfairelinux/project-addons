@@ -1,8 +1,7 @@
 # © 2019 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
-from odoo.addons.project_resource_calendar.tests.common\
-    import TestCalendarEventCommon
+from .common import TestCalendarEventCommon
 from odoo import exceptions, fields
 from datetime import datetime, timedelta
 
@@ -133,10 +132,10 @@ class TestSecurity(TestCalendarEventCommon):
     def create_event(
             self,
             name,
-            partner_ids=[],
+            partner_ids=None,
             room_id=None,
             user_id=1,
-            equipment_ids=[]):
+            equipment_ids=None):
         return self.Events.sudo(user_id).create({
             'name': name,
             'start': fields.Datetime.to_string(datetime.today()),
@@ -149,7 +148,7 @@ class TestSecurity(TestCalendarEventCommon):
             'equipment_ids': [(6, 0, equipment_ids)],
         })
 
-    def user_can_read_event(self, name, user_id, partner_ids=[], room_id=None):
+    def user_can_read_event(self, name, user_id, partner_ids=None, room_id=None):
         calendar_event_user_event = self.create_event(
             name,
             partner_ids,

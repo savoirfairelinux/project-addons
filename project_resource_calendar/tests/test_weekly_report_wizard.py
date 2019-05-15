@@ -1,8 +1,7 @@
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
-from odoo.addons.project_resource_calendar.tests.common\
-    import TestCalendarEventCommon
+from .common import TestCalendarEventCommon
 import datetime
 
 

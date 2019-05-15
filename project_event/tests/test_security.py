@@ -98,7 +98,7 @@ class TestSecurity(TestProjectEventCommon):
                 message += "\t External id: " + a['external_id']\
                     + self.get_crud_permissions_from_acl(a['external_id']) +\
                     "\n"
-        #print(message)
+        # print(message)
 
     def get_crud_permissions_from_acl(self, external_id):
         acls = ' ('
