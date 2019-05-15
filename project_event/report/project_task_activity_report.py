@@ -124,7 +124,7 @@ class ReportWeekly(models.AbstractModel):
             })
         return remarks
 
-    def remove_duplicate_department(self, departments=None, rest=None):
+    def remove_duplicate_department(self, departments=[], rest=[]):
         if len(departments) == 0:
             return rest
         else:
