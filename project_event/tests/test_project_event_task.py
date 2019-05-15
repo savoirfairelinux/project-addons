@@ -4,7 +4,7 @@
 from datetime import datetime, timedelta
 from odoo import exceptions
 from odoo import fields
-from odoo.addons.project_event.tests.common import TestProjectEventCommon
+from .common import TestProjectEventCommon
 
 
 class TestProjectEventTask(TestProjectEventCommon):
@@ -527,3 +527,10 @@ class TestProjectEventTask(TestProjectEventCommon):
             self.task_2.get_parent_project_id(),
             self.project_2.id
         )
+
+    def test_230_is_type_task(self):
+        self.assertTrue(self.task_1.is_type_task())
+
+    def test_240_check_task_state(self):
+        self.assertTrue(self.task_1.check_task_state('draft'))
+        self.assertFalse(self.task_1.check_task_state('approved'))

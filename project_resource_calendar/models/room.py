@@ -47,10 +47,11 @@ class Room(models.Model):
     )
 
     def _compute_room_log_count(self):
+        room = 'project_resource_calendar.model_resource_calendar_room'
         for rec in self:
             rec.room_log_count = self.env['auditlog.log'].search_count([
                 ('model_id', '=', self.env.ref(
-                    'project_resource_calendar.model_resource_calendar_room').id),
+                    room).id),
                 ('res_id', '=', rec.id)
             ])
 

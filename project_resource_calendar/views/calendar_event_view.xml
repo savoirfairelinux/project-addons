@@ -18,9 +18,9 @@
                 <div align="right">
                     <h2>
                         <field name="event_task_id" readonly="1" context="{
-							'form_view_ref':'project_event.project_event_task_form',
-							'tree_view_ref':'project_event.project_event_task_tree'
-							}"/>
+                            'form_view_ref':'project_event.project_event_task_form',
+                            'tree_view_ref':'project_event.project_event_task_tree'
+                            }"/>
                     </h2>
                     <br/>
                 </div>
@@ -115,9 +115,9 @@
                 <div align="right">
                     <h2>
                         <field name="event_task_id" readonly="1" context="{
-							'form_view_ref':'project_event.project_event_task_form',
-							'tree_view_ref':'project_event.project_event_task_tree'
-							}"/>
+                            'form_view_ref':'project_event.project_event_task_form',
+                            'tree_view_ref':'project_event.project_event_task_tree'
+                            }"/>
                     </h2>
                 </div>
             </xpath>
@@ -208,7 +208,7 @@
         </field>
     </record>
 
-    <record id="project_resource_calendar.view_calendar_event_tree" model="ir.ui.view">
+    <record id="view_calendar_event_tree" model="ir.ui.view">
         <field name="name">calendar.event.tree</field>
         <field name="model">calendar.event</field>
         <field name="inherit_id" ref="calendar.view_calendar_event_tree"/>

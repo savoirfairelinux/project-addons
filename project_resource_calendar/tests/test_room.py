@@ -1,7 +1,7 @@
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
-from odoo.addons.project_resource_calendar.tests.common import TestCalendarEventCommon
+from .common import TestCalendarEventCommon
 
 
 class TestRoom(TestCalendarEventCommon):
@@ -13,7 +13,7 @@ class TestRoom(TestCalendarEventCommon):
                           'model_resource_calendar_room'
 
         self.room = self.Rooms.create({
-            'name':  'Test Room for Auditlog Testing',
+            'name': 'Test Room for Auditlog Testing',
             'resource_type': 'room',
             'allow_double_book': True,
         })

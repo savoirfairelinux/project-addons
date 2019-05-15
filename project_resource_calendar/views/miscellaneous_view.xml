@@ -18,6 +18,7 @@
         <field name="arch" type="xml">
             <tree string="Miscellaneous">
                 <field name="name"/>
+                <field name="sequence"/>
             </tree>
         </field>
     </record>
@@ -28,11 +29,8 @@
             <form string="Miscellaneous">
                 <sheet>
                     <group>
-                        <div>
-                            <h1>
-                                <field name="name"/>
-                            </h1>
-                        </div>
+                        <field name="name"/>
+                        <field name="sequence"/>
                     </group>
                 </sheet>
             </form>

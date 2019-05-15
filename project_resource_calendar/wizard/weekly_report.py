@@ -39,8 +39,8 @@ class ReportWeekly(models.AbstractModel):
         return docs
 
     def get_tz_format(self, date_str):
-        return fields.Datetime.context_timestamp(self, datetime.strptime(date_str, '%Y-%m-%d %H:%M:%S'))\
-        .strftime('%Y-%m-%d %H:%M:%S')
+        return fields.Datetime.context_timestamp(self, datetime.strptime(
+            date_str, '%Y-%m-%d %H:%M:%S')) .strftime('%Y-%m-%d %H:%M:%S')
 
     @staticmethod
     def get_events_on_period(start, stop, events):

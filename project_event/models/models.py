@@ -36,17 +36,24 @@ def fields_view_get(
         submenu=False):
     """ fields_view_get([view_id | view_type='form'])
 
-    Get the detailed composition of the requested view like fields, model, view architecture
+    Get the detailed composition of the requested view
+    like fields, model, view architecture
 
     :param view_id: id of the view or None
-    :param view_type: type of the view to return if view_id is None ('form', 'tree', ...)
+    :param view_type: type of the view to return if
+    view_id is None ('form', 'tree', ...)
     :param toolbar: true to include contextual actions
     :param submenu: deprecated
-    :return: dictionary describing the composition of the requested view (including inherited views and extensions)
+    :return: dictionary describing the composition of the
+    requested view (including inherited views and extensions)
     :raise AttributeError:
-                        * if the inherited view has unknown position to work with other than 'before', 'after', 'inside', 'replace'
-                        * if some tag other than 'position' is found in parent view
-    :raise Invalid ArchitectureError: if there is view type other than form, tree, calendar, search etc defined on the structure
+                        * if the inherited view has unknown
+                        position to work with other than
+                        'before', 'after', 'inside', 'replace'
+                        * if some tag other than 'position' is
+                        found in parent view
+    :raise Invalid ArchitectureError: if there is view type other than
+     form, tree, calendar, search etc defined on the structure
     """
     View = self.env['ir.ui.view']
 

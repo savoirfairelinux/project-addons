@@ -1,7 +1,7 @@
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
-from odoo.addons.project_resource_calendar.tests.common import TestCalendarEventCommon
+from .common import TestCalendarEventCommon
 
 
 class TestInstrument(TestCalendarEventCommon):
@@ -18,9 +18,9 @@ class TestInstrument(TestCalendarEventCommon):
             'allow_double_book': True,
         })
         self.instrument = self.Instruments.create({
-            'name':  'Test Instrument for Auditlog Testing',
-            'resource_type':  'material',
-            'room_id':  self.room_info.id,
+            'name': 'Test Instrument for Auditlog Testing',
+            'resource_type': 'material',
+            'room_id': self.room_info.id,
             'allow_double_book': True,
         })
 
@@ -31,4 +31,6 @@ class TestInstrument(TestCalendarEventCommon):
         })
 
     def test_010_compute_instrument_log_count(self):
-        self.assertEqual(self.instrument.instrument_log_count, self.check_record_count)
+        self.assertEqual(
+            self.instrument.instrument_log_count,
+            self.check_record_count)

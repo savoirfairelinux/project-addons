@@ -70,11 +70,11 @@
                     <notebook>
                         <page string="Activities">
                             <field name="task_ids" string="Activity" context="{
-							'form_view_ref':'project_event.project_event_activity_form',
-							'tree_view_ref':'project_event.project_event_activity_tree',
-							'default_activity_task_type':'activity',
-							'default_project_id': active_id,
-							}" domain="[('activity_task_type','=', 'activity')]">
+                            'form_view_ref':'project_event.project_event_activity_form',
+                            'tree_view_ref':'project_event.project_event_activity_tree',
+                            'default_activity_task_type':'activity',
+                            'default_project_id': active_id,
+                            }" domain="[('activity_task_type','=', 'activity')]">
                                 <tree>
                                     <field name="name"/>
                                     <field name="code"/>

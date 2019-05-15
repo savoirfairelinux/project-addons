@@ -1,8 +1,7 @@
 # © 2019 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
-from odoo.addons.project_resource_calendar.tests.common\
-    import TestCalendarEventCommon
+from .common import TestCalendarEventCommon
 from odoo import exceptions, fields
 from datetime import datetime, timedelta
 
@@ -130,7 +129,17 @@ class TestSecurity(TestCalendarEventCommon):
             len(self.Events.sudo(self.user_base.id).search([])),
             0)
 
-    def create_event(self, name, partner_ids=[], room_id=None, user_id=1, equipment_ids=[]):
+    def create_event(
+            self,
+            name,
+            partner_ids=None,
+            room_id=None,
+            user_id=1,
+            equipment_ids=None):
+        if not partner_ids:
+            partner_ids = []
+        if not equipment_ids:
+            equipment_ids = []
         return self.Events.sudo(user_id).create({
             'name': name,
             'start': fields.Datetime.to_string(datetime.today()),
@@ -143,7 +152,14 @@ class TestSecurity(TestCalendarEventCommon):
             'equipment_ids': [(6, 0, equipment_ids)],
         })
 
-    def user_can_read_event(self, name, user_id, partner_ids=[], room_id=None):
+    def user_can_read_event(
+            self,
+            name,
+            user_id,
+            partner_ids=None,
+            room_id=None):
+        if not partner_ids:
+            partner_ids = []
         calendar_event_user_event = self.create_event(
             name,
             partner_ids,
@@ -195,7 +211,10 @@ class TestSecurity(TestCalendarEventCommon):
         self.create_event(
             'Editor is participant', [], self.room_editor_user.id)
         events_room = self.Events.search(
-            [('room_id.tag_ids', 'in', self.user_editor.employee_ids[0].category_ids.ids)])
+            [(
+                'room_id.tag_ids',
+                'in',
+                self.user_editor.employee_ids[0].category_ids.ids)])
         for event in events_room:
             self.assertEqual(
                 self.Events.sudo(self.user_editor.id).browse(event.id),
@@ -305,9 +324,11 @@ class TestSecurity(TestCalendarEventCommon):
             self.Instruments.sudo(self.user_base.id).search([])
 
     # TO DO: Validate Spec and write these:
-    # def test_280_guest_user_can_read_instruments_from_rooms_with_his_tag(self):
+    # def test_280_guest_user_can_
+    # read_instruments_from_rooms_with_his_tag(self):
     # def
-    # test_290_editor_user_can_read_instruments_from_rooms_with_his_tag(self):
+    # test_290_editor_user_can_read_instruments_from
+    # _rooms_with_his_tag(self):
 
     def test_300_manager_user_can_read_instruments(self):
         self.assertEqual(
@@ -440,7 +461,7 @@ class TestSecurity(TestCalendarEventCommon):
             self.Events.sudo(
                 self.user_guest.id).search([]).unlink()
 
-    def test_440_editor_user_can_delete_calendar_events_where_he_is_participant(
+    def test_440_editor_can_delete_calendar_events_where_he_is_participant(
             self):
         event = self.create_event(
             'Event editor is participant',
@@ -471,7 +492,7 @@ class TestSecurity(TestCalendarEventCommon):
         with self.assertRaises(exceptions.AccessError):
             self.create_event('Not Created', [], None, self.user_guest.id)
 
-    def test_490_editor_user_can_create_calendar_events_where_he_is_participant(
+    def test_490_editor_can_create_calendar_events_where_he_is_participant(
             self):
         event_editor = self.create_event(
             'Editor is Participant Event',
@@ -493,7 +514,7 @@ class TestSecurity(TestCalendarEventCommon):
             event_editor,
             type(self.Events))
 
-    def test_001_editor_user_cannot_create_calendar_events_withothou_room_with_his_tag_nor_participant(
+    def test_510_editor_cant_cr_caev_without_room_w_his_tag_nor_participant(
             self):
         with self.assertRaises(exceptions.ValidationError):
             self.create_event(

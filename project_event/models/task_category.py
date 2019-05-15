@@ -25,12 +25,13 @@ class TaskCategory(models.Model):
     font_color = fields.Selection([
         ('black', 'Black (Default)'),
         ('white', 'White')],
-         default='black')
+        default='black')
 
     @api.constrains('is_default')
     def _change_is_default(self):
         if self.is_default:
-            task_categories = self.env['task.category'].search([('id', '!=', self.id)])
+            task_categories = self.env['task.category'].search(
+                [('id', '!=', self.id)])
             for task_category in task_categories:
                 task_category.is_default = False
 
@@ -39,12 +40,12 @@ class TaskCategory(models.Model):
         for record in self:
             if record.is_default:
                 raise ValidationError(
-                        _(
-                            'The default category cannot be \
+                    _(
+                        'The default category cannot be \
                             deleted: \n Default category: '
-                            + record.name,
-                        )
+                        + record.name,
                     )
+                )
         return super(TaskCategory, self).unlink()
 
     @api.model

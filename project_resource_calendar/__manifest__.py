@@ -3,8 +3,8 @@
 
 {
     'name': 'Project Resource Calendar',
-    'version': '1.0',
-    'author': 'Savoir-faire Linux',
+    'version': '11.0.1.0.0',
+    'author': 'Savoir-faire Linux, Odoo Community Association (OCA)',
     'maintainer': 'Savoir-faire Linux',
     'website': 'http://www.savoirfairelinux.com',
     'license': 'LGPL-3',
@@ -33,6 +33,8 @@
         'views/resource_view.xml',
         'views/room_view.xml',
         'views/instrument_view.xml',
+        'views/res_partner_view.xml',
+        'views/hr_employee_view.xml',
         'templates/assets.xml',
         'report/calendar_event_report.xml',
         'report/calendar_event_print_template.xml',

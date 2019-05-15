@@ -16,10 +16,11 @@
                             <field name="temp_resp_id"/>
                             <field name="event_template_ids" string="Templates Events"/>
                             <field name="category_id"/>
+                            <field name="department_id"/>
                         </group>
                         <group>
                             <field name="room_id"/>
-                            <button name="action_initialize" string="Initialize" type="object"/>
+                            <field name="duration"/>
                         </group>
                     </group>
                     <notebook>

@@ -14,7 +14,7 @@ class AccountAnalyticLine(models.Model):
         vals = self._timesheet_preprocess(vals)
         return super(AccountAnalyticLine, self).create(vals)
 
-    def update_vals(self,vals):
+    def update_vals(self, vals):
         if vals.get('task_id'):
             task = self.env['project.task'].browse(vals.get('task_id'))
             project_id = task.get_parent_project_id()

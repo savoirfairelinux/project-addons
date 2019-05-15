@@ -1,0 +1,4 @@
+auditlog https://github.com/OCA/server-tools 11.0
+web_widget_color https://github.com/OCA/web 11.0
+calendar_resource https://github.com/savoirfairelinux/crm 11.0
+web_widget_table https://github.com/savoirfairelinux/web-addons 11.0
