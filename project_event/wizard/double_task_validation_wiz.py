@@ -4,14 +4,14 @@
 from odoo import api, fields, models
 
 
-class DoubleBookingValidationWiz(models.TransientModel):
+class DoubleTaskValidationWiz(models.TransientModel):
     """Wizard Reservation Confirmation"""
-    _name = 'doublebooking.validation.wiz'
+    _name = 'double.task.validation.wiz'
     _description = __doc__
 
-    event_id = fields.Many2one(
-        'calendar.event',
-        string='Event',
+    task_id = fields.Many2one(
+        'project.task',
+        string='Task',
     )
     message = fields.Html(
         string='Message',
@@ -27,8 +27,9 @@ class DoubleBookingValidationWiz(models.TransientModel):
 
     @api.multi
     def confirm_update(self):
-        self.event_id.write({'start_datetime': self.start_date,
-                             'stop_datetime': self.end_date})
+        self.task_id.write({'date_start': self.start_date,
+                             'date_end': self.end_date})
+
 
     @api.multi
     def confirm_cancel(self):

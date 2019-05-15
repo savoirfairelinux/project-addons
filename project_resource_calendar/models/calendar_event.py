@@ -135,8 +135,6 @@ class CalendarEvent(models.Model):
                 double_bookable_equipment_ids.append(equipment.id)
         self.double_bookable_equipment_ids = double_bookable_equipment_ids
 
-
-
     @api.onchange('client_id')
     def _onchange_client_id(self):
         if not self.is_task_event and self.client_id:

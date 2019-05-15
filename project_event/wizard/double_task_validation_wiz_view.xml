@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_double_task_validation_wiz" model="ir.ui.view">
+        <field name="name">Task Double Booking Validation Wizard</field>
+        <field name="model">double.task.validation.wiz</field>
+        <field name="arch" type="xml">
+            <form string="Task Double Booking Validation">
+                <div>
+                    <field name="message" readonly="1"/>
+                </div>
+                <footer>
+                    <button name="confirm_update" string="Ok" type="object" class="btn-primary"/>
+                    <button name="confirm_cancel" string="Cancel" type="object" class="btn-default" />
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
