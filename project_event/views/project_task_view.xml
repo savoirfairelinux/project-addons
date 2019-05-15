@@ -60,10 +60,10 @@
                     <notebook>
                         <page string="Tasks">
                             <field name="child_ids" string="Task" context="{
-							'form_view_ref':'project_event.project_event_task_form',
-							'default_activity_task_type':'task',
-							'default_parent_id': active_id,
-						    }" domain="[('activity_task_type','=', 'task')]">
+                            'form_view_ref':'project_event.project_event_task_form',
+                            'default_activity_task_type':'task',
+                            'default_parent_id': active_id,
+                            }" domain="[('activity_task_type','=', 'task')]">
                                 <tree>
                                     <field name="equipment_id" string="Resource"/>
                                     <field name="room_id" string="Room"/>

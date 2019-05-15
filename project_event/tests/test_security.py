@@ -1,7 +1,7 @@
 # © 2019 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
-from odoo.addons.project_event.tests.common import TestProjectEventCommon
+from .common import TestProjectEventCommon
 from odoo import exceptions
 from odoo import fields
 from datetime import datetime, timedelta
@@ -98,7 +98,7 @@ class TestSecurity(TestProjectEventCommon):
                 message += "\t External id: " + a['external_id']\
                     + self.get_crud_permissions_from_acl(a['external_id']) +\
                     "\n"
-        print(message)
+        # print(message)
 
     def get_crud_permissions_from_acl(self, external_id):
         acls = ' ('

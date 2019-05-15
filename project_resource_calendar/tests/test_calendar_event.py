@@ -4,8 +4,7 @@
 from datetime import datetime, timedelta
 
 from odoo import fields
-from odoo.addons.project_resource_calendar.tests.common \
-    import TestCalendarEventCommon
+from .common import TestCalendarEventCommon
 from odoo.exceptions import ValidationError
 
 
