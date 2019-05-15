@@ -28,8 +28,7 @@ class DoubleTaskValidationWiz(models.TransientModel):
     @api.multi
     def confirm_update(self):
         self.task_id.write({'date_start': self.start_date,
-                             'date_end': self.end_date})
-
+                            'date_end': self.end_date})
 
     @api.multi
     def confirm_cancel(self):
