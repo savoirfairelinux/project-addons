@@ -43,9 +43,12 @@ class ProjectActivityWizard(models.TransientModel):
     )
     duration = fields.Integer(
         string='Duration',
+        help="In minutes",
     )
     date_start = fields.Datetime(
         string='Starting Date',
+        help=" In minutes: value should be negative if it is before"
+             " the main task (preceded by '-') or positive if it is after",
         default=fields.Datetime.now,
     )
     date_end = fields.Datetime(
