@@ -244,7 +244,6 @@ class Project(models.Model):
     @api.multi
     def _message_track(self, tracked_fields, initial):
         mail_track = super()._message_track(tracked_fields, initial)
-        import ipdb; ipdb.set_trace()
         changes = mail_track[0]
         tracking_value_ids = mail_track[1]
         order_fields = self.order_event_fields(tracking_value_ids)
