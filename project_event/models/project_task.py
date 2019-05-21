@@ -276,7 +276,14 @@ class Task(models.Model):
         if 'remaining_hours' not in default:
             default['remaining_hours'] = self.planned_hours
         default['task_state'] = 'draft'
-        return super(Task, self).copy(default)
+        new_copy = super(Task, self).copy(default)
+        if self.is_activity():
+            child_default_vals = {'parent_id': new_copy.id}
+            for child in self.child_ids:
+                if child.is_main_task:
+                    continue
+                child.copy(default=child_default_vals)
+        return new_copy
 
     @api.model
     def name_search(self, name='', args=None, operator='ilike', limit=100):

@@ -226,3 +226,17 @@ class Project(models.Model):
             'target': 'new',
             'res_id': new_wizard.id,
         }
+
+    @api.multi
+    def map_tasks(self, new_project_id):
+        """ copy and map tasks from old to new project """
+        tasks = self.env['project.task']
+        task_ids = self.env['project.task'].with_context(
+            active_test=False).search([('project_id', '=', self.id)]).ids
+        for task in self.env['project.task'].browse(task_ids):
+            defaults = {
+                'stage_id': task.stage_id.id,
+                'name': _("%s (copy)") % task.name,
+                'project_id': new_project_id}
+            tasks += task.copy(defaults)
+        return self.browse(new_project_id)
