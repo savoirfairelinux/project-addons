@@ -583,3 +583,11 @@ class TestProjectEventTask(TestProjectEventCommon):
     def test_240_check_task_state(self):
         self.assertTrue(self.task_1.check_task_state('draft'))
         self.assertFalse(self.task_1.check_task_state('approved'))
+
+    def test_250_duplicate_activity_duplicates_child_ids(self):
+        self.task_1.write({'parent_id': self.activity_1.id})
+        new_activity = self.activity_1.copy()
+        self.assertEqual(
+            len(self.activity_1.child_ids),
+            len(new_activity.child_ids)
+        )
