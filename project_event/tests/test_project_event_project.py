@@ -2,7 +2,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
 
-from .common import TestProjectEventCommon
+from common import TestProjectEventCommon
 
 
 class TestProjectEvent(TestProjectEventCommon):
@@ -46,3 +46,10 @@ class TestProjectEvent(TestProjectEventCommon):
         self.project_1.partner_id = self.partner_tag2.id
         self.project_1._onchange_partner_id()
         self.assertEqual(self.project_1.client_type.name, 'Type 3')
+
+    def test_040_duplicate_project_duplicates_task_ids(self):
+        new_project = self.project_1.copy()
+        self.assertEqual(len(
+            self.project_1.task_ids),
+            len(new_project.task_ids)
+        )
