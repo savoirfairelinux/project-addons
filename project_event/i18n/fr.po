@@ -1471,3 +1471,8 @@ msgstr "Cette salle n'est pas réservable"
 #: model:ir.model.fields,field_description:project.field_report_project_task_user_name
 msgid "Task Title"
 msgstr "Titre"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:mail.field_project_task_activity_user_id
+msgid "Mail Activity Responsible"
+msgstr "Responsable Activité Mail"
