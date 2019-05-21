@@ -1018,7 +1018,6 @@ class Task(models.Model):
         mail_track = super()._message_track(tracked_fields, initial)
         changes = mail_track[0]
         tracking_value_ids = mail_track[1]
-        import ipdb; ipdb.set_trace()
         order_fields = self.order_event_fields(tracking_value_ids)
         return changes, order_fields
     
