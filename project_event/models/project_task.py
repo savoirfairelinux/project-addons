@@ -1018,16 +1018,11 @@ class Task(models.Model):
         mail_track = super()._message_track(tracked_fields, initial)
         changes = mail_track[0]
         tracking_value_ids = mail_track[1]
-<<<<<<< HEAD
         if self.activity_task_type == 'activity':
             tracking_value_ids = self.order_activity_fields(tracking_value_ids)
         elif self.activity_task_type == 'task':
             tracking_value_ids = self.order_task_fields(tracking_value_ids)
         return changes, tracking_value_ids
-=======
-        order_fields = self.order_event_fields(tracking_value_ids)
-        return changes, order_fields
->>>>>>> 7c628cbfc34c267708bc320f6cd6428f88f6af9d
     
     @staticmethod
     def order_activity_fields(tracking_values):
