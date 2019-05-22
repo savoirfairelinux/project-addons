@@ -1065,7 +1065,15 @@ class Task(models.Model):
             'date_end',
             'notes',
             'department_id',
-            'employee_ids'
+            'employee_ids',
+            'project_id',
+            'category_id',
+            'room_id',
+            'resource_type',
+            'user_id',
+            'client_type',
+            'sector_id',
+            'rel_date_start'
         ]
         task_tracking_values = []
         for x in range(len(tracking_values)):
