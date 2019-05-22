@@ -1475,4 +1475,4 @@ msgstr "Titre"
 #. module: project_event
 #: model:ir.model.fields,field_description:mail.field_project_task_activity_user_id
 msgid "Mail Activity Responsible"
-msgstr "Responsable Activité Mail"
+msgstr "Responsable (Activité Mail)"
