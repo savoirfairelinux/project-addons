@@ -47,8 +47,7 @@
         'views/res_partner_sector_view.xml',
         'wizard/project_event_wizard_view.xml',
         'views/calendar_event_view.xml',
-        'wizard/reservation_validation_wiz_view.xml',
-        'wizard/double_task_validation_wiz_view.xml'
+        'wizard/reservation_validation_wiz_view.xml'
     ],
     'installable': True,
     'application': False,

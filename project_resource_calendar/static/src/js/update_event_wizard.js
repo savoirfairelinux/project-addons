@@ -30,6 +30,8 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
                 var overlap = false;
                 var start_date = '';
                 var end_date = '';
+                var r_start_date = '';
+                var r_end_date = '';
                 var record_id = 0;
                 record.source.events.forEach(function(event) {
                     if (event.id != record.id ){
@@ -49,6 +51,8 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
                                     record_id = record.id;
                                     start_date = record._start.add(-self.getSession().getTZOffset(record._start), 'minutes');
                                     end_date = record._end.add(-self.getSession().getTZOffset(record._end), 'minutes');
+                                    r_start_date = record.r_start.add(-self.getSession().getTZOffset(record._start), 'minutes');
+                                    r_end_date = record.r_end.add(-self.getSession().getTZOffset(record._end), 'minutes');
                                 }
                             }
                             if(typeof record.record.room_id[0] != 'undefined'
@@ -60,6 +64,8 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
                                     record_id = record.id;
                                     start_date = record._start.add(-self.getSession().getTZOffset(record._start), 'minutes');
                                     end_date = record._end.add(-self.getSession().getTZOffset(record._end), 'minutes');
+                                    r_start_date = record.r_start.add(-self.getSession().getTZOffset(record._start), 'minutes');
+                                    r_end_date = record.r_end.add(-self.getSession().getTZOffset(record._end), 'minutes');
                                 }
                             }
                         }
@@ -74,6 +80,8 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
                                 message: message,
                                 start_date: start_date,
                                 end_date: end_date,
+                                r_start_date: r_start_date,
+                                r_end_date: r_end_date,
                                }],
                     }).then(function (wizard) {
                         self.do_action({
@@ -96,22 +104,27 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
                 self._rpc({
                     model: 'project.task',
                     method: 'is_resource_booked',
-                    args: [record.id],
+                    args: [record.id,
+                           record._start.add(-self.getSession().getTZOffset(record._start), 'minutes'),
+                           record._end.add(-self.getSession().getTZOffset(record._end), 'minutes')
+                          ],
                 }).then(function (is_resource_booked) {
                     if(is_resource_booked){
                         message = message + record.record.room_id[1] + _t(' is already booked:<br> Do you want to continue?');
                         self._rpc({
-                            model: 'double.task.validation.wiz',
+                            model: 'doublebooking.validation.wiz',
                             method: 'create',
                             args: [{task_id: record.id,
                                     message: message,
-                                    start_date: record._start.add(-self.getSession().getTZOffset(record._start), 'minutes'),
-                                    end_date: record._end.add(-self.getSession().getTZOffset(record._end), 'minutes'),
+                                    start_date: record._start,
+                                    end_date: record._end,
+                                    r_start_date: record.r_start.add(-self.getSession().getTZOffset(record._start), 'minutes'),
+                                    r_end_date: record.r_end.add(-self.getSession().getTZOffset(record._end), 'minutes')
                                    }],
                         }).then(function (wizard) {
                             self.do_action({
-                                name: 'Task Confirm double booking reservation',
-                                res_model: 'double.task.validation.wiz',
+                                name: 'Confirm double booking reservation',
+                                res_model: 'doublebooking.validation.wiz',
                                 views: [[false, 'form']],
                                 type: 'ir.actions.act_window',
                                 view_type: "form",

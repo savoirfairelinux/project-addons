@@ -37,7 +37,7 @@ class CalendarEvent(models.Model):
         ondelete='set null',
     )
     double_bookable_equipment_ids = fields.Many2many(
-        string='Double bookable bookable equipment',
+        string='Double bookable equipments',
         compute='_get_double_bookable_equipments',
         comodel_name='resource.calendar.instrument',
         ondelete='set null',
@@ -371,27 +371,3 @@ class CalendarEvent(models.Model):
                     )
                 )
         return super(CalendarEvent, self).unlink()
-
-    @api.multi
-    def get_confirmation_wizard(self, action):
-        self.ensure_one()
-        res = ''
-        if res != '':
-            res = _('The Following resources are already booked:<br>') + res
-        message = _('Please Confirm your reservation.<br>') + res + _(
-            'Do you want to continue?')
-        new_wizard = self.env['doublebooking.validation.wiz'].create(
-            {
-                'event_id': self.id,
-                'message': message,
-            }
-        )
-        return {
-            'name': 'Confirm double booking reservation',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'doublebooking.validation.wiz',
-            'target': 'new',
-            'res_id': new_wizard.id,
-        }

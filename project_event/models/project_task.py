@@ -953,12 +953,15 @@ class Task(models.Model):
     def send_message(self, action):
         self.env['mail.message'].create(self.get_message(action))
 
-    def is_resource_booked(self):
+    def is_resource_booked(self, date_start=None, date_end=None):
+        if not date_end and not date_start:
+            date_start = self.date_start
+            date_end = self.date_end
         if self.room_id:
             overlaps = self.env['calendar.event'].search([
                 ('room_id', '=', self.room_id.id),
-                ('start', '<', self.date_end),
-                ('stop', '>', self.date_start),
+                ('start', '<', date_end),
+                ('stop', '>', date_start),
             ])
             overlaps_ids = overlaps.ids
             for calendar_event in overlaps_ids:
