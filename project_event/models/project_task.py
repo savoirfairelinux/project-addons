@@ -962,6 +962,7 @@ class Task(models.Model):
                 ('room_id', '=', self.room_id.id),
                 ('start', '<', date_end),
                 ('stop', '>', date_start),
+                ('state', '!=', 'cancelled'),
             ])
             overlaps_ids = overlaps.ids
             for calendar_event in overlaps_ids:
