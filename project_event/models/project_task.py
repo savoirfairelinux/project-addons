@@ -1049,11 +1049,16 @@ class Task(models.Model):
     @staticmethod
     def order_task_fields(tracking_values):
         task_fields_list = [
-            'name', 'code', 'responsible_id', 'partner_id', 'project_id',
-            'notes', 'category_id', 'date_start', 'date_end', 'department_id',
-            'employee_ids', 'task_state', 'room_id', 'resource_type',
-            'user_id', 'client_type', 'sector_id', 'rel_date_start',
-            'rel_date_end', 'report_done_required'
+            'task_state',
+            'name',
+            'code',
+            'responsible_id',
+            'partner_id',
+            'date_start',
+            'date_end',
+            'notes',
+            'department_id',
+            'employee_ids'
         ]
         task_tracking_values = []
         for x in range(len(tracking_values)):
