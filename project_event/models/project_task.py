@@ -1035,7 +1035,14 @@ class Task(models.Model):
             'room_id',
             'date_start',
             'date_end',
-            'notes'
+            'notes',
+            'project_id',
+            'category_id',
+            'resource_type',
+            'manager_id',
+            'user_id',
+            'client_type',
+            'sector_id'
         ]
         activity_tracking_values = []
         for index in range(len(tracking_values)):
