@@ -240,7 +240,7 @@ class Project(models.Model):
                 'project_id': new_project_id}
             tasks += task.copy(defaults)
         return self.browse(new_project_id)
-    
+
     @api.multi
     def _message_track(self, tracked_fields, initial):
         mail_track = super()._message_track(tracked_fields, initial)
@@ -248,7 +248,7 @@ class Project(models.Model):
         tracking_value_ids = mail_track[1]
         order_fields = self.order_event_fields(tracking_value_ids)
         return changes, order_fields
-    
+
     @staticmethod
     def order_event_fields(tracking_values):
         event_fields_list = [
