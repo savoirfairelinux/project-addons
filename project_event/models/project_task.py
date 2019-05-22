@@ -1012,7 +1012,7 @@ class Task(models.Model):
     def check_task_state(task_state_in):
         return task_state_in in \
             ['draft', 'option', 'postponed', 'canceled']
-    
+
     @api.multi
     def _message_track(self, tracked_fields, initial):
         mail_track = super()._message_track(tracked_fields, initial)
@@ -1023,7 +1023,7 @@ class Task(models.Model):
         elif self.activity_task_type == 'task':
             tracking_value_ids = self.order_task_fields(tracking_value_ids)
         return changes, tracking_value_ids
-    
+
     @staticmethod
     def order_activity_fields(tracking_values):
         activity_fields_list = [
@@ -1040,7 +1040,7 @@ class Task(models.Model):
                         == activity_fields_list[index]:
                     activity_tracking_values.append(activity)
         return activity_tracking_values
-    
+
     @staticmethod
     def order_task_fields(tracking_values):
         task_fields_list = [
