@@ -1027,10 +1027,15 @@ class Task(models.Model):
     @staticmethod
     def order_activity_fields(tracking_values):
         activity_fields_list = [
-            'name', 'code', 'responsible_id', 'partner_id', 'project_id',
-            'notes', 'category_id', 'date_start', 'date_end', 'task_state',
-            'room_id', 'resource_type', 'manager_id', 'user_id', 'client_type',
-            'sector_id'
+            'task_state',
+            'name',
+            'code',
+            'responsible_id',
+            'partner_id',
+            'room_id',
+            'date_start',
+            'date_end',
+            'notes'
         ]
         activity_tracking_values = []
         for index in range(len(tracking_values)):
