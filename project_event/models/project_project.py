@@ -257,7 +257,8 @@ class Project(models.Model):
             'code',
             'responsible_id',
             'partner_id',
-            'notes'
+            'notes',
+            'user_id'
         ]
         event_tracking_values = []
         for index in range(len(tracking_values)):
