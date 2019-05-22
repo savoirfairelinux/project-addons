@@ -4,7 +4,7 @@
 from datetime import datetime, timedelta
 from odoo import exceptions
 from odoo import fields
-from common import TestProjectEventCommon
+from .common import TestProjectEventCommon
 
 
 class TestProjectEventTask(TestProjectEventCommon):
