@@ -846,7 +846,6 @@ class Task(models.Model):
             self.send_message('option')
             self.write({'task_state': 'option'})
         else:
-            self.draft_resources_reservation()
             self.do_task_reservation()
             self.write({'task_state': 'option'})
 

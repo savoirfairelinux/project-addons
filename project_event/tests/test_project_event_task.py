@@ -4,7 +4,7 @@
 from datetime import datetime, timedelta
 from odoo import exceptions
 from odoo import fields
-from .common import TestProjectEventCommon
+from common import TestProjectEventCommon
 
 
 class TestProjectEventTask(TestProjectEventCommon):
@@ -591,3 +591,23 @@ class TestProjectEventTask(TestProjectEventCommon):
             len(self.activity_1.child_ids),
             len(new_activity.child_ids)
         )
+
+    def test_260_get_booked_attendees(self):
+        self.assertEqual(self.task_1.get_booked_resources(), '')
+        self.set_employee_not_allowed_double_booking(self.employee_1)
+        vals = {'employee_ids': [(6, 0, [self.employee_1.id])]}
+        self.assign_attendees_to_task(self.task_1, self.employee_1.id)
+        self.task_1.do_reservation()
+        self.assign_attendees_to_task(self.task_2, self.employee_1.id)
+        self.assertEqual(
+            self.task_2.get_booked_resources(),
+            'Test Room 1<br>Partner<br>')
+
+    @staticmethod
+    def assign_attendees_to_task(task, employee_id):
+        vals = {'employee_ids': [(6, 0, [employee_id])]}
+        task.write(vals)
+
+    @staticmethod
+    def set_employee_not_allowed_double_booking(employee):
+        return employee.write({'allowed_double_book': False})
