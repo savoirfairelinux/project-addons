@@ -595,7 +595,6 @@ class TestProjectEventTask(TestProjectEventCommon):
     def test_260_get_booked_attendees(self):
         self.assertEqual(self.task_1.get_booked_resources(), '')
         self.set_employee_not_allowed_double_booking(self.employee_1)
-        vals = {'employee_ids': [(6, 0, [self.employee_1.id])]}
         self.assign_attendees_to_task(self.task_1, self.employee_1.id)
         self.task_1.do_reservation()
         self.assign_attendees_to_task(self.task_2, self.employee_1.id)
