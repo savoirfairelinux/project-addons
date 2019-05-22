@@ -252,8 +252,12 @@ class Project(models.Model):
     @staticmethod
     def order_event_fields(tracking_values):
         event_fields_list = [
-            'name', 'code', 'responsible_id',
-            'user_id', 'notes', 'state', 'partner_id'
+            'state',
+            'name',
+            'code',
+            'responsible_id',
+            'partner_id',
+            'notes'
         ]
         event_tracking_values = []
         for index in range(len(tracking_values)):
