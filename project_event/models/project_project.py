@@ -51,7 +51,7 @@ class Project(models.Model):
         [
             ('draft', 'Draft'),
             ('option', 'Option'),
-            ('accepted', 'Accepted'),
+            ('approved', 'Approved'),
             ('postponed', 'Postponed'),
             ('canceled', 'Canceled')
         ],
@@ -90,13 +90,13 @@ class Project(models.Model):
             activity_vals['responsible_id'] = vals['responsible_id']
         if 'partner_id' in vals:
             activity_vals['partner_id'] = vals['partner_id']
-        for activitiy in self.task_ids:
+        for activity in self.task_ids:
             if activity_vals:
-                activitiy.write(activity_vals)
+                activity.write(activity_vals)
 
     @api.multi
     def action_cancel(self):
-        if self.state == 'accepted':
+        if self.state == 'approved':
             self.send_message('canceled')
         for activity in self.task_ids:
             activity.action_cancel()
@@ -111,12 +111,8 @@ class Project(models.Model):
         return self.get_confirmation_wizard('option')
 
     @api.multi
-    def action_draft(self):
-        self.write({'state': 'draft'})
-
-    @api.multi
     def action_postpone(self):
-        if self.state == 'accepted':
+        if self.state == 'approved':
             self.send_message('postponed')
         for activity in self.task_ids:
             activity.action_postpone()
@@ -149,10 +145,10 @@ class Project(models.Model):
                     self.child_reservation(child)
                 activity.send_message('requested')
             activity.open_resources_reservation()
-            activity.write({'task_state': 'accepted'})
+            activity.write({'task_state': 'approved'})
         if self.state in ['draft', 'option', 'postponed', 'canceled']:
-            self.send_message('accepted')
-        self.write({'state': 'accepted'})
+            self.send_message('approved')
+        self.write({'state': 'approved'})
 
     @staticmethod
     def child_reservation(child):
@@ -169,7 +165,7 @@ class Project(models.Model):
             'draft': ' ',
             'option': _('The following is optional and \
                         appears as crosshatched on your calendar'),
-            'accepted': _('The following is approved'),
+            'approved': _('The following is approved'),
             'postponed': _('The following is postponed \
                         and no longer appear on your calendars'),
             'canceled': _('The following is canceled\
@@ -179,8 +175,7 @@ class Project(models.Model):
 
     def get_message(self, action):
         mail_channel = 'project.mail_channel_project_task_event'
-        message = '<br>'
-        message += _('Event: <br>') + self.name + '<br>'
+        message = _('<br>Event: <br>') + self.name + '<br>'
         for activity in self.task_ids:
             message += _('Activity: ') + activity.name + _('<br> Tasks: ')
             for index_task, task in enumerate(activity.child_ids):
@@ -231,3 +226,17 @@ class Project(models.Model):
             'target': 'new',
             'res_id': new_wizard.id,
         }
+
+    @api.multi
+    def map_tasks(self, new_project_id):
+        """ copy and map tasks from old to new project """
+        tasks = self.env['project.task']
+        task_ids = self.env['project.task'].with_context(
+            active_test=False).search([('project_id', '=', self.id)]).ids
+        for task in self.env['project.task'].browse(task_ids):
+            defaults = {
+                'stage_id': task.stage_id.id,
+                'name': _("%s (copy)") % task.name,
+                'project_id': new_project_id}
+            tasks += task.copy(defaults)
+        return self.browse(new_project_id)

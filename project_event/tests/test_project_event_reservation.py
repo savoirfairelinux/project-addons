@@ -1,8 +1,6 @@
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
-from datetime import datetime, timedelta
-from odoo import fields
 from .common import TestProjectEventCommon
 
 
@@ -10,146 +8,34 @@ class TestProjectEventReservation(TestProjectEventCommon):
 
     def setUp(self):
         super(TestProjectEventReservation, self).setUp()
-        self.Tasks = self.env['project.task']
-        self.Rooms = self.env['project.task']
-
-        self.activity_1 = self.Tasks.create({
-            'name': 'Test Activity 1',
-            'activity_task_type': 'activity',
-            'project_id': self.project_1.id,
-            'responsible_id': self.project_1.responsible_id.id,
-            'partner_id': self.project_1.partner_id.id,
-            'room_id': self.room_1.id,
-            'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(
-                datetime.today() + timedelta(hours=4)
-            ),
-            'child_ids': [(0, 0,
-                           {
-                               'name': 'Test Task Activity 1',
-                               'activity_task_type': 'task',
-                               'responsible_id':
-                               self.project_1.responsible_id.id,
-                               'partner_id': self.project_1.partner_id.id,
-                               'room_id': self.room_1.id,
-                               'date_start':
-                               fields.Datetime.to_string(datetime.today()),
-                               'date_end': fields.Datetime.to_string(
-                                   datetime.today() + timedelta(hours=4)
-                               ),
-                           })],
-        })
-
-        self.activity_2 = self.Tasks.create({
-            'name': 'Test Activity 2',
-            'activity_task_type': 'activity',
-            'project_id': self.project_1.id,
-            'responsible_id': self.project_1.responsible_id.id,
-            'partner_id': self.project_1.partner_id.id,
-            'room_id': self.room_2.id,
-            'date_start': fields.Datetime.to_string(datetime.today()),
-            'date_end': fields.Datetime.to_string(
-                datetime.today() + timedelta(hours=4)),
-            'child_ids': [(0, 0,
-                           {
-                               'name': 'Test Task Activity 2',
-                               'activity_task_type': 'task',
-                               'responsible_id':
-                               self.project_1.responsible_id.id,
-                               'partner_id': self.project_1.partner_id.id,
-                               'room_id': self.room_2.id,
-                               'date_start': fields.Datetime.to_string(
-                                   datetime.today()),
-                               'date_end': fields.Datetime.to_string(
-                                   datetime.today() + timedelta(hours=4)
-                               ),
-                           })],
-        })
+        self.task_1.parent_id = self.activity_1
+        self.task_2.parent_id = self.activity_2
 
     def test_010_event_action_option(self):
-        res = self.project_1.action_option()
-        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
-        wiz.confirm_reservation()
-        self.assertEqual(
-            self.project_1.state,
-            'option')
-        for activity in self.project_1.task_ids:
-            self.assertEqual(
-                activity.task_state,
-                'option')
-            for task in activity.child_ids:
-                self.assertEqual(
-                    task.task_state,
-                    'option')
-        event_ids = self.project_1.task_ids.mapped(
-            'child_ids').mapped('reservation_event_id')
-        for event_id in event_ids:
-            reservation_event = self.env['calendar.event'].browse(
-                event_id)
-            self.assertEqual(
-                reservation_event.state,
-                'draft')
+        self.check_event_action_option(self.project_1)
 
     def test_020_event_action_accept(self):
-        res = self.project_1.action_accept()
-        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
-        wiz.confirm_accept_reservation()
-        self.assertEqual(
-            self.project_1.state,
-            'accepted')
-        for activity in self.project_1.task_ids:
-            self.assertEqual(
-                activity.task_state,
-                'accepted')
-            for task in activity.child_ids:
-                self.assertEqual(
-                    task.task_state,
-                    'requested')
-        event_ids = self.project_1.task_ids.mapped(
+        self.check_event_action_accept(self.project_1)
+
+    def test_030_action_cancel(self):
+        self.do_event_action_option(self.project_1)
+        clone_event_ids = self.project_1.task_ids.mapped(
             'child_ids').mapped('reservation_event_id')
-        for event_id in event_ids:
-            reservation_event = self.env['calendar.event'].browse(
+        self.check_event_action_cancel(self.project_1)
+        tasks = self.project_1.task_ids.mapped('child_ids').mapped(
+            'reservation_event_id')
+        self.assertEqual(tasks, [0, 0, 0])
+        for event_id in clone_event_ids:
+            calendar_event = self.env['calendar.event'].browse(
                 event_id)
-            self.assertEqual(
-                reservation_event.state,
-                'open')
+            self.assertEqual(calendar_event.state, 'cancelled')
+            self.assertFalse(calendar_event.event_task_id)
+        self.do_event_action_option(self.project_1)
 
-    # def test_030_action_cancel(self):
-    #     res = self.project_1.action_accept()
-    #     wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
-    #     wiz.confirm_accept_reservation()
-    #     self.project_1.action_cancel()
-    #     self.assertEqual(self.project_1.state, 'canceled')
-    #     for activity in self.project_1.task_ids:
-    #         self.assertEqual(
-    #             activity.task_state,
-    #             'canceled')
-    #         for task in activity.child_ids:
-    #             self.assertEqual(
-    #                 task.task_state,
-    #                 'canceled')
-
-    # def test_040_action_cancel_from_option_state(self):
-    #     res = self.project_1.action_option()
-    #     wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
-    #     wiz.confirm_reservation()
-    #     self.assertEqual(
-    #         self.project_1.state,
-    #         'option')
-    #     self.project_1.action_cancel()
-    #     self.assertEqual(self.project_1.state, 'canceled')
-    #     for activity in self.project_1.task_ids:
-    #         self.assertEqual(
-    #             activity.task_state,
-    #             'canceled')
-    #         for task in activity.child_ids:
-    #             self.assertEqual(
-    #                 task.task_state,
-    #                 'canceled')
-
-    def test_050_action_draft(self):
-        self.project_1.action_draft()
-        self.assertEqual(self.project_1.state, 'draft')
+    def test_040_action_postpone(self):
+        self.do_event_action_accept(self.project_1)
+        self.check_event_action_postpone(self.project_1)
+        self.check_event_action_accept(self.project_1)
 
     def test_060_check_partner_id_calendar_event_as_client_of_task(self):
         res = self.project_1.action_accept()
@@ -166,3 +52,49 @@ class TestProjectEventReservation(TestProjectEventCommon):
             self.assertEqual(
                 reservation_event.client_type.id,
                 reservation_event.event_task_id.client_type.id)
+
+    def do_event_action_option(self, event):
+        res = event.action_option()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_reservation()
+
+    def check_event_action_option(self, event):
+        self.do_event_action_option(event)
+        self.assertEqual(event.state, 'option')
+        self.check_event_childs_state(event, 'option', 'option')
+        self.check_event_clone_state(event, 'draft')
+
+    def do_event_action_accept(self, event):
+        res = event.action_accept()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_accept_reservation()
+
+    def check_event_action_accept(self, event):
+        self.do_event_action_accept(event)
+        self.assertEqual(event.state, 'approved')
+        self.check_event_childs_state(event, 'approved', 'requested')
+        self.check_event_clone_state(event, 'open')
+
+    def check_event_action_cancel(self, event):
+        event.action_cancel()
+        self.assertEqual(event.state, 'canceled')
+        self.check_event_childs_state(event, 'canceled', 'canceled')
+
+    def check_event_action_postpone(self, event):
+        event.action_postpone()
+        self.assertEqual(event.state, 'postponed')
+        self.check_event_childs_state(event, 'postponed', 'postponed')
+
+    def check_event_childs_state(self, event, activity_state, task_state):
+        for activity in event.task_ids:
+            self.assertEqual(activity.task_state, activity_state)
+            for task in activity.child_ids:
+                self.assertEqual(task.task_state, task_state)
+
+    def check_event_clone_state(self, event, state):
+        event_ids = event.task_ids.mapped(
+            'child_ids').mapped('reservation_event_id')
+        for event_id in event_ids:
+            reservation_event = self.env['calendar.event'].browse(
+                event_id)
+            self.assertEqual(reservation_event.state, state)

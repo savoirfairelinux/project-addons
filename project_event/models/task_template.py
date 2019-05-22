@@ -54,9 +54,12 @@ class TaskTemplate(models.Model):
     )
     duration = fields.Float(
         string='Duration',
+        help="In minutes",
     )
     start_time = fields.Float(
         string='Start Time',
+        help=" In minutes: value should be negative if it is before"
+             " the main task (preceded by '-') or positive if it is after",
     )
     description = fields.Html(
         string='Description',

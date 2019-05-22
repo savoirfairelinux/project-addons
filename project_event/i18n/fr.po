@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-01 13:56+0000\n"
-"PO-Revision-Date: 2019-05-01 10:02-0400\n"
+"POT-Creation-Date: 2019-05-15 19:35+0000\n"
+"PO-Revision-Date: 2019-05-15 15:37-0400\n"
 "Last-Translator: Rim BEN DHAOU <rim.bendhaou@savoirfairelinux.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -18,7 +18,17 @@ msgstr ""
 "X-Generator: Poedit 2.0.6\n"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:957
+#: model:ir.model.fields,help:project_event.field_project_task_wizard_start_time
+#: model:ir.model.fields,help:project_event.field_task_template_start_time
+msgid ""
+" In minutes: value should be negative if it is before the main task "
+"(preceded by '-') or positive if it is after"
+msgstr ""
+"En minutes: la valeur saisie doit être négative si c'est avant la tâche "
+"principale (précédée par '-') ou positive si c'est après"
+
+#. module: project_event
+#: code:addons/project_event/models/project_task.py:275
 #, python-format
 msgid "%s (copy)"
 msgstr ""
@@ -77,6 +87,11 @@ msgstr "<strong>Besoins Techniques/Mémo: </strong>"
 #: selection:reservation.validation.wiz,action:0
 msgid "Accept"
 msgstr "Accepter"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_activity_form
+msgid "Approve"
+msgstr "Approuver"
 
 #. module: project_event
 #: selection:project.project,state:0 selection:project.task,task_state:0
@@ -196,7 +211,7 @@ msgid "Activity: "
 msgstr "Activité: "
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:895
+#: code:addons/project_event/models/project_task.py:922
 #, python-format
 msgid "Activity: <br>"
 msgstr "Activité: <br>"
@@ -212,7 +227,7 @@ msgid "Actual Start Time"
 msgstr "Heure de début réelle"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:276
+#: code:addons/project_event/models/project_task.py:308
 #, python-format
 msgid "Actual Start Time should be before Actual End Time"
 msgstr "L'heure de début réelle doit être avant de l'heure de fin réelle"
@@ -464,7 +479,6 @@ msgstr "Nom à afficher"
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:214
-#: code:addons/project_event/models/project_task.py:969
 #, python-format
 msgid "Do you want to continue?"
 msgstr "Voulez vous continuer?"
@@ -642,8 +656,8 @@ msgstr ""
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:182
 #, python-format
-msgid "Event: <br>"
-msgstr "Événement: <br>"
+msgid "<br>Event: <br>"
+msgstr "<br>Événement: <br>"
 
 #. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_project_event
@@ -741,6 +755,12 @@ msgstr "Humain"
 #: model:ir.model.fields,field_description:project_event.field_task_template_id
 msgid "ID"
 msgstr "ID"
+
+#. module: project_event
+#: model:ir.model.fields,help:project_event.field_project_task_wizard_duration
+#: model:ir.model.fields,help:project_event.field_task_template_duration
+msgid "In minutes"
+msgstr "En minutes"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.activity_template_form
@@ -894,7 +914,6 @@ msgstr "Téléphone :"
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:214
-#: code:addons/project_event/models/project_task.py:969
 #, python-format
 msgid "Please confirm your reservation.<br>"
 msgstr "Veuillez confirmer la réservation.<br>"
@@ -1098,13 +1117,13 @@ msgid "Spectators"
 msgstr "Spectateurs"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:253
+#: code:addons/project_event/models/project_task.py:373
 #, python-format
 msgid "Spectators value should be in the range[-]"
 msgstr "Le nombre de spectateurs doit être compris entre ["
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:243
+#: code:addons/project_event/models/project_task.py:363
 #, python-format
 msgid "Spectators value should be numeric"
 msgstr "La valeur du champ Spectateurs doit être numérique"
@@ -1239,7 +1258,7 @@ msgid "Task/Activity Responsible"
 msgstr "Responsable de la tâche/activité"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:903
+#: code:addons/project_event/models/project_task.py:930
 #, python-format
 msgid "Task: <br>"
 msgstr "Tâche: <br>"
@@ -1269,7 +1288,7 @@ msgid "Tasks to Edit"
 msgstr "Tâches à modifier"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:896
+#: code:addons/project_event/models/project_task.py:923
 #, python-format
 msgid "Tasks: <br>"
 msgstr "Tâches: <br>"
@@ -1306,14 +1325,12 @@ msgstr ""
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:172
-#: code:addons/project_event/models/project_task.py:881
 #, python-format
 msgid "The following is approved"
 msgstr "L'élément suivant est approuvé"
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:175
-#: code:addons/project_event/models/project_task.py:886
 #, python-format
 msgid ""
 "The following is canceled                         and no longer on your "
@@ -1322,7 +1339,6 @@ msgstr "L'élément suivant est annulé et n'est plus affiché dans le calendrie
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:170
-#: code:addons/project_event/models/project_task.py:878
 #, python-format
 msgid ""
 "The following is optional and                         appears as "
@@ -1332,7 +1348,6 @@ msgstr ""
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:173
-#: code:addons/project_event/models/project_task.py:883
 #, python-format
 msgid ""
 "The following is postponed                         and no longer appear on "
@@ -1340,14 +1355,7 @@ msgid ""
 msgstr "L'élément suivant est reporté et n’apparaît plus sur le calendrier"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:880
-#, python-format
-msgid "The following is requested"
-msgstr "L'élément suivant est demandé"
-
-#. module: project_event
 #: code:addons/project_event/models/project_project.py:213
-#: code:addons/project_event/models/project_task.py:968
 #, python-format
 msgid "The following resources are already booked:<br>"
 msgstr "Ces ressources sont déjà réservées:<br>"
@@ -1359,7 +1367,7 @@ msgid "The task should be related to a project!"
 msgstr "La tâche doit être reliée à un projet"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:389
+#: code:addons/project_event/models/project_task.py:470
 #, python-format
 msgid "There must be a responsible or a client"
 msgstr "Il faut avoir un responsable ou un client "
@@ -1447,13 +1455,13 @@ msgid "res.partner.sector"
 msgstr "res.partner.sector"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:385
+#: code:addons/project_event/models/project_task.py:466
 #, python-format
 msgid "this resource is not bookable"
 msgstr "cette ressource est non réservable"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:387
+#: code:addons/project_event/models/project_task.py:468
 #, python-format
 msgid "this room is not bookable"
 msgstr "Cette salle n'est pas réservable"
@@ -1463,3 +1471,8 @@ msgstr "Cette salle n'est pas réservable"
 #: model:ir.model.fields,field_description:project.field_report_project_task_user_name
 msgid "Task Title"
 msgstr "Titre"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:mail.field_project_task_activity_user_id
+msgid "Mail Activity Responsible"
+msgstr "Responsable (Activité Mail)"

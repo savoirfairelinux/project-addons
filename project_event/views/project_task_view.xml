@@ -7,18 +7,18 @@
         <field name="arch" type="xml">
             <form string="Activity">
                 <header>
-                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', 'not in', 'draft')]}"
+                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', '!=', 'draft')]}"
                             type="object"/>
-                    <button name="action_return_option" string="Return to Option" attrs="{'invisible': [('task_state', 'in', ['draft', 'option', 'done'])]}"
+                    <button name="action_return_option" string="Return to Option" attrs="{'invisible': [('task_state', 'in', ['draft', 'option', 'canceled'])]}"
                             type="object"/>
-                    <button name="action_accept" string="Accept"
-                            attrs="{'invisible': [('task_state', '=', 'accepted')]}" type="object"/>
+                    <button name="action_accept" string="Approve"
+                            attrs="{'invisible': [('task_state', '=', 'approved')]}" type="object"/>
 
                     <button name="action_postpone" string="Postpone" type="object"
                             attrs="{'invisible': [('task_state', 'in', ['draft','postponed','canceled'])]}"/>
                     <button name="action_cancel" string="Cancel" type="object"
-                            attrs="{'invisible': [('task_state', 'not in', ['option','accepted'])]}"/>
-                    <field name="task_state" widget="statusbar" statusbar_visible="draft,option,accepted,canceled"/>
+                            attrs="{'invisible': [('task_state', 'not in', ['option','approved'])]}"/>
+                    <field name="task_state" widget="statusbar" statusbar_visible="draft,option,approved,postponed,canceled"/>
                 </header>
                 <sheet>
                     <div align="right">
@@ -127,7 +127,7 @@
         <field name="arch" type="xml">
             <form string="Task">
                 <header>
-                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', 'not in', 'draft')]}"
+                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', '!=', 'draft')]}"
                             type="object"
                             groups="project_event.group_project_event_editor"/>
                     <button name="action_return_option" string="Return to Option" attrs="{'invisible': [('task_state', 'in', ['draft', 'option', 'done'])]}"
@@ -155,13 +155,13 @@
                     <field name="task_state_report_done_required"
                            widget="statusbar"
                            attrs="{'invisible':[('report_done_required', '=', False )]}"
-                           statusbar_visible="draft,requested,read,done,accepted,approved,postponed,canceled"/>
+                           statusbar_visible="draft,requested,read,done,accepted,postponed,canceled"/>
                     <field name="task_state" 
                            invisible="1"/>
                     <field name="task_state_report_not_done_required"
                            widget="statusbar"
                            attrs="{'invisible':[('report_done_required', '=', True )]}"
-                           statusbar_visible="draft,requested,read,accepted,approved,postponed,canceled"/>
+                           statusbar_visible="draft,requested,read,accepted,postponed,canceled"/>
                 </header>
                 <sheet>
                     <div align="right">
