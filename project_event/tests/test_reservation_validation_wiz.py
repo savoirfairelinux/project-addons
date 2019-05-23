@@ -3,6 +3,7 @@
 
 from odoo.tests import common
 from datetime import datetime, timedelta
+from odoo import fields
 
 
 class TestDoubleBookingValidationWizard(common.TransactionCase):
@@ -16,21 +17,19 @@ class TestDoubleBookingValidationWizard(common.TransactionCase):
 
         self.vals_calendar = {
             'name': 'Calendar Event 1',
-            'start': datetime.today(),
-            'stop': datetime.today() + timedelta(hours=4),
+            'start': fields.Datetime.to_string(datetime.today()),
+            'stop': fields.Datetime.to_string(datetime.today() +
+                                              timedelta(hours=4))
         }
         self.calendar_event = self.Calendar.create(self.vals_calendar)
-
-
-        import pdb
-        pdb.set_trace()
 
         self.vals_task = {
             'name': 'Task Event 1',
             'activity_task_type': 'task',
             'parent_id': None,
-            'date_start': datetime.today(),
-            'date_end': datetime.today() + timedelta(hours=4),
+            'date_start': fields.Datetime.to_string(datetime.today()),
+            'date_end': fields.Datetime.to_string(datetime.today() +
+                                              timedelta(hours=4))
         }
         self.project_task = self.ProjectTask.create(self.vals_task)
 
@@ -41,25 +40,24 @@ class TestDoubleBookingValidationWizard(common.TransactionCase):
             {
                 'event_id': self.calendar_event.id,
                 'message': 'Warning double booking',
-                'start_date': self.calendar_event.start + timedelta(hours=4),
-                'end_date': self.calendar_event.stop + timedelta(hours=4),
+                'start_date': self.calendar_event.start,
+                'end_date': self.calendar_event.stop,
                 'r_start_date': self.calendar_event.start,
                 'r_end_date': self.calendar_event.stop,
             })
 
-        self.assertEqual(self.ReservationValidationWizard_calendar.id, True)
+        self.assertNotEqual(self.ReservationValidationWizard_calendar.id, False)
 
     def test_020_create_validation_wizard_project_event_task(self):
-        self.ReservationValidationWizard_calendar = \
+        self.ReservationValidationWizard_task = \
             self.ReservationValidationWizard.create(
             {
                 'task_id': self.project_task.id,
                 'message': 'Warning double booking',
-                'start_date': self.project_task.date_start +
-                              timedelta(hours=4),
-                'end_date': self.project_task.date_end + timedelta(hours=4),
+                'start_date': self.project_task.date_start,
+                'end_date': self.project_task.date_end,
                 'r_start_date': self.project_task.date_start,
                 'r_end_date': self.project_task.date_end,
             })
 
-        self.assertEqual(self.ReservationValidationWizard_task.id, True)
+        self.assertNotEqual(self.ReservationValidationWizard_task.id, False)
