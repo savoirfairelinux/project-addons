@@ -1073,7 +1073,9 @@ class Task(models.Model):
             'user_id',
             'client_type',
             'sector_id',
-            'rel_date_start'
+            'rel_date_start',
+            'rel_date_end',
+            'report_done_required'
         ]
         task_tracking_values = []
         for x in range(len(tracking_values)):
