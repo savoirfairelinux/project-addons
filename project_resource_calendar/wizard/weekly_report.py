@@ -68,4 +68,4 @@ class ReportWeekly(models.AbstractModel):
     @staticmethod
     def review_weekdays(events):
         for event in events:
-            event._get_weekday_number()
+            event._compute_get_weekday_number()
