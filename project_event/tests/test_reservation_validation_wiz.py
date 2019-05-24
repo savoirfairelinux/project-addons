@@ -43,13 +43,13 @@ class TestDoubleBookingValidationWizard(common.TransactionCase):
         self.project_task = self.ProjectTask.create(vals_task)
 
         self.new_starting_date = fields.Datetime.to_string(
-                    datetime.strptime(self.project_task.date_start,
-                                      '%Y-%m-%d %H:%M:%S') +
-                    timedelta(hours=1))
+            datetime.strptime(self.project_task.date_start,
+                              '%Y-%m-%d %H:%M:%S') +
+            timedelta(hours=1))
         self.new_ending_date = fields.Datetime.to_string(
-                    datetime.strptime(self.project_task.date_end,
-                                      '%Y-%m-%d %H:%M:%S') +
-                    timedelta(hours=1))
+            datetime.strptime(self.project_task.date_end,
+                              '%Y-%m-%d %H:%M:%S') +
+            timedelta(hours=1))
 
     def test_010_create_validation_wizard_calendar_event(self):
         validationWizardCalendar = self.ValidationWizard.create(
