@@ -39,23 +39,21 @@ class DoubleBookingValidationWiz(models.TransientModel):
         string='Rollback  Ending Date'
     )
 
+    def update_date(self, start_date, end_date):
+        if self.event_id.id:
+            self.event_id.write({'start_datetime': start_date,
+                                 'stop_datetime': end_date})
+        elif self.task_id.id:
+            self.task_id.write({'date_start': start_date,
+                                'date_end': end_date})
+
     @api.multi
     def confirm_update(self):
-        if self.event_id.id is not False:
-            self.event_id.write({'start_datetime': self.start_date,
-                                 'stop_datetime': self.end_date})
-        elif self.task_id.id is not False:
-            self.task_id.write({'date_start': self.start_date,
-                                'date_end': self.end_date})
+        self.update_date(self.start_date, self.end_date)
 
     @api.multi
     def confirm_cancel(self):
-        if self.event_id.id is not False:
-            self.event_id.write({'start_datetime': self.r_start_date,
-                                 'stop_datetime': self.r_end_date})
-        elif self.task_id.id is not False:
-            self.task_id.write({'date_start': self.r_start_date,
-                                'date_end': self.r_end_date})
+        self.update_date(self.r_start_date, self.r_end_date)
         return {
             'type': 'ir.actions.client',
             'tag': 'reload'
