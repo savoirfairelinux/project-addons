@@ -13,9 +13,17 @@ class TestDoubleBookingValidationWizard(common.TransactionCase):
         self.Calendar = self.env['calendar.event']
         self.ProjectTask = self.env['project.task']
         self.ValidationWizard = self.env['doublebooking.validation.wiz']
+        self.Rooms = self.env['resource.calendar.room']
+
+        self.room_1 = self.Rooms.create({
+            'name': 'Test Room 1',
+            'resource_type': 'room',
+            'allow_double_book': True,
+        })
 
         vals_calendar = {
             'name': 'Calendar Event 1',
+            'room_id': self.room_1.id,
             'start': fields.Datetime.to_string(datetime.today()),
             'stop': fields.Datetime.to_string(datetime.today() +
                                               timedelta(hours=4))
@@ -24,6 +32,7 @@ class TestDoubleBookingValidationWizard(common.TransactionCase):
 
         vals_task = {
             'name': 'Task Event 1',
+            'room_id': self.room_1.id,
             'activity_task_type': 'task',
             'task_state': 'requested',
             'parent_id': None,
