@@ -4,6 +4,7 @@
 from odoo import models, api, fields
 from datetime import datetime, timedelta
 from odoo.tools import DEFAULT_SERVER_DATE_FORMAT as DATE_FORMAT
+import babel.dates
 
 
 class ReportWeekly(models.AbstractModel):
@@ -14,7 +15,8 @@ class ReportWeekly(models.AbstractModel):
         room = self.env['resource.calendar.room'].browse(
             int(data['form']['room_id'])
         )
-        today = datetime.now().date().strftime("%d-%m-%Y")
+        today = self.get_formatted_date(
+            datetime.now().date().strftime("%d-%m-%Y"))
         date_start = datetime.strptime(data['form']['date_start'], DATE_FORMAT)
         date_end = datetime.strptime(
             data['form']['date_end'], DATE_FORMAT) + timedelta(days=1)
@@ -68,4 +70,17 @@ class ReportWeekly(models.AbstractModel):
     @staticmethod
     def review_weekdays(events):
         for event in events:
-            event._get_weekday_number()
+            event._compute_get_weekday_number()
+
+    def get_formatted_date(self, date):
+        lang = self.env['res.users'].browse(self.env.uid).lang or 'en_US'
+        tz = self.env['res.users'].browse(self.env.uid).tz or 'utc'
+        date_to_format = datetime.strptime(
+            date, '%d-%m-%Y'
+        )
+        formatted_date = babel.dates.format_datetime(
+            date_to_format,
+            tzinfo=tz,
+            format='EEEE dd MMMM yyyy',
+            locale=lang)
+        return formatted_date.capitalize()

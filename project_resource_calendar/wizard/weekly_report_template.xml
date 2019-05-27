@@ -142,7 +142,7 @@
                 </table>
                 </div>
             <div class="footer">
-              <div class="text-right">
+              <div class="text-left">
                 <span  t-esc="today"/>
               </div>
         </div>
