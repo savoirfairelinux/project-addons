@@ -56,7 +56,7 @@
                                 </t>
                             </h4>
                         </td>
-                        <td class="dt-center_align">
+                        <td class="dt-left_align">
                             <h4>
                                 <span t-field="o.name"/>
                             </h4>
