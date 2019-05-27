@@ -40,6 +40,7 @@
         'report/calendar_event_print_template.xml',
         'wizard/weekly_report_wizard.xml',
         'wizard/weekly_report_template.xml',
+        'wizard/reservation_validation_wiz_view.xml',
         'views/room_type_view.xml',
         'views/miscellaneous_view.xml',
     ],
