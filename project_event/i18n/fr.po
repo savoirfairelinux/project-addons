@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-05-15 19:35+0000\n"
-"PO-Revision-Date: 2019-05-15 15:37-0400\n"
+"POT-Creation-Date: 2019-05-28 15:51-0400\n"
+"PO-Revision-Date: 2019-05-28 15:53-0400\n"
 "Last-Translator: Rim BEN DHAOU <rim.bendhaou@savoirfairelinux.com>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -15,9 +15,11 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 1.8.7.1\n"
 
 #. module: project_event
+#: model:ir.model.fields,help:project_event.field_activity_template_start_time
+#: model:ir.model.fields,help:project_event.field_project_activity_wizard_date_start
 #: model:ir.model.fields,help:project_event.field_project_task_wizard_start_time
 #: model:ir.model.fields,help:project_event.field_task_template_start_time
 msgid ""
@@ -28,16 +30,23 @@ msgstr ""
 "principale (précédée par '-') ou positive si c'est après"
 
 #. module: project_event
+#: code:addons/project_event/models/project_project.py:239
 #: code:addons/project_event/models/project_task.py:275
 #, python-format
 msgid "%s (copy)"
-msgstr ""
+msgstr "%s (copie)"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:184
+#: code:addons/project_event/models/project_project.py:180
 #, python-format
 msgid "<br> Tasks: "
 msgstr "<br> Tâches: "
+
+#. module: project_event
+#: code:addons/project_event/models/project_project.py:178
+#, python-format
+msgid "<br>Event: <br>"
+msgstr "<br>Événement: <br>"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
@@ -81,20 +90,13 @@ msgid "<strong>Technical Reminder / Memo: </strong>"
 msgstr "<strong>Besoins Techniques/Mémo: </strong>"
 
 #. module: project_event
-#: model:ir.ui.view,arch_db:project_event.project_event_activity_form
-#: model:ir.ui.view,arch_db:project_event.project_event_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
 #: selection:reservation.validation.wiz,action:0
 msgid "Accept"
 msgstr "Accepter"
 
 #. module: project_event
-#: model:ir.ui.view,arch_db:project_event.project_event_activity_form
-msgid "Approve"
-msgstr "Approuver"
-
-#. module: project_event
-#: selection:project.project,state:0 selection:project.task,task_state:0
+#: selection:project.task,task_state:0
 #: selection:project.task,task_state_report_done_required:0
 #: selection:project.task,task_state_report_not_done_required:0
 msgid "Accepted"
@@ -119,7 +121,7 @@ msgid "Activities Templates"
 msgstr "Modèles d'activités"
 
 #. module: project_event
-#: code:addons/project_event/wizard/project_event_wizard.py:64
+#: code:addons/project_event/wizard/project_event_wizard.py:73
 #, python-format
 msgid "Activities Wizard"
 msgstr "Wizard d'activités"
@@ -205,13 +207,13 @@ msgid "Activity:"
 msgstr "Activité:"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:184
+#: code:addons/project_event/models/project_project.py:180
 #, python-format
 msgid "Activity: "
 msgstr "Activité: "
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:922
+#: code:addons/project_event/models/project_task.py:943
 #, python-format
 msgid "Activity: <br>"
 msgstr "Activité: <br>"
@@ -227,7 +229,7 @@ msgid "Actual Start Time"
 msgstr "Heure de début réelle"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:308
+#: code:addons/project_event/models/project_task.py:315
 #, python-format
 msgid "Actual Start Time should be before Actual End Time"
 msgstr "L'heure de début réelle doit être avant de l'heure de fin réelle"
@@ -263,7 +265,13 @@ msgid "Analytic Line"
 msgstr "Ligne analytique"
 
 #. module: project_event
-#: selection:project.task,task_state:0
+#: model:ir.ui.view,arch_db:project_event.project_event_activity_form
+#: model:ir.ui.view,arch_db:project_event.project_event_form
+msgid "Approve"
+msgstr "Approuver"
+
+#. module: project_event
+#: selection:project.project,state:0 selection:project.task,task_state:0
 #: selection:project.task,task_state_report_done_required:0
 #: selection:project.task,task_state_report_not_done_required:0
 msgid "Approved"
@@ -478,7 +486,7 @@ msgid "Display Name"
 msgstr "Nom à afficher"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:214
+#: code:addons/project_event/models/project_project.py:210
 #, python-format
 msgid "Do you want to continue?"
 msgstr "Voulez vous continuer?"
@@ -504,6 +512,8 @@ msgid "Draft"
 msgstr "Brouillon"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_activity_template_duration
+#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_duration
 #: model:ir.model.fields,field_description:project_event.field_project_task_wizard_duration
 #: model:ir.model.fields,field_description:project_event.field_task_template_duration
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
@@ -558,7 +568,7 @@ msgid "Equipment"
 msgstr "Équipement"
 
 #. module: project_event
-#: code:addons/project_event/report/project_task_activity_report.py:66
+#: code:addons/project_event/report/project_task_activity_report.py:68
 #, python-format
 msgid "Equipment: <br/>"
 msgstr "Équipement: <br/>"
@@ -654,12 +664,6 @@ msgstr ""
 "                    avant validation."
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:182
-#, python-format
-msgid "<br>Event: <br>"
-msgstr "<br>Événement: <br>"
-
-#. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_project_event
 msgid "Events"
 msgstr "Événements"
@@ -715,6 +719,12 @@ msgid "Font Color"
 msgstr "Couleur de police"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_general_room_id
+#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_general_room_id
+msgid "General Room"
+msgstr "Salle générale"
+
+#. module: project_event
 #: model:ir.module.category,description:project_event.module_category_event_acad
 msgid "Helps you manage your Events with Academic Roles."
 msgstr "Vous aide à gérer vos événements avec des rôles académiques"
@@ -757,15 +767,12 @@ msgid "ID"
 msgstr "ID"
 
 #. module: project_event
+#: model:ir.model.fields,help:project_event.field_activity_template_duration
+#: model:ir.model.fields,help:project_event.field_project_activity_wizard_duration
 #: model:ir.model.fields,help:project_event.field_project_task_wizard_duration
 #: model:ir.model.fields,help:project_event.field_task_template_duration
 msgid "In minutes"
 msgstr "En minutes"
-
-#. module: project_event
-#: model:ir.ui.view,arch_db:project_event.activity_template_form
-msgid "Initialize"
-msgstr "Initialiser"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_is_from_template
@@ -827,6 +834,12 @@ msgid "Mail Tracking Value"
 msgstr "Valeur de suivi des courriers"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_activity_template_department_id
+#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_department_id
+msgid "Main task department"
+msgstr "Département de la tâche principale"
+
+#. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_message
 msgid "Message"
 msgstr "Message"
@@ -841,7 +854,7 @@ msgid "Name"
 msgstr "Nom"
 
 #. module: project_event
-#: code:addons/project_event/models/mail_thread.py:30
+#: code:addons/project_event/models/mail_thread.py:36
 #, python-format
 msgid "Note"
 msgstr "Note"
@@ -913,7 +926,7 @@ msgid "Phone:"
 msgstr "Téléphone :"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:214
+#: code:addons/project_event/models/project_project.py:210
 #, python-format
 msgid "Please confirm your reservation.<br>"
 msgstr "Veuillez confirmer la réservation.<br>"
@@ -1091,7 +1104,7 @@ msgid "Room"
 msgstr "Salle"
 
 #. module: project_event
-#: code:addons/project_event/report/project_task_activity_report.py:65
+#: code:addons/project_event/report/project_task_activity_report.py:67
 #, python-format
 msgid "Room: "
 msgstr "Salle: "
@@ -1117,18 +1130,19 @@ msgid "Spectators"
 msgstr "Spectateurs"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:373
+#: code:addons/project_event/models/project_task.py:385
 #, python-format
 msgid "Spectators value should be in the range[-]"
 msgstr "Le nombre de spectateurs doit être compris entre ["
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:363
+#: code:addons/project_event/models/project_task.py:375
 #, python-format
 msgid "Spectators value should be numeric"
 msgstr "La valeur du champ Spectateurs doit être numérique"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_activity_template_start_time
 #: model:ir.model.fields,field_description:project_event.field_project_task_wizard_start_time
 #: model:ir.model.fields,field_description:project_event.field_task_template_start_time
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
@@ -1148,7 +1162,7 @@ msgstr "Heure Début"
 #: model:ir.model.fields,field_description:project_event.field_project_task_task_state_report_not_done_required
 #: model:ir.ui.view,arch_db:project_event.project_event_form
 msgid "State"
-msgstr "Région"
+msgstr "État"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_succeeding_task_ids
@@ -1258,7 +1272,7 @@ msgid "Task/Activity Responsible"
 msgstr "Responsable de la tâche/activité"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:930
+#: code:addons/project_event/models/project_task.py:951
 #, python-format
 msgid "Task: <br>"
 msgstr "Tâche: <br>"
@@ -1275,8 +1289,8 @@ msgid "Tasks Templates"
 msgstr "Modèles de tâches"
 
 #. module: project_event
-#: code:addons/project_event/wizard/project_activity_wizard.py:95
-#: code:addons/project_event/wizard/project_event_wizard.py:102
+#: code:addons/project_event/wizard/project_activity_wizard.py:127
+#: code:addons/project_event/wizard/project_event_wizard.py:116
 #, python-format
 msgid "Tasks Wizard"
 msgstr "Wizard de tâches"
@@ -1288,7 +1302,7 @@ msgid "Tasks to Edit"
 msgstr "Tâches à modifier"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:923
+#: code:addons/project_event/models/project_task.py:944
 #, python-format
 msgid "Tasks: <br>"
 msgstr "Tâches: <br>"
@@ -1314,7 +1328,7 @@ msgid "Templates Events"
 msgstr "Modèles d'événements"
 
 #. module: project_event
-#: code:addons/project_event/models/task_category.py:42
+#: code:addons/project_event/models/task_category.py:43
 #, python-format
 msgid ""
 "The default category cannot be                             deleted: \n"
@@ -1324,13 +1338,13 @@ msgstr ""
 "catégorie par défaut:"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:172
+#: code:addons/project_event/models/project_project.py:168
 #, python-format
 msgid "The following is approved"
 msgstr "L'élément suivant est approuvé"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:175
+#: code:addons/project_event/models/project_project.py:171
 #, python-format
 msgid ""
 "The following is canceled                         and no longer on your "
@@ -1338,7 +1352,7 @@ msgid ""
 msgstr "L'élément suivant est annulé et n'est plus affiché dans le calendrier"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:170
+#: code:addons/project_event/models/project_project.py:166
 #, python-format
 msgid ""
 "The following is optional and                         appears as "
@@ -1347,7 +1361,7 @@ msgstr ""
 "L'élément suivant est Optionnel et apparaît en hachuré dans le calendrier"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:173
+#: code:addons/project_event/models/project_project.py:169
 #, python-format
 msgid ""
 "The following is postponed                         and no longer appear on "
@@ -1355,7 +1369,7 @@ msgid ""
 msgstr "L'élément suivant est reporté et n’apparaît plus sur le calendrier"
 
 #. module: project_event
-#: code:addons/project_event/models/project_project.py:213
+#: code:addons/project_event/models/project_project.py:209
 #, python-format
 msgid "The following resources are already booked:<br>"
 msgstr "Ces ressources sont déjà réservées:<br>"
@@ -1367,7 +1381,7 @@ msgid "The task should be related to a project!"
 msgstr "La tâche doit être reliée à un projet"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:470
+#: code:addons/project_event/models/project_task.py:482
 #, python-format
 msgid "There must be a responsible or a client"
 msgstr "Il faut avoir un responsable ou un client "
@@ -1434,7 +1448,7 @@ msgid "Workflow:"
 msgstr "Workflow:"
 
 #. module: project_event
-#: code:addons/project_event/models/mail_thread.py:32
+#: code:addons/project_event/models/mail_thread.py:38
 #, python-format
 msgid "created/modified"
 msgstr "créé(e)/modifié(e)"
@@ -1455,24 +1469,14 @@ msgid "res.partner.sector"
 msgstr "res.partner.sector"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:466
+#: code:addons/project_event/models/project_task.py:478
 #, python-format
 msgid "this resource is not bookable"
 msgstr "cette ressource est non réservable"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:468
+#: code:addons/project_event/models/project_task.py:480
 #, python-format
 msgid "this room is not bookable"
-msgstr "Cette salle n'est pas réservable"
+msgstr "Cette salle est non réservable"
 
-#. module: project
-#: model:ir.model.fields,field_description:project.field_project_task_name
-#: model:ir.model.fields,field_description:project.field_report_project_task_user_name
-msgid "Task Title"
-msgstr "Titre"
-
-#. module: project_event
-#: model:ir.model.fields,field_description:mail.field_project_task_activity_user_id
-msgid "Mail Activity Responsible"
-msgstr "Responsable (Activité Mail)"
