@@ -697,10 +697,14 @@ class Task(models.Model):
 
     def get_booked_resources(self):
         res = ''
-        if self.is_type_task():
-            if self.is_resource_booked():
-                res += self.room_id.name + '<br>' if (
-                    self.room_id) else self.equipment_id.name + '<br>'
+        if self.is_type_task() and self.is_resource_booked():
+            res += self.room_id.name + '<br>' if (
+                self.room_id) else self.equipment_id.name + '<br>'
+        for attendee in self.get_partners():
+            hres = self.is_hr_resource_booked(attendee)
+            partner_attendee = self.env['res.partner'].browse(attendee)
+            if hres and partner_attendee:
+                res += partner_attendee.name + '<br>'
         if self.is_activity():
             for child in self.child_ids:
                 if child.is_resource_booked():
@@ -712,6 +716,15 @@ class Task(models.Model):
                             child.equipment_id.name + ' - ' +
                             child.date_start + ' - ' + child.date_end +
                             ' - ' + child.code + '<br>')
+                for attendee in child.get_partners():
+                    hres = child.is_hr_resource_booked(attendee)
+                    attendee_partner = self.env['res.partner'].browse(attendee)
+                    if hres and attendee_partner:
+                        res += attendee_partner.name + \
+                            ' - ' + child.date_start + \
+                            ' - ' + child.date_end + \
+                            ' - ' + child.code + \
+                            '<br>'
         return res
 
     @api.multi
@@ -986,6 +999,15 @@ class Task(models.Model):
             if len(overlaps_equipment) > 0:
                 return True
         return False
+
+    def is_hr_resource_booked(self, attendee):
+        overlaps_partners = self.env['calendar.event'].search([
+            ('partner_ids', 'in', attendee),
+            ('start', '<', self.date_end),
+            ('stop', '>', self.date_start),
+            ('state', '!=', 'cancelled'),
+        ])
+        return len(overlaps_partners) > 0
 
     @api.multi
     def get_confirmation_wizard(self, action):
