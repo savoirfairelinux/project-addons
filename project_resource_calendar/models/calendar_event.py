@@ -213,45 +213,37 @@ class CalendarEvent(models.Model):
             attendees = record.partner_ids.filtered(
                 lambda s: s.allow_double_book is False
             )
-            self._check_resources_booked(record, room, equipment, attendees)
-
-    def _check_resources_booked(
-            self,
-            record,
-            room=None,
-            equipment=None,
-            attendees=None):
-        if not room and not equipment and not attendees:
-            return
-        events = self.env['calendar.event'].search([
-            ('id', '!=', record.id),
-        ])
-        for event in events:
-            if self.is_event_overlaps_record(record, event):
-                for resource in event.mapped(lambda s: s.room_id):
-                    if resource.id == record.room_id.id:
-                        raise ValidationError(
-                            _(
-                                'The room %s cannot be double-booked '
-                                'with any overlapping meetings or events.',
-                            ) % resource.name,
-                        )
-                for resource in event.mapped(lambda s: s.equipment_ids):
-                    if resource.id in record.equipment_ids.ids:
-                        raise ValidationError(
-                            _(
-                                'The resource %s cannot be double-booked '
-                                'with any overlapping meetings or events.',
-                            ) % resource.name,
-                        )
-                for resource in event.mapped(lambda s: s.partner_ids):
-                    if resource.id in record.partner_ids.ids:
-                        raise ValidationError(
-                            _(
-                                'The attendee %s cannot be double-booked '
-                                'with any overlapping meetings or events.',
-                            ) % resource.name,
-                        )
+            if not room and not equipment and not attendees:
+                continue
+            events = self.env['calendar.event'].search([
+                ('id', '!=', record.id),
+            ])
+            for event in events:
+                if self.is_event_overlaps_record(record, event):
+                    for resource in event.mapped(lambda s: s.room_id):
+                        if resource.id == record.room_id.id:
+                            raise ValidationError(
+                                _(
+                                    'The room %s cannot be double-booked '
+                                    'with any overlapping meetings or events.',
+                                ) % resource.name,
+                            )
+                    for resource in event.mapped(lambda s: s.equipment_ids):
+                        if resource.id in record.equipment_ids.ids:
+                            raise ValidationError(
+                                _(
+                                    'The resource %s cannot be double-booked '
+                                    'with any overlapping meetings or events.',
+                                ) % resource.name,
+                            )
+                    for resource in event.mapped(lambda s: s.partner_ids):
+                        if resource.id in record.partner_ids.ids:
+                            raise ValidationError(
+                                _(
+                                    'The attendee %s cannot be double-booked '
+                                    'with any overlapping meetings or events.',
+                                ) % resource.name,
+                            )
 
     @staticmethod
     def is_event_overlaps_record(record, event):
