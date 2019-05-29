@@ -591,3 +591,23 @@ class TestProjectEventTask(TestProjectEventCommon):
             len(self.activity_1.child_ids),
             len(new_activity.child_ids)
         )
+
+    def test_260_is_hr_resource_booked(self):
+        vals = {
+            'name': 'Calendar Event Test HR Booking',
+            'start': fields.Datetime.to_string(datetime.today()),
+            'stop': fields.Datetime.to_string(datetime.today() +
+                                              timedelta(hours=4)),
+            'partner_ids': [(6, 0, [
+                self.partner_1.id, self.partner_2.id])],
+        }
+        self.env['calendar.event'].create(vals)
+        self.assertTrue(
+            self.task_1.is_hr_resource_booked(self.partner_1.id)
+        )
+        self.assertTrue(
+            self.task_1.is_hr_resource_booked(self.partner_2.id)
+        )
+        self.assertFalse(
+            self.task_1.is_hr_resource_booked(self.partner_3.id)
+        )
