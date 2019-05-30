@@ -371,3 +371,30 @@ class CalendarEvent(models.Model):
                     )
                 )
         return super(CalendarEvent, self).unlink()
+
+    def get_double_booked_resources(self, date_start=None, date_end=None):
+        booked_resources = []
+        if not date_end and not date_start:
+            date_start = self.start_datetime
+            date_end = self.stop_datetime
+        if self.room_id:
+            overlaps = self.env['calendar.event'].search([
+                ('id', '!=', self.id),
+                ('room_id', '=', self.room_id.id),
+                ('start', '<', date_end),
+                ('stop', '>', date_start),
+                ('state', '!=', 'cancelled'),
+            ])
+            if len(overlaps.ids) > 0:
+                booked_resources.append(self.room_id.name)
+        for equipment in self.equipment_ids:
+            overlaps_equipment = self.env['calendar.event'].search([
+                ('id', '!=', self.id),
+                ('equipment_ids', 'in', equipment.id),
+                ('start', '<', date_end),
+                ('stop', '>', date_start),
+                ('state', '!=', 'cancelled'),
+            ])
+            if len(overlaps_equipment) > 0:
+                booked_resources.append(equipment.name)
+        return booked_resources

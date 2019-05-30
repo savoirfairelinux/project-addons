@@ -727,6 +727,36 @@ class Task(models.Model):
                             '<br>'
         return res
 
+    def get_double_booked_resources(self, date_start=None, date_end=None):
+        booked_resources = []
+        if not date_end and not date_start:
+            date_start = self.date_start
+            date_end = self.date_end
+        if self.room_id:
+            overlaps = self.env['calendar.event'].search([
+                ('room_id', '=', self.room_id.id),
+                ('start', '<', date_end),
+                ('stop', '>', date_start),
+                ('state', '!=', 'cancelled'),
+            ])
+            for overlap in overlaps:
+                if overlap.event_task_id == self.id:
+                    overlaps.remove(overlaps)
+            if len(overlaps.ids) > 0:
+                booked_resources.append(self.room_id.name)
+        overlaps_equipment = self.env['calendar.event'].search([
+            ('equipment_ids', 'in', [self.equipment_id.id]),
+            ('start', '<', date_end),
+            ('stop', '>', date_start),
+            ('state', '!=', 'cancelled'),
+        ])
+        for overlap_equipment in overlaps_equipment:
+            if overlap_equipment.event_task_id == self.id:
+                overlaps_equipment.remove(overlap_equipment)
+        if len(overlaps_equipment) > 0:
+            booked_resources.append(self.equipment_id.name)
+        return booked_resources
+
     @api.multi
     def get_partners(self):
         partners = []
@@ -971,15 +1001,12 @@ class Task(models.Model):
     def send_message(self, action):
         self.env['mail.message'].create(self.get_message(action))
 
-    def is_resource_booked(self, date_start=None, date_end=None):
-        if not date_end and not date_start:
-            date_start = self.date_start
-            date_end = self.date_end
+    def is_resource_booked(self):
         if self.room_id:
             overlaps = self.env['calendar.event'].search([
                 ('room_id', '=', self.room_id.id),
-                ('start', '<', date_end),
-                ('stop', '>', date_start),
+                ('start', '<', self.date_end),
+                ('stop', '>', self.date_start),
                 ('state', '!=', 'cancelled'),
             ])
             overlaps_ids = overlaps.ids
