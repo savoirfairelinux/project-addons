@@ -72,7 +72,7 @@
                         </td>
                     </tr>
                 </table>
-                <div style="position:absolute;top:250px; page-break-inside: avoid;">
+                <div class="report-footer">
                     <h5>
                         <span t-esc="o.get_formatted_date(datetime.datetime.now(), 'now', 0)"/>
                     </h5>

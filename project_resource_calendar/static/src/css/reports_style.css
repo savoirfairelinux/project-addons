@@ -1,22 +1,22 @@
-.dt-report-10{
+.dt-report-10 {
     width: 10%;
     float: left;
     text-align: center;
 }
 
-.dt-report-50{
+.dt-report-50 {
     width: 50%;
     float: left;
     text-align: center;
 }
 
-.dt-report-20{
+.dt-report-20 {
     width: 20%;
     float: left;
     text-align: center;
 }
 
-.dt-report-left-80{
+.dt-report-left-80 {
     width: 80%;
     float: left;
     text-align: left;
@@ -26,6 +26,10 @@
     width: 30%;
     float: left;
     text-align: left;
+ }
+
+.dt-left_align:not(:first-child) {
+    padding-left: 10px;
 }
 
 .dt-center_align {
@@ -40,7 +44,11 @@
     text-align: right;
 }
 
-.h3-report{
+.h3-report {
     color: white;
     background-color: #000000;
+}
+.report-footer {
+    position: relative;
+    margin-top: 250px;
 }
