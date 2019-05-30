@@ -1480,3 +1480,7 @@ msgstr "cette ressource est non réservable"
 msgid "this room is not bookable"
 msgstr "Cette salle est non réservable"
 
+#. module: project_event
+#: model:ir.model.fields,field_description:mail.field_project_task_activity_user_id
+msgid "Mail Activity Responsible"
+msgstr "Responsable (Activité Mail)"
