@@ -27,18 +27,8 @@ class CalendarEvent(models.Model):
         string='Floor',
         related='room_id.floor',
     )
-    allow_room_double_booking = fields.Boolean(
-        string='Allow double book',
-        related='room_id.allow_double_book',
-    )
     equipment_ids = fields.Many2many(
         string='Equipment',
-        comodel_name='resource.calendar.instrument',
-        ondelete='set null',
-    )
-    double_bookable_equipment_ids = fields.Many2many(
-        string='Double bookable equipments',
-        compute='_get_double_bookable_equipments',
         comodel_name='resource.calendar.instrument',
         ondelete='set null',
     )
@@ -125,15 +115,6 @@ class CalendarEvent(models.Model):
     current_id = fields.Char(
         'Current ID',
     )
-
-    @api.one
-    @api.depends('room_id')
-    def _get_double_bookable_equipments(self):
-        double_bookable_equipment_ids = []
-        for equipment in self.equipment_ids:
-            if equipment.allow_double_book:
-                double_bookable_equipment_ids.append(equipment.id)
-        self.double_bookable_equipment_ids = double_bookable_equipment_ids
 
     @api.onchange('client_id')
     def _onchange_client_id(self):

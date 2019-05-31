@@ -29,8 +29,8 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
                     model: 'calendar.event',
                     method: 'get_double_booked_resources',
                     args: [record.id,
-                           record._start.add(-self.getSession().getTZOffset(record._start), 'minutes'),
-                           record._end.add(-self.getSession().getTZOffset(record._start), 'minutes')
+                           record._start.add(-self.getSession().getTZOffset(record._start), 'minutes').format("YYYY-MM-DD HH:mm:ss"),
+                           record._end.add(-self.getSession().getTZOffset(record._start), 'minutes').format("YYYY-MM-DD HH:mm:ss")
                           ],
                 }).then(function (booked_resources) {
                     if(booked_resources.length != 0){
@@ -45,10 +45,10 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
                             method: 'create',
                             args: [{event_id: record.id,
                                     message: message,
-                                    start_date: record._start,
-                                    end_date: record._end,
-                                    r_start_date: record.r_start.add(-self.getSession().getTZOffset(record._start), 'minutes'),
-                                    r_end_date: record.r_end.add(-self.getSession().getTZOffset(record._end), 'minutes'),
+                                    start_date: record._start.format("YYYY-MM-DD HH:mm:ss"),
+                                    end_date: record._end.format("YYYY-MM-DD HH:mm:ss"),
+                                    r_start_date: record.r_start.add(-self.getSession().getTZOffset(record._start), 'minutes').format("YYYY-MM-DD HH:mm:ss"),
+                                    r_end_date: record.r_end.add(-self.getSession().getTZOffset(record._end), 'minutes').format("YYYY-MM-DD HH:mm:ss"),
                                    }],
                         }).then(function (wizard) {
                             self.do_action({
@@ -73,8 +73,8 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
                     model: 'project.task',
                     method: 'get_double_booked_resources',
                     args: [record.id,
-                           record._start.add(-self.getSession().getTZOffset(record._start), 'minutes'),
-                           record._end.add(-self.getSession().getTZOffset(record._end), 'minutes')
+                           record._start.add(-self.getSession().getTZOffset(record._start), 'minutes').format("YYYY-MM-DD HH:mm:ss"),
+                           record._end.add(-self.getSession().getTZOffset(record._end), 'minutes').format("YYYY-MM-DD HH:mm:ss")
                           ],
                 }).then(function (booked_resources) {
                     if(booked_resources.length != 0){
@@ -89,10 +89,10 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
                             method: 'create',
                             args: [{task_id: record.id,
                                     message: message,
-                                    start_date: record._start,
-                                    end_date: record._end,
-                                    r_start_date: record.r_start.add(-self.getSession().getTZOffset(record._start), 'minutes'),
-                                    r_end_date: record.r_end.add(-self.getSession().getTZOffset(record._end), 'minutes')
+                                    start_date: record._start.format("YYYY-MM-DD HH:mm:ss"),
+                                    end_date: record._end.format("YYYY-MM-DD HH:mm:ss"),
+                                    r_start_date: record.r_start.add(-self.getSession().getTZOffset(record._start), 'minutes').format("YYYY-MM-DD HH:mm:ss"),
+                                    r_end_date: record.r_end.add(-self.getSession().getTZOffset(record._end), 'minutes').format("YYYY-MM-DD HH:mm:ss")
                                    }],
                         }).then(function (wizard) {
                             self.do_action({
