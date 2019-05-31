@@ -82,9 +82,9 @@ class TestDoubleBookingValidationWizard(common.TransactionCase):
         self.assertNotEqual(validationWizardTask.id, False)
 
     def test_030_check_task_calendar_overlap_confirm_update(self):
-        self.assertEqual(self.project_task.
-                         is_resource_booked(self.new_starting_date,
-                                            self.new_ending_date), True)
+        self.assertEqual(len(self.project_task.
+                         get_double_booked_resources(self.new_starting_date,
+                                                     self.new_ending_date)), 1)
         validationWizardTask = self.ValidationWizard.create(
             {
                 'task_id': self.project_task.id,
@@ -101,9 +101,9 @@ class TestDoubleBookingValidationWizard(common.TransactionCase):
     def test_040_check_task_calendar_overlap_confirm_cancel(self):
         old_starting_date = self.project_task.date_start
         old_ending_date = self.project_task.date_end
-        self.assertEqual(self.project_task.
-                         is_resource_booked(self.new_starting_date,
-                                            self.new_ending_date), True)
+        self.assertEqual(len(self.project_task.
+                         get_double_booked_resources(self.new_starting_date,
+                                                     self.new_ending_date)), 1)
         validationWizardTask = self.ValidationWizard.create(
             {
                 'task_id': self.project_task.id,

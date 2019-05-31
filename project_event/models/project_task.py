@@ -755,6 +755,13 @@ class Task(models.Model):
                 overlaps_equipment.remove(overlap_equipment)
         if len(overlaps_equipment) > 0:
             booked_resources.append(self.equipment_id.name)
+
+        for attendee in self.get_partners():
+            hres = self.is_hr_resource_booked(attendee)
+            partner_attendee = self.env['res.partner'].browse(attendee)
+            if hres and partner_attendee:
+                res += partner_attendee.name + '<br>'
+
         return booked_resources
 
     @api.multi
