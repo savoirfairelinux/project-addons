@@ -763,9 +763,10 @@ class Task(models.Model):
             booked_resources.append(self.equipment_id.name)
 
         for attendee in self.get_partners():
-            hres = self.is_hr_resource_double_booked(attendee, date_start, date_end)
+            h_res = self.is_hr_resource_double_booked(attendee,
+                                                      date_start, date_end)
             partner_attendee = self.env['res.partner'].browse(attendee)
-            if hres and partner_attendee:
+            if h_res and partner_attendee:
                 booked_resources.append(partner_attendee.name)
 
         return booked_resources
