@@ -353,7 +353,8 @@ class CalendarEvent(models.Model):
                 )
         return super(CalendarEvent, self).unlink()
 
-    def is_hr_resource_double_booked(self, attendee, date_start=None, date_end=None):
+    def is_hr_resource_double_booked(self, attendee,
+                                     date_start=None, date_end=None):
         if not date_end and not date_start:
             date_start = self.date_start
             date_end = self.date_end
