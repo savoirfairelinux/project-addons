@@ -1078,7 +1078,7 @@ class Task(models.Model):
             'report_done_required'
         ]
         task_tracking_values = []
-        for x in range(len(tracking_values)):
+        for x in range(len(task_fields_list)):
             for k in range(len(tracking_values)):
                 task = tracking_values.__getitem__(k)
                 if task.__getitem__(2).get('field') == task_fields_list[x]:
