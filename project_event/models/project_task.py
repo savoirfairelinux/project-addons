@@ -1045,7 +1045,7 @@ class Task(models.Model):
             'sector_id'
         ]
         activity_tracking_values = []
-        for index in range(len(tracking_values)):
+        for index in range(len(activity_fields_list)):
             for k in range(len(tracking_values)):
                 activity = tracking_values.__getitem__(k)
                 if activity.__getitem__(2).get('field')\
