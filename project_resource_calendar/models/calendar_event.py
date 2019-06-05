@@ -370,14 +370,15 @@ class CalendarEvent(models.Model):
 
     def get_double_booked_resources(self, date_start=None, date_end=None):
         booked_resources = []
-        overlap_domain = [
-            ('id', '!=', self.id), ('start', '<', date_end),
-            ('stop', '>', date_start),
-            ('state', '!=', 'cancelled')]
 
         if not date_end and not date_start:
             date_start = self.start_datetime
             date_end = self.stop_datetime
+
+        overlap_domain = [
+            ('id', '!=', self.id), ('start', '<', date_end),
+            ('stop', '>', date_start),
+            ('state', '!=', 'cancelled')]
 
         if self.room_id:
             overlap_domain.append(('room_id', '=', self.room_id.id))
