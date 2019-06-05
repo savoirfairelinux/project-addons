@@ -611,3 +611,27 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.assertFalse(
             self.task_1.is_hr_resource_double_booked(self.partner_3.id)
         )
+
+    def test_270_synchronized_activity_and_main_task(self):
+        updated_start_date = fields.Datetime.to_string(
+            datetime.today() + timedelta(hours=4))
+        updated_end_date = fields.Datetime.to_string(
+            datetime.today() + timedelta(hours=8))
+        vals = {
+            'name': 'Test Activity Synchronized',
+            'responsible_id': self.responsible_2.id,
+            'partner_id': self.partner_2.id,
+            'category_id': self.category_2.id,
+            'room_id': self.room_2.id,
+            'date_start': updated_start_date,
+            'date_end': updated_end_date,
+        }
+        self.activity_1.write(vals)
+        main_task = self.activity_1.get_main_task()
+        self.assertEqual(main_task.name, 'Test Activity Synchronized')
+        self.assertEqual(main_task.responsible_id.id, self.responsible_2.id)
+        self.assertEqual(main_task.partner_id.id, self.partner_2.id)
+        self.assertEqual(main_task.category_id.id, self.category_2.id)
+        self.assertEqual(main_task.room_id.id, self.room_2.id)
+        self.assertEqual(main_task.date_start, updated_start_date)
+        self.assertEqual(main_task.date_end, updated_end_date)

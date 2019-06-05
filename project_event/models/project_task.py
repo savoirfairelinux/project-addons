@@ -542,9 +542,10 @@ class Task(models.Model):
 
     @api.multi
     def write_activity(self, vals):
-        self.write_main_task(vals)
         self.write_children(vals)
-        return super(Task, self).write(vals)
+        updated_task = super(Task, self).write(vals)
+        self.write_main_task(vals)
+        return updated_task
 
     def write_children(self, vals):
         task_vals = {}
