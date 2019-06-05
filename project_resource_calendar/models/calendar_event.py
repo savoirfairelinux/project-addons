@@ -183,6 +183,7 @@ class CalendarEvent(models.Model):
     @api.constrains('room_id', 'start', 'stop', 'equipment_ids', 'partner_ids')
     def _check_resources_double_book(self):
         for record in self:
+            message = ''
             if record._event_in_past() or record.state == 'cancelled':
                 continue
             room = record.room_id.filtered(
@@ -201,36 +202,50 @@ class CalendarEvent(models.Model):
             ])
             for event in events:
                 if self.is_event_overlaps_record(record, event):
-                    for resource in event.mapped(lambda s: s.room_id):
-                        if resource.id == record.room_id.id:
-                            raise ValidationError(
-                                _(
-                                    'The room %s cannot be double-booked '
-                                    'with any overlapping meetings or events.',
-                                ) % resource.name,
-                            )
-                    for resource in event.mapped(lambda s: s.equipment_ids):
-                        if resource.id in record.equipment_ids.ids:
-                            raise ValidationError(
-                                _(
-                                    'The resource %s cannot be double-booked '
-                                    'with any overlapping meetings or events.',
-                                ) % resource.name,
-                            )
-                    for resource in event.mapped(lambda s: s.partner_ids):
-                        if resource.id in record.partner_ids.ids:
-                            raise ValidationError(
-                                _(
-                                    'The attendee %s cannot be double-booked '
-                                    'with any overlapping meetings or events.',
-                                ) % resource.name,
-                            )
+                    if room:
+                        for resource in event.mapped(lambda s: s.room_id):
+                            if resource.id == record.room_id.id:
+                                message += self.fill_validation_message(
+                                    'room',
+                                    resource.name,
+                                    event.start,
+                                    event.stop)
+                    if equipment:
+                        for resource in event.mapped(
+                                lambda s: s.equipment_ids):
+                            if resource.id in record.equipment_ids.ids:
+                                message += self.fill_validation_message(
+                                    'resource',
+                                    resource.name,
+                                    event.start,
+                                    event.stop)
+                    if attendees:
+                        for resource in event.mapped(lambda s: s.partner_ids):
+                            if resource.id in record.partner_ids.ids:
+                                message += self.fill_validation_message(
+                                    'attendee',
+                                    resource.name,
+                                    event.start,
+                                    event.stop)
+            if message != '':
+                raise ValidationError(
+                    _(
+                        'The following resources can not be double-booked:'
+                        '\n %s',
+                    ) % message,
+                )
 
     @staticmethod
     def is_event_overlaps_record(record, event):
         return (event.start < record.stop) & (event.stop > record.start)
 
-    def get_error_type(self, type_error):
+    @staticmethod
+    def fill_validation_message(resource_type, resource, start, stop):
+        return _('The %s: %s From:%s To:%s\n', ) % (
+            resource_type, resource, start, stop)
+
+    @staticmethod
+    def get_error_type(type_error):
         error_msg = ""
         if type_error == 'RESOURCE_TYPE_ERROR':
             error_msg = _('this resource is not bookable')
