@@ -262,9 +262,9 @@ class Project(models.Model):
         ]
         event_tracking_values = []
         for index in range(len(tracking_values)):
-            for k in range(len(tracking_values)):
-                event = tracking_values.__getitem__(k)
-                if event.__getitem__(2).get('field')\
-                        == event_fields_list[index]:
+            for k in range(len(event_fields_list)):
+                event = tracking_values.__getitem__(index)
+                if event.__getitem__(2).get('field') \
+                        == event_fields_list[k]:
                     event_tracking_values.append(event)
         return event_tracking_values
