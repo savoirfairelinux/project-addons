@@ -1037,3 +1037,75 @@ class Task(models.Model):
     def check_task_state(task_state_in):
         return task_state_in in \
             ['draft', 'option', 'postponed', 'canceled']
+
+    @api.multi
+    def _message_track(self, tracked_fields, initial):
+        mail_track = super()._message_track(tracked_fields, initial)
+        changes = mail_track[0]
+        tracking_value_ids = mail_track[1]
+        if self.activity_task_type == 'activity':
+            tracking_value_ids = self.order_activity_fields(tracking_value_ids)
+        elif self.activity_task_type == 'task':
+            tracking_value_ids = self.order_task_fields(tracking_value_ids)
+        return changes, tracking_value_ids
+
+    @staticmethod
+    def order_activity_fields(tracking_values):
+        activity_fields_list = [
+            'task_state',
+            'name',
+            'code',
+            'responsible_id',
+            'partner_id',
+            'room_id',
+            'date_start',
+            'date_end',
+            'notes',
+            'project_id',
+            'category_id',
+            'resource_type',
+            'manager_id',
+            'user_id',
+            'client_type',
+            'sector_id'
+        ]
+        activity_tracking_values = []
+        for index in range(len(activity_fields_list)):
+            for k in range(len(tracking_values)):
+                activity = tracking_values.__getitem__(k)
+                if activity.__getitem__(2).get('field')\
+                        == activity_fields_list[index]:
+                    activity_tracking_values.append(activity)
+        return activity_tracking_values
+
+    @staticmethod
+    def order_task_fields(tracking_values):
+        task_fields_list = [
+            'task_state',
+            'name',
+            'code',
+            'responsible_id',
+            'partner_id',
+            'date_start',
+            'date_end',
+            'notes',
+            'department_id',
+            'employee_ids',
+            'project_id',
+            'category_id',
+            'room_id',
+            'resource_type',
+            'user_id',
+            'client_type',
+            'sector_id',
+            'rel_date_start',
+            'rel_date_end',
+            'report_done_required'
+        ]
+        task_tracking_values = []
+        for x in range(len(task_fields_list)):
+            for k in range(len(tracking_values)):
+                task = tracking_values.__getitem__(k)
+                if task.__getitem__(2).get('field') == task_fields_list[x]:
+                    task_tracking_values.append(task)
+        return task_tracking_values

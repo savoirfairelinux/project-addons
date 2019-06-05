@@ -20,7 +20,7 @@ class TestProjectEventTask(TestProjectEventCommon):
             'res_id': self.activity_1.id,
         })
         self.assertEqual(self.activity_1.project_task_log, 2)
-        self.activity_1.name = 'Test Event Activity 1'
+        self.activity_1.write({'name': 'Test Event Activity 1'})
         self.assertEqual(self.activity_1.project_task_log, 3)
 
     def test_020_create_main_task(self):
