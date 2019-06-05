@@ -603,11 +603,11 @@ class TestProjectEventTask(TestProjectEventCommon):
         }
         self.env['calendar.event'].create(vals)
         self.assertTrue(
-            self.task_1.is_hr_resource_booked(self.partner_1.id)
+            self.task_1.is_hr_resource_double_booked(self.partner_1.id)
         )
         self.assertTrue(
-            self.task_1.is_hr_resource_booked(self.partner_2.id)
+            self.task_1.is_hr_resource_double_booked(self.partner_2.id)
         )
         self.assertFalse(
-            self.task_1.is_hr_resource_booked(self.partner_3.id)
+            self.task_1.is_hr_resource_double_booked(self.partner_3.id)
         )

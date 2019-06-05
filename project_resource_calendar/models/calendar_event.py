@@ -27,18 +27,8 @@ class CalendarEvent(models.Model):
         string='Floor',
         related='room_id.floor',
     )
-    allow_room_double_booking = fields.Boolean(
-        string='Allow double book',
-        related='room_id.allow_double_book',
-    )
     equipment_ids = fields.Many2many(
         string='Equipment',
-        comodel_name='resource.calendar.instrument',
-        ondelete='set null',
-    )
-    double_bookable_equipment_ids = fields.Many2many(
-        string='Double bookable equipments',
-        compute='_get_double_bookable_equipments',
         comodel_name='resource.calendar.instrument',
         ondelete='set null',
     )
@@ -125,15 +115,6 @@ class CalendarEvent(models.Model):
     current_id = fields.Char(
         'Current ID',
     )
-
-    @api.one
-    @api.depends('room_id')
-    def _get_double_bookable_equipments(self):
-        double_bookable_equipment_ids = []
-        for equipment in self.equipment_ids:
-            if equipment.allow_double_book:
-                double_bookable_equipment_ids.append(equipment.id)
-        self.double_bookable_equipment_ids = double_bookable_equipment_ids
 
     @api.onchange('client_id')
     def _onchange_client_id(self):
@@ -371,3 +352,51 @@ class CalendarEvent(models.Model):
                     )
                 )
         return super(CalendarEvent, self).unlink()
+
+    def is_hr_resource_double_booked(self, attendee,
+                                     date_start=None, date_end=None):
+        if not date_end and not date_start:
+            date_start = self.date_start
+            date_end = self.date_end
+
+        overlaps_partners = self.env['calendar.event'].search([
+            ('id', '!=', self.id),
+            ('partner_ids', 'in', attendee.id),
+            ('start', '<', date_end),
+            ('stop', '>', date_start),
+            ('state', '!=', 'cancelled'),
+        ])
+        return len(overlaps_partners) > 0
+
+    def get_double_booked_resources(self, date_start=None, date_end=None):
+        booked_resources = []
+
+        if not date_end and not date_start:
+            date_start = self.start_datetime
+            date_end = self.stop_datetime
+
+        overlap_domain = [
+            ('id', '!=', self.id), ('start', '<', date_end),
+            ('stop', '>', date_start),
+            ('state', '!=', 'cancelled')]
+
+        if self.room_id:
+            overlap_domain.append(('room_id', '=', self.room_id.id))
+            overlaps = self.env['calendar.event'].search(overlap_domain)
+            overlap_domain.remove(('room_id', '=', self.room_id.id))
+            if len(overlaps.ids) > 0:
+                booked_resources.append(self.room_id.name)
+
+        for equipment in self.equipment_ids:
+            overlap_domain.append(('equipment_ids', 'in', equipment.id))
+            overlaps_equipment = self.env['calendar.event']\
+                .search(overlap_domain)
+            if len(overlaps_equipment) > 0:
+                booked_resources.append(equipment.name)
+
+        for partner in self.partner_ids:
+            if self.is_hr_resource_double_booked(partner,
+                                                 date_start, date_end):
+                booked_resources.append(partner.name)
+
+        return booked_resources

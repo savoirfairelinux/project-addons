@@ -701,7 +701,7 @@ class Task(models.Model):
             res += self.room_id.name + '<br>' if (
                 self.room_id) else self.equipment_id.name + '<br>'
         for attendee in self.get_partners():
-            hres = self.is_hr_resource_booked(attendee)
+            hres = self.is_hr_resource_double_booked(attendee)
             partner_attendee = self.env['res.partner'].browse(attendee)
             if hres and partner_attendee:
                 res += partner_attendee.name + '<br>'
@@ -717,7 +717,7 @@ class Task(models.Model):
                             child.date_start + ' - ' + child.date_end +
                             ' - ' + child.code + '<br>')
                 for attendee in child.get_partners():
-                    hres = child.is_hr_resource_booked(attendee)
+                    hres = child.is_hr_resource_double_booked(attendee)
                     attendee_partner = self.env['res.partner'].browse(attendee)
                     if hres and attendee_partner:
                         res += attendee_partner.name + \
@@ -726,6 +726,50 @@ class Task(models.Model):
                             ' - ' + child.code + \
                             '<br>'
         return res
+
+    def get_double_booked_resources(self, date_start=None, date_end=None):
+        booked_resources = []
+        if not date_end and not date_start:
+            date_start = self.date_start
+            date_end = self.date_end
+
+        if self.room_id:
+            overlaps = self.env['calendar.event'].search([
+                ('room_id', '=', self.room_id.id),
+                ('start', '<', date_end),
+                ('stop', '>', date_start),
+                ('state', '!=', 'cancelled'),
+            ])
+            overlaps_ids = overlaps.ids
+            for overlap_id in overlaps_ids:
+                if self.env['calendar.event']\
+                        .browse(overlap_id).event_task_id.id == self.id:
+                    overlaps_ids.remove(overlap_id)
+            if len(overlaps_ids) > 0:
+                booked_resources.append(self.room_id.name)
+
+        overlaps_equipment = self.env['calendar.event'].search([
+            ('equipment_ids', 'in', [self.equipment_id.id]),
+            ('start', '<', date_end),
+            ('stop', '>', date_start),
+            ('state', '!=', 'cancelled'),
+        ])
+        overlaps_equipment_ids = overlaps_equipment.ids
+        for overlap_equipment_id in overlaps_equipment_ids:
+            if self.env['calendar.event']\
+                    .browse(overlap_equipment_id).event_task_id.id == self.id:
+                overlaps_equipment_ids.remove(overlap_equipment_id)
+        if len(overlaps_equipment_ids) > 0:
+            booked_resources.append(self.equipment_id.name)
+
+        for attendee in self.get_partners():
+            h_res = self.is_hr_resource_double_booked(attendee,
+                                                      date_start, date_end)
+            partner_attendee = self.env['res.partner'].browse(attendee)
+            if h_res and partner_attendee:
+                booked_resources.append(partner_attendee.name)
+
+        return booked_resources
 
     @api.multi
     def get_partners(self):
@@ -971,15 +1015,12 @@ class Task(models.Model):
     def send_message(self, action):
         self.env['mail.message'].create(self.get_message(action))
 
-    def is_resource_booked(self, date_start=None, date_end=None):
-        if not date_end and not date_start:
-            date_start = self.date_start
-            date_end = self.date_end
+    def is_resource_booked(self):
         if self.room_id:
             overlaps = self.env['calendar.event'].search([
                 ('room_id', '=', self.room_id.id),
-                ('start', '<', date_end),
-                ('stop', '>', date_start),
+                ('start', '<', self.date_end),
+                ('stop', '>', self.date_start),
                 ('state', '!=', 'cancelled'),
             ])
             overlaps_ids = overlaps.ids
@@ -1000,14 +1041,25 @@ class Task(models.Model):
                 return True
         return False
 
-    def is_hr_resource_booked(self, attendee):
+    def is_hr_resource_double_booked(self, attendee,
+                                     date_start=None, date_end=None):
+        if not date_start and not date_end:
+            date_start = self.date_start
+            date_end = self.date_end
         overlaps_partners = self.env['calendar.event'].search([
             ('partner_ids', 'in', attendee),
-            ('start', '<', self.date_end),
-            ('stop', '>', self.date_start),
+            ('start', '<', date_end),
+            ('stop', '>', date_start),
             ('state', '!=', 'cancelled'),
         ])
-        return len(overlaps_partners) > 0
+
+        overlaps_partners_ids = overlaps_partners.ids
+        for overlap_partner_id in overlaps_partners_ids:
+            if self.env['calendar.event']\
+                    .browse(overlap_partner_id).event_task_id.id == self.id:
+                overlaps_partners_ids.remove(overlap_partner_id)
+
+        return len(overlaps_partners_ids) > 0
 
     @api.multi
     def get_confirmation_wizard(self, action):
