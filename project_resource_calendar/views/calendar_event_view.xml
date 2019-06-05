@@ -242,7 +242,9 @@
                       date_start="start"
                       string="Operations"
                       default_group_by="room_id"
-                      colors="#114455:color == False;#889977:state == 'draft';#889977:is_task_event == 'True';"
+                      colors="#114455:color == False;#889977:state == 'draft';
+                              #889977:is_task_event == 'True';
+                              #889977:font_color == True;"
                       event_open_popup="true">
             </timeline>
         </field>
