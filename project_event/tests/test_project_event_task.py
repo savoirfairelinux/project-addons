@@ -635,3 +635,20 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.assertEqual(main_task.room_id.id, self.room_2.id)
         self.assertEqual(main_task.date_start, updated_start_date)
         self.assertEqual(main_task.date_end, updated_end_date)
+
+    def test_280_copy_activity_with_three_or_more_tasks(self):
+        self.task_1.write({
+            'parent_id': self.activity_1.id
+        })
+        self.task_2.write({
+            'parent_id': self.activity_1.id
+        })
+        activity_copy = self.activity_1.copy()
+        self.assertEqual(activity_copy.name, 'Test Activity 1 (copy)')
+        activity_copy_children_name = []
+        for task_copy in activity_copy.child_ids:
+            activity_copy_children_name.append(task_copy.name)
+        for task in self.activity_1.child_ids:
+            self.assertTrue(
+                str(task.name + " (copy)") in activity_copy_children_name)
+            activity_copy_children_name.remove(str(task.name + " (copy)"))
