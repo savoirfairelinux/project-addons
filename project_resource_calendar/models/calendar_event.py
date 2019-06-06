@@ -4,7 +4,7 @@
 import babel.dates
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
-from datetime import datetime
+from datetime import datetime, timedelta
 
 
 class CalendarEvent(models.Model):
@@ -380,7 +380,7 @@ class CalendarEvent(models.Model):
 
         overlaps_partners = self.env['calendar.event'].search([
             ('id', '!=', self.id),
-            ('partner_ids', 'in', attendee.id),
+            ('partner_ids', 'in', attendee),
             ('start', '<', date_end),
             ('stop', '>', date_start),
             ('state', '!=', 'cancelled'),
@@ -395,9 +395,12 @@ class CalendarEvent(models.Model):
             date_end = self.stop_datetime
 
         overlap_domain = [
-            ('id', '!=', self.id), ('start', '<', date_end),
+            ('start', '<', date_end),
             ('stop', '>', date_start),
             ('state', '!=', 'cancelled')]
+
+        if self.id:
+            overlap_domain.append(('id', '!=', self.id))
 
         if self.room_id:
             overlap_domain.append(('room_id', '=', self.room_id.id))
@@ -414,8 +417,50 @@ class CalendarEvent(models.Model):
                 booked_resources.append(equipment.name)
 
         for partner in self.partner_ids:
-            if self.is_hr_resource_double_booked(partner,
+            if self.is_hr_resource_double_booked(partner.id,
                                                  date_start, date_end):
                 booked_resources.append(partner.name)
+
+        return booked_resources
+
+    def get_calendar_booked_resources(self, room_id=None,
+                                      equipment_ids=None,
+                                      partner_ids=None,
+                                      date_start=None, duration=None):
+
+        date_end = (datetime.strptime(date_start, '%Y-%m-%d %H:%M:%S') +
+                    timedelta(hours=duration)).strftime('%Y-%m-%d %H:%M:%S')
+
+        booked_resources = []
+        overlap_domain = [
+            ('start', '<', date_end),
+            ('stop', '>', date_start),
+            ('state', '!=', 'cancelled')]
+
+        if self.id:
+            overlap_domain.append(('id', '!=', self.id))
+
+        if room_id:
+            overlap_domain.append(('room_id', '=', room_id))
+            overlaps = self.env['calendar.event'].search(overlap_domain)
+            overlap_domain.remove(('room_id', '=', room_id))
+            if len(overlaps.ids) > 0:
+                booked_resources.append(self.env['resource.calendar.room']
+                                        .browse(room_id).name)
+
+        for equipment in equipment_ids:
+            overlap_domain.append(('equipment_ids', 'in', equipment))
+            overlaps_equipment = self.env['calendar.event']\
+                .search(overlap_domain)
+            if len(overlaps_equipment) > 0:
+                booked_resources.append(self
+                                        .env['resource.calendar.instrument']
+                                        .browse(equipment).name)
+
+        for partner in partner_ids:
+            if self.is_hr_resource_double_booked(partner,
+                                                 date_start, date_end):
+                booked_resources.append(self.env['res.partner']
+                                        .browse(partner).name)
 
         return booked_resources

@@ -730,15 +730,30 @@ class Task(models.Model):
                             '<br>'
         return res
 
-    def get_double_booked_resources(self, date_start=None, date_end=None):
+    def get_double_booked_resources(self, room_id=None,
+                                    equipment_id=None,
+                                    employee_ids=None,
+                                    date_start=None, date_end=None):
+
         booked_resources = []
         if not date_end and not date_start:
             date_start = self.date_start
             date_end = self.date_end
 
+        if not room_id:
+            room_id = self.room_id.id
+
+        if not equipment_id:
+            equipment_id = self.equipment_id.id
+
+        if not employee_ids:
+            partner_ids = self.get_partners()
+        else:
+            partner_ids = self.get_partners(employee_ids)
+
         if self.room_id:
             overlaps = self.env['calendar.event'].search([
-                ('room_id', '=', self.room_id.id),
+                ('room_id', '=', room_id),
                 ('start', '<', date_end),
                 ('stop', '>', date_start),
                 ('state', '!=', 'cancelled'),
@@ -749,10 +764,11 @@ class Task(models.Model):
                         .browse(overlap_id).event_task_id.id == self.id:
                     overlaps_ids.remove(overlap_id)
             if len(overlaps_ids) > 0:
-                booked_resources.append(self.room_id.name)
+                booked_resources.append(self.env['resource.calendar.room']
+                                        .browse(room_id).name)
 
         overlaps_equipment = self.env['calendar.event'].search([
-            ('equipment_ids', 'in', [self.equipment_id.id]),
+            ('equipment_ids', 'in', [equipment_id]),
             ('start', '<', date_end),
             ('stop', '>', date_start),
             ('state', '!=', 'cancelled'),
@@ -760,14 +776,15 @@ class Task(models.Model):
         overlaps_equipment_ids = overlaps_equipment.ids
         for overlap_equipment_id in overlaps_equipment_ids:
             if self.env['calendar.event']\
-                    .browse(overlap_equipment_id).event_task_id.id == self.id:
+                    .browse(overlap_equipment_id)\
+                    .event_task_id.id == self.id:
                 overlaps_equipment_ids.remove(overlap_equipment_id)
         if len(overlaps_equipment_ids) > 0:
-            booked_resources.append(self.equipment_id.name)
+            booked_resources.append(self.env['resource.calendar.instrument']
+                                        .browse(equipment_id).name)
 
-        for attendee in self.get_partners():
-            h_res = self.is_hr_resource_double_booked(attendee,
-                                                      date_start, date_end)
+        for attendee in partner_ids:
+            h_res = self.is_hr_resource_double_booked(attendee)
             partner_attendee = self.env['res.partner'].browse(attendee)
             if h_res and partner_attendee:
                 booked_resources.append(partner_attendee.name)
@@ -775,9 +792,14 @@ class Task(models.Model):
         return booked_resources
 
     @api.multi
-    def get_partners(self):
+    def get_partners(self, employee_ids=None):
+        if not employee_ids:
+            employees = self.employee_ids
+        else:
+            employees = self.env['hr.employee']\
+                .search([('id', 'in', employee_ids)])
         partners = []
-        for e in self.employee_ids:
+        for e in employees:
             if e.user_id:
                 partners.append(e.user_id.partner_id.id)
         return partners

@@ -8,9 +8,13 @@
     </template>
     <template id="assets_backend" name="update event wizard" inherit_id="web.assets_backend">
         <xpath expr="//script[last()]" position="after">
-            <script type="text/javascript" src="/project_resource_calendar/static/src/js/update_event_wizard.js"/>
             <link href="/project_resource_calendar/static/src/css/calendar_style.css"
                   rel="stylesheet"/>
+            <script type="text/javascript" src="/project_resource_calendar/static/src/js/update_event_wizard.js"/>
+            <script type="text/javascript" src="/project_resource_calendar/static/src/js/save_event_wizard.js"/>
+        </xpath>
+        <xpath expr="//script[@src='/web/static/src/js/views/view_dialogs.js']" position="replace">
+            <script type="text/javascript" src="/project_resource_calendar/static/src/js/save_event_calendar_wizard.js"></script>
         </xpath>
     </template>
 </odoo>

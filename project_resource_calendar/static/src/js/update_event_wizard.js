@@ -21,6 +21,12 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
     CalendarController.include({
 
         _updateRecord: function (record) {
+            /**
+             * Show a popup Wizard with a message containing the double booked resources.
+             * Two buttons are displayed one for continuing and saving an a second one to cancel
+             *
+             * @override
+             */
             var message = _t('Please Confirm your reservation.<br>The following resources are booked:<br>');
             var self = this;
 
@@ -34,37 +40,28 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
                           ],
                 }).then(function (booked_resources) {
                     if(booked_resources.length != 0){
-
+                        var message = _t('The following resources are booked:<br/>');
                         booked_resources.forEach(function (resource){
                             message = message + resource + '<br/>';
                         });
-
-                        message = message + _t('<br>Do you want to continue?');
-                        self._rpc({
-                            model: 'doublebooking.validation.wiz',
-                            method: 'create',
-                            args: [{event_id: record.id,
-                                    message: message,
-                                    start_date: record._start.format("YYYY-MM-DD HH:mm:ss"),
-                                    end_date: record._end.format("YYYY-MM-DD HH:mm:ss"),
-                                    r_start_date: record.r_start.add(-self.getSession().getTZOffset(record._start), 'minutes').format("YYYY-MM-DD HH:mm:ss"),
-                                    r_end_date: record.r_end.add(-self.getSession().getTZOffset(record._end), 'minutes').format("YYYY-MM-DD HH:mm:ss"),
-                                   }],
-                        }).then(function (wizard) {
-                            self.do_action({
-                                name: 'Confirm double booking reservation',
-                                res_model: 'doublebooking.validation.wiz',
-                                views: [[false, 'form']],
-                                type: 'ir.actions.act_window',
-                                view_type: "form",
-                                view_mode: "form",
-                                target: "new",
-                                res_id: wizard,
-                            });
-                        });
-                        return self.reload.bind(self);
+                        message = message + _t('Do you want to continue?');
+                        new Dialog(this, {
+                            size: 'large',
+                            title : _t("Please Confirm your reservation"),
+                            $content: $('<div>', {
+                                html: message,
+                            }),
+                            buttons: [
+                                {text: _t('Continue'), classes : "btn-primary", click: function() {
+                                    self.model.updateRecord(record).always(self.reload.bind(self));
+                                }, close:true},
+                                {text: _t("Cancel"), click: function() {
+                                    self.reload();
+                                },close: true}
+                            ],
+                        }).open();
                     }else{
-                        return self.model.updateRecord(record).always(self.reload.bind(self));
+                        self.model.updateRecord(record).always(self.reload.bind(self));
                     }
                 });
             }
@@ -73,42 +70,37 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
                     model: 'project.task',
                     method: 'get_double_booked_resources',
                     args: [record.id,
+                           false,
+                           false,
+                           false,
                            record._start.add(-self.getSession().getTZOffset(record._start), 'minutes').format("YYYY-MM-DD HH:mm:ss"),
-                           record._end.add(-self.getSession().getTZOffset(record._end), 'minutes').format("YYYY-MM-DD HH:mm:ss")
+                           record._end.add(-self.getSession().getTZOffset(record._end), 'minutes').format("YYYY-MM-DD HH:mm:ss"),
                           ],
                 }).then(function (booked_resources) {
                     if(booked_resources.length != 0){
 
+                        var message = _t('The following resources are booked:<br/>');
                         booked_resources.forEach(function (resource){
                             message = message + resource + '<br/>';
                         });
-
-                        message = message + _t('<br>Do you want to continue?');
-                        self._rpc({
-                            model: 'doublebooking.validation.wiz',
-                            method: 'create',
-                            args: [{task_id: record.id,
-                                    message: message,
-                                    start_date: record._start.format("YYYY-MM-DD HH:mm:ss"),
-                                    end_date: record._end.format("YYYY-MM-DD HH:mm:ss"),
-                                    r_start_date: record.r_start.add(-self.getSession().getTZOffset(record._start), 'minutes').format("YYYY-MM-DD HH:mm:ss"),
-                                    r_end_date: record.r_end.add(-self.getSession().getTZOffset(record._end), 'minutes').format("YYYY-MM-DD HH:mm:ss")
-                                   }],
-                        }).then(function (wizard) {
-                            self.do_action({
-                                name: 'Confirm double booking reservation',
-                                res_model: 'doublebooking.validation.wiz',
-                                views: [[false, 'form']],
-                                type: 'ir.actions.act_window',
-                                view_type: "form",
-                                view_mode: "form",
-                                target: "new",
-                                res_id: wizard,
-                            });
-                        });
-                        return self.reload.bind(self);
+                        message = message + _t('Do you want to continue?');
+                        new Dialog(this, {
+                            size: 'large',
+                            title : _t("Please Confirm your reservation"),
+                            $content: $('<div>', {
+                                html: message,
+                            }),
+                            buttons: [
+                                {text: _t('Continue'), classes : "btn-primary", click: function() {
+                                    self.model.updateRecord(record).always(self.reload.bind(self));
+                                }, close:true},
+                                {text: _t("Cancel"), click: function() {
+                                    self.reload();
+                                },close: true}
+                            ],
+                        }).open();
                     }else{
-                        return self.model.updateRecord(record).always(self.reload.bind(self));
+                        self.model.updateRecord(record).always(self.reload.bind(self));
                     }
                 });
             }

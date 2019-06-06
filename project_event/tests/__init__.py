@@ -8,4 +8,4 @@ from . import test_task_template
 from . import test_event_creation_from_wizard
 from . import test_security
 from . import test_calendar_event
-from . import test_reservation_validation_wiz
+
