@@ -9,3 +9,4 @@ from . import miscellaneous
 from . import ir_actions_report
 from . import res_partner
 from . import hr_employee
+from . import res_groups

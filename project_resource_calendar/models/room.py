@@ -45,6 +45,11 @@ class Room(models.Model):
         'room_id', 'category_id',
         string='Employee Tags'
     )
+    group_ids = fields.Many2many(
+        'res.groups', 'room_group_rel',
+        'room_id', 'group_id',
+        string='Groups'
+    )
 
     def _compute_room_log_count(self):
         room = 'project_resource_calendar.model_resource_calendar_room'
