@@ -280,6 +280,8 @@ class Task(models.Model):
         if self.is_activity():
             child_default_vals = {'parent_id': new_copy.id}
             for child in self.child_ids:
+                if 'name' in child_default_vals:
+                    child_default_vals.pop('name')
                 if child.is_main_task:
                     continue
                 child.copy(default=child_default_vals)
