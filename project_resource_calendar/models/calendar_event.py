@@ -210,7 +210,6 @@ class CalendarEvent(models.Model):
                         for resource in event.mapped(lambda s: s.room_id):
                             if resource.id == record.room_id.id:
                                 message += self.fill_validation_message(
-                                    'room',
                                     resource.name,
                                     event.start,
                                     event.stop)
@@ -219,7 +218,6 @@ class CalendarEvent(models.Model):
                                 lambda s: s.equipment_ids):
                             if resource.id in record.equipment_ids.ids:
                                 message += self.fill_validation_message(
-                                    'resource',
                                     resource.name,
                                     event.start,
                                     event.stop)
@@ -227,7 +225,6 @@ class CalendarEvent(models.Model):
                         for resource in event.mapped(lambda s: s.partner_ids):
                             if resource.id in record.partner_ids.ids:
                                 message += self.fill_validation_message(
-                                    'attendee',
                                     resource.name,
                                     event.start,
                                     event.stop)
@@ -244,9 +241,9 @@ class CalendarEvent(models.Model):
         return (event.start < record.stop) & (event.stop > record.start)
 
     @staticmethod
-    def fill_validation_message(resource_type, resource, start, stop):
-        return _('The %s: %s From:%s To:%s\n', ) % (
-            resource_type, resource, start, stop)
+    def fill_validation_message(resource, start, stop):
+        return _('%s: From:%s To:%s\n', ) % (
+            resource, start, stop)
 
     @staticmethod
     def get_error_type(type_error):
