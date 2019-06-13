@@ -452,6 +452,7 @@ msgstr "Message"
 #. module: project_resource_calendar
 #: model:ir.actions.act_window,name:project_resource_calendar.action_resource_calendar_miscellaneous
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_miscellaneous
+#: model:ir.model.fields,field_description:project_resource_calendar.field_calendar_event_room_miscellaneous
 #: model:ir.ui.menu,name:project_resource_calendar.miscellaneous_sub_menu
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_miscellaneous_form
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_miscellaneous_tree

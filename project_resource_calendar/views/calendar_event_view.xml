@@ -201,6 +201,7 @@
             </xpath>
             <xpath expr="//field[@name='room_id']" position="after">
                 <field name="room_floor"/>
+                <field name="room_miscellaneous"/>
             </xpath>
         </field>
     </record>

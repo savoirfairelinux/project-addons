@@ -27,6 +27,10 @@ class CalendarEvent(models.Model):
         string='Floor',
         related='room_id.floor',
     )
+    room_miscellaneous = fields.Many2many(
+        string='Miscellaneous',
+        related='room_id.miscellaneous',
+    )
     equipment_ids = fields.Many2many(
         string='Equipment',
         comodel_name='resource.calendar.instrument',
