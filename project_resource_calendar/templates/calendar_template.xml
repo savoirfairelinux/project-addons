@@ -3,9 +3,9 @@
         <t t-set="color" t-value="widget.getColor(event.color_index)"/>
         <div t-att-style="typeof color === 'string' ? ('background-color:'+color)+';' : ''" t-attf-class="#{record.is_highlighted &amp;&amp; record.is_highlighted.value ? 'o_event_hightlight' : ''} #{typeof color === 'number' ? 'o_calendar_color_'+color : ''}">
             <t t-foreach="widget.displayFields" t-as="name">
-                <t t-if="name == 'recurrency' ">
-                    <t t-if="format(record, name) == 'True'">
-                        <div class="fc-recurrency" />
+                <t t-if="name == 'recurrency_icon' ">
+                    <t t-if="format(record, name) == '1'">
+                        <div class="fc-recurrency_icon" />
                     </t>
                 </t>
             </t>

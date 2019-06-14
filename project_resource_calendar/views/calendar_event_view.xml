@@ -183,7 +183,7 @@
             <xpath expr="//field[@name='resource_ids']" position="after">
                 <field name="client_id_partner_ids_names"/>
                 <field name="room_id"/>
-                <field name="recurrency"/>
+                <field name="recurrency_icon"/>
             </xpath>
         </field>
     </record>

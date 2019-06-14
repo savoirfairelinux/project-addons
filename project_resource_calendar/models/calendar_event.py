@@ -119,6 +119,17 @@ class CalendarEvent(models.Model):
     current_id = fields.Char(
         'Current ID',
     )
+    recurrency_icon = fields.Integer(
+        compute='_compute_recurrency_icon'
+    )
+
+    @api.one
+    def _compute_recurrency_icon(self):
+        self.ensure_one()
+        if self.recurrency:
+            self.recurrency_icon = 1
+        else:
+            self.recurrency_icon = 0
 
     @api.onchange('client_id')
     def _onchange_client_id(self):
