@@ -555,10 +555,6 @@ class Task(models.Model):
             task_vals['responsible_id'] = vals['responsible_id']
         if 'partner_id' in vals:
             task_vals['partner_id'] = vals['partner_id']
-        if 'client_type' in vals:
-            task_vals['client_type'] = vals['client_type']
-        if 'sector_id' in vals:
-            task_vals['sector_id'] = vals['sector_id']
         for task in self.child_ids:
             if task == self.get_main_task():
                 continue

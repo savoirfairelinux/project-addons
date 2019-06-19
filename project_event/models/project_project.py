@@ -90,10 +90,6 @@ class Project(models.Model):
             activity_vals['responsible_id'] = vals['responsible_id']
         if 'partner_id' in vals:
             activity_vals['partner_id'] = vals['partner_id']
-        if 'client_type' in vals:
-            activity_vals['client_type'] = vals['client_type']
-        if 'sector_id' in vals:
-            activity_vals['sector_id'] = vals['sector_id']
         for activity in self.task_ids:
             if activity_vals:
                 activity.write(activity_vals)
