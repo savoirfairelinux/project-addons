@@ -23,25 +23,21 @@
 }
 
 .dt-left_align {
-    width: 30%;
+    width: 25%;
     float: left;
     text-align: left;
- }
-
-.dt-left_align:not(:first-child) {
-    padding-left: 10px;
 }
 
 .dt-center_align {
-    width: 30%;
+    width: 50%;
     float: left;
-    text-align: center;
+    text-align: left;
 }
 
 .dt-right_align {
-    width: 50%;
+    width: 25%;
     float: left;
-    text-align: right;
+    text-align: left;
 }
 
 .h3-report {
@@ -51,4 +47,8 @@
 .report-footer {
     position: relative;
     margin-top: 250px;
+}
+
+.no_decoration_list_style {
+    list-style: none;
 }
