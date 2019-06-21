@@ -131,6 +131,7 @@ class ProjectEventWizard(models.TransientModel):
             'name': self.name,
             'responsible_id': self.event_resp_id.id,
             'partner_id': self.event_partner_id.id,
+            'client_type': self.event_partner_id.tag_id.client_type.id,
             'notes': self.event_notes,
             'project_type': 'event',
         }
@@ -144,6 +145,7 @@ class ProjectEventWizard(models.TransientModel):
                 'project_id': event.id,
                 'responsible_id': act.activity_resp_id.id,
                 'partner_id': act.activity_partner_id.id,
+                'client_type': self.event_partner_id.tag_id.client_type.id,
                 'category_id': act.category_id.id,
                 'activity_task_type': 'activity',
                 'room_id': act.room_id.id,
@@ -161,6 +163,8 @@ class ProjectEventWizard(models.TransientModel):
                          'activity_task_type': 'task',
                          'responsible_id': task.task_resp_id.id,
                          'partner_id': task.task_partner_id.id,
+                         'client_type': self.event_partner_id.tag_id
+                            .client_type.id,
                          'category_id': task.category_id.id,
                          'department_id': task.department_id.id,
                          'employee_ids':

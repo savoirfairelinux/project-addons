@@ -111,6 +111,7 @@ class ProjectTaskWizard(models.TransientModel):
             'name': self.task_name,
             'responsible_id': self.task_resp_id.id,
             'partner_id': self.task_partner_id.id,
+            'client_type': self.task_partner_id.tag_id.client_type.id,
             'category_id': self.category_id.id,
             'resource_type': self.resource_type,
             'department_id': self.department_id.id,
