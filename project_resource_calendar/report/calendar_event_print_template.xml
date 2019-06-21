@@ -26,7 +26,7 @@
                         <span t-field="o.room_id"/>
                     </h2>
                 </p>
-                <table border="0">
+                <table>
                     <tr>
                         <td class="dt-left_align">
                             <h4>
@@ -56,19 +56,17 @@
                                 </t>
                             </h4>
                         </td>
-                        <td class="dt-left_align">
+                        <td class="dt-center_align">
                             <h4>
                                 <span t-field="o.name"/>
                             </h4>
                         </td>
                         <td class="dt-right_align">
-                            <h4>
+                            <ul class="no_decoration_list_style">
                                 <t t-foreach="o.partner_ids" t-as="p">
-                                    <t t-esc="p.name"/>
-                                    <t t-if="p_last"></t>
-                                    <t t-else="">,</t>
+                                    <li><h4><t t-esc="p.name"/></h4></li>
                                 </t>
-                            </h4>
+                            </ul>
                         </td>
                     </tr>
                 </table>
