@@ -222,23 +222,23 @@ class CalendarEvent(models.Model):
                             if resource.id == record.room_id.id:
                                 message += self.fill_validation_message(
                                     resource.name,
-                                    event.start,
-                                    event.stop)
+                                    self.format_date(event.start),
+                                    self.format_date(event.stop))
                     if equipment:
                         for resource in event.mapped(
                                 lambda s: s.equipment_ids):
                             if resource.id in record.equipment_ids.ids:
                                 message += self.fill_validation_message(
                                     resource.name,
-                                    event.start,
-                                    event.stop)
+                                    self.format_date(event.start),
+                                    self.format_date(event.stop))
                     if attendees:
                         for resource in event.mapped(lambda s: s.partner_ids):
                             if resource.id in record.partner_ids.ids:
                                 message += self.fill_validation_message(
                                     resource.name,
-                                    event.start,
-                                    event.stop)
+                                    self.format_date(event.start),
+                                    self.format_date(event.stop))
             if message != '':
                 raise ValidationError(
                     _(
@@ -253,7 +253,7 @@ class CalendarEvent(models.Model):
 
     @staticmethod
     def fill_validation_message(resource, start, stop):
-        return _('%s: From:%s To:%s\n', ) % (
+        return _('%s: From: %s To: %s\n', ) % (
             resource, start, stop)
 
     @staticmethod
@@ -289,6 +289,24 @@ class CalendarEvent(models.Model):
             self.equipment_ids = self.env['resource.calendar.instrument']\
                 .search([('room_id', '=', self.room_id.id)])
 
+    def format_date(self, date_to_format, format_str='dd-MMMM-yyyy HH:mm:ss'):
+        lang = self.env['res.users'].browse(self.env.uid).lang or 'en_US'
+        tz = self.env['res.users'].browse(self.env.uid).tz or 'utc'
+        if not isinstance(date_to_format, datetime):
+            if self.allday:
+                date_to_format = datetime.strptime(
+                    date_to_format, '%Y-%m-%d'
+                )
+            else:
+                date_to_format = datetime.strptime(
+                    date_to_format, '%Y-%m-%d %H:%M:%S'
+                )
+        return babel.dates.format_datetime(
+            date_to_format,
+            tzinfo=tz,
+            format=format_str,
+            locale=lang)
+
     def get_formatted_date(self, date_to_format, field_name, format):
         recurrent = None
         if self.recurrency:
@@ -304,22 +322,7 @@ class CalendarEvent(models.Model):
                     date_to_format = recurrent.start_datetime
                 else:
                     date_to_format = self.start_datetime
-        lang = self.env['res.users'].browse(self.env.uid).lang or 'en_US'
-        tz = self.env['res.users'].browse(self.env.uid).tz or 'utc'
-        if not isinstance(date_to_format, datetime):
-            if self.allday:
-                date_to_format = datetime.strptime(
-                    date_to_format, '%Y-%m-%d'
-                )
-            else:
-                date_to_format = datetime.strptime(
-                    date_to_format, '%Y-%m-%d %H:%M:%S'
-                )
-        formatted_date = babel.dates.format_datetime(
-            date_to_format,
-            tzinfo=tz,
-            format='EEEE dd MMMM yyyy',
-            locale=lang)
+        formatted_date = self.format_date(date_to_format, 'EEEE dd MMMM yyyy')
         return formatted_date.capitalize()
 
     def print_calendar_report(self):
