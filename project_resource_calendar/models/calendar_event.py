@@ -383,6 +383,13 @@ class CalendarEvent(models.Model):
                 )
         return super(CalendarEvent, self).unlink()
 
+    def remove_recurrent_calendar_event(self, overlaps):
+        overlaps_counter = len(overlaps.ids)
+        for overlap in overlaps:
+            if overlap.id == self.id:
+                overlaps_counter -= 1
+        return overlaps_counter
+
     def is_hr_resource_double_booked(self, attendee,
                                      date_start=None, date_end=None):
         if not date_end and not date_start:
@@ -396,12 +403,7 @@ class CalendarEvent(models.Model):
             ('state', '!=', 'cancelled'),
         ])
 
-        overlaps_counter = len(overlaps_partners)
-        for overlap in overlaps_partners:
-            if overlap.id == self.id:
-                overlaps_counter -= 1
-
-        return overlaps_counter > 0
+        return self.remove_recurrent_calendar_event(overlaps_partners) > 0
 
     def get_double_booked_resources(self, date_start=None, date_end=None):
         booked_resources = []
@@ -420,11 +422,7 @@ class CalendarEvent(models.Model):
             overlaps = self.env['calendar.event'].search(overlap_domain)
             overlap_domain.remove(('room_id', '=', self.room_id.id))
 
-            overlaps_counter = len(overlaps.ids)
-            for overlap in overlaps:
-                if overlap.id == self.id:
-                    overlaps_counter -= 1
-            if overlaps_counter > 0:
+            if self.remove_recurrent_calendar_event(overlaps) > 0:
                 booked_resources.append(self.room_id.name)
 
         for equipment in self.equipment_ids:
@@ -432,11 +430,7 @@ class CalendarEvent(models.Model):
             overlaps_equipment = self.env['calendar.event']\
                 .search(overlap_domain)
 
-            overlaps_counter = len(overlaps_equipment)
-            for overlap in overlaps_equipment:
-                if overlap.id == self.id:
-                    overlaps_counter -= 1
-            if overlaps_counter > 0:
+            if self.remove_recurrent_calendar_event(overlaps_equipment) > 0:
                 booked_resources.append(equipment.name)
 
         for partner in self.partner_ids:
@@ -465,12 +459,7 @@ class CalendarEvent(models.Model):
             overlaps = self.env['calendar.event'].search(overlap_domain)
             overlap_domain.remove(('room_id', '=', room_id))
 
-            overlaps_counter = len(overlaps.ids)
-            for overlap in overlaps:
-                if overlap.id == self.id:
-                    overlaps_counter -= 1
-
-            if overlaps_counter > 0:
+            if self.remove_recurrent_calendar_event(overlaps) > 0:
                 booked_resources.append(self.env['resource.calendar.room']
                                         .browse(room_id).name)
 
@@ -479,12 +468,7 @@ class CalendarEvent(models.Model):
             overlaps_equipment = self.env['calendar.event']\
                 .search(overlap_domain)
 
-            overlaps_counter = len(overlaps_equipment.ids)
-            for overlap in overlaps:
-                if overlap.id == self.id:
-                    overlaps_counter -= 1
-
-            if overlaps_counter > 0:
+            if self.remove_recurrent_calendar_event(overlaps_equipment) > 0:
                 booked_resources.append(self
                                         .env['resource.calendar.instrument']
                                         .browse(equipment).name)
