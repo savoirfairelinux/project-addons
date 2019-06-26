@@ -26,7 +26,7 @@
                         <span t-field="o.room_id"/>
                     </h2>
                 </p>
-                <table>
+                <table class="table">
                     <tr>
                         <td class="dt-left_align">
                             <h4>
