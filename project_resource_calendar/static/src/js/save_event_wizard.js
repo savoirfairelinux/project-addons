@@ -77,7 +77,7 @@ odoo.define('project_resource_calendar.WizardFormController', function (require)
                         self.saveRecord();
                     }
                 });
-            }else if(self.modelName == 'project.task' && self.renderer.state.data.task_state != "draft"){
+            }else if(self.modelName == 'project.task' && self.renderer.state.data.activity_task_type == "task" && self.renderer.state.data.task_state != "draft"){
 
                 if(!self.renderer.state.data.date_start){
                     this.do_warn(_t('Starting at'), 'is empty');
