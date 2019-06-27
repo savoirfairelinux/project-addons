@@ -432,12 +432,6 @@ class Task(models.Model):
     @api.onchange('partner_id')
     def onchange_partner_id(self):
         self._onchange_partner_id()
-        if self.parent_id:
-            self.client_type = self.parent_id.client_type
-            return
-        if self.project_id:
-            self.client_type = self.project_id.client_type
-            return
         if self.partner_id:
             self.client_type = self.partner_id.tag_id.client_type
 
