@@ -12,3 +12,8 @@ class ResPartner(models.Model):
         'res.partner.category',
         string='Tag',
     )
+
+    is_visible_in_technical_sheet = fields.Boolean(
+        string='Is visible in Activity technical sheet',
+        default=False,
+    )

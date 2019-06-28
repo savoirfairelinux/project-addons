@@ -10,7 +10,11 @@
             </field>
             <field name="category_id" position="after">
                 <field name='tag_id'/>
+                <field name="is_visible_in_technical_sheet"/>
             </field>
+            <xpath expr="//notebook/page/field[@name='child_ids']/form/sheet/group/group/field[@name='mobile']" position="after">
+                <field name="is_visible_in_technical_sheet"/>
+            </xpath>
         </field>
     </record>
 

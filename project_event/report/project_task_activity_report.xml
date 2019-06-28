@@ -53,17 +53,20 @@
               </td>
             </tr>
             <tr>
-              <td>Client: <t t-esc="client_id"/> 
-              </td>
-            </tr>
-             <tr>
-              <td>Contact 1: </td>
-              <td>Phone: </td>
+              <td>Client: <t t-esc="client_id"/></td>
+              <td>Phone: <t t-esc="client_phone"/></td>
             </tr>
             <tr>
-              <td>Contact 2: </td>
-              <td>Phone: </td>
-            </tr>           
+              <td>Client type: <t t-esc="client_type.name"/></td>
+            </tr>
+            <t t-foreach="client_child_contacts" t-as="contact">
+              <t t-if="contact.is_visible_in_technical_sheet">
+                <tr>
+                  <td>Contact: <t t-esc="contact.name"/> </td>
+                  <td>Phone: <t t-esc="contact.phone"/></td>
+                </tr>
+              </t>
+            </t>
           </table>
         </div>
         <br/>
