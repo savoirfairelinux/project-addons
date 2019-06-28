@@ -8,6 +8,7 @@ class Groups(models.Model):
     _inherit = "res.groups"
 
     room_ids = fields.Many2many(
-        'resource.calendar.room',
+        'resource.calendar.room', 'room_group_rel',
+        'group_id', 'room_id',
         string='Rooms'
     )
