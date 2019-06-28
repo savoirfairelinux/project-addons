@@ -27,6 +27,8 @@ class ReportWeekly(models.AbstractModel):
             activities_docs.append({
                 'name': activity.name,
                 'client_id': activity.partner_id.name,
+                'client_phone': activity.partner_id.phone,
+                'client_type': activity.client_type,
                 'start': self.get_tz_format(activity.date_start),
                 'stop': self.get_tz_format(activity.date_end),
                 'spectators': activity.spectators,
@@ -35,6 +37,7 @@ class ReportWeekly(models.AbstractModel):
                 'activity_notes': activity.notes,
                 'remarks': self.get_departments_remarks(activity.child_ids),
                 'tasks_details': self.get_tasks_details(activity.child_ids),
+                'client_child_contacts': activity.partner_id.child_ids,
             })
         return activities_docs
 
