@@ -17,3 +17,8 @@ class ResPartner(models.Model):
         string='Is visible in Activity technical sheet',
         default=False,
     )
+
+    hourly_rate = fields.Float(
+        string='Hourly rate',
+        digits=(3, 2),
+        help='Enter the contact hourly rate')

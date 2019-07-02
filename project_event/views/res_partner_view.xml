@@ -13,8 +13,11 @@
                 <field name="is_visible_in_technical_sheet"/>
             </field>
             <xpath expr="//notebook/page/field[@name='child_ids']/form/sheet/group/group/field[@name='mobile']" position="after">
-                <field name="is_visible_in_technical_sheet"/>
+                <field name="is_visible_in_technical_sheet"/>NB
             </xpath>
+            <field name="allow_double_book" position="after">
+                <field name='hourly_rate'/>
+            </field>
         </field>
     </record>
 
