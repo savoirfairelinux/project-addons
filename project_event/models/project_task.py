@@ -250,6 +250,10 @@ class Task(models.Model):
         track_visibility='onchange',
     )
 
+    parent_id_project_id = fields.Many2one(
+        related='parent_id.project_id',
+    )
+
     @api.model
     def create(self, vals):
         if self.is_new_activity(vals):
