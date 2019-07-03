@@ -786,6 +786,12 @@ msgid "Is Main Task"
 msgstr "Tâche principale"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_res_partner_is_visible_in_technical_sheet
+#: model:ir.model.fields,field_description:project_event.field_res_users_is_visible_in_technical_sheet
+msgid "Is visible in Activity technical sheet"
+msgstr "Visible dans le bordereau technique"
+
+#. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_activity_template___last_update
 #: model:ir.model.fields,field_description:project_event.field_event_template___last_update
 #: model:ir.model.fields,field_description:project_event.field_project_activity_wizard___last_update
