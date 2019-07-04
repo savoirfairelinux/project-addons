@@ -15,8 +15,7 @@ class ReportWeekly(models.AbstractModel):
         room = self.env['resource.calendar.room'].browse(
             int(data['form']['room_id'])
         )
-        today = self.get_formatted_date(
-            datetime.now().date().strftime("%d-%m-%Y"))
+        today = self.get_formatted_date(datetime.now())
         date_start = datetime.strptime(data['form']['date_start'], DATE_FORMAT)
         date_end = datetime.strptime(
             data['form']['date_end'], DATE_FORMAT) + timedelta(days=1)
@@ -75,11 +74,9 @@ class ReportWeekly(models.AbstractModel):
     def get_formatted_date(self, date):
         lang = self.env['res.users'].browse(self.env.uid).lang or 'en_US'
         tz = self.env['res.users'].browse(self.env.uid).tz or 'utc'
-        date_to_format = datetime.strptime(
-            date, '%d-%m-%Y'
-        )
+
         formatted_date = babel.dates.format_datetime(
-            date_to_format,
+            date,
             tzinfo=tz,
             format='EEEE dd MMMM yyyy',
             locale=lang)
