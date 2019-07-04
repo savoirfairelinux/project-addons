@@ -252,6 +252,7 @@ class Task(models.Model):
 
     parent_id_project_id = fields.Many2one(
         related='parent_id.project_id',
+        string="Event"
     )
 
     @api.model
