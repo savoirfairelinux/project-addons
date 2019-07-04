@@ -317,6 +317,7 @@
                 <field name="room_id" string="Room"/>
                 <field name="name"/>
                 <field name="code"/>
+                <field name="parent_id_project_id" string="Event"/>
                 <field name="parent_id" string="Activity"/>
                 <field name="date_start"/>
                 <field name="date_end"/>
