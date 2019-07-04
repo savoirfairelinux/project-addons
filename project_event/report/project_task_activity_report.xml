@@ -75,6 +75,7 @@
             <tr>
               <th>Department</th>
               <th>Employee</th>
+              <th>Service</th>
               <th>Expected Arrival</th>
               <th>Real Arrival</th>
             </tr>
@@ -82,6 +83,7 @@
               <tr>
                 <td> <t t-esc="task['department']"/></td>
                 <td> <t t-esc="task['employee']"/></td>
+                <td> <t t-raw="task['resource']"/></td>
                 <td> <t t-esc="datetime.datetime.strptime(task['expected_start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
                 <t t-if="task['real_start']"> 
                   <td> <t t-esc="datetime.datetime.strptime(task['real_start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
@@ -181,7 +183,7 @@
               <tr>
                 <td> <t t-esc="resource['task']"/></td>
                 <td> <t t-esc="resource['resource_type']"/></td>
-                <td> <t t-raw="resource['resource']"/></td>
+                <td> <t t-esc="resource['resource']"/></td>
               </tr>
             </t>
           </table>

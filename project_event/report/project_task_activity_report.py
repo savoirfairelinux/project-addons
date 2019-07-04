@@ -53,6 +53,9 @@ class ReportWeekly(models.AbstractModel):
                     'department': task.department_id.name,
                     'expected_start': self.get_tz_format(task.date_start),
                     'employee': employee.name,
+                    'resource': task.equipment_id.name
+                    if task.equipment_id.category_type == 'service'
+                    else _('Not a service'),
                     'order': task.task_order,
                     'real_start':
                     self.get_tz_format(task.real_date_start) if (
@@ -77,17 +80,13 @@ class ReportWeekly(models.AbstractModel):
                     'resource_type': 'Room',
                     'resource': resources_list,
                 })
-            elif task.resource_type == 'equipment' and task.equipment_id:
+            elif task.resource_type == 'equipment' and task.equipment_id and \
+                    (task.equipment_id.category_type == 'instrument' or
+                     task.equipment_id.category_type == 'equipment'):
                 tasks_details.append({
                     'task': task.name,
-                    'resource_type': 'Equipment',
+                    'resource_type': task.equipment_id.category_type.title(),
                     'resource': task.equipment_id.name,
-                })
-            elif task.resource_type == 'user':
-                tasks_details.append({
-                    'task': task.name,
-                    'resource_type': 'Human',
-                    'resource': 'Human',
                 })
             else:
                 tasks_details.append({
