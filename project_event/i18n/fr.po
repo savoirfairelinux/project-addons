@@ -575,6 +575,7 @@ msgstr "Équipement: <br/>"
 
 #. module: project_event
 #: model:ir.model,name:project_event.model_calendar_event
+#: model:ir.model.fields,field_description:project_event.field_project_task_parent_id_project_id
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_event_id
 #: model:ir.ui.menu,name:project_event.project_event_menu
 #: model:ir.ui.menu,name:project_event.project_event_menu_root
