@@ -79,7 +79,7 @@
         <field eval="1" name="perm_create"/>
     </record> 
 
-    <record id="own_gourp_calendar_event_room_readonly_access" model="ir.rule">
+    <record id="own_group_calendar_event_room_readonly_access" model="ir.rule">
         <field name="name">Own rooms readonly</field>
         <field name="model_id" ref="model_resource_calendar_room"/>
         <field name="domain_force">[('group_ids',
