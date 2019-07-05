@@ -1006,10 +1006,8 @@ class Task(models.Model):
         return switcher.get(action)
 
     def get_message(self, action):
-        mail_channel = 'project.mail_channel_project_task_event'
         message = '<br>'
         if self.is_activity():
-            responsible = self.responsible_id.id
             message += _('Activity: <br>') + self.name + '<br>'
             message += _('Tasks: <br>')
             for index_task, task in enumerate(self.child_ids):
@@ -1017,23 +1015,14 @@ class Task(models.Model):
                 if index_task < len(self.child_ids) - 1:
                     message += ', '
         elif self.activity_task_type == 'task':
-            responsible = self.responsible_id.id
             message += _('Task: <br>') + self.name
-        # At this moment, there is no requirement to whom the message
-        # will be sent
-        if not responsible:
-            if self.partner_id:
-                responsible = self.partner_id
-            else:
-                raise ValidationError(self.get_error_type('CLIENT_TYPE_ERROR'))
         return {
             'body': self.get_message_body(action) + message,
-            'channel_ids': [(6, 0, [self.env.ref
-                                    (mail_channel).id])],
+            'channel_ids': [(6, 0, self.message_channel_ids.ids)],
             'email_from': 'Administrator <admin@yourcompany.example.com>',
             'message_type': 'notification',
             'model': 'project.task',
-            'partner_ids': [(6, 0, [responsible])],
+            'partner_ids': [(6, 0, self.message_partner_ids.ids)],
             'record_name': self.name,
             'reply_to': 'Administrator <admin@yourcompany.example.com>',
             'res_id': self.id,
