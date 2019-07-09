@@ -861,6 +861,12 @@ msgid "Name"
 msgstr "Nom"
 
 #. module: project_event
+#: code:addons/project_event/report/project_task_activity_report.py:58
+#, python-format
+msgid "Not a service"
+msgstr "Pas un Service"
+
+#. module: project_event
 #: code:addons/project_event/models/mail_thread.py:36
 #, python-format
 msgid "Note"
