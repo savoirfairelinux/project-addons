@@ -47,13 +47,13 @@
             <field name="groups" eval="[(4, ref('base.group_user'))]"/>
     </record>
 
-    <record id="own_calendar_event_rwcd_access" model="ir.rule">
-        <field name="name">Event at own rooms RWCD</field>
+    <record id="own_group_calendar_event_rwcd_access" model="ir.rule">
+        <field name="name">Event at own group rooms RWCD</field>
         <field name="model_id" ref="calendar.model_calendar_event"/>
         <field name="domain_force">[(
-            'room_id.tag_ids',
+            any('room_id.groups_id.ids),
             'in',
-            [t.id for t in  user.employee_ids.category_ids]
+            [t.id for t in  user.groups_id]
             )]
         </field>
         <field name="groups" eval="[(4, ref('group_resource_calendar_user'))]"/>
@@ -63,13 +63,13 @@
         <field eval="0" name="perm_create"/>
     </record>
 
-    <record id="own_calendar_event_rwcd_access" model="ir.rule">
+    <record id="own_group_calendar_event_rwcd_access" model="ir.rule">
         <field name="name">Event at own rooms RWCD</field>
         <field name="model_id" ref="calendar.model_calendar_event"/>
         <field name="domain_force">[(
-            'room_id.tag_ids',
+            'room_id.group_ids',
             'in',
-            [t.id for t in  user.employee_ids.category_ids]
+            [t.id for t in  user.groups_id]
             )]
         </field>
         <field name="groups" eval="[(4, ref('group_resource_calendar_editor'))]"/>
@@ -79,12 +79,12 @@
         <field eval="1" name="perm_create"/>
     </record> 
 
-    <record id="own_calendar_event_room_readonly_access" model="ir.rule">
+    <record id="own_group_calendar_event_room_readonly_access" model="ir.rule">
         <field name="name">Own rooms readonly</field>
         <field name="model_id" ref="model_resource_calendar_room"/>
-        <field name="domain_force">[('tag_ids',
+        <field name="domain_force">[('group_ids',
             'in',
-            [t.id for t in  user.employee_ids.category_ids])]
+            [t.id for t in  user.groups_id])]
         </field>
         <field name="groups" eval="[(4, ref('base.group_user'))]"/>
         <field eval="0" name="perm_unlink"/>
@@ -92,6 +92,7 @@
         <field eval="1" name="perm_read"/>
         <field eval="0" name="perm_create"/>
     </record>
+
     <record id="manager_all_room_access" model="ir.rule">
         <field name="name">Manager all access to rooms</field>
         <field name="model_id" ref="model_resource_calendar_room"/>

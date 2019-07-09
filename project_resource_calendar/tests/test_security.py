@@ -56,39 +56,44 @@ class TestSecurity(TestCalendarEventCommon):
             'name': 'Guest',
             'work_email': 'guest@test.com',
             'user_id': self.user_guest.id,
-            'category_ids': [(6, 0, [self.tag_guest.id])]
         })
         self.employee_editor = self.Employees.create({
             'name': 'Editor',
             'work_email': 'editor@test.com',
             'user_id': self.user_editor.id,
-            'category_ids': [(6, 0, [self.tag_editor.id])]
         })
         self.employee_manager = self.Employees.create({
             'name': 'Manager',
             'work_email': 'manager@test.com',
             'user_id': self.user_manager.id,
-            'category_ids': [(6, 0, [self.tag_manager.id])]
         })
         self.room_calendar_event_user = self.Rooms.create({
             'name': 'Test Room Tag Calendar Event User',
             'resource_type': 'room',
             'allow_double_book': True,
-            'tag_ids': [(6, 0, [self.tag_guest.id])]
         })
+        self.add_room_to_group(
+            self.EMPLOYEE_GROUP,
+            self.room_calendar_event_user)
         self.room_base_user = self.Rooms.create({
             'name': 'Test Room Tag Base User',
             'resource_type': 'room',
             'allow_double_book': True,
-            'tag_ids': [(6, 0, [self.tag_base.id])]
         })
+        self.add_room_to_group(self.EMPLOYEE_BASE, self.room_base_user)
         self.room_editor_user = self.Rooms.create({
             'name': 'Test Room Tag Editor User',
             'resource_type': 'room',
             'allow_double_book': True,
-            'tag_ids': [(6, 0, [self.tag_editor.id])]
         })
         self.user_editor.partner_id.write({'email': 'editor@test.com'})
+        self.add_room_to_group(
+            self.RESOURCE_CALENDAR_EDITOR,
+            self.room_editor_user)
+
+    @staticmethod
+    def add_room_to_group(group, room):
+        group.write({'room_ids': [(6, 0, [room.id])]})
 
     def get_user_groups(self, user_id):
         user = self.env['res.users'].browse(user_id)
@@ -187,7 +192,7 @@ class TestSecurity(TestCalendarEventCommon):
             self.user_guest.id,
             [self.user_guest.partner_id.id])
 
-    def test_080_guest_user_can_read_calendar_events_with_room_with_his_tag(
+    def test_080_guest_user_can_read_calendar_events_with_room_with_his_group(
             self):
         self.user_can_read_event(
             'Calendar Event with room guest user tag',
@@ -206,15 +211,15 @@ class TestSecurity(TestCalendarEventCommon):
                 self.Events.sudo(self.user_editor.id).browse(event.id),
                 event)
 
-    def test_082_editor_user_can_read_calendar_events_with_room_with_his_tag(
+    def test_082_editor_user_can_read_calendar_events_with_room_with_his_group(
             self):
         self.create_event(
             'Editor is participant', [], self.room_editor_user.id)
         events_room = self.Events.search(
             [(
-                'room_id.tag_ids',
+                'room_id.group_ids',
                 'in',
-                self.user_editor.employee_ids[0].category_ids.ids)])
+                self.user_editor.groups_id.ids)])
         for event in events_room:
             self.assertEqual(
                 self.Events.sudo(self.user_editor.id).browse(event.id),
@@ -227,7 +232,7 @@ class TestSecurity(TestCalendarEventCommon):
                 event
             )
 
-    def test_090_base_user_cannot_read_calendar_events_with_room_with_his_tag(
+    def test_090_base_user_cannot_read_calendar_events_with_room_with_his_grp(
             self):
         self.create_event(
             'Calendar Event with room base user tag',
@@ -269,7 +274,7 @@ class TestSecurity(TestCalendarEventCommon):
     def user_can_read_rooms_with_his_tag(self, user):
         for room in self.Rooms.sudo(user.id).search([]):
             self.assertIn(
-                user.employee_ids[0].category_ids[0], room.tag_ids)
+                room.group_ids, user.groups_id)
 
     def test_180_guest_user_can_read_rooms_with_same_tag(self):
         self.user_can_read_rooms_with_his_tag(self.user_guest)
@@ -402,7 +407,7 @@ class TestSecurity(TestCalendarEventCommon):
             calendar_event.sudo(
                 self.user_editor.id).write({}))
 
-    def test_400_editor_user_can_write_events_with_room_with_his_tag(self):
+    def test_400_editor_user_can_write_events_with_room_with_his_group(self):
         calendar_event = self.create_event(
             'Calendar Event where editor user is participant',
             [],
@@ -470,7 +475,7 @@ class TestSecurity(TestCalendarEventCommon):
         self.assertTrue(
             event.sudo(self.user_manager.id).unlink())
 
-    def test_450_editor_user_can_delete_calendar_events_with_room_with_his_tag(
+    def test_450_editor_user_can_delete_calendar_events_with_room_with_his_grp(
             self):
         event = self.create_event(
             'Event room in editor tagst',
@@ -478,7 +483,7 @@ class TestSecurity(TestCalendarEventCommon):
             self.room_editor_user.id
         )
         self.assertTrue(
-            event.sudo(self.user_manager.id).unlink())
+            event.sudo(self.user_editor.id).unlink())
 
     def test_460_manager_user_can_delete_calendar_events(self):
         self.assertTrue(self.Events.sudo(
@@ -503,7 +508,7 @@ class TestSecurity(TestCalendarEventCommon):
             event_editor,
             type(self.Events))
 
-    def test_500_editor_user_can_create_calendar_events_with_room_with_his_tag(
+    def test_500_editor_user_can_create_calendar_events_with_room_with_his_grp(
             self):
         event_editor = self.create_event(
             'Editors Room Event',
