@@ -45,6 +45,17 @@ class ReportWeekly(models.AbstractModel):
         return fields.Datetime.context_timestamp(self, datetime.strptime(
             date_str, '%Y-%m-%d %H:%M:%S')) .strftime('%Y-%m-%d %H:%M:%S')
 
+    def get_timesheet_lines(self, timesheet_ids):
+        timesheet_details = []
+        for line in timesheet_ids:
+            timesheet_details.append({
+                'name': line.employee_id.name,
+                'date': line.date,
+                'description': line.name,
+                'duration': line.unit_amount
+            })
+        return timesheet_details
+
     def get_task_values(self, tasks):
         table_lines = []
         for task in tasks:
@@ -60,6 +71,8 @@ class ReportWeekly(models.AbstractModel):
                     'real_start':
                     self.get_tz_format(task.real_date_start) if (
                         task.real_date_start) else '',
+                    'timesheet_details': self
+                        .get_timesheet_lines(task.timesheet_ids)
                 })
         table_lines_sorted = sorted(
             table_lines, key=itemgetter(
@@ -107,7 +120,12 @@ class ReportWeekly(models.AbstractModel):
                     else ''),
                 'duration': task.actual_total_time,
             })
-        return tasks_details
+
+        tasks_details_sorted = sorted(
+            tasks_details, key=itemgetter(
+                'expected_start'))
+
+        return tasks_details_sorted
 
     def get_departments_remarks(self, tasks):
         department_comments = []

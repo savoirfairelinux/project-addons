@@ -90,6 +90,11 @@ msgid "<strong>Technical Reminder / Memo: </strong>"
 msgstr "<strong>Besoins Techniques/Mémo: </strong>"
 
 #. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
+msgid "<strong>Timesheet: </strong>"
+msgstr "<strong>Feuille de temps : </strong>"
+
+#. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
 #: selection:reservation.validation.wiz,action:0
 msgid "Accept"
@@ -464,6 +469,7 @@ msgstr "Département"
 #: model:ir.ui.view,arch_db:project_event.project_event_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
 #: model:ir.ui.view,arch_db:project_event.project_event_template_form
+#: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
 #: model:ir.ui.view,arch_db:project_event.view_activity_event_wizard
 #: model:ir.ui.view,arch_db:project_event.view_orphan_task_event_wizard
 #: model:ir.ui.view,arch_db:project_event.view_project_event_wizard
@@ -517,6 +523,7 @@ msgstr "Brouillon"
 #: model:ir.model.fields,field_description:project_event.field_project_task_wizard_duration
 #: model:ir.model.fields,field_description:project_event.field_task_template_duration
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
+#: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
 msgid "Duration"
 msgstr "Durée"
 
@@ -857,6 +864,7 @@ msgstr "Message"
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type_name
 #: model:ir.model.fields,field_description:project_event.field_task_category_name
 #: model:ir.model.fields,field_description:project_event.field_task_template_name
+#: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
 msgid "Name"
 msgstr "Nom"
 
@@ -1398,6 +1406,11 @@ msgstr "La tâche doit être reliée à un projet"
 #, python-format
 msgid "There must be a responsible or a client"
 msgstr "Il faut avoir un responsable ou un client "
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
+msgid "Timesheet - Actual time"
+msgstr "Feuille de temps - Heures réelles"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form

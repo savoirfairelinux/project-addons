@@ -169,7 +169,7 @@
           <t t-raw="activity_notes"/>
         </div>
         <br/>
-        <div>
+        <div style="border-bottom: 2px solid black;">
           <h4>
             <strong>List of equipment used: </strong>
           </h4>
@@ -183,8 +183,39 @@
               <tr>
                 <td> <t t-esc="resource['task']"/></td>
                 <td> <t t-esc="resource['resource_type']"/></td>
-                <td> <t t-esc="resource['resource']"/></td>
+                <td> <t t-raw="resource['resource']"/></td>
               </tr>
+            </t>
+          </table>
+        </div>
+        <br/>
+        <div style="border-bottom: 2px solid black;">
+          <h4>
+            <strong>Timesheet: </strong>
+          </h4>
+          <table class="table">
+            <tr>
+              <th style="text-align: center">Timesheet - Actual time</th>
+            </tr>
+          </table>
+          <table class="table">
+            <tr>
+              <th>Name</th>
+              <th>Date</th>
+              <th>Service</th>
+              <th>Description</th>
+              <th>Duration</th>
+            </tr>
+            <t t-foreach="tasks" t-as="task_timesheet">
+              <t t-foreach="task_timesheet['timesheet_details']" t-as="timesheet_line">
+                <tr>
+                  <td> <t t-esc="timesheet_line['name']"/></td>
+                  <td> <t t-esc="timesheet_line['date']"/></td>
+                  <td> <t t-esc="task_timesheet['resource']"/></td>
+                  <td> <t t-esc="timesheet_line['description']"/></td>
+                  <td> <t t-esc="timesheet_line['duration']"/></td>
+                </tr>
+              </t>
             </t>
           </table>
         </div>
