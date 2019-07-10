@@ -12,14 +12,6 @@ HOURS_IN_DAY = 24
 MIN_SPECTATORS_VALUES_LIMIT = 0
 MAX_SPECTATORS_VALUES_LIMIT = 1000000
 
-MSG_OPTION = 'The following is optional and \
-                       appears as crosshatched on your calendar'
-MSG_REQUESTED = 'The following is requested'
-MSG_ACCEPTED = 'he following is approved'
-MSG_POSTPONED = 'The following is postponed \
-                        and no longer appear on your calendars'
-MSG_CANCELED = 'The following is canceled\
-                         and no longer on your calendars'
 MSG_RES = 'The following resources are already booked:<br>'
 MSG_CONFIRM = 'Please confirm your reservation.<br>'
 MSG_CONTINUE = 'Do you want to continue?'
@@ -682,6 +674,7 @@ class Task(models.Model):
     def action_done(self):
         self.open_resources_reservation()
         self.write({'task_state': 'done'})
+        self.send_message('done')
 
     @api.multi
     def action_request(self):
@@ -698,8 +691,10 @@ class Task(models.Model):
             for child in self.child_ids:
                 child.write({'task_state': 'option'})
                 child.do_clone_task_reservation()
+                child.send_message('option')
         else:
             self.do_clone_task_reservation()
+            self.send_message('option')
 
     def get_booked_resources(self):
         res = ''
@@ -978,11 +973,11 @@ class Task(models.Model):
             if self.check_task_state(self.task_state):
                 for child in self.child_ids:
                     self.child_reservation(child)
-                self.send_message('requested')
             self.write({'task_state': 'approved'})
         self.open_resources_reservation()
         if self.is_type_task():
             self.write({'task_state': 'accepted'})
+            self.send_message('accepted')
 
     def child_reservation(self, child):
         child.draft_resources_reservation()
@@ -992,16 +987,19 @@ class Task(models.Model):
         child.write({'task_state': 'requested'})
 
     @staticmethod
-    def get_message_body(action):
+    def get_message_body_task(action):
         switcher = {
             'draft': ' ',
-            'option': _(MSG_OPTION),
-            'requested': _(MSG_REQUESTED),
-            'accepted': _(MSG_ACCEPTED),
+            'option': _('The following is optional and \
+                        appears as crosshatched on your calendar'),
+            'requested': _('The following is requested'),
+            'accepted': _('The following is approved'),
             'read': ' ',
-            'postponed': _(MSG_POSTPONED),
-            'done': ' ',
-            'canceled': _(MSG_CANCELED)
+            'postponed': _('The following is postponed \
+                        and no longer appear on your calendars'),
+            'done': _('The following is done'),
+            'canceled': _('The following is canceled\
+                         and no longer on your calendars')
         }
         return switcher.get(action)
 
@@ -1017,7 +1015,7 @@ class Task(models.Model):
         elif self.activity_task_type == 'task':
             message += _('Task: <br>') + self.name
         return {
-            'body': self.get_message_body(action) + message,
+            'body': self.get_message_body_task(action) + message,
             'channel_ids': [(6, 0, self.message_channel_ids.ids)],
             'email_from': 'Administrator <admin@yourcompany.example.com>',
             'message_type': 'notification',
