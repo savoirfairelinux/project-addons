@@ -1370,7 +1370,13 @@ msgstr "L'élément suivant est approuvé"
 msgid ""
 "The following is canceled                         and no longer on your "
 "calendars"
-msgstr "L'élément suivant est annulé et n'est plus affiché dans le calendrier"
+msgstr "L'élément suivant est Annulé et n'est plus affiché dans le calendrier"
+
+#. module: project_event
+#: code:addons/project_event/models/project_task.py:1000
+#, python-format
+msgid "The following is done"
+msgstr "L'élément suivant est Réalisé"
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:166
@@ -1383,11 +1389,18 @@ msgstr ""
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:169
+#: code:addons/project_event/models/project_task.py:998
 #, python-format
 msgid ""
 "The following is postponed                         and no longer appear on "
 "your calendars"
 msgstr "L'élément suivant est reporté et n’apparaît plus sur le calendrier"
+
+#. module: project_event
+#: code:addons/project_event/models/project_task.py:995
+#, python-format
+msgid "The following is requested"
+msgstr "L'élément suivant est Demandé"
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:209
