@@ -66,6 +66,16 @@ msgstr "<strong>BORDEREAU DE TRAVAIL  D’ACTIVITÉ</strong>"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
+msgid "<strong>Comments on the progress: </strong>"
+msgstr "<strong>Commentaires sur le déroulement : </strong>"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
+msgid "<strong>Description: </strong>"
+msgstr "<strong>Description : </strong>"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
 msgid "<strong>List of equipment used: </strong>"
 msgstr "<strong>Liste du matériel utilisé: </strong>"
 
@@ -86,8 +96,8 @@ msgstr "<strong>Liste des Tâches: </strong>"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
-msgid "<strong>Technical Reminder / Memo: </strong>"
-msgstr "<strong>Besoins Techniques/Mémo: </strong>"
+msgid "<strong>Technical needs: </strong>"
+msgstr "<strong>Besoins techniques : </strong>"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
@@ -357,6 +367,11 @@ msgstr "Étiquette de client"
 #: model:ir.ui.view,arch_db:project_event.view_calendar_event_form_inherit
 msgid "Client Type"
 msgstr "Type de client"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
+msgid "Client type:"
+msgstr "Type de client :"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
