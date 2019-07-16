@@ -36,6 +36,8 @@ class ReportWeekly(models.AbstractModel):
                 'description': activity.description,
                 'activity_notes': activity.notes,
                 'remarks': self.get_departments_remarks(activity.child_ids),
+                'descriptions': self.get_departments_descriptions(activity
+                                                                  .child_ids),
                 'tasks_details': self.get_tasks_details(activity.child_ids),
                 'client_child_contacts': activity.partner_id.child_ids,
             })
@@ -127,13 +129,32 @@ class ReportWeekly(models.AbstractModel):
 
         return tasks_details_sorted
 
+    def get_departments_descriptions(self, tasks):
+        department_descriptions = []
+        for task in tasks:
+            if not task.is_main_task:
+                department_descriptions.append((
+                    task.department_id.name,
+                    task.description
+                ))
+        uniq_department_comments = self.remove_duplicate_department(
+            department_descriptions, [])
+        descriptions = []
+        for description in uniq_department_comments:
+            descriptions.append({
+                'department': description[0],
+                'description': description[1]
+            })
+        return descriptions
+
     def get_departments_remarks(self, tasks):
         department_comments = []
         for task in tasks:
-            department_comments.append((
-                task.department_id.name,
-                task.notes
-            ))
+            if not task.is_main_task:
+                department_comments.append((
+                    task.department_id.name,
+                    task.notes
+                ))
         uniq_department_comments = self.remove_duplicate_department(
             department_comments, [])
         remarks = []

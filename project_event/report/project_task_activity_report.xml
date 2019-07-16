@@ -100,14 +100,27 @@
         <br/>
         <div style="border-bottom: 2px solid black">
           <h4>
-            <strong>Technical Reminder / Memo: </strong>
+            <strong>Description: </strong>
           </h4>
-          <t t-raw="description"/> 
+          <t t-raw="description"/>
+        </div>
+        <br/>
+        <div style="border-bottom: 2px solid black">
+          <h4>
+            <strong>Technical needs: </strong>
+          </h4>
+          <t t-foreach="descriptions" t-as="description">
+            <div>
+              <strong><t t-esc="description['department']"/></strong>
+              <br/>
+              <t t-raw="description['description']"/>
+            </div>
+          </t>
         </div>
         <br/>
         <div>
           <h4>
-            <strong>Remarks: </strong>
+            <strong>Comments on the progress: </strong>
           </h4>
           <t t-foreach="remarks" t-as="remark">
             <div>
