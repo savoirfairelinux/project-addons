@@ -273,6 +273,7 @@ class Task(models.Model):
         if 'remaining_hours' not in default:
             default['remaining_hours'] = self.planned_hours
         default['task_state'] = 'draft'
+        default['reservation_event_id'] = False
         new_copy = super(Task, self).copy(default)
         if self.is_activity():
             child_default_vals = {'parent_id': new_copy.id}
