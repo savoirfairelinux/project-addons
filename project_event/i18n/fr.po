@@ -203,6 +203,12 @@ msgid "Activity Wizard"
 msgstr "Wizard d'activités"
 
 #. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_event_activity_tree
+#: model:ir.ui.view,arch_db:project_event.project_event_form
+msgid "Activity title"
+msgstr "Titre de l'activité"
+
+#. module: project_event
 #: model:ir.ui.view,arch_db:project_event.view_activity_event_wizard
 msgid ""
 "Activity will be created from template in draft so that you can review\n"

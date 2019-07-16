@@ -76,7 +76,7 @@
                             'default_project_id': active_id,
                             }" domain="[('activity_task_type','=', 'activity')]">
                                 <tree>
-                                    <field name="name"/>
+                                    <field name="name"  string="Activity title"/>
                                     <field name="code"/>
                                     <field name="room_id"/>
                                     <field name="project_id" string="Event"/>
