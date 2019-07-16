@@ -128,7 +128,8 @@
             <field name="partner_ids" position="after">
                 <field name="resource_type" attrs="{'invisible': [('is_task_event','=',False)], 'readonly': [('is_task_event','=',True)]}"/>
                 <field name="room_id"
-                       attrs="{'required':[('resource_type','=','room')], 'readonly': [('is_task_event','=',True)]}"/>
+                       attrs="{'required':[('resource_type','=','room')], 'readonly': [('is_task_event','=',True)]}"
+                       options="{'no_open': True}"/>
                 <field name="equipment_ids"
                        attrs="{'required':[('resource_type','=','equipment')], 'readonly': [('is_task_event','=',True)]}"
                        widget="many2many_tags"/>
@@ -142,7 +143,7 @@
                  <attribute name="class">oe_inline</attribute>
             </field>
             <xpath expr="//field[@name='alarm_ids']" position="after">
-                <field name="partner_id" attrs="{'invisible': [('is_task_event','=',True)]}"/>
+                <field name="partner_id" attrs="{'invisible': [('is_task_event','=',True)]}" options="{'no_open': True}"/>
             </xpath>
             <xpath expr="//field[@name='partner_ids']" position="attributes">
                 <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
