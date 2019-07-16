@@ -111,7 +111,7 @@
         <field name="model">project.task</field>
         <field name="arch" type="xml">
             <tree string="Activity" default_order="date_start asc">
-                <field name="name"/>
+                <field name="name" string="Activity title"/>
                 <field name="code"/>
                 <field name="room_id"/>
                 <field name="project_id" string="Event"/>
