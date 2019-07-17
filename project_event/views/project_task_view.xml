@@ -322,7 +322,8 @@
         <field name="name">Task Tree</field>
         <field name="model">project.task</field>
         <field name="arch" type="xml">
-            <tree string="Task" default_order="date_start asc">
+            <tree string="Task" 
+                default_order="date_start asc">
                 <field name="equipment_id" string="Resource"/>
                 <field name="room_id" string="Room"/>
                 <field name="name"/>
