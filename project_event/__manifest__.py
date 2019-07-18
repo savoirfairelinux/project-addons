@@ -33,6 +33,7 @@
         'data/task_categories.xml',
         'report/project_task_activity_report.xml',
         'security/ir.model.access.csv',
+        'templates/assets.xml',
         'views/auditlog_log.xml',
         'views/project_project_view.xml',
         'views/project_task_view.xml',

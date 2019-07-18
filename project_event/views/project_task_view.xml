@@ -44,12 +44,12 @@
                     <group>
                         <group>
                             <field name="project_id" string="Event" options="{'no_create_edit': True}"/>
-                            <field name="responsible_id" string="Activity Responsible" required="1"/>
-                            <field name="partner_id" required="1"/>
+                            <field name="responsible_id" string="Activity Responsible" required="1" options="{'no_open': True}"/>
+                            <field name="partner_id" required="1" options="{'no_open': True}" />
                             <field name="client_type"/>
                              <field name="sector_id" attrs="{'invisible': [('client_type', '=', False)]}"/>
                             <field name="category_id" required="1"/>
-                            <field name="room_id"/>
+                            <field name="room_id" options="{'no_open': True}"/>
                             <field name="activity_task_type" invisible="1"/>
                         </group>
                         <group>
@@ -184,9 +184,18 @@
                     <group>
                         <group >
                             <field name="project_id" invisible="1"/>
-                            <field name="responsible_id" string="Task Responsible" attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}" required="1"/>
-                            <field name="partner_id" attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}" required="1"/>
-                            <field name="client_type" attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
+                            <field name="responsible_id" 
+                                string="Task Responsible" 
+                                attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"
+                                required="1" 
+                                options="{'no_open': True}"/>
+                            <field name="partner_id"
+                                attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"
+                                required="1"
+                                options="{'no_open': True}"/>
+                            <field name="client_type"
+                                attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"
+                                options="{'no_open': True}"/>
                             <field name="sector_id" attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])], 'invisible': [('client_type', '=', False)]}"/>
                             <field name="parent_id" string="Activity"
                                    options="{'no_create_edit': True}"
@@ -260,6 +269,7 @@
                             <group>
                                 <field name="resource_type" attrs="{'required': True, 'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
                                 <field name="room_id"
+                                       options="{'no_open': True}"
                                        attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])], 'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
                                 <field name="equipment_id"
                                        attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])], 'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
@@ -312,7 +322,8 @@
         <field name="name">Task Tree</field>
         <field name="model">project.task</field>
         <field name="arch" type="xml">
-            <tree string="Task" default_order="date_start asc">
+            <tree string="Task" 
+                default_order="date_start asc">
                 <field name="equipment_id" string="Resource"/>
                 <field name="room_id" string="Room"/>
                 <field name="name"/>
@@ -426,4 +437,9 @@
               parent="project_event_menu"
               action="action_project_event_task"
               sequence="30"/>
+
+    <record id="project.project_task_actions_act_window_merge_tasks" model="ir.actions.act_window">
+       <field name="groups_id" eval="[(6, 0, [ref('project_event.group_project_event_manager')])]"/>
+    </record>
+
 </odoo>
