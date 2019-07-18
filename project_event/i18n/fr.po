@@ -593,7 +593,7 @@ msgstr "Équip./Service"
 #: selection:project.task.wizard,resource_type:0
 #: selection:task.template,resource_type:0
 msgid "Equipment"
-msgstr "Équipement"
+msgstr "Équip./Service"
 
 #. module: project_event
 #: code:addons/project_event/report/project_task_activity_report.py:68
