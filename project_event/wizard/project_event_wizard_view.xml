@@ -56,8 +56,6 @@
                             <field name="department_id"/>
                             <field name="date_start"/>
                             <field name="duration"/>
-                            <field name="description"/>
-                            <field name="notes"/>
                         </tree>
                         <form>
                             <group>
