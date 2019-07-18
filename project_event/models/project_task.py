@@ -1178,8 +1178,3 @@ class Task(models.Model):
                 if task.__getitem__(2).get('field') == task_fields_list[x]:
                     task_tracking_values.append(task)
         return task_tracking_values
-
-    @api.model
-    def _disable_merge_action(self):
-        self.env.ref('project.task.merge.wizard.project_task_actions_act_window_merge_tasks').unlink()
-

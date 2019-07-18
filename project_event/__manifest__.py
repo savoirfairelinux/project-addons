@@ -31,7 +31,6 @@
         'data/channels.xml',
         'data/ir_sequence_data.xml',
         'data/task_categories.xml',
-        'data/disable_merge_action.xml',
         'report/project_task_activity_report.xml',
         'security/ir.model.access.csv',
         'templates/assets.xml',
