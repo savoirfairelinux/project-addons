@@ -253,8 +253,10 @@ class CalendarEvent(models.Model):
 
     @staticmethod
     def fill_validation_message(resource, start, stop):
-        return _('%s: From: %s To: %s\n', ) % (
-            resource, start, stop)
+        return _('%(resource)s: From: %(start)s To: %(stop)s\n') % {
+            'resource': resource,
+            'start': start,
+            'stop': stop}
 
     @staticmethod
     def get_error_type(type_error):
