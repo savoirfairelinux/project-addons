@@ -785,8 +785,8 @@ msgstr "Tâche"
 #. module: project_resource_calendar
 #: code:addons/project_resource_calendar/models/calendar_event.py:244
 #, python-format
-msgid "%s: From:%s To:%s\n"
-msgstr "%s: De:%s À:%s\n"
+msgid "%(resource)s: From: %(start)s To: %(stop)s\n"
+msgstr "%(resource)s: De: %(start)s À: %(stop)s\n"
 
 #. module: project_resource_calendar
 #: model:ir.actions.act_window,help:project_resource_calendar.action_calendar_event_gantt
