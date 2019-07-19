@@ -122,6 +122,23 @@ class CalendarEvent(models.Model):
     recurrency_icon = fields.Integer(
         compute='_compute_recurrency_icon'
     )
+    formated_start = fields.Datetime(
+        compute='_compute_formated_date_for_report',
+    )
+    formated_stop = fields.Datetime(
+        compute='_compute_formated_date_for_report',
+    )
+
+    def _compute_formated_date_for_report(self):
+        self.formated_start = self._compute_formated(self.start_datetime)
+        self.formated_stop = self._compute_formated(self.stop_datetime)
+
+    def _compute_formated(self, date):
+        formated_date = self.format_date(
+            date,
+            format_str='Y-MM-dd HH:mm:SS')
+        return datetime.strptime(
+            formated_date, '%Y-%m-%d %H:%M:%S')
 
     @api.one
     def _compute_recurrency_icon(self):

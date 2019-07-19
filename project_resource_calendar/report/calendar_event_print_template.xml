@@ -50,9 +50,9 @@
                                 </t>
                                 <t t-else="">
                                     From:
-                                    <span t-esc="datetime.datetime.strptime(o.start_datetime,'%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                                    <span t-esc="datetime.datetime.strptime(o.formated_start,'%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
                                     To:
-                                    <span t-esc="datetime.datetime.strptime(o.stop_datetime,'%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                                    <span t-esc="datetime.datetime.strptime(o.formated_stop,'%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
                                 </t>
                             </h4>
                         </td>
