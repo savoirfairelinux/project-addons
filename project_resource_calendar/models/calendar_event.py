@@ -48,11 +48,6 @@ class CalendarEvent(models.Model):
         string='Weekday number',
         compute="_compute_get_weekday_number"
     )
-    event_task_id = fields.Many2one(
-        string='Task',
-        comodel_name='project.task',
-        ondelete='set null',
-    )
     is_task_event = fields.Boolean(
         string='Is Created From Task',
         default=False,
@@ -127,6 +122,11 @@ class CalendarEvent(models.Model):
     )
     formated_stop = fields.Datetime(
         compute='_compute_formated_date_for_report',
+    )
+    event_task_id = fields.Many2one(
+        string='Task',
+        comodel_name='project.task',
+        ondelete='set null',
     )
 
     def _compute_formated_date_for_report(self):
@@ -391,17 +391,6 @@ class CalendarEvent(models.Model):
                 vals['partner_ids'] = [
                     (6, 0, vals['partner_ids'][0][2] + [self.client_id.id])]
 
-    @api.multi
-    def unlink(self):
-        for record in self:
-            if record.event_task_id:
-                raise ValidationError(
-                    _(
-                        self.get_error_type('TASK_CLONE_ERROR')
-                    )
-                )
-        return super(CalendarEvent, self).unlink()
-
     def remove_recurrent_calendar_event(self, overlaps):
         overlaps_counter = len(overlaps.ids)
         for overlap in overlaps:
@@ -435,7 +424,6 @@ class CalendarEvent(models.Model):
             ('start', '<', date_end),
             ('stop', '>', date_start),
             ('state', '!=', 'cancelled')]
-
         if self.room_id:
             overlap_domain.append(('room_id', '=', self.room_id.id))
             overlaps = self.env['calendar.event'].search(overlap_domain)

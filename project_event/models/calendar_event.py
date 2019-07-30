@@ -1,7 +1,8 @@
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import fields, models, api
+from odoo import fields, models, api, _
+from odoo.exceptions import ValidationError
 
 
 class CalendarEvent(models.Model):
@@ -36,3 +37,14 @@ class CalendarEvent(models.Model):
         super(CalendarEvent, self)._onchange_client_id()
         if not self.is_task_event and self.client_id:
             self.client_type = self.client_tag.client_type
+
+    @api.multi
+    def unlink(self):
+        for record in self:
+            if record.event_task_id:
+                raise ValidationError(
+                    _(
+                        self.get_error_type('TASK_CLONE_ERROR')
+                    )
+                )
+        return super(CalendarEvent, self).unlink()
