@@ -17,18 +17,15 @@ odoo.define('project_resource_calendar.WizardFormController', function (require)
         _onSave: function (ev) {
 
             var self = this;
-
             if(self.modelName == 'calendar.event'){
-
-                if(!self.renderer.state.data.start_datetime){
+                if(!self.renderer.state.data.start_datetime && !self.renderer.state.data.allday){
                     this.do_warn(_t('Starting at'), 'is empty');
                     return null;
                 }
-                if(self.renderer.state.data.duration <= 0){
+                if(self.renderer.state.data.duration <= 0 && !self.renderer.state.data.allday){
                     this.do_warn(_t('Duration'), 'is equal to 00:00');
                     return null;
                 }
-
                 var equipment_ids  = [];
                 self.renderer.state.data.equipment_ids.data.forEach(function(equipment_id){
                     equipment_ids.push(equipment_id.data.id);
@@ -48,8 +45,9 @@ odoo.define('project_resource_calendar.WizardFormController', function (require)
                            self.renderer.state.data.room_id.count == 0 ? self.renderer.state.data.room_id.data.id : false,
                            equipment_ids,
                            partner_ids,
-                           self.renderer.state.data.start_datetime,
-                           self.renderer.state.data.duration
+                           self.renderer.state.data.allday ? self.renderer.state.data.start : self.renderer.state.data.start_datetime,
+                           self.renderer.state.data.duration,
+                           self.renderer.state.data.allday,
                           ],
                 }).then(function (booked_resources) {
                     if(booked_resources.length != 0){
@@ -84,10 +82,10 @@ odoo.define('project_resource_calendar.WizardFormController', function (require)
                     return null;
                 }
                 if(!self.renderer.state.data.date_end){
-                    this.do_warn(_t('Starting at'), 'is empty');
+                    this.do_warn(_t('Ending at'), 'is empty');
                     return null;
                 }
-                if(self.renderer.state.data.date_end > self.renderer.state.data.date_end){
+                if(self.renderer.state.data.date_end > self.renderer.state.data.start_end){
                     this.do_warn(_t('Ending date > Starting date'), 'Date error');
                     return null;
                 }

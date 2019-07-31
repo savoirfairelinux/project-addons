@@ -19,7 +19,6 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
     var QWeb = core.qweb;
 
     CalendarController.include({
-
         _updateRecord: function (record) {
             /**
              * Show a popup Wizard with a message containing the double booked resources.
@@ -30,16 +29,25 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
             var message = _t('Please Confirm your reservation.<br>The following resources are booked:<br>');
             var self = this;
 
-            if(self.modelName == 'calendar.event') {
+            if(self.modelName == 'calendar.event' ) {
+                if (!record._allDay) {
+                    var newDateStart = record._start.add(-self.getSession().getTZOffset(record._start), 'minutes').format("YYYY-MM-DD HH:mm:ss");
+                    if (!record._end) {
+                        var newDateEnd = newDateStart;
+                    } else {
+                        var newDateEnd = record._end.add(-self.getSession().getTZOffset(record._end), 'minutes').format("YYYY-MM-DD HH:mm:ss");
+                    }
+                } else {
+                    var newDate = record._start.add(-self.getSession().getTZOffset(record._start), 'minutes').format("YYYY-MM-DD HH:mm:ss");
+                    var newDateStart = newDate.split(' ')[0] + " 00:00:00";
+                    var newDateEnd = newDate.split(' ')[0] + " 23:59:59";
+                }
                 self._rpc({
                     model: 'calendar.event',
                     method: 'get_double_booked_resources',
-                    args: [record.id,
-                           record._start.add(-self.getSession().getTZOffset(record._start), 'minutes').format("YYYY-MM-DD HH:mm:ss"),
-                           record._end.add(-self.getSession().getTZOffset(record._start), 'minutes').format("YYYY-MM-DD HH:mm:ss")
-                          ],
+                    args: [record.id, newDateStart, newDateEnd],
                 }).then(function (booked_resources) {
-                    if(booked_resources.length != 0){
+                    if(booked_resources.length != 0) {
                         var message = _t('The following resources are booked:<br/>');
                         booked_resources.forEach(function (resource){
                             message = message + resource + '<br/>';
@@ -60,7 +68,7 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
                                 },close: true}
                             ],
                         }).open();
-                    }else{
+                    } else {
                         self.model.updateRecord(record).always(self.reload.bind(self));
                     }
                 });
@@ -77,7 +85,7 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
                            record._end.add(-self.getSession().getTZOffset(record._end), 'minutes').format("YYYY-MM-DD HH:mm:ss"),
                           ],
                 }).then(function (booked_resources) {
-                    if(booked_resources.length != 0){
+                    if(booked_resources.length != 0) {
 
                         var message = _t('The following resources are booked:<br/>');
                         booked_resources.forEach(function (resource){
@@ -99,7 +107,7 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
                                 },close: true}
                             ],
                         }).open();
-                    }else{
+                    } else {
                         self.model.updateRecord(record).always(self.reload.bind(self));
                     }
                 });

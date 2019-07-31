@@ -29,7 +29,7 @@
                 <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
             </xpath>
             <xpath expr="//field[@name='start_datetime']" position="attributes">
-                <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
+                <attribute name="attrs">{'invisible': [('allday','=',True)], 'readonly': [('is_task_event','=',True)]}</attribute>
             </xpath>
             <xpath expr="//field[@name='duration']" position="attributes">
                 <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
@@ -151,7 +151,7 @@
                  <attribute name="style">font-size: 13px;</attribute>
             </xpath>
             <xpath expr="//field[@name='start_datetime']" position="attributes">
-                <attribute name="attrs">{'readonly': [('is_task_event','=',True)]}</attribute>
+                <attribute name="attrs">{'invisible': [('allday','=',True)], 'readonly': [('is_task_event','=',True)]}</attribute>
             </xpath>
              <xpath expr="//field[@name='start_datetime']" position="after">
                  <field name="stop_datetime" readonly="1"/>
