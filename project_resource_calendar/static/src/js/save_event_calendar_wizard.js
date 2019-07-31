@@ -93,7 +93,6 @@ var FormViewDialog = ViewDialog.extend({
      */
     init: function (parent, options) {
         var self = this;
-
         this.res_id = options.res_id || null;
         this.on_saved = options.on_saved || (function () {});
         this.context = options.context;
@@ -130,13 +129,13 @@ var FormViewDialog = ViewDialog.extend({
                          * TODO: Make sure that this code is not update in future Odoo version to not break the dialog save logic
                          */
                         var self = this;
-
                         if(self.form_view.modelName == 'calendar.event'){
-                            if(!self.form_view.renderer.state.data.start_datetime){
+                            if(!self.form_view.renderer.state.data.start_datetime && !self.form_view.renderer.state.data.allday){
                                 this.do_warn(_t('Starting at'), 'is empty');
                                 return null;
                             }
-                            if(self.form_view.renderer.state.data.duration <= 0){
+
+                            if(self.form_view.renderer.state.data.duration <= 0 && !self.form_view.renderer.state.data.allday){
                                 this.do_warn(_t('Duration'), 'is equal to 00:00');
                                 return null;
                             }
@@ -151,7 +150,6 @@ var FormViewDialog = ViewDialog.extend({
                                 partner_ids.push(partner_id.data.id);
                             });
 
-
                             self._rpc({
                                 model: 'calendar.event',
                                 method: 'get_calendar_booked_resources',
@@ -160,8 +158,9 @@ var FormViewDialog = ViewDialog.extend({
                                        self.form_view.renderer.state.data.room_id.count == 0 ? self.form_view.renderer.state.data.room_id.data.id : false,
                                        equipment_ids,
                                        partner_ids,
-                                       self.form_view.renderer.state.data.start_datetime,
-                                       self.form_view.renderer.state.data.duration
+                                       self.form_view.renderer.state.data.allday ? self.form_view.renderer.state.data.start : self.form_view.renderer.state.data.start_datetime,
+                                       self.form_view.renderer.state.data.duration,
+                                       self.form_view.renderer.state.data.allday,
                                       ],
                             }).then(function (booked_resources) {
                                 if(booked_resources.length != 0){

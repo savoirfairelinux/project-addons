@@ -462,10 +462,16 @@ class CalendarEvent(models.Model):
     def get_calendar_booked_resources(self, room_id=None,
                                       equipment_ids=None,
                                       partner_ids=None,
-                                      date_start=None, duration=None):
-
-        date_end = (datetime.strptime(date_start, '%Y-%m-%d %H:%M:%S') +
-                    timedelta(hours=duration)).strftime('%Y-%m-%d %H:%M:%S')
+                                      date_start=None,
+                                      duration=None, allday=False):
+        if allday:
+            date_end = (datetime.strptime(date_start, '%Y-%m-%d %H:%M:%S') +
+                        timedelta(hours=23, minutes=59)).strftime(
+                '%Y-%m-%d %H:%M:%S')
+        else:
+            date_end = (datetime.strptime(
+                date_start, '%Y-%m-%d %H:%M:%S') + timedelta(
+                hours=duration)).strftime('%Y-%m-%d %H:%M:%S')
 
         booked_resources = []
         overlap_domain = [
