@@ -5,6 +5,7 @@ import babel.dates
 from odoo import fields, models, api, _
 from odoo.exceptions import ValidationError
 from datetime import datetime, timedelta
+from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT
 
 
 class CalendarEvent(models.Model):
@@ -229,33 +230,17 @@ class CalendarEvent(models.Model):
             )
             if not room and not equipment and not attendees:
                 continue
-            events = self.env['calendar.event'].search([
-                ('id', '!=', record.id),
-            ])
-            for event in events:
-                if self.is_event_overlaps_record(record, event):
-                    if room:
-                        for resource in event.mapped(lambda s: s.room_id):
-                            if resource.id == record.room_id.id:
-                                message += self.fill_validation_message(
-                                    resource.name,
-                                    self.format_date(event.start),
-                                    self.format_date(event.stop))
-                    if equipment:
-                        for resource in event.mapped(
-                                lambda s: s.equipment_ids):
-                            if resource.id in record.equipment_ids.ids:
-                                message += self.fill_validation_message(
-                                    resource.name,
-                                    self.format_date(event.start),
-                                    self.format_date(event.stop))
-                    if attendees:
-                        for resource in event.mapped(lambda s: s.partner_ids):
-                            if resource.id in record.partner_ids.ids:
-                                message += self.fill_validation_message(
-                                    resource.name,
-                                    self.format_date(event.start),
-                                    self.format_date(event.stop))
+            if record.recurrency and record.start and record.stop:
+                message = self._double_bookable_recurrent(record.id, room,
+                                                          equipment, attendees,
+                                                          message)
+            else:
+                events = self.env['calendar.event'].search([
+                    ('id', '!=', record.id)])
+                for event in events:
+                    if self.is_event_overlaps_record(record, event):
+                        message = self._get_resource_overlaps_message(
+                            room, equipment, attendees, event, record, message)
             if message != '':
                 raise ValidationError(
                     _(
@@ -286,6 +271,46 @@ class CalendarEvent(models.Model):
             error_msg = _(
                 'This reservation can only be deleted from the Event module.')
         return error_msg
+
+    def _double_bookable_recurrent(
+            self, event_id, room, equipment, attendees, message):
+        event = self.env['calendar.event'].browse(event_id)
+        rec_dates = event._get_recurrent_dates_by_event()
+        for rstart, rstop in rec_dates:
+            rstart_str = rstart.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+            rstop_str = rstop.strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+            overlaps = self.env['calendar.event'].search([
+                ('start', '<', rstop_str),
+                ('stop', '>', rstart_str), ('id', '!=', event_id)])
+            for overlap in overlaps:
+                message += self._get_resource_overlaps_message(
+                    room, equipment, attendees, overlap, event, message)
+        return message
+
+    def _get_resource_overlaps_message(self, room, equipment, attendees,
+                                       overlap, event, message):
+        if room:
+            for resource in overlap.mapped(lambda s: s.room_id):
+                if resource.id == event.room_id.id:
+                    message += self.fill_validation_message(
+                        resource.name,
+                        self.format_date(overlap.start),
+                        self.format_date(overlap.stop))
+        if equipment:
+            for resource in overlap.mapped(lambda s: s.equipment_ids):
+                if resource.id in event.equipment_ids.ids:
+                    message += self.fill_validation_message(
+                        resource.name,
+                        self.format_date(overlap.start),
+                        self.format_date(overlap.stop))
+        if attendees:
+            for resource in overlap.mapped(lambda s: s.partner_ids):
+                if resource.id in event.partner_ids.ids:
+                    message += self.fill_validation_message(
+                        resource.name,
+                        self.format_date(overlap.start),
+                        self.format_date(overlap.stop))
+        return message
 
     @api.multi
     @api.constrains('room_id', 'equipment_ids')
