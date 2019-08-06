@@ -280,6 +280,7 @@
                     <field name="resource_type" required="1"/>
                     <field name="equipment_id" string="Equipment" attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
                     <field name="room_id" string="Room" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
+                    <field name="service_id" string="Service"/>
                     <field name="task_resp_id"/>
                     <field name="task_partner_id"/>
                     <field name="category_id"/>

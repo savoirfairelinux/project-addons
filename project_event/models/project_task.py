@@ -116,7 +116,7 @@ class Task(models.Model):
     )
     resource_type = fields.Selection([
         ('user', 'Human'),
-        ('equipment', 'Equip./Service'),
+        ('equipment', 'Equipment'),
         ('room', 'Room')],
         string='Resource Type',
         default='room',
@@ -220,8 +220,14 @@ class Task(models.Model):
         track_visibility='onchange',
     )
     equipment_id = fields.Many2one(
-        string='Equip./Service',
+        string='Equipment',
         comodel_name='resource.calendar.instrument',
+        ondelete='set null',
+        track_visibility='onchange',
+    )
+    service_id = fields.Many2one(
+        string='Service',
+        comodel_name='resource.calendar.service',
         ondelete='set null',
         track_visibility='onchange',
     )

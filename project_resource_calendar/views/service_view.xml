@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_resource_service" model="ir.actions.act_window">
+        <field name="name">Services</field>
+        <field name="res_model">resource.calendar.service</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+    <menuitem id="service_sub_menu"
+              name="Services"
+              parent="resource.menu_resource_config"
+              action="action_resource_service"
+              sequence="24"
+              groups="group_resource_calendar_manager"/>
+    <record id="resource_service_tree" model="ir.ui.view">
+        <field name="name">Service Tree</field>
+        <field name="model">resource.calendar.service</field>
+        <field name="arch" type="xml">
+            <tree string="service">
+                <field name='name'/>
+            </tree>
+        </field>
+    </record>
+    <record id="resource_calendar_service_form" model="ir.ui.view">
+        <field name="name">Service Form</field>
+        <field name="model">resource.calendar.service</field>
+        <field name="arch" type="xml">
+            <form string="Service">
+                <sheet>
+                    <div align="left">
+                    <field name="photo" widget="image" class="oe_avatar"/>
+                    </div>
+                    <div align="right">
+                        <div name="button_box" position="inside">
+                            <button class="oe_stat_button" type="action"
+                                    name="%(project_resource_calendar.action_service_to_auditlog_log)d"
+                                    icon="fa-history"
+                                    context="{'search_default_res_id': active_id}">
+                                <field string="Service Logs" name="service_log_count" widget="statinfo"/>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="oe_title">
+                        <label class="oe_edit_only" for="name" string="Service Name"/>
+                        <h1>
+                            <field name="name" placeholder="Service Name"/>
+                        </h1>
+                    </div>
+                    <notebook>
+                        <page string="Photos">
+                            <group>
+                                <field name="photo_1"
+                                       widget="image"/>
+                            </group>
+                        </page>
+                        <page string="Pricing">
+                            <group>
+                                <field name="pricing_type"/>
+                                <field name="pricing"/>
+                            </group>
+                        </page>
+                        <page string="Description">
+                            <field name="description"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

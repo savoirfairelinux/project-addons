@@ -87,6 +87,12 @@ class ProjectTaskWizard(models.TransientModel):
     date_end = fields.Datetime(
         string='Ending Date',
     )
+    service_id = fields.Many2one(
+        string='Service',
+        comodel_name='resource.calendar.service',
+        ondelete='set null',
+        track_visibility='onchange',
+    )
 
     @api.onchange('template_id')
     def _onchange_template_id(self):
@@ -103,6 +109,7 @@ class ProjectTaskWizard(models.TransientModel):
             self.start_time = self.template_id.start_time
             self.description = self.template_id.description
             self.notes = self.template_id.notes
+            self.service_id = self.template_id.service_id
 
     @api.multi
     def create_orphan_task(self):
@@ -121,6 +128,7 @@ class ProjectTaskWizard(models.TransientModel):
             'description': self.description,
             'notes': self.notes,
             'activity_task_type': 'task',
+            'service_id': self.service_id.id
         }
         if self.resource_type:
             if self.resource_type == 'room':

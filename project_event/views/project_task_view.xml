@@ -274,6 +274,9 @@
                                 <field name="equipment_id"
                                        attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])], 'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
                             </group>
+                            <group>
+                                <field name="service_id" />
+                            </group>
                         </page>
                         <page string="Description">
                             <field name="description" />

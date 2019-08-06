@@ -34,6 +34,7 @@
         'views/resource_view.xml',
         'views/room_view.xml',
         'views/instrument_view.xml',
+        'views/service_view.xml',
         'views/res_partner_view.xml',
         'views/res_groups.xml',
         'views/hr_employee_view.xml',

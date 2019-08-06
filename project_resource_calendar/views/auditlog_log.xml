@@ -13,5 +13,11 @@
             <field name="view_type">form</field>
             <field name="context" eval="{'search_default_model_id': ref('model_resource_calendar_instrument')}"/>
         </record>
+        <record model="ir.actions.act_window" id="action_service_to_auditlog_log">
+            <field name="name">Service Logs</field>
+            <field name="res_model">auditlog.log</field>
+            <field name="view_type">form</field>
+            <field name="context" eval="{'search_default_model_id': ref('model_resource_calendar_service')}"/>
+        </record>
     </data>
 </odoo>

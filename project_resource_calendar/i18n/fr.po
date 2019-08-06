@@ -70,6 +70,11 @@ msgstr "<strong>Horaire des réservations </strong>"
 #: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_room_photo_2
 #: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_room_photo_3
 #: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_room_photo_4
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_service_photo
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_service_photo_1
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_service_photo_2
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_service_photo_3
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_service_photo_4
 #: model:ir.model.fields,help:project_resource_calendar.field_resource_resource_photo
 #: model:ir.model.fields,help:project_resource_calendar.field_resource_resource_photo_1
 #: model:ir.model.fields,help:project_resource_calendar.field_resource_resource_photo_2
@@ -84,6 +89,7 @@ msgstr "Ajouter Photo"
 #: model:ir.model.fields,field_description:project_resource_calendar.field_res_users_allow_double_book
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_allow_double_book
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_allow_double_book
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_allow_double_book
 msgid "Allow Double Booking"
 msgstr "Autoriser la double réservation"
 
@@ -135,6 +141,7 @@ msgstr "Vérifier si cet employé peut être réservé comme participant plusieu
 #. module: project_resource_calendar
 #: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_instrument_allow_double_book
 #: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_room_allow_double_book
+#: model:ir.model.fields,help:project_resource_calendar.field_resource_calendar_service_allow_double_book
 msgid "Check if this resource can be booked in more than one meeting or event at the same time."
 msgstr "Vérifier si la ressource peut être réservée concomitamment."
 
@@ -209,6 +216,7 @@ msgstr "Créer"
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_create_uid
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_create_uid
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type_create_uid
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_create_uid
 #: model:ir.model.fields,field_description:project_resource_calendar.field_weekly_report_wizard_create_uid
 msgid "Created by"
 msgstr "Créé par"
@@ -218,6 +226,7 @@ msgstr "Créé par"
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_create_date
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_create_date
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type_create_date
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_create_date
 #: model:ir.model.fields,field_description:project_resource_calendar.field_weekly_report_wizard_create_date
 msgid "Created on"
 msgstr "Créé le"
@@ -241,9 +250,11 @@ msgstr "Département"
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_description
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_description
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_description
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_description
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_instrument_form
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_room_form
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_service_form
 msgid "Description"
 msgstr "Description"
 
@@ -260,6 +271,7 @@ msgstr "Annuler"
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_display_name
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_display_name
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type_display_name
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_display_name
 #: model:ir.model.fields,field_description:project_resource_calendar.field_weekly_report_wizard_display_name
 msgid "Display Name"
 msgstr "Nom affiché"
@@ -311,7 +323,7 @@ msgstr "Date de fin > Date de début"
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_instrument_form
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_instrument_tree
 msgid "Equip./Service"
-msgstr "Équip./Service"
+msgstr "Équipement"
 
 #. module: project_resource_calendar
 #: selection:calendar.event,resource_type:0
@@ -328,6 +340,7 @@ msgstr "Évènement"
 #. module: project_resource_calendar
 #: selection:resource.calendar.instrument,pricing_type:0
 #: selection:resource.calendar.room,pricing_type:0
+#: selection:resource.calendar.service,pricing_type:0
 #: selection:resource.resource,pricing_type:0
 msgid "Fixed Rate"
 msgstr "Tarif Fixe"
@@ -365,10 +378,15 @@ msgstr "Obtenir rapport"
 
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_group_ids
-#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_group_ids
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_group_ids
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_group_ids
 msgid "Group"
 msgstr "Groupe"
+
+#. module: project_resource_calendar
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_group_ids
+msgid "Groups"
+msgstr "Groupes"
 
 #. module: project_resource_calendar
 #: model:ir.module.category,description:project_resource_calendar.module_category_resource_event_calendar
@@ -379,6 +397,7 @@ msgstr "Vous aide à gérer votre calendrier d'événements."
 #: selection:calendar.event,resource_type:0
 #: selection:resource.calendar.instrument,resource_type:0
 #: selection:resource.calendar.room,resource_type:0
+#: selection:resource.calendar.service,resource_type:0
 msgid "Human"
 msgstr "Humain"
 
@@ -388,6 +407,7 @@ msgstr "Humain"
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_id
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_id
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type_id
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_id
 #: model:ir.model.fields,field_description:project_resource_calendar.field_weekly_report_wizard_id
 msgid "ID"
 msgstr "Identifiant"
@@ -426,6 +446,7 @@ msgstr "Créé à partir d'une tâche"
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous___last_update
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room___last_update
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type___last_update
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service___last_update
 #: model:ir.model.fields,field_description:project_resource_calendar.field_weekly_report_wizard___last_update
 msgid "Last Modified on"
 msgstr "Dernière modification le"
@@ -435,6 +456,7 @@ msgstr "Dernière modification le"
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_write_uid
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type_write_uid
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_write_uid
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_write_uid
 #: model:ir.model.fields,field_description:project_resource_calendar.field_weekly_report_wizard_write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
@@ -444,6 +466,7 @@ msgstr "Dernière mise à jour par"
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_write_date
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_type_write_date
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_write_date
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_write_date
 #: model:ir.model.fields,field_description:project_resource_calendar.field_weekly_report_wizard_write_date
 msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
@@ -451,6 +474,7 @@ msgstr "Dernière mise à jour le"
 #. module: project_resource_calendar
 #: selection:resource.calendar.instrument,resource_type:0
 #: selection:resource.calendar.room,resource_type:0
+#: selection:resource.calendar.service,resource_type:0
 msgid "Material"
 msgstr "Matériel"
 
@@ -484,6 +508,7 @@ msgstr "par mois"
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_name
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_miscellaneous_name
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_name
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_name
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_instrument_form
 msgid "Name"
 msgstr "Nom"
@@ -502,6 +527,7 @@ msgstr "Opérations"
 #. module: project_resource_calendar
 #: selection:resource.calendar.instrument,pricing_type:0
 #: selection:resource.calendar.room,pricing_type:0
+#: selection:resource.calendar.service,pricing_type:0
 #: selection:resource.resource,pricing_type:0
 msgid "Per Hour"
 msgstr "Tarif Horaire"
@@ -509,6 +535,7 @@ msgstr "Tarif Horaire"
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_photo
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_photo
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_photo
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_photo
 msgid "Photo"
 msgstr "Photo"
@@ -516,6 +543,7 @@ msgstr "Photo"
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_photo_1
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_photo_1
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_photo_1
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_photo_1
 msgid "Photo 1"
 msgstr "Photo 1"
@@ -523,6 +551,7 @@ msgstr "Photo 1"
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_photo_2
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_photo_2
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_photo_2
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_photo_2
 msgid "Photo 2"
 msgstr "Photo 2"
@@ -530,6 +559,7 @@ msgstr "Photo 2"
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_photo_3
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_photo_3
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_photo_3
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_photo_3
 msgid "Photo 3"
 msgstr "Photo 3"
@@ -537,6 +567,7 @@ msgstr "Photo 3"
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_photo_4
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_photo_4
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_photo_4
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_photo_4
 msgid "Photo 4"
 msgstr "Photo 4"
@@ -544,6 +575,7 @@ msgstr "Photo 4"
 #. module: project_resource_calendar
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_instrument_form
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_room_form
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_service_form
 msgid "Photos"
 msgstr "Photos"
 
@@ -568,12 +600,14 @@ msgstr "Veuillez confirmer la réservation.<br>Ces ressources sont déjà réser
 #. module: project_resource_calendar
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_instrument_form
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_room_form
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_service_form
 msgid "Pricing"
 msgstr "Tarif"
 
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_pricing
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_pricing
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_pricing
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_pricing
 msgid "Pricing ($)"
 msgstr "Tarif ($)"
@@ -581,6 +615,7 @@ msgstr "Tarif ($)"
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_pricing_type
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_pricing_type
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_pricing_type
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_resource_pricing_type
 msgid "Pricing Type"
 msgstr "Tarification"
@@ -645,6 +680,7 @@ msgstr "Détail de la ressource"
 #: model:ir.model.fields,field_description:project_resource_calendar.field_calendar_event_resource_type
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_instrument_resource_type
 #: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_room_resource_type
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_resource_type
 msgid "Resource Type"
 msgstr "Type de ressource"
 
@@ -662,6 +698,7 @@ msgstr "Calendrier des ressources"
 #: model:ir.ui.view,arch_db:project_resource_calendar.room_type_form
 #: selection:resource.calendar.instrument,resource_type:0
 #: selection:resource.calendar.room,resource_type:0
+#: selection:resource.calendar.service,resource_type:0
 msgid "Room"
 msgstr "Salle"
 
@@ -748,9 +785,28 @@ msgid "Sequence"
 msgstr "Séquence"
 
 #. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_service_form
 #: selection:resource.calendar.instrument,category_type:0
 msgid "Service"
 msgstr "Service"
+
+#. module: project_resource_calendar
+#: model:ir.actions.act_window,name:project_resource_calendar.action_service_to_auditlog_log
+#: model:ir.model.fields,field_description:project_resource_calendar.field_resource_calendar_service_service_log_count
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_service_form
+msgid "Service Logs"
+msgstr "Journaux"
+
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_calendar_service_form
+msgid "Service Name"
+msgstr "Nom du service"
+
+#. module: project_resource_calendar
+#: model:ir.actions.act_window,name:project_resource_calendar.action_resource_service
+#: model:ir.ui.menu,name:project_resource_calendar.service_sub_menu
+msgid "Services"
+msgstr "Services"
 
 #. module: project_resource_calendar
 #: model:ir.model.fields,field_description:project_resource_calendar.field_weekly_report_wizard_date_start
@@ -944,6 +1000,11 @@ msgid "resource.calendar.room.type"
 msgstr "resource.calendar.room.type"
 
 #. module: project_resource_calendar
+#: model:ir.model,name:project_resource_calendar.model_resource_calendar_service
+msgid "resource.calendar.service"
+msgstr "resource.calendar.service"
+
+#. module: project_resource_calendar
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_room_tree
 msgid "room"
 msgstr "salle"
@@ -952,6 +1013,11 @@ msgstr "salle"
 #: model:ir.ui.view,arch_db:project_resource_calendar.resource_room_type_tree
 msgid "room_type"
 msgstr "Type de salle"
+
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.resource_service_tree
+msgid "service"
+msgstr "service"
 
 #. module: project_resource_calendar
 #: code:addons/project_resource_calendar/models/calendar_event.py:251

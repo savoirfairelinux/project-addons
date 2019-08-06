@@ -18,6 +18,7 @@
                             <field name="resource_type"/>
                             <field name="equipment_id" string="Equipment" attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
                             <field name="room_id" string="Room" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
+                            <field name="service_id" string="Service"/>
                             <field name="activity_template_ids" string="Activities Templates"/>
                         </group>
                         <group>

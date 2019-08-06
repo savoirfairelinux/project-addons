@@ -22,6 +22,11 @@ class TaskTemplate(models.Model):
         comodel_name='resource.calendar.instrument',
         ondelete='set null',
     )
+    service_id = fields.Many2one(
+        string='Service',
+        comodel_name='resource.calendar.service',
+        ondelete='set null',
+    )
     resource_type = fields.Selection([
         ('user', 'Human'),
         ('equipment', 'Equipment'),
@@ -76,3 +81,4 @@ class TaskTemplate(models.Model):
     def _onchange_resource_type(self):
         self.room_id = None
         self.equipment_id = None
+        self.service_id = None

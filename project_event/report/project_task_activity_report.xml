@@ -83,7 +83,7 @@
               <tr>
                 <td> <t t-esc="task['department']"/></td>
                 <td> <t t-esc="task['employee']"/></td>
-                <td> <t t-raw="task['resource']"/></td>
+                <td> <t t-raw="task['service']"/></td>
                 <td> <t t-esc="datetime.datetime.strptime(task['expected_start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
                 <t t-if="task['real_start']"> 
                   <td> <t t-esc="datetime.datetime.strptime(task['real_start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/></td>
@@ -224,7 +224,7 @@
                 <tr>
                   <td> <t t-esc="timesheet_line['name']"/></td>
                   <td> <t t-esc="timesheet_line['date']"/></td>
-                  <td> <t t-esc="task_timesheet['resource']"/></td>
+                  <td> <t t-esc="task_timesheet['service']"/></td>
                   <td> <t t-esc="timesheet_line['description']"/></td>
                   <td> <t t-esc="timesheet_line['duration']"/></td>
                 </tr>

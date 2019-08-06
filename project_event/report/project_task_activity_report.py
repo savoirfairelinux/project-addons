@@ -66,9 +66,7 @@ class ReportWeekly(models.AbstractModel):
                     'department': task.department_id.name,
                     'expected_start': self.get_tz_format(task.date_start),
                     'employee': employee.name,
-                    'resource': task.equipment_id.name
-                    if task.equipment_id.category_type == 'service'
-                    else _('Not a service'),
+                    'service': task.service_id.name if task.service_id else '',
                     'order': task.task_order,
                     'real_start':
                     self.get_tz_format(task.real_date_start) if (
