@@ -394,27 +394,27 @@ class CalendarEvent(models.Model):
         self.validate_client_id_write(vals)
         return super(CalendarEvent, self).write(vals)
 
+    @api.multi
     def validate_client_id_write(self, vals):
-        if self.is_task_event or (
-                'is_task_event' in vals and vals['is_task_event']):
-            return
-        if 'client_id' in vals:
-            partners = self.partner_ids.ids
-            if 'partner_ids' in vals:
-                partners = vals['partner_ids'][0][2]
-                if not vals['client_id'] in partners:
-                    vals['partner_ids'] = [
-                        (6, 0, [vals['client_id']] +
-                            vals['partner_ids'][0][2])]
-            else:
-                if not vals['client_id'] in partners:
-                    vals['partner_ids'] = [(4, vals['client_id'], 0)]
-        else:
-            if (
-                'partner_ids' in vals and
-                    self.client_id.id not in vals['partner_ids'][0][2]):
+        for rec in self:
+            if rec.is_task_event or (
+                    'is_task_event' in vals and vals['is_task_event']):
+                return
+            if 'client_id' in vals:
+                partners = rec.partner_ids.ids
+                if 'partner_ids' in vals:
+                    partners = vals['partner_ids'][0][2]
+                    if not vals['client_id'] in partners:
+                        vals['partner_ids'] = [
+                            (6, 0, [vals['client_id']] +
+                                vals['partner_ids'][0][2])]
+                else:
+                    if not vals['client_id'] in partners:
+                        vals['partner_ids'] = [(4, vals['client_id'], 0)]
+            elif 'partner_ids' in vals and rec.client_id.id not in \
+                    vals['partner_ids'][0][2]:
                 vals['partner_ids'] = [
-                    (6, 0, vals['partner_ids'][0][2] + [self.client_id.id])]
+                    (6, 0, vals['partner_ids'][0][2] + [rec.client_id.id])]
 
     @api.multi
     def unlink(self):
