@@ -1,6 +1,7 @@
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
+import babel.dates
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo import _, api, fields, models
@@ -252,6 +253,31 @@ class Task(models.Model):
         related='parent_id.project_id',
         string="Event"
     )
+
+    def format_date(self, date_to_format, format_str='dd-MMMM-yyyy HH:mm:ss'):
+        lang = self.env['res.users'].browse(self.env.uid).lang or 'en_US'
+        tz = self.env['res.users'].browse(self.env.uid).tz or 'utc'
+        if not isinstance(date_to_format, datetime):
+            date_to_format = datetime.strptime(
+                date_to_format, '%Y-%m-%d %H:%M:%S'
+            )
+        return babel.dates.format_datetime(
+            date_to_format,
+            tzinfo=tz,
+            format=format_str,
+            locale=lang)
+
+    @api.constrains('date_start', 'date_end')
+    def _check_closing_date(self):
+        if self.date_start and self.date_end and self.date_end < self.\
+                date_start:
+            raise ValidationError(
+                _('Ending date cannot be set before starting date.') + "\n" +
+                _("%s '%s' starts '%s' and ends '%s'") %
+                (_('Activity') if self.is_activity() else _('Task'), self.name,
+                 self.format_date(self.date_start),
+                 self.format_date(self.date_end))
+                )
 
     @api.model
     def create(self, vals):

@@ -28,6 +28,12 @@ msgstr ""
 "principale (précédée par '-') ou positive si c'est après"
 
 #. module: project_event
+#: code:addons/project_event/models/project_task.py:262
+#, python-format
+msgid "%s '%s' starts '%s' and ends '%s'"
+msgstr "%s '%s' commence '%s' et finie à '%s'"
+
+#. module: project_event
 #: code:addons/project_event/models/project_project.py:243
 #: code:addons/project_event/models/project_task.py:287
 #, python-format
@@ -140,6 +146,7 @@ msgid "Activities to Edit"
 msgstr "Activités à modifier"
 
 #. module: project_event
+#: code:addons/project_event/models/project_task.py:263
 #: model:ir.actions.act_window,name:project_event.action_project_event_activity
 #: model:ir.ui.menu,name:project_event.project_task_activity_menu
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
@@ -571,6 +578,12 @@ msgstr "Heure Fin"
 #: model:ir.model.fields,field_description:project_event.field_project_task_wizard_date_end
 msgid "Ending Date"
 msgstr "Date de Fin"
+
+#. module: project_event
+#: code:addons/project_event/models/project_task.py:261
+#, python-format
+msgid "Ending date cannot be set before starting date."
+msgstr "La date de fin ne peut pas être inférieure à la date de début."
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_equipment_id
@@ -1228,6 +1241,7 @@ msgid "Tag"
 msgstr "Étiquette"
 
 #. module: project_event
+#: code:addons/project_event/models/project_task.py:263
 #: model:ir.actions.act_window,name:project_event.action_project_event_task
 #: model:ir.model,name:project_event.model_project_task
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_task_id

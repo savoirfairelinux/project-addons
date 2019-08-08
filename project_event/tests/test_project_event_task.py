@@ -459,11 +459,11 @@ class TestProjectEventTask(TestProjectEventCommon):
             'New_Activity_1')
         date_start_new = '2019-12-12 11:11:11'
         date_end_new = '2019-12-12 12:12:12'
-        activity_plus_task.child_ids[0].date_start = date_start_new
+        activity_plus_task.child_ids[0].write({'date_start': date_start_new,
+                                               'date_end': date_end_new})
         self.assertEqual(
             activity_plus_task.child_ids[0].date_start,
             '2019-12-12 11:11:11')
-        activity_plus_task.child_ids[0].date_end = date_end_new
         self.assertEqual(
             activity_plus_task.child_ids[0].date_end,
             '2019-12-12 12:12:12')
