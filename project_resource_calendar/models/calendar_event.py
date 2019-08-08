@@ -231,6 +231,7 @@ class CalendarEvent(models.Model):
             if not room and not equipment and not attendees:
                 continue
             if record.recurrency and record.start and record.stop:
+                record._compute_rrule()
                 message = self._double_bookable_recurrent(record.id, room,
                                                           equipment, attendees,
                                                           message)
