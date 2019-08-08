@@ -65,6 +65,15 @@ msgstr ""
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
+msgid "<strong>\n"
+"              List of convocation:\n"
+"            </strong>"
+msgstr "<strong>\n"
+"              Liste des convocations:\n"
+"            </strong>"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
 msgid "<strong>Activity's work slips</strong>"
 msgstr "<strong>BORDEREAU DE TRAVAIL  D’ACTIVITÉ</strong>"
 
