@@ -51,7 +51,7 @@ class ProjectEventWizard(models.TransientModel):
         self.ensure_one()
         template = self.env['event.template'].browse(self.template_id.id)
         view = self.env.ref(
-            'project_event.view_project_activity_wizard')
+            'project_event_template.view_project_activity_wizard')
         for act in template.activity_template_ids:
             activity_vals = {
                 'template_id': act.id,
@@ -86,7 +86,7 @@ class ProjectEventWizard(models.TransientModel):
         self.ensure_one()
         activities = self.activity_ids
         view = self.env.ref(
-            'project_event.view_project_task_wizard')
+            'project_event_template.view_project_task_wizard')
         for act in activities:
             for task in act.template_id.task_template_ids:
                 task_vals = {

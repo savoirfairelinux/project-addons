@@ -51,6 +51,8 @@ class TestSecurity(TestProjectEventCommon):
         })
         self.user_editor.partner_id.write({'email': 'editor@test.com'})
         self.user_manager.partner_id.write({'email': 'manager@test.com'})
+        self.event_template_1 = self.EventTemplates.create({
+            'name': 'Test Event Template'})
         self.event_vals = {
             'name': 'Event test',
             'start': fields.Datetime.to_string(datetime.today()),
@@ -96,6 +98,7 @@ class TestSecurity(TestProjectEventCommon):
                 message += "\t External id: " + a['external_id']\
                     + self.get_crud_permissions_from_acl(a['external_id']) +\
                     "\n"
+        # print(message)
 
     def get_crud_permissions_from_acl(self, external_id):
         acls = ' ('
@@ -219,6 +222,8 @@ class TestSecurity(TestProjectEventCommon):
         self.assertTrue(
             self.project_3.sudo(self.user_manager).unlink()
         )
+    # test_130_project_user_can_only_read_project
+    # _task_type_activity_if_task_children_has_user_as_participant
 
     def test_130_user_can_read_pt_type_activity(
             self):
@@ -312,6 +317,209 @@ class TestSecurity(TestProjectEventCommon):
     def test_240_project_manager_can_delete_project_task(self):
         self.assertTrue(self.Tasks.sudo(self.user_manager.id).unlink())
 
+    def test_250_project_user_cannot_read_project_template_event(self):
+        self.get_user_acls_and_rules_to_model(
+            self.project_user, self.EventTemplates)
+        with self.assertRaises(exceptions.AccessError):
+            self.EventTemplates.sudo(self.project_user.id).search([])
+
+    def test_260_project_user_cannot_write_project_template_event(self):
+        self.user_cannot_write_project_template_event(self.project_user)
+
+    def user_cannot_write_project_template_event(self, user):
+        with self.assertRaises(exceptions.AccessError):
+            self.event_template_1.sudo(user.id).write(
+                {'name': 'New Name'})
+
+    def test_270_project_user_cannot_create_project_template_event(self):
+        self.user_cannot_create_project_template_event(self.project_user)
+
+    def user_cannot_create_project_template_event(self, user):
+        with self.assertRaises(exceptions.AccessError):
+            self.EventTemplates.sudo(user.id).create(
+                {'name': 'New Name'})
+
+    def test_280_project_user_cannot_delete_project_template_event(self):
+        self.user_cannot_delete_project_template_event(self.project_user)
+
+    def user_cannot_delete_project_template_event(self, user):
+        with self.assertRaises(exceptions.AccessError):
+            self.event_template_1.sudo(user.id).unlink()
+
+    def test_290_project_editor_can_read_project_template_event(self):
+        self.get_user_acls_and_rules_to_model(
+            self.user_editor, self.EventTemplates)
+        self.assertEqual(
+            self.EventTemplates.search([]),
+            self.EventTemplates.sudo(self.user_editor).search([]))
+
+    def test_300_project_editor_cannot_write_project_template_event(self):
+        self.user_cannot_write_project_template_event(self.user_editor)
+
+    def test_310_project_editor_cannot_create_project_template_event(self):
+        self.user_cannot_create_project_template_event(self.user_editor)
+
+    def test_320_project_editor_cannot_delete_project_template_event(self):
+        self.user_cannot_delete_project_template_event(self.user_editor)
+
+    def test_330_project_manager_can_read_project_template_event(self):
+        self.get_user_acls_and_rules_to_model(
+            self.user_manager, self.EventTemplates)
+        self.assertEqual(
+            self.EventTemplates.search([]),
+            self.EventTemplates.sudo(self.user_manager).search([]))
+
+    def test_340_project_manager_can_write_project_template_event(self):
+        self.assertTrue(self.event_template_1.sudo(self.user_manager.id).write(
+            {}))
+
+    def test_350_project_manager_can_create_project_template_event(self):
+        project_template_created = self.EventTemplates.sudo(
+            self.user_manager.id).create({'name': 'Test Create'})
+        self.assertIsInstance(
+            project_template_created,
+            type(self.EventTemplates))
+
+    def test_360_project_manager_can_delete_project_template_event(self):
+        self.assertTrue(
+            self.EventTemplates.sudo(self.user_manager).search([]).unlink())
+
+    def test_370_project_user_cannot_read_project_template_activity(self):
+        self.get_user_acls_and_rules_to_model(
+            self.project_user, self.ActivityTemplate)
+        with self.assertRaises(exceptions.AccessError):
+            self.ActivityTemplate.sudo(self.project_user.id).search([])
+
+    def test_380_project_user_cannot_write_project_template_activity(self):
+        self.user_cannot_write_project_template_activity(self.project_user)
+
+    def user_cannot_write_project_template_activity(self, user):
+        with self.assertRaises(exceptions.AccessError):
+            self.activity_template_1.sudo(user.id).write(
+                {'name': 'New Name'})
+
+    def test_390_project_user_cannot_create_project_template_activity(self):
+        self.user_cannot_create_project_template_activity(self.project_user)
+
+    def user_cannot_create_project_template_activity(self, user):
+        with self.assertRaises(exceptions.AccessError):
+            self.ActivityTemplate.sudo(user.id).create(
+                {'name': 'New Name'})
+
+    def test_400_project_user_cannot_delete_project_template_activity(self):
+        self.user_cannot_delete_project_template_activity(self.project_user)
+
+    def user_cannot_delete_project_template_activity(self, user):
+        with self.assertRaises(exceptions.AccessError):
+            self.activity_template_1.sudo(user.id).unlink()
+
+    def test_410_project_editor_can_read_project_template_activity(self):
+        self.get_user_acls_and_rules_to_model(
+            self.user_editor, self.ActivityTemplate)
+        self.assertEqual(
+            self.ActivityTemplate.search([]),
+            self.ActivityTemplate.sudo(self.user_editor).search([]))
+
+    def test_420_project_editor_cannot_write_project_template_activity(self):
+        self.user_cannot_write_project_template_activity(self.user_editor)
+
+    def test_430_project_editor_cannot_create_project_template_activity(self):
+        self.user_cannot_create_project_template_activity(self.user_editor)
+
+    def test_440_project_editor_cannot_delete_project_template_activity(self):
+        self.user_cannot_delete_project_template_activity(self.user_editor)
+
+    def test_450_project_manager_can_read_project_template_activity(self):
+        self.get_user_acls_and_rules_to_model(
+            self.user_manager, self.ActivityTemplate)
+        self.assertEqual(
+            self.ActivityTemplate.search([]),
+            self.ActivityTemplate.sudo(self.user_manager).search([]))
+
+    def test_460_project_manager_can_write_project_template_activity(self):
+        self.assertTrue(
+            self.activity_template_1.sudo(
+                self.user_manager.id).write(
+                {}))
+
+    def test_470_project_manager_can_create_project_template_activity(self):
+        activity_template_created = self.ActivityTemplate.sudo(
+            self.user_manager.id).create({'name': 'Test Create'})
+        self.assertIsInstance(
+            activity_template_created,
+            type(self.ActivityTemplate))
+
+    def test_480_project_manager_can_delete_project_template_activity(self):
+        self.assertTrue(
+            self.ActivityTemplate.sudo(self.user_manager).search([]).unlink())
+
+    def test_490_project_user_cannot_read_project_template_task(self):
+        self.get_user_acls_and_rules_to_model(
+            self.project_user, self.TaskTemplate)
+        with self.assertRaises(exceptions.AccessError):
+            self.TaskTemplate.sudo(self.project_user.id).search([])
+
+    def test_500_project_user_cannot_write_project_template_task(self):
+        self.user_cannot_write_project_template_task(self.project_user)
+
+    def user_cannot_write_project_template_task(self, user):
+        with self.assertRaises(exceptions.AccessError):
+            self.task_template_1.sudo(user.id).write(
+                {'name': 'New Name'})
+
+    def test_510_project_user_cannot_create_project_template_task(self):
+        self.user_cannot_create_project_template_task(self.project_user)
+
+    def user_cannot_create_project_template_task(self, user):
+        with self.assertRaises(exceptions.AccessError):
+            self.TaskTemplate.sudo(user.id).create(
+                {'name': 'New Name'})
+
+    def test_520_project_user_cannot_delete_project_template_task(self):
+        self.user_cannot_delete_project_template_task(self.project_user)
+
+    def user_cannot_delete_project_template_task(self, user):
+        with self.assertRaises(exceptions.AccessError):
+            self.task_template_1.sudo(user.id).unlink()
+
+    def test_530_project_editor_can_read_project_template_task(self):
+        self.get_user_acls_and_rules_to_model(
+            self.user_editor, self.TaskTemplate)
+        self.assertEqual(
+            self.TaskTemplate.search([]),
+            self.TaskTemplate.sudo(self.user_editor).search([]))
+
+    def test_540_project_editor_cannot_write_project_template_task(self):
+        self.user_cannot_write_project_template_task(self.user_editor)
+
+    def test_550_project_editor_cannot_create_project_template_task(self):
+        self.user_cannot_create_project_template_task(self.user_editor)
+
+    def test_560_project_editor_cannot_delete_project_template_task(self):
+        self.user_cannot_delete_project_template_task(self.user_editor)
+
+    def test_570_project_manager_can_read_project_template_task(self):
+        self.get_user_acls_and_rules_to_model(
+            self.user_manager, self.TaskTemplate)
+        self.assertEqual(
+            self.TaskTemplate.search([]),
+            self.TaskTemplate.sudo(self.user_manager).search([]))
+
+    def test_580_project_manager_can_write_project_template_task(self):
+        self.assertTrue(self.task_template_1.sudo(self.user_manager.id).write(
+            {}))
+
+    def test_590_project_manager_can_create_project_template_task(self):
+        activity_template_created = self.TaskTemplate.sudo(
+            self.user_manager.id).create({'name': 'Test Create'})
+        self.assertIsInstance(
+            activity_template_created,
+            type(self.TaskTemplate))
+
+    def test_600_project_manager_can_delete_project_template_task(self):
+        self.assertTrue(
+            self.TaskTemplate.sudo(self.user_manager).search([]).unlink())
+
     def test_610_project_user_can_read_project_task_category(self):
 
         self.get_user_acls_and_rules_to_model(
@@ -368,6 +576,13 @@ class TestSecurity(TestProjectEventCommon):
     def test_700_project_manager_can_write_project_task_category(self):
         self.assertTrue(self.category_1.sudo(self.user_manager.id).write(
             {}))
+
+    def test_710_project_manager_can_create_project_task_category(self):
+        activity_template_created = self.Task_category.sudo(
+            self.user_manager.id).create({'name': 'Test Create'})
+        self.assertIsInstance(
+            activity_template_created,
+            type(self.Task_category))
 
     def test_720_project_manager_can_delete_project_task_category(self):
         self.assertTrue(

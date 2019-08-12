@@ -3,8 +3,8 @@
 
     <menuitem id="project_event_wizard_menu"
               name="Wizard"
-              parent="project_event_menu_root"
-              groups="group_project_event_editor"/>
+              parent="project_event.project_event_menu_root"
+              groups="project_event.group_project_event_editor"/>
 
     <record id="view_project_event_wizard" model="ir.ui.view">
         <field name="name">Event Wizard</field>

@@ -1,11 +1,11 @@
-# © 2018 Savoir-faire Linux
+# © 2019 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
 
-from .common import TestProjectEventCommon
+from .common import TestProjectEventTemplateCommon
 
 
-class TestTaskTemplate(TestProjectEventCommon):
+class TestTaskTemplate(TestProjectEventTemplateCommon):
 
     def setUp(self):
         super(TestTaskTemplate, self).setUp()
