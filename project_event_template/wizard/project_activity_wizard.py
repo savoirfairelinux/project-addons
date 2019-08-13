@@ -93,7 +93,7 @@ class ProjectActivityWizard(models.TransientModel):
     def add_flexible_tasks(self):
         self.ensure_one()
         view = self.env.ref(
-            'project_event.view_project_task_wizard_activity')
+            'project_event_template.view_project_task_wizard_activity')
 
         for task in self.template_id.task_template_ids:
             task_vals = {

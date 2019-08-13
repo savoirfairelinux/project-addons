@@ -16,18 +16,6 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: project_event
-#: model:ir.model.fields,help:project_event.field_activity_template_start_time
-#: model:ir.model.fields,help:project_event.field_project_activity_wizard_date_start
-#: model:ir.model.fields,help:project_event.field_project_task_wizard_start_time
-#: model:ir.model.fields,help:project_event.field_task_template_start_time
-msgid ""
-" In minutes: value should be negative if it is before the main task "
-"(preceded by '-') or positive if it is after"
-msgstr ""
-"En minutes: la valeur saisie doit être négative si c'est avant la tâche "
-"principale (précédée par '-') ou positive si c'est après"
-
-#. module: project_event
 #: code:addons/project_event/models/project_task.py:262
 #, python-format
 msgid "%s '%s' starts '%s' and ends '%s'"
@@ -132,27 +120,8 @@ msgstr "Action"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_form
-#: model:ir.ui.view,arch_db:project_event.project_event_template_form
 msgid "Activities"
 msgstr "Activités"
-
-#. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_event_template_activity_template_ids
-#: model:ir.model.fields,field_description:project_event.field_task_template_activity_template_ids
-#: model:ir.ui.view,arch_db:project_event.activity_task_template_form
-msgid "Activities Templates"
-msgstr "Modèles d'activités"
-
-#. module: project_event
-#: code:addons/project_event/wizard/project_event_wizard.py:73
-#, python-format
-msgid "Activities Wizard"
-msgstr "Wizard d'activités"
-
-#. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_activity_ids
-msgid "Activities to Edit"
-msgstr "Activités à modifier"
 
 #. module: project_event
 #: code:addons/project_event/models/project_task.py:263
@@ -185,51 +154,10 @@ msgid "Activity Responsible"
 msgstr "Responsable de l'activité"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_template_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_activity_template_id
-#: model:ir.ui.menu,name:project_event.event_activity_template_menu
-#: model:ir.ui.view,arch_db:project_event.activity_template_form
-#: model:ir.ui.view,arch_db:project_event.activity_template_tree
-msgid "Activity Template"
-msgstr "Modèle d'activités"
-
-#. module: project_event
-#: model:ir.actions.act_window,name:project_event.action_event_activity_template
-msgid "Activity Templates"
-msgstr "Modèles d'activités"
-
-#. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_name
-msgid "Activity Title"
-msgstr "Titre d'activité"
-
-#. module: project_event
-#: model:ir.actions.act_window,name:project_event.action_view_activity_event_wizard
-#: model:ir.ui.menu,name:project_event.activity_wizard_menu
-#: model:ir.ui.view,arch_db:project_event.view_activity_event_wizard
-#: model:ir.ui.view,arch_db:project_event.view_project_activity_wizard
-msgid "Activity Wizard"
-msgstr "Wizard d'activités"
-
-#. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_tree
 #: model:ir.ui.view,arch_db:project_event.project_event_form
 msgid "Activity title"
 msgstr "Titre de l'activité"
-
-#. module: project_event
-#: model:ir.ui.view,arch_db:project_event.view_activity_event_wizard
-msgid ""
-"Activity will be created from template in draft so that you can review\n"
-"                    it before validation."
-msgstr ""
-"L'activité va être créée en état Brouillon à partir du modèle d'activité "
-"afin que vous puissiez l'examiner avant sa validation. "
-
-#. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_activity_wiz_id
-msgid "Activity wizard"
-msgstr "Wizard d'activités"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
@@ -270,21 +198,6 @@ msgid "Actual Total Time"
 msgstr "Total Réel"
 
 #. module: project_event
-#: model:ir.ui.view,arch_db:project_event.view_activity_event_wizard
-msgid "Add Tasks"
-msgstr "Ajouter tâches"
-
-#. module: project_event
-#: model:ir.ui.view,arch_db:project_event.view_project_event_wizard
-msgid "Add activities"
-msgstr "Ajouter des activités"
-
-#. module: project_event
-#: model:ir.ui.view,arch_db:project_event.view_project_activity_wizard
-msgid "Add tasks"
-msgstr "Ajouter des tâches"
-
-#. module: project_event
 #: model:ir.model,name:project_event.model_account_analytic_account
 msgid "Analytic Account"
 msgstr "Compte analytique"
@@ -309,7 +222,6 @@ msgid "Approved"
 msgstr "Approuvé"
 
 #. module: project_event
-#: model:ir.ui.view,arch_db:project_event.activity_task_template_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
 msgid "Assigned to:"
 msgstr "Assigné à:"
@@ -329,13 +241,6 @@ msgstr "Vue calendrier"
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
 #: model:ir.ui.view,arch_db:project_event.project_event_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
-#: model:ir.ui.view,arch_db:project_event.view_activity_event_wizard
-#: model:ir.ui.view,arch_db:project_event.view_orphan_task_event_wizard
-#: model:ir.ui.view,arch_db:project_event.view_project_activity_wizard
-#: model:ir.ui.view,arch_db:project_event.view_project_event_wizard
-#: model:ir.ui.view,arch_db:project_event.view_project_task_wizard
-#: model:ir.ui.view,arch_db:project_event.view_project_task_wizard_activity
-#: model:ir.ui.view,arch_db:project_event.view_reservation_validation_wizard
 msgid "Cancel"
 msgstr "Annuler"
 
@@ -348,19 +253,12 @@ msgid "Canceled"
 msgstr "Annulé"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_category_id
 #: model:ir.model.fields,field_description:project_event.field_calendar_event_category_id
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_category_id
 #: model:ir.model.fields,field_description:project_event.field_project_task_category_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_category_id
-#: model:ir.model.fields,field_description:project_event.field_task_template_category_id
 msgid "Category"
 msgstr "Catégorie"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_activity_partner_id
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_event_partner_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_task_partner_id
 #: model:ir.ui.view,arch_db:project_event.view_project_project_search
 msgid "Client"
 msgstr "Client"
@@ -422,45 +320,18 @@ msgid "Contact:"
 msgstr "Contact:"
 
 #. module: project_event
-#: model:ir.ui.view,arch_db:project_event.view_project_task_wizard_activity
-msgid "Create Activity from Template"
-msgstr "Créer une activité à partir d'un modèle"
-
-#. module: project_event
-#: model:ir.ui.view,arch_db:project_event.view_project_task_wizard
-msgid "Create Event from Template"
-msgstr "Créer un événement à partir d'un modèle"
-
-#. module: project_event
-#: model:ir.ui.view,arch_db:project_event.view_orphan_task_event_wizard
-msgid "Create Task From Template"
-msgstr "Créer une tâche à partir d'un modèle"
-
-#. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_create_uid
-#: model:ir.model.fields,field_description:project_event.field_event_template_create_uid
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_create_uid
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_create_uid
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_create_uid
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type_create_uid
 #: model:ir.model.fields,field_description:project_event.field_res_partner_sector_create_uid
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_create_uid
 #: model:ir.model.fields,field_description:project_event.field_task_category_create_uid
-#: model:ir.model.fields,field_description:project_event.field_task_template_create_uid
 msgid "Created by"
 msgstr "Créé par"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_create_date
-#: model:ir.model.fields,field_description:project_event.field_event_template_create_date
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_create_date
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_create_date
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_create_date
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type_create_date
 #: model:ir.model.fields,field_description:project_event.field_res_partner_sector_create_date
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_create_date
 #: model:ir.model.fields,field_description:project_event.field_task_category_create_date
-#: model:ir.model.fields,field_description:project_event.field_task_template_create_date
 msgid "Created on"
 msgstr "Créé le"
 
@@ -481,45 +352,26 @@ msgstr "Défaut"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_department_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_department_id
-#: model:ir.model.fields,field_description:project_event.field_task_template_department_id
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
 msgid "Department"
 msgstr "Département"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_description
-#: model:ir.model.fields,field_description:project_event.field_event_template_description
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_description
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_event_description
 #: model:ir.model.fields,field_description:project_event.field_project_project_description
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_description
-#: model:ir.model.fields,field_description:project_event.field_task_template_description
-#: model:ir.ui.view,arch_db:project_event.activity_task_template_form
-#: model:ir.ui.view,arch_db:project_event.activity_template_form
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
 #: model:ir.ui.view,arch_db:project_event.project_event_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
-#: model:ir.ui.view,arch_db:project_event.project_event_template_form
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
-#: model:ir.ui.view,arch_db:project_event.view_activity_event_wizard
-#: model:ir.ui.view,arch_db:project_event.view_orphan_task_event_wizard
-#: model:ir.ui.view,arch_db:project_event.view_project_event_wizard
 msgid "Description"
 msgstr "Description"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_display_name
-#: model:ir.model.fields,field_description:project_event.field_event_template_display_name
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_display_name
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_display_name
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_display_name
 #: model:ir.model.fields,field_description:project_event.field_report_project_event_project_task_activity_report_view_display_name
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type_display_name
 #: model:ir.model.fields,field_description:project_event.field_res_partner_sector_display_name
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_display_name
 #: model:ir.model.fields,field_description:project_event.field_task_category_display_name
-#: model:ir.model.fields,field_description:project_event.field_task_template_display_name
+
 msgid "Display Name"
 msgstr "Nom à afficher"
 
@@ -551,10 +403,6 @@ msgid "Draft"
 msgstr "Brouillon"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_duration
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_duration
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_duration
-#: model:ir.model.fields,field_description:project_event.field_task_template_duration
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
 msgid "Duration"
@@ -572,8 +420,6 @@ msgstr "Employé"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_employee_ids
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_employee_ids
-#: model:ir.model.fields,field_description:project_event.field_task_template_employee_ids
 msgid "Employees"
 msgstr "Employés"
 
@@ -583,12 +429,6 @@ msgid "End Time"
 msgstr "Heure Fin"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_date_end
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_date_end
-msgid "Ending Date"
-msgstr "Date de Fin"
-
-#. module: project_event
 #: code:addons/project_event/models/project_task.py:261
 #, python-format
 msgid "Ending date cannot be set before starting date."
@@ -596,16 +436,7 @@ msgstr "La date de fin ne peut pas être inférieure à la date de début."
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_equipment_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_equipment_id
-#: model:ir.model.fields,field_description:project_event.field_task_template_equipment_id
-#: model:ir.ui.view,arch_db:project_event.activity_task_template_form
-#: model:ir.ui.view,arch_db:project_event.activity_task_template_tree
-#: model:ir.ui.view,arch_db:project_event.view_orphan_task_event_wizard
-#: model:ir.ui.view,arch_db:project_event.view_project_task_wizard
-#: model:ir.ui.view,arch_db:project_event.view_project_task_wizard_activity
 #: selection:project.task,resource_type:0
-#: selection:project.task.wizard,resource_type:0
-#: selection:task.template,resource_type:0
 msgid "Equipment"
 msgstr "Équipement"
 
@@ -630,11 +461,6 @@ msgstr "Équipement: <br/>"
 #: selection:project.project,project_type:0
 msgid "Event"
 msgstr "Évènement"
-
-#. module: project_event
-#: model:ir.model,name:project_event.model_activity_template
-msgid "Event Activity Template"
-msgstr "Modèle d'activité d'événement"
 
 #. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_project_event_to_auditlog_log
@@ -662,49 +488,10 @@ msgid "Event Task Category"
 msgstr "Catégorie de tâche d'événement"
 
 #. module: project_event
-#: model:ir.model,name:project_event.model_task_template
-msgid "Event Task Template"
-msgstr "Modèle de tâche d'événement"
-
-#. module: project_event
-#: model:ir.model,name:project_event.model_event_template
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_template_id
-#: model:ir.ui.menu,name:project_event.event_template_menu
-#: model:ir.ui.view,arch_db:project_event.project_event_template_form
-#: model:ir.ui.view,arch_db:project_event.project_event_template_tree
-msgid "Event Template"
-msgstr "Modèle d'événement"
-
-#. module: project_event
-#: model:ir.actions.act_window,name:project_event.action_project_event_template
-msgid "Event Templates"
-msgstr "Modèles d'événements"
-
-#. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_name
 #: model:ir.ui.view,arch_db:project_event.project_event_tree
 #: model:ir.ui.view,arch_db:project_event.view_project_project_search
 msgid "Event Title"
 msgstr "Titre d'événement"
-
-#. module: project_event
-#: model:ir.actions.act_window,name:project_event.action_view_project_event_wizard
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_event_wizard_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_event_wizard_id
-#: model:ir.ui.menu,name:project_event.event_wizard_menu
-#: model:ir.ui.view,arch_db:project_event.view_project_event_wizard
-msgid "Event Wizard"
-msgstr "Wizard d'événement"
-
-#. module: project_event
-#: model:ir.ui.view,arch_db:project_event.view_project_event_wizard
-msgid ""
-"Event will be created from template in draft so that you can review\n"
-"                    it before validation."
-msgstr ""
-"L'événement sera créé à partir du modèle en brouillon afin que vous puissiez "
-"le réviser\n"
-"                    avant validation."
 
 #. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_project_event
@@ -720,11 +507,6 @@ msgstr "Événement ACAD"
 #: model:ir.module.category,name:project_event.module_category_event_prod
 msgid "Events PROD"
 msgstr "Événement PROD"
-
-#. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_event_template_ids
-msgid "Events Templates"
-msgstr "Modèles d'événements"
 
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
@@ -762,12 +544,6 @@ msgid "Font Color"
 msgstr "Couleur de police"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_general_room_id
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_general_room_id
-msgid "General Room"
-msgstr "Salle générale"
-
-#. module: project_event
 #: model:ir.model,name:project_event.model_hr_department
 msgid "HR Department"
 msgstr "Département RH"
@@ -794,42 +570,20 @@ msgstr "Heure:"
 
 #. module: project_event
 #: selection:project.task,resource_type:0
-#: selection:project.task.wizard,resource_type:0
-#: selection:task.template,resource_type:0
 msgid "Human"
 msgstr "Humain"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_id
-#: model:ir.model.fields,field_description:project_event.field_event_template_id
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_id
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_id
 #: model:ir.model.fields,field_description:project_event.field_report_project_event_project_task_activity_report_view_id
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type_id
 #: model:ir.model.fields,field_description:project_event.field_res_partner_sector_id
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_id
 #: model:ir.model.fields,field_description:project_event.field_task_category_id
-#: model:ir.model.fields,field_description:project_event.field_task_template_id
 msgid "ID"
 msgstr "ID"
 
 #. module: project_event
-#: model:ir.model.fields,help:project_event.field_activity_template_duration
-#: model:ir.model.fields,help:project_event.field_project_activity_wizard_duration
-#: model:ir.model.fields,help:project_event.field_project_task_wizard_duration
-#: model:ir.model.fields,help:project_event.field_task_template_duration
-msgid "In minutes"
-msgstr "En minutes"
-
-#. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_project_task_is_from_template
-msgid "Is Created From Template"
-msgstr "Est créé à partir du template"
-
-#. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_is_main_task
-#: model:ir.model.fields,field_description:project_event.field_task_template_is_main_task
 msgid "Is Main Task"
 msgstr "Tâche principale"
 
@@ -840,45 +594,27 @@ msgid "Is visible in Activity technical sheet"
 msgstr "Visible dans le bordereau technique"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template___last_update
-#: model:ir.model.fields,field_description:project_event.field_event_template___last_update
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard___last_update
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard___last_update
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard___last_update
 #: model:ir.model.fields,field_description:project_event.field_report_project_event_project_task_activity_report_view___last_update
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type___last_update
 #: model:ir.model.fields,field_description:project_event.field_res_partner_sector___last_update
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz___last_update
 #: model:ir.model.fields,field_description:project_event.field_task_category___last_update
-#: model:ir.model.fields,field_description:project_event.field_task_template___last_update
 msgid "Last Modified on"
 msgstr "Dernière modification le"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_write_uid
-#: model:ir.model.fields,field_description:project_event.field_event_template_write_uid
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_write_uid
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_write_uid
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_write_uid
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type_write_uid
 #: model:ir.model.fields,field_description:project_event.field_res_partner_sector_write_uid
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_write_uid
 #: model:ir.model.fields,field_description:project_event.field_task_category_write_uid
-#: model:ir.model.fields,field_description:project_event.field_task_template_write_uid
 msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_write_date
-#: model:ir.model.fields,field_description:project_event.field_event_template_write_date
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_write_date
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_write_date
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_write_date
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type_write_date
 #: model:ir.model.fields,field_description:project_event.field_res_partner_sector_write_date
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_write_date
 #: model:ir.model.fields,field_description:project_event.field_task_category_write_date
-#: model:ir.model.fields,field_description:project_event.field_task_template_write_date
 msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
 
@@ -888,22 +624,13 @@ msgid "Mail Tracking Value"
 msgstr "Valeur de suivi des courriers"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_department_id
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_department_id
-msgid "Main task department"
-msgstr "Département de la tâche principale"
-
-#. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_message
 msgid "Message"
 msgstr "Message"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_name
-#: model:ir.model.fields,field_description:project_event.field_event_template_name
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type_name
 #: model:ir.model.fields,field_description:project_event.field_task_category_name
-#: model:ir.model.fields,field_description:project_event.field_task_template_name
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
 msgid "Name"
 msgstr "Nom"
@@ -915,22 +642,10 @@ msgid "Note"
 msgstr "Note"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_notes
-#: model:ir.model.fields,field_description:project_event.field_event_template_notes
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_notes
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_event_notes
 #: model:ir.model.fields,field_description:project_event.field_project_project_notes
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_notes
-#: model:ir.model.fields,field_description:project_event.field_task_template_notes
-#: model:ir.ui.view,arch_db:project_event.activity_task_template_form
-#: model:ir.ui.view,arch_db:project_event.activity_template_form
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
 #: model:ir.ui.view,arch_db:project_event.project_event_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
-#: model:ir.ui.view,arch_db:project_event.project_event_template_form
-#: model:ir.ui.view,arch_db:project_event.view_activity_event_wizard
-#: model:ir.ui.view,arch_db:project_event.view_orphan_task_event_wizard
-#: model:ir.ui.view,arch_db:project_event.view_project_event_wizard
 msgid "Notes"
 msgstr "Notes"
 
@@ -1112,8 +827,6 @@ msgstr "Ressource"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_resource_type
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_resource_type
-#: model:ir.model.fields,field_description:project_event.field_task_template_resource_type
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
 msgid "Resource Type"
 msgstr "Type de ressource"
@@ -1124,39 +837,18 @@ msgid "Resources"
 msgstr "Ressources"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_temp_resp_id
-#: model:ir.model.fields,field_description:project_event.field_event_template_temp_resp_id
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_activity_resp_id
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_event_resp_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_task_resp_id
-#: model:ir.model.fields,field_description:project_event.field_task_template_temp_resp_id
-msgid "Responsible"
-msgstr "Responsable"
-
-#. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_form
 msgid "Return to Option"
 msgstr "Retourner à l'option"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_room_id
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_room_id
 #: model:ir.model.fields,field_description:project_event.field_project_task_room_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_room_id
-#: model:ir.model.fields,field_description:project_event.field_task_template_room_id
-#: model:ir.ui.view,arch_db:project_event.activity_task_template_form
-#: model:ir.ui.view,arch_db:project_event.activity_task_template_tree
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
 #: model:ir.ui.view,arch_db:project_event.project_event_task_calendar
 #: model:ir.ui.view,arch_db:project_event.project_event_task_tree
 #: model:ir.ui.view,arch_db:project_event.project_task_search
-#: model:ir.ui.view,arch_db:project_event.view_orphan_task_event_wizard
-#: model:ir.ui.view,arch_db:project_event.view_project_task_wizard
-#: model:ir.ui.view,arch_db:project_event.view_project_task_wizard_activity
 #: selection:project.task,resource_type:0
-#: selection:project.task.wizard,resource_type:0
-#: selection:task.template,resource_type:0
 msgid "Room"
 msgstr "Salle"
 
@@ -1184,11 +876,7 @@ msgstr "Séquence"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_service_id
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_service_id
-#: model:ir.model.fields,field_description:project_event.field_task_template_service_id
-#: model:ir.ui.view,arch_db:project_event.activity_task_template_form
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
-#: model:ir.ui.view,arch_db:project_event.view_orphan_task_event_wizard
 msgid "Service"
 msgstr "Service"
 
@@ -1210,17 +898,8 @@ msgid "Spectators value should be numeric"
 msgstr "La valeur du champ Spectateurs doit être numérique"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_start_time
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_start_time
-#: model:ir.model.fields,field_description:project_event.field_task_template_start_time
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
 msgid "Start Time"
-msgstr "Heure Début"
-
-#. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_date_start
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_date_start
-msgid "Starting Date"
 msgstr "Heure Début"
 
 #. module: project_event
@@ -1294,43 +973,14 @@ msgid "Task Responsible"
 msgstr "Responsable de la tâche"
 
 #. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_template_id
-#: model:ir.ui.menu,name:project_event.activity_task_template_menu
-#: model:ir.ui.view,arch_db:project_event.activity_task_template_form
-#: model:ir.ui.view,arch_db:project_event.activity_task_template_tree
-msgid "Task Template"
-msgstr "Modèle de tâche"
-
-#. module: project_event
-#: model:ir.actions.act_window,name:project_event.action_activity_task_template
-msgid "Task Templates"
-msgstr "Modèles de tâches"
-
-#. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_project_task_wizard_task_name
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
 msgid "Task Title"
 msgstr "Titre de la tâche"
 
 #. module: project_event
-#: model:ir.actions.act_window,name:project_event.action_view_orphan_task_event_wizard
-#: model:ir.ui.menu,name:project_event.task_wizard_menu
-#: model:ir.ui.view,arch_db:project_event.view_orphan_task_event_wizard
-#: model:ir.ui.view,arch_db:project_event.view_project_task_wizard
-#: model:ir.ui.view,arch_db:project_event.view_project_task_wizard_activity
-msgid "Task Wizard"
-msgstr "Wizard de tâche"
-
-#. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_task_order
 msgid "Task order"
 msgstr "Ordre de tâche"
-
-#. module: project_event
-#: model:ir.ui.view,arch_db:project_event.view_orphan_task_event_wizard
-msgid "Task will be created from template in draft so that you can review\n"
-"                    it before validation."
-msgstr "La tâche va être créée à l'état Brouillon à partir du modèle de tâche afin que vous puissiez l’examiner avant sa validation."
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_responsible_id
@@ -1344,28 +994,9 @@ msgid "Task: <br>"
 msgstr "Tâche: <br>"
 
 #. module: project_event
-#: model:ir.ui.view,arch_db:project_event.activity_template_form
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_form
 msgid "Tasks"
 msgstr "Tâches"
-
-#. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_activity_template_task_template_ids
-msgid "Tasks Templates"
-msgstr "Modèles de tâches"
-
-#. module: project_event
-#: code:addons/project_event/wizard/project_activity_wizard.py:127
-#: code:addons/project_event/wizard/project_event_wizard.py:116
-#, python-format
-msgid "Tasks Wizard"
-msgstr "Wizard de tâches"
-
-#. module: project_event
-#: model:ir.model.fields,field_description:project_event.field_project_activity_wizard_task_line_ids
-#: model:ir.model.fields,field_description:project_event.field_project_event_wizard_task_line_ids
-msgid "Tasks to Edit"
-msgstr "Tâches à modifier"
 
 #. module: project_event
 #: code:addons/project_event/models/project_task.py:1021
@@ -1382,16 +1013,6 @@ msgstr "Bordereau de travail"
 #: model:ir.actions.report,name:project_event.project_task_activity_report
 msgid "Technical sheet"
 msgstr "Bordereau de travail"
-
-#. module: project_event
-#: model:ir.ui.menu,name:project_event.project_event_template_menu
-msgid "Template"
-msgstr "Modèle"
-
-#. module: project_event
-#: model:ir.ui.view,arch_db:project_event.activity_template_form
-msgid "Templates Events"
-msgstr "Modèles d'événements"
 
 #. module: project_event
 #: code:addons/project_event/models/task_category.py:43
@@ -1503,26 +1124,6 @@ msgstr "Wizard de validation"
 #: selection:task.category,font_color:0
 msgid "White"
 msgstr "Blanc"
-
-#. module: project_event
-#: model:ir.ui.menu,name:project_event.project_event_wizard_menu
-msgid "Wizard"
-msgstr "Wizard"
-
-#. module: project_event
-#: model:ir.model,name:project_event.model_project_activity_wizard
-msgid "Wizard Event Activity Creation from template"
-msgstr "Wizard de création d'activité d'événement à partir d'un modèle"
-
-#. module: project_event
-#: model:ir.model,name:project_event.model_project_event_wizard
-msgid "Wizard Event Creation from Template"
-msgstr "Wizard de création d'événement à partir d'un modèle"
-
-#. module: project_event
-#: model:ir.model,name:project_event.model_project_task_wizard
-msgid "Wizard Event Task Creation from template"
-msgstr "Wizard de création de tâche d'événement à partir d'un modèle"
 
 #. module: project_event
 #: model:ir.model,name:project_event.model_reservation_validation_wiz

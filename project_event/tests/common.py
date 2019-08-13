@@ -2,8 +2,8 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
 from odoo.tests import common
-from datetime import datetime, timedelta
 from odoo import fields
+from datetime import datetime, timedelta
 
 
 class TestProjectEventCommon(common.TransactionCase):
@@ -12,15 +12,11 @@ class TestProjectEventCommon(common.TransactionCase):
         super(TestProjectEventCommon, self).setUp()
 
         # Usefull models
-        self.ActivityTemplate = self.env['activity.template']
-        self.EventTemplates = self.env['event.template']
-        self.TaskTemplate = self.env['task.template']
         self.Tasks = self.env['project.task']
         self.Partners = self.env['res.partner']
         self.Category = self.env['res.partner.category']
         self.Category_types = self.env['res.partner.category.type']
         self.Projects = self.env['project.project']
-        self.Tasks = self.env['project.task']
         self.Rooms = self.env['resource.calendar.room']
         self.Instruments = self.env['resource.calendar.instrument']
         self.Task_category = self.env['task.category']
@@ -181,16 +177,4 @@ class TestProjectEventCommon(common.TransactionCase):
             'date_start': fields.Datetime.to_string(datetime.today()),
             'date_end': fields.Datetime.to_string(datetime.today() +
                                                   timedelta(hours=4)),
-        })
-        self.activity_template_1 = self.ActivityTemplate.create({
-            'name': 'Activity Test Template Actions 1',
-            'temp_resp_id': self.responsible_1.id,
-            'room_id': self.room_1.id,
-            'notes': 'Some Activity Notes ...',
-        })
-        self.task_template_1 = self.TaskTemplate.create({
-            'name': 'Task Test Template Actions 1',
-            'temp_resp_id': self.responsible_1.id,
-            'room_id': self.room_1.id,
-            'notes': 'Some Task Notes ...',
         })
