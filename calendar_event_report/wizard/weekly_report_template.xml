@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="report.paperformat" id="paperformat_weekly_report">
+        <field name="name">paperformat.weekly.report</field>
+        <field name="default" eval="True"/>
+        <field name="format">A4</field>
+        <field name="page_width">0</field>
+        <field name="orientation">Portrait</field>
+        <field name="margin_top">30</field>
+        <field name="margin_right">5</field>
+        <field name="margin_bottom">30</field>
+        <field name="margin_left">5</field>
+        <field name="header_line" eval="False"/>
+        <field name="header_spacing">20</field>
+        <field name="dpi">90</field>
+    </record>
+
+    <report id="calendar_event_weekly_report"
+            model="weekly.report.wizard"
+            string="Calendar Event Weekly Report"
+            report_type="qweb-pdf"
+            name="calendar_event_report.calendar_weekly_report"
+            paperformat="paperformat_weekly_report"
+            menu="False"/>
+
+    <template id="calendar_event_report.calendar_weekly_report">
+        <div class="header" style="border-bottom: 2px solid black">
+            <h3 class="text-center">
+                <strong>Reservation Bookings Schedule </strong>
+            </h3>
+        </div>
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+            <h3 >
+                <t t-esc="room_name"/>
+            </h3>
+                <div class="page">
+                <h3 class="h3-report">Monday</h3>
+                <table class="table">
+                  <t t-foreach="docs" t-as="o">
+                    <t t-if="o['weekday']==0">
+                      <tr>
+                        <td>
+                         <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                         <span> to </span>
+                         <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                        </td>
+                        <td class="dt-report-left-80"> <span t-esc="o['name']"/> </td>
+                      </tr>
+                    </t>
+                  </t>
+                </table>
+                <h3 class="h3-report">Tuesday</h3>
+                <table class="table">
+                  <t t-foreach="docs" t-as="o">
+                    <t t-if="o['weekday']==1">
+                      <tr>
+                        <td>
+                         <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                         <span> to </span>
+                         <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                        </td>
+                        <td class="dt-report-left-80"> <span t-esc="o['name']"/> </td>
+                      </tr>
+                    </t>
+                  </t>
+                </table>
+                <h3 class="h3-report">Wednesday</h3>
+                <table class="table">
+                  <t t-foreach="docs" t-as="o">
+                    <t t-if="o['weekday']==2">
+                      <tr>
+                        <td>
+                         <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                         <span> to </span>
+                         <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                        </td>
+                        <td class="dt-report-left-80"> <span t-esc="o['name']"/> </td>
+                      </tr>
+                    </t>
+                  </t>
+                </table>
+                 <h3 class="h3-report">Thursday</h3>
+                <table class="table">
+                  <t t-foreach="docs" t-as="o">
+                    <t t-if="o['weekday']==3">
+                      <tr>
+                        <td>
+                         <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                         <span> to </span>
+                         <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                        </td>
+                        <td class="dt-report-left-80"> <span t-esc="o['name']"/> </td>
+                      </tr>
+                    </t>
+                  </t>
+                </table>
+                 <h3 class="h3-report">Friday</h3>
+                <table class="table">
+                  <t t-foreach="docs" t-as="o">
+                    <t t-if="o['weekday']==4">
+                      <tr>
+                        <td>
+                         <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                         <span> to </span>
+                         <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                        </td>
+                        <td class="dt-report-left-80"> <span t-esc="o['name']"/> </td>
+                      </tr>
+                    </t>
+                  </t>
+                </table>
+                 <h3 class="h3-report">Saturday</h3>
+                <table class="table">
+                  <t t-foreach="docs" t-as="o">
+                    <t t-if="o['weekday']==5">
+                      <tr>
+                        <td>
+                         <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                         <span> to </span>
+                         <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                        </td>
+                        <td class="dt-report-left-80"> <span t-esc="o['name']"/> </td>
+                      </tr>
+                    </t>
+                  </t>
+                </table>
+                 <h3 class="h3-report">Sunday</h3>
+                <table class="table">
+                  <t t-foreach="docs" t-as="o">
+                    <t t-if="o['weekday']==6">
+                      <tr>
+                        <td>
+                         <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                         <span> to </span>
+                         <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                        </td>
+                        <td class="dt-report-left-80"> <span t-esc="o['name']"/> </td>
+                      </tr>
+                    </t>
+                  </t>
+                </table>
+                </div>
+            <div class="footer">
+              <div class="text-left">
+                <span  t-esc="today"/>
+              </div>
+        </div>
+            </t>
+        </t>
+    </template>
+</odoo>

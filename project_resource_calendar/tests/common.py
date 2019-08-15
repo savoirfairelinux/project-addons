@@ -11,7 +11,6 @@ class TestCalendarEventCommon(common.TransactionCase):
 
         self.Rooms = self.env['resource.calendar.room']
         self.Instruments = self.env['resource.calendar.instrument']
-        self.WeeklyReportWizards = self.env['weekly.report.wizard']
         self.Partners = self.env['res.partner']
 
         self.room_1 = self.Rooms.create({
@@ -43,11 +42,6 @@ class TestCalendarEventCommon(common.TransactionCase):
             'room_id': self.room_1.id,
             'allow_double_book': True,
             'is_bookable': False,
-        })
-        self.weekly_report_wizard_common = self.WeeklyReportWizards.create({
-            'room_id': self.room_1.id,
-            'recurrency': True,
-            'state': 'open',
         })
         self.partner_1 = self.Partners.create({
             'name': 'Partner 1',

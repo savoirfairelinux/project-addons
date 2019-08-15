@@ -1,0 +1,233 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* calendar_event_report
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-08-15 16:11-0400\n"
+"PO-Revision-Date: 2019-08-15 16:16-0400\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"Last-Translator: Rim BEN DHAOU <rim.bendhaou@savoirfairelinux.com>\n"
+"Language: fr\n"
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.calendar_weekly_report
+msgid "<span> to </span>"
+msgstr ""
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.calendar_weekly_report
+msgid "<strong>Reservation Bookings Schedule </strong>"
+msgstr "<strong>Horaire des réservations </strong>"
+
+#. module: calendar_event_report
+#: model:ir.actions.report,name:calendar_event_report.calendar_event_report
+msgid "Calendar Event Report"
+msgstr "Rapport de réservation ponctuelle"
+
+#. module: calendar_event_report
+#: model:ir.actions.report,name:calendar_event_report.calendar_event_weekly_report
+msgid "Calendar Event Weekly Report"
+msgstr "Rapport d'événement hebdomadaire"
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.weekly_report_wizard_form_view
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: calendar_event_report
+#: selection:weekly.report.wizard,state:0
+msgid "Cancelled"
+msgstr "Annulé"
+
+#. module: calendar_event_report
+#: code:addons/calendar_event_report/models/ir_actions_report.py:37
+#, python-format
+msgid "Choose Your Document Layout"
+msgstr "Choisir la mise en page du document"
+
+#. module: calendar_event_report
+#: selection:weekly.report.wizard,state:0
+msgid "Confirmed"
+msgstr "Confirmé"
+
+#. module: calendar_event_report
+#: model:ir.model.fields,field_description:calendar_event_report.field_weekly_report_wizard_create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: calendar_event_report
+#: model:ir.model.fields,field_description:calendar_event_report.field_weekly_report_wizard_create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: calendar_event_report
+#: model:ir.model.fields,field_description:calendar_event_report.field_report_calendar_event_report_calendar_weekly_report_display_name
+#: model:ir.model.fields,field_description:calendar_event_report.field_weekly_report_wizard_display_name
+msgid "Display Name"
+msgstr "Nom à afficher"
+
+#. module: calendar_event_report
+#: model:ir.model.fields,field_description:calendar_event_report.field_weekly_report_wizard_date_end
+msgid "End Date"
+msgstr "Date de fin"
+
+#. module: calendar_event_report
+#: model:ir.model,name:calendar_event_report.model_calendar_event
+msgid "Event"
+msgstr "Événement"
+
+#. module: calendar_event_report
+#: model:ir.model.fields,field_description:calendar_event_report.field_calendar_event_formated_start
+msgid "Formated Start"
+msgstr "Heure de début"
+
+#. module: calendar_event_report
+#: model:ir.model.fields,field_description:calendar_event_report.field_calendar_event_formated_stop
+msgid "Formated Stop"
+msgstr "Heure de fin"
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.calendar_weekly_report
+msgid "Friday"
+msgstr "Vendredi"
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.calendar_event_report_view
+msgid "From:"
+msgstr "De:"
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.calendar_event_report_view
+msgid "From: 00:00 To: 23:59"
+msgstr "De: 00:00 À: 23:59"
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.weekly_report_wizard_form_view
+msgid "Get Report"
+msgstr "Obtenir rapport"
+
+#. module: calendar_event_report
+#: model:ir.model.fields,field_description:calendar_event_report.field_report_calendar_event_report_calendar_weekly_report_id
+#: model:ir.model.fields,field_description:calendar_event_report.field_weekly_report_wizard_id
+msgid "ID"
+msgstr "ID"
+
+#. module: calendar_event_report
+#: model:ir.model.fields,field_description:calendar_event_report.field_report_calendar_event_report_calendar_weekly_report___last_update
+#: model:ir.model.fields,field_description:calendar_event_report.field_weekly_report_wizard___last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: calendar_event_report
+#: model:ir.model.fields,field_description:calendar_event_report.field_weekly_report_wizard_write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: calendar_event_report
+#: model:ir.model.fields,field_description:calendar_event_report.field_weekly_report_wizard_write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.calendar_weekly_report
+msgid "Monday"
+msgstr "Lundi"
+
+#. module: calendar_event_report
+#: model:ir.model.fields,field_description:calendar_event_report.field_weekly_report_wizard_recurrency
+msgid "Recurrency"
+msgstr "Récurrence"
+
+#. module: calendar_event_report
+#: model:ir.ui.menu,name:calendar_event_report.menu_event_reports
+msgid "Reports"
+msgstr "Rapports"
+
+#. module: calendar_event_report
+#: model:ir.model.fields,field_description:calendar_event_report.field_weekly_report_wizard_room_id
+msgid "Room"
+msgstr "Salle"
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.calendar_weekly_report
+msgid "Saturday"
+msgstr "Samedi"
+
+#. module: calendar_event_report
+#: model:ir.model.fields,field_description:calendar_event_report.field_weekly_report_wizard_date_start
+msgid "Start Date"
+msgstr "Date de début"
+
+#. module: calendar_event_report
+#: model:ir.model.fields,field_description:calendar_event_report.field_weekly_report_wizard_state
+msgid "Status"
+msgstr "Statut"
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.calendar_weekly_report
+msgid "Sunday"
+msgstr "Dimanche"
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.calendar_weekly_report
+msgid "Thursday"
+msgstr "Jeudi"
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.calendar_event_report_view
+msgid "To:"
+msgstr "À:"
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.calendar_weekly_report
+msgid "Tuesday"
+msgstr "Mardi"
+
+#. module: calendar_event_report
+#: selection:weekly.report.wizard,state:0
+msgid "Unconfirmed"
+msgstr "Non confirmé"
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.calendar_weekly_report
+msgid "Wednesday"
+msgstr "Mercredi"
+
+#. module: calendar_event_report
+#: model:ir.actions.act_window,name:calendar_event_report.action_weekly_report_wizard
+#: model:ir.ui.menu,name:calendar_event_report.menu_weekly_report_wizard
+msgid "Weekly Events Report"
+msgstr "Rapport d'événements hebdomadaires"
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.calendar_event_report_view
+msgid "days)"
+msgstr "journées)"
+
+#. module: calendar_event_report
+#: model:ir.model,name:calendar_event_report.model_ir_actions_report
+msgid "ir.actions.report"
+msgstr "ir.actions.report"
+
+#. module: calendar_event_report
+#: model:ir.model,name:calendar_event_report.model_report_calendar_event_report_calendar_weekly_report
+msgid "report.calendar_event_report.calendar_weekly_report"
+msgstr "Rapport d'événement hebdomadaire"
+
+#. module: calendar_event_report
+#: model:ir.ui.view,arch_db:calendar_event_report.weekly_report_wizard_form_view
+msgid "weekly Event Report"
+msgstr "Rapport d'événement hebdomadaire"
+
+#. module: calendar_event_report
+#: model:ir.model,name:calendar_event_report.model_weekly_report_wizard
+msgid "weekly.report.wizard"
+msgstr "weekly.report.wizard"

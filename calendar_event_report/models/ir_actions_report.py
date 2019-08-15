@@ -1,4 +1,4 @@
-# Copyright 2018 Savoir-faire Linux
+# Copyright 2019 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from odoo import models, api, SUPERUSER_ID, _

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="weekly_report_wizard_form_view">
+        <field name="name">Weekly Events Report</field>
+        <field name="model">weekly.report.wizard</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="weekly Event Report">
+                <group>
+                    <group>
+                        <field name="date_start"/>
+                    </group>
+                    <group>
+                        <field name="date_end"/>
+                    </group>
+                    <group>
+                        <field name="room_id"/>
+                    </group>
+                     <group>
+                        <field name="recurrency"/>
+                    </group>
+                     <group>
+                        <field name="state"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="get_report" string="Get Report" type="object" class="oe_highlight"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <act_window id="action_weekly_report_wizard"
+                name="Weekly Events Report"
+                res_model="weekly.report.wizard"
+                view_mode="form"
+                src_model="calendar.event"
+                target="new"/>
+
+    <menuitem id="menu_event_reports"
+              name="Reports"
+              sequence="300"
+              action="action_weekly_report_wizard"
+              parent="calendar.mail_menu_calendar"
+              groups="project_resource_calendar.group_resource_calendar_manager"/>
+    
+    <menuitem action="action_weekly_report_wizard"
+              id="menu_weekly_report_wizard"
+              parent="menu_event_reports"/>
+    
+</odoo>
+

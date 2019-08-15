@@ -423,34 +423,6 @@ class TestSecurity(TestCalendarEventCommon):
                 event.sudo(self.user_manager.id).write({})
             )
 
-    def has_access_to_menu(self, user_id, menu_ref):
-        user = self.env['res.users'].browse(user_id)
-        for group in user.groups_id:
-            for m in group.menu_access:
-                if m.name == self.env.ref(menu_ref).name:
-                    return True
-        return False
-
-    def test_960_base_user_cannot_get_weekly_report_menu(self):
-        self.assertFalse(self.has_access_to_menu(
-            self.user_base.id,
-            'project_resource_calendar.menu_event_reports'))
-
-    def test_970_guest_user_cannot_get_weekly_report_menu(self):
-        self.assertFalse(self.has_access_to_menu(
-            self.user_guest.id,
-            'project_resource_calendar.menu_event_reports'))
-
-    def test_980_editor_user_cannot_get_weekly_report_menu(self):
-        self.assertFalse(self.has_access_to_menu(
-            self.user_editor.id,
-            'project_resource_calendar.menu_event_reports'))
-
-    def test_990_manager_user_can_get_weekly_report_menu(self):
-        self.assertTrue(self.has_access_to_menu(
-            self.user_manager.id,
-            'project_resource_calendar.menu_event_reports'))
-
     def test_420_base_user_cannot_delete_calendar_events(self):
         self.create_event(
             'Base user participant',

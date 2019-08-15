@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="calendar_event_report.event_report_view">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="calendar_event_report.calendar_event_report_view" t-lang="o.partner_id.lang"/>
+
+            </t>
+        </t>
+    </template>
+
+    <template id="calendar_event_report.calendar_event_report_view">
+        <t t-set="o" t-value="o.with_context({'lang':o.partner_id.lang})"/>
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <h2 class="h3-report">
+                    <t t-if="o.allday">
+                        <span t-esc="o.get_formatted_date(o.start_date, 'start_date', 1)"/>
+                    </t>
+                    <t t-else="">
+                        <span t-esc="o.get_formatted_date(o.start_datetime, 'start_datetime', 1)"/>
+                    </t>
+                </h2>
+                <p>
+                    <h2>
+                        <span t-field="o.room_id"/>
+                    </h2>
+                </p>
+                <table class="table">
+                    <tr>
+                        <td class="dt-left_align">
+                            <h4>
+                                <t t-if="o.allday">
+                                    <t t-set="today_days"
+                                       t-value="abs(datetime.datetime.strptime(o.stop_date,'%Y-%m-%d') - datetime.datetime.strptime(o.start_date,'%Y-%m-%d')).days"/>
+                                    <t t-if="today_days == 0">
+                                        From: 00:00 To: 23:59
+                                    </t>
+                                    <t t-else="">
+                                        <t t-set="field_start"
+                                           t-value="datetime.datetime.strptime(o.start_date, '%Y-%m-%d').strftime('%d %b')"/>
+                                        <t t-set="field_end"
+                                           t-value="datetime.datetime.strptime(o.start_date, '%Y-%m-%d').strftime('%d %b')"/>
+                                        From:
+                                        <span t-esc="field_start"/>
+                                        To:
+                                        <span t-esc="field_end"/>
+                                        (<span t-esc="today_days"/>days)
+                                    </t>
+                                </t>
+                                <t t-else="">
+                                    From:
+                                    <span t-esc="datetime.datetime.strptime(o.formated_start,'%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                                    To:
+                                    <span t-esc="datetime.datetime.strptime(o.formated_stop,'%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
+                                </t>
+                            </h4>
+                        </td>
+                        <td class="dt-center_align">
+                            <h4>
+                                <span t-field="o.name"/>
+                            </h4>
+                        </td>
+                        <td class="dt-right_align">
+                            <ul class="no_decoration_list_style">
+                                <t t-foreach="o.partner_ids" t-as="p">
+                                    <li><h4><t t-esc="p.name"/></h4></li>
+                                </t>
+                            </ul>
+                        </td>
+                    </tr>
+                </table>
+                <div class="report-footer">
+                    <h5>
+                        <span t-esc="o.get_formatted_date(datetime.datetime.now(), 'now', 0)"/>
+                    </h5>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
