@@ -15,7 +15,7 @@ class CalendarEvent(models.Model):
     )
     sector_id = fields.Many2one(
         'res.partner.sector',
-        string='Faculty Sectors',
+        string='Faculty Sector',
     )
     client_type = fields.Many2one(
         'res.partner.category.type',

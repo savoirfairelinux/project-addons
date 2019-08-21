@@ -36,6 +36,10 @@ class ProjectTaskWizard(models.TransientModel):
         'res.partner',
         string='Client',
     )
+    task_sector_id = fields.Many2one(
+        'res.partner.sector',
+        string='Faculty Sector',
+    )
     category_id = fields.Many2one(
         'task.category',
         string='Category',
@@ -55,6 +59,11 @@ class ProjectTaskWizard(models.TransientModel):
         ('equipment', 'Equipment'),
         ('room', 'Room')],
         string='Resource Type',
+    )
+    service_id = fields.Many2one(
+        string='Service',
+        comodel_name='resource.calendar.service',
+        ondelete='set null',
     )
     department_id = fields.Many2one(
         'hr.department',
@@ -119,6 +128,7 @@ class ProjectTaskWizard(models.TransientModel):
             'responsible_id': self.task_resp_id.id,
             'partner_id': self.task_partner_id.id,
             'client_type': self.task_partner_id.tag_id.client_type.id,
+            'sector_id': self.task_sector_id.id,
             'category_id': self.category_id.id,
             'resource_type': self.resource_type,
             'department_id': self.department_id.id,

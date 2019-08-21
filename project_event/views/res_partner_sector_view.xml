@@ -9,15 +9,15 @@
 
     <menuitem id="menu_partner_sector"
               action="action_partner_sector"
-              name="Faculty Sectors"
+              name="Faculty Sector"
               sequence="4" parent="contacts.res_partner_menu_config"
               groups="base.group_partner_manager"/>
 
-    <record id="res_partner_sector_for_view" model="ir.ui.view">
+    <record id="res_partner_sector_form_view" model="ir.ui.view">
         <field name="name">Sector Form</field>
         <field name="model">res.partner.sector</field>
         <field name="arch" type="xml">
-            <form string="Faculty Sectors">
+            <form string="Faculty Sector">
                 <sheet>
                     <group>
                         <field name="name"/>
@@ -27,11 +27,11 @@
         </field>
     </record>
 
-    <record id="res_partner_sector_for_tree_view" model="ir.ui.view">
+    <record id="res_partner_sector_tree_view" model="ir.ui.view">
         <field name="name">Sector Tree</field>
         <field name="model">res.partner.sector</field>
         <field name="arch" type="xml">
-            <tree string="Faculty Sectors">
+            <tree string="Faculty Sector">
                 <field name="name"/>
             </tree>
         </field>

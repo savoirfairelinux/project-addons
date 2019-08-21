@@ -123,7 +123,7 @@
                 <field name="code" string="Event Number"/>
                 <field name="name" string="Event Title"/>
                 <field name="partner_id" string="Client"/>
-                <field name="sector_id" string="Faculty Sectors"/>
+                <field name="sector_id" string="Faculty Sector"/>
             </search>
         </field>
     </record>

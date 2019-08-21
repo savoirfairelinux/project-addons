@@ -354,7 +354,7 @@
                 <field name="project_id" string="Event" eval="ref('project_event_activity_form')"/>
                 <field name="responsible_id" string="Activity Responsible"/>
                 <field name="partner_id" string="Task Client"/>
-                <field name="sector_id" string="Faculty Sectors"/>
+                <field name="sector_id" string="Faculty Sector"/>
             </search>
         </field>
     </record>
@@ -370,7 +370,7 @@
                 <field name="parent_id" string="Activity"/>
                 <field name="responsible_id" string="Task Responsible"/>
                 <field name="partner_id" string="Task Client"/>
-                <field name="sector_id" string="Faculty Sectors"/>
+                <field name="sector_id" string="Faculty Sector"/>
             </search>
         </field>
     </record>
