@@ -888,7 +888,7 @@ msgstr "Spectateurs"
 #. module: project_event
 #: code:addons/project_event/models/project_task.py:395
 #, python-format
-msgid "Spectators value should be in the range[-]"
+msgid "Spectators value should be in the range["
 msgstr "Le nombre de spectateurs doit être compris entre ["
 
 #. module: project_event

@@ -414,12 +414,9 @@ class Task(models.Model):
                 self.spectators = valid_spectators
             else:
                 raise ValidationError(
-                    _(
-                        'Spectators value should be in the range[' +
-                        str(MIN_SPECTATORS_VALUES_LIMIT) +
-                        '-' +
-                        str(MAX_SPECTATORS_VALUES_LIMIT) +
-                        ']'))
+                    _('Spectators value should be in the range[') +
+                    str(MIN_SPECTATORS_VALUES_LIMIT) +
+                    '-' + str(MAX_SPECTATORS_VALUES_LIMIT) + ']')
         else:
             self.spectators = '0'
 
