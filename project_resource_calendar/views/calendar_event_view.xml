@@ -77,7 +77,8 @@
                   <field name="client_id"
                             placeholder="Client"
                             required="1"
-                            attrs="{'readonly': [('is_task_event', '=', True)]}" />
+                            attrs="{'readonly': True}"
+                            options="{'no_open': True}"/>
                   <field name="resource_ids"
                            widget="many2many_tags"
                            placeholder="Select Resources"
@@ -92,6 +93,18 @@
                            class="oe_inline" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 </group>
             </xpath>
+        </field>
+    </record>
+
+    <record id="calendar_resource.view_calendar_event_form_inherit_editor_group" model="ir.ui.view">
+        <field name="name">calendar.event.form.inherit.editor.group</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar_resource.view_calendar_event_form"/>
+        <field name="groups_id" eval="[(6, 0, [ref('project_resource_calendar.group_resource_calendar_editor'), ref('project_resource_calendar.group_resource_calendar_manager')])]"/>
+        <field name="arch" type="xml">
+            <field name="client_id" position="attributes">
+                 <attribute name="attrs">{'readonly': [('is_task_event', '=', True)]}</attribute>
+            </field>
         </field>
     </record>
 
@@ -119,11 +132,13 @@
                 </div>
             </xpath>
             <xpath expr="//field[@name='partner_ids']" position="before">
-                <field name="client_id" required="1" invisible="1" class="oe_inline"/>
+                <field name="client_id" invisible="1" class="oe_inline"/>
             </xpath>
              <xpath expr="//field[@name='client_id']" position="attributes">
                  <attribute name="style">font-size: 13px;</attribute>
                  <attribute name="class">oe_inline</attribute>
+                 <attribute name="readonly">True</attribute>
+                 <attribute name="options">{'no_open': True}</attribute>
             </xpath>
             <field name="partner_ids" position="after">
                 <field name="resource_type" attrs="{'invisible': [('is_task_event','=',False)], 'readonly': [('is_task_event','=',True)]}"/>
@@ -172,6 +187,18 @@
                 <field name="recurrent_state" attrs="{'invisible': [('is_task_event','=',True)]}" readonly = "1"/>
                 <field name="recurrence_type" attrs="{'invisible': [('is_task_event','=',True)]}" readonly = "1"/>
             </xpath>
+        </field>
+    </record>
+
+    <record id="view_calendar_event_form_popup_inherit_editor_group" model="ir.ui.view">
+        <field name="name">calendar.event.form.popup.inherit.editor.group</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar_resource.view_calendar_event_form_popup"/>
+        <field name="groups_id" eval="[(6, 0, [ref('project_resource_calendar.group_resource_calendar_editor'), ref('project_resource_calendar.group_resource_calendar_manager')])]"/>
+        <field name="arch" type="xml">
+            <field name="client_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('is_task_event', '=', True)]}</attribute>
+            </field>
         </field>
     </record>
 
