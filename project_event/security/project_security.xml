@@ -3,7 +3,6 @@
 
     <record model="res.groups" id="base.group_user">
         <field name="menu_access" eval="[(3, ref('project_resource_calendar.menu_calendar_gantt'))]"/>
-    
     </record>
         <record id="project_resource_calendar.group_resource_calendar_user" model="res.groups">
         <field name="menu_access" eval="[(4, ref('project_resource_calendar.menu_calendar_gantt'))]"/>
