@@ -21,7 +21,6 @@ class Instrument(models.Model):
         ('equipment', 'Equipment'),
         ('consumable', 'Consumable'),
         ('instrument', 'Instrument'),
-        ('service', 'Service'),
     ],
         string='Type',
         index=True,
