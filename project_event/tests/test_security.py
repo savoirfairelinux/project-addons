@@ -349,8 +349,9 @@ class TestSecurity(TestProjectEventCommon):
             self.Task_category.search([]),
             self.Task_category.sudo(self.user_editor).search([]))
 
-    def test_660_project_editor_cannot_write_project_task_category(self):
-        self.user_cannot_write_project_task_category(self.user_editor)
+    def test_660_project_editor_can_write_project_task_category(self):
+        self.assertTrue(self.category_1.sudo(
+            self.user_editor.id).write({}))
 
     def test_670_project_editor_cannot_create_project_task_category(self):
         self.user_cannot_create_project_task_category(self.user_editor)
