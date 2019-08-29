@@ -86,6 +86,7 @@
                            invisible="1" attrs="{'readonly': [('is_task_event','=',True)]}"/>       
                   <field name="room_id"
                            placeholder="Select Room"
+                           required="1"
                            class="oe_inline" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                   <field name="equipment_ids"
                            widget="many2many_tags"
@@ -143,7 +144,8 @@
             <field name="partner_ids" position="after">
                 <field name="resource_type" attrs="{'invisible': [('is_task_event','=',False)], 'readonly': [('is_task_event','=',True)]}"/>
                 <field name="room_id"
-                       attrs="{'required':[('resource_type','=','room')], 'readonly': [('is_task_event','=',True)]}"
+                       required="1"
+                       attrs="{'readonly': [('is_task_event','=',True)]}"
                        options="{'no_open': True}"/>
                 <field name="equipment_ids"
                        attrs="{'required':[('resource_type','=','equipment')], 'readonly': [('is_task_event','=',True)]}"
