@@ -198,11 +198,20 @@
               <th>Resource</th>
             </tr>
             <t t-foreach="tasks_details" t-as="resource">
-              <tr>
-                <td> <t t-esc="resource['task']"/></td>
-                <td> <t t-esc="resource['resource_type']"/></td>
-                <td> <t t-raw="resource['resource']"/></td>
-              </tr>
+              <t t-if="resource['resource_type']=='Instrument'">
+                <tr>
+                  <td> <t t-esc="resource['task']"/></td>
+                  <td> <t t-esc="resource['resource_type']"/></td>
+                  <td> <t t-raw="resource['resource']"/></td>
+                </tr>
+              </t>
+              <t t-if="resource['resource_type']=='Equipment'">
+                <tr>
+                  <td> <t t-esc="resource['task']"/></td>
+                  <td> <t t-esc="resource['resource_type']"/></td>
+                  <td> <t t-raw="resource['resource']"/></td>
+                </tr>
+              </t>
             </t>
           </table>
         </div>
