@@ -154,6 +154,11 @@ msgid "Activity Responsible"
 msgstr "Responsable de l'activité"
 
 #. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
+msgid "Activity code:"
+msgstr "Code de l'activité :"
+
+#. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_tree
 #: model:ir.ui.view,arch_db:project_event.project_event_form
 msgid "Activity title"

@@ -40,6 +40,7 @@
         <table class="table">
           <tr>
             <td>Activity: <t t-esc="name"/>  </td>
+            <td>Activity code: <t t-esc="activity_code"/></td>
           </tr>
           <tr>
             <td width="50%">Date: <t t-esc="datetime.datetime.strptime(start, '%Y-%m-%d %H:%M:%S').strftime('%Y-%m-%d')"/>
