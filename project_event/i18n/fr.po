@@ -535,11 +535,11 @@ msgstr "Horaire Prévu"
 #: model:ir.ui.menu,name:project_event.menu_partner_sector
 #: model:ir.ui.view,arch_db:project_event.project_activity_search
 #: model:ir.ui.view,arch_db:project_event.project_task_search
-#: model:ir.ui.view,arch_db:project_event.res_partner_sector_for_tree_view
-#: model:ir.ui.view,arch_db:project_event.res_partner_sector_for_view
+#: model:ir.ui.view,arch_db:project_event.res_partner_sector_tree_view
+#: model:ir.ui.view,arch_db:project_event.res_partner_sector_form_view
 #: model:ir.ui.view,arch_db:project_event.view_project_project_search
-msgid "Faculty Sectors"
-msgstr "Secteur"
+msgid "Faculty Sector"
+msgstr "Secteur de la factulté"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_calendar_event_font_color

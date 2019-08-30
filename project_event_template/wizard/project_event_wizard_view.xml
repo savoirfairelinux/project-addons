@@ -22,6 +22,7 @@
                     <field name="name"/>
                     <field name="event_resp_id"/>
                     <field name="event_partner_id"/>
+                    <field name="event_sector_id"/>
                 </group>
                 <notebook>
                     <page string="Description">
@@ -51,6 +52,7 @@
                             <field name="name"/>
                             <field name="activity_resp_id"/>
                             <field name="activity_partner_id"/>
+                            <field name="activity_sector_id"/>
                             <field name="category_id"/>
                             <field name="room_id"/>
                             <field name="department_id"/>
@@ -63,6 +65,7 @@
                                 <field name="name"/>
                                 <field name="activity_resp_id"/>
                                 <field name="activity_partner_id"/>
+                                <field name="activity_sector_id"/>
                                 <field name="category_id"/>
                                 <field name="room_id"/>
                                 <field name="department_id"/>
@@ -98,9 +101,11 @@
                             <field name="resource_type"/>
                             <field name="equipment_id" string="Equipment"/>
                             <field name="room_id" string="Room"/>
+                            <field name="service_id" string="Service"/>
                             <field name="task_name"/>
                             <field name="task_resp_id"/>
                             <field name="task_partner_id"/>
+                            <field name="task_sector_id"/>
                             <field name="category_id"/>
                             <field name="department_id"/>
                             <field name="employee_ids"/>
@@ -116,9 +121,11 @@
                                 <field name="resource_type"/>
                                 <field name="equipment_id" string="Equipment" attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
                                 <field name="room_id" string="Room" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
+                                <field name="service_id" string="Service"/>
                                 <field name="task_name"/>
                                 <field name="task_resp_id"/>
                                 <field name="task_partner_id"/>
+                                <field name="task_sector_id"/>
                                 <field name="category_id"/>
                                 <field name="department_id"/>
                                 <field name="employee_ids"/>
@@ -170,6 +177,7 @@
                     <field name="name"/>
                     <field name="activity_resp_id"/>
                     <field name="activity_partner_id"/>
+                    <field name="activity_sector_id"/>
                     <field name="category_id"/>
                     <field name="department_id"/>
                     <field name="room_id"/>
@@ -208,9 +216,11 @@
                             <field name="resource_type"/>
                             <field name="equipment_id"/>
                             <field name="room_id"/>
+                            <field name="service_id"/>
                             <field name="task_name"/>
                             <field name="task_resp_id"/>
                             <field name="task_partner_id"/>
+                            <field name="task_sector_id"/>
                             <field name="category_id"/>
                             <field name="department_id"/>
                             <field name="employee_ids"/>
@@ -226,9 +236,11 @@
                                 <field name="resource_type"/>
                                 <field name="equipment_id" string="Equipment" attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])]}"/>
                                 <field name="room_id" string="Room" attrs="{'required':[('resource_type','=','room')], 'invisible':[('resource_type','in',['equipment','user'])]}"/>
+                                <field name="service_id" string="Service"/>
                                 <field name="task_name"/>
                                 <field name="task_resp_id"/>
                                 <field name="task_partner_id"/>
+                                <field name="task_sector_id"/>
                                 <field name="category_id"/>
                                 <field name="department_id"/>
                                 <field name="employee_ids"/>
@@ -283,6 +295,7 @@
                     <field name="service_id" string="Service"/>
                     <field name="task_resp_id"/>
                     <field name="task_partner_id"/>
+                    <field name="task_sector_id"/>
                     <field name="category_id"/>
                     <field name="department_id"/>
                     <field name="employee_ids"/>

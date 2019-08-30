@@ -25,6 +25,10 @@ class ProjectEventWizard(models.TransientModel):
         'res.partner',
         string='Client',
     )
+    event_sector_id = fields.Many2one(
+        'res.partner.sector',
+        string='Faculty Sector',
+    )
     event_notes = fields.Html(
         string='Notes',
     )
@@ -64,6 +68,8 @@ class ProjectEventWizard(models.TransientModel):
                 self.event_resp_id.id or act.temp_resp_id.id,
                 'activity_partner_id': self.event_partner_id and
                 self.event_partner_id.id or False,
+                'activity_sector_id': self.event_sector_id and
+                self.event_sector_id.id or False,
                 'category_id': act.category_id.id,
                 'description': act.description,
                 'notes': act.notes,
@@ -98,12 +104,15 @@ class ProjectEventWizard(models.TransientModel):
                     act.activity_resp_id.id or task.temp_resp_id.id,
                     'task_partner_id': act.activity_partner_id and
                     act.activity_partner_id.id or False,
+                    'task_sector_id': act.activity_sector_id and
+                    act.activity_sector_id.id or False,
                     'category_id': task.category_id.id,
                     'resource_type': task.resource_type,
                     'equipment_id': task.equipment_id.id,
                     'room_id': (
                         act.room_id and act.room_id.id or task.room_id.id
                     ) if task.resource_type == 'room' else False,
+                    'service_id': task.service_id.id,
                     'department_id': task.department_id.id,
                     'employee_ids': [(4, e.id) for e in task.employee_ids],
                     'duration': task.duration,
@@ -132,6 +141,7 @@ class ProjectEventWizard(models.TransientModel):
             'responsible_id': self.event_resp_id.id,
             'partner_id': self.event_partner_id.id,
             'client_type': self.event_partner_id.tag_id.client_type.id,
+            'sector_id': self.event_sector_id.id,
             'notes': self.event_notes,
             'project_type': 'event',
         }
@@ -146,6 +156,7 @@ class ProjectEventWizard(models.TransientModel):
                 'responsible_id': act.activity_resp_id.id,
                 'partner_id': act.activity_partner_id.id,
                 'client_type': self.event_partner_id.tag_id.client_type.id,
+                'sector_id': act.activity_sector_id.id,
                 'category_id': act.category_id.id,
                 'activity_task_type': 'activity',
                 'room_id': act.room_id.id,
@@ -165,6 +176,7 @@ class ProjectEventWizard(models.TransientModel):
                          'partner_id': task.task_partner_id.id,
                          'client_type': self.event_partner_id.tag_id
                             .client_type.id,
+                         'sector_id': task.task_sector_id.id,
                          'category_id': task.category_id.id,
                          'department_id': task.department_id.id,
                          'employee_ids':
@@ -172,6 +184,7 @@ class ProjectEventWizard(models.TransientModel):
                          'resource_type': task.resource_type,
                          'equipment_id': task.equipment_id.id,
                          'room_id': task.room_id.id,
+                         'service_id': task.service_id.id,
                          'date_start': (
                              fields.Datetime.from_string(
                                  act.date_start) + relativedelta(

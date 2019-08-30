@@ -186,7 +186,7 @@ class Task(models.Model):
     )
     sector_id = fields.Many2one(
         'res.partner.sector',
-        string='Faculty Sectors',
+        string='Faculty Sector',
         track_visibility='onchange',
     )
     category_id = fields.Many2one(

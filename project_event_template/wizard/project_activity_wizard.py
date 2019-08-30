@@ -29,6 +29,10 @@ class ProjectActivityWizard(models.TransientModel):
         'res.partner',
         string='Client',
     )
+    activity_sector_id = fields.Many2one(
+        'res.partner.sector',
+        string='Faculty Sector',
+    )
     category_id = fields.Many2one(
         'task.category',
         string='Category',
@@ -108,12 +112,17 @@ class ProjectActivityWizard(models.TransientModel):
                 self.activity_partner_id and
                 self.activity_partner_id.id or
                 False,
+                'task_sector_id':
+                self.activity_sector_id and
+                self.activity_sector_id.id or
+                False,
                 'category_id': task.category_id.id,
                 'resource_type': task.resource_type,
                 'equipment_id': task.equipment_id.id,
                 'room_id': (
                     self.room_id and self.room_id.id or task.room_id.id
                 ) if task.resource_type == 'room' else False,
+                'service_id': task.service_id.id,
                 'department_id': task.department_id.id,
                 'employee_ids': [(4, e.id) for e in task.employee_ids],
                 'duration': task.duration,
@@ -144,6 +153,7 @@ class ProjectActivityWizard(models.TransientModel):
             'responsible_id': self.activity_resp_id.id,
             'partner_id': self.activity_partner_id.id,
             'client_type': self.activity_partner_id.tag_id.client_type.id,
+            'sector_id': self.activity_sector_id.id,
             'category_id': self.category_id.id,
             'activity_task_type': 'activity',
             'room_id': self.room_id.id,
@@ -162,12 +172,14 @@ class ProjectActivityWizard(models.TransientModel):
                      'responsible_id': task.task_resp_id.id,
                      'partner_id': task.task_partner_id.id,
                      'client_type': task.task_partner_id.tag_id.client_type.id,
+                     'sector_id': task.task_sector_id.id,
                      'category_id': task.category_id.id,
                      'department_id': task.department_id.id,
                      'employee_ids': [(4, e.id) for e in task.employee_ids],
                      'resource_type': task.resource_type,
                      'equipment_id': task.equipment_id.id,
                      'room_id': task.room_id.id,
+                     'service_id': task.service_id.id,
                      'date_start': (
                          fields.Datetime.from_string(
                              self.date_start) + relativedelta(
