@@ -11,7 +11,8 @@ class ReportWeekly(models.AbstractModel):
 
     @api.model
     def get_report_values(self, docids, data=None):
-        today = datetime.now().date().strftime("%d-%m-%Y")
+        today = self.get_tz_format(datetime.now().
+                                   strftime("%Y-%m-%d %H:%M:%S"))
         # **self.get_activities_values(docids)[0] --> for 1 activity
         # TO DO: for multiple activities
         docs = {
@@ -26,6 +27,7 @@ class ReportWeekly(models.AbstractModel):
         for activity in activities:
             activities_docs.append({
                 'name': activity.name,
+                'activity_code': activity.code,
                 'client_id': activity.partner_id.name,
                 'client_phone': activity.partner_id.phone,
                 'client_type': activity.client_type,
