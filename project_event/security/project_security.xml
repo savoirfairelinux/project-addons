@@ -65,6 +65,15 @@
         <field name="groups" eval="[(4, ref('group_project_event_user'))]"/>
     </record>
 
+    <record id="project_event_own_orphan_task_access" model="ir.rule">
+        <field name="name">Own orphan tasks</field>
+        <field name="model_id" ref="project.model_project_task"/>
+        <field name="domain_force">[
+            ('activity_task_type', 'ilike', 'task'),('parent_id','=',False),('employee_ids', 'in', user.employee_ids.id)]
+        </field>
+        <field name="groups" eval="[(4, ref('group_project_event_user'))]"/>
+    </record>
+
     <record id="project_event_all_activity_task_access" model="ir.rule">
         <field name="name">All event activity-s task</field>
         <field name="model_id" ref="project.model_project_task"/>
