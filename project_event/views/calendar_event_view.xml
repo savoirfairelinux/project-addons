@@ -4,7 +4,7 @@
             model="ir.ui.view">
         <field name="name">calendar.event.form.inherit</field>
         <field name="model">calendar.event</field>
-        <field name="inherit_id" ref="calendar_resource.view_calendar_event_form"/>
+        <field name="inherit_id" ref="project_resource_calendar.view_calendar_event_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='client_id']" position="after">
                 <field name="client_tag" 
@@ -30,7 +30,7 @@
             model="ir.ui.view">
         <field name="name">calendar.event.form.popup.inherit</field>
         <field name="model">calendar.event</field>
-        <field name="inherit_id" ref="calendar_resource.view_calendar_event_form_popup"/>
+        <field name="inherit_id" ref="project_resource_calendar.view_calendar_event_form_popup"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='client_id']" position="after">
                 <field name="client_tag" placeholder="Client Tag"  readonly="1"/>
