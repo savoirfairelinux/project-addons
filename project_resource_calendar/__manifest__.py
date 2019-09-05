@@ -13,8 +13,6 @@
     'depends': [
         'auditlog',
         'calendar_resource',
-        'resource',
-        'calendar',
         'hr',
         'web_timeline',
         'web',

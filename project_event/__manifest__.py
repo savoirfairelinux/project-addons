@@ -11,12 +11,9 @@
     'category': 'Project Management',
     'summary': 'Project Event module',
     'depends': [
-        'base',
-        'auditlog',
         'contacts',
         'project',
         'mail',
-        'hr',
         'project_resource_calendar',
         'web_widget_color',
         'web_widget_table',

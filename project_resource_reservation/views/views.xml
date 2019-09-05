@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="project_resource_reservation.list">
+      <field name="name">project_resource_reservation list</field>
+      <field name="model">project_resource_reservation.project_resource_reservation</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="project_resource_reservation.action_window">
+      <field name="name">project_resource_reservation window</field>
+      <field name="res_model">project_resource_reservation.project_resource_reservation</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="project_resource_reservation.action_server">
+      <field name="name">project_resource_reservation server</field>
+      <field name="model_id" ref="model_project_resource_reservation_project_resource_reservation"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="project_resource_reservation" id="project_resource_reservation.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="project_resource_reservation.menu_1" parent="project_resource_reservation.menu_root"/>
+    <menuitem name="Menu 2" id="project_resource_reservation.menu_2" parent="project_resource_reservation.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="project_resource_reservation.menu_1_list" parent="project_resource_reservation.menu_1"
+              action="project_resource_reservation.action_window"/>
+    <menuitem name="Server to list" id="project_resource_reservation" parent="project_resource_reservation.menu_2"
+              action="project_resource_reservation.action_server"/>
+    -->
+  </data>
+</odoo>
