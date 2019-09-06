@@ -19,6 +19,7 @@ MSG_CONTINUE = 'Do you want to continue?'
 
 
 class Task(models.Model):
+    _name = 'project.production.task'
     _inherit = ['project.task']
     _rec_name = 'complete_name'
 
@@ -52,6 +53,10 @@ class Task(models.Model):
     notes = fields.Html(
         string='Notes',
         track_visibility='onchange',
+    )
+    project_task_log = fields.Integer(
+        string='Project Task Logs',
+        compute='_compute_project_task_log',
     )
     asterisk_validate_record = fields.Char(
         string='*',
@@ -361,6 +366,13 @@ class Task(models.Model):
             else:
                 task.complete_name = task.name
 
+    def _compute_project_task_log(self):
+        for rec in self:
+            rec.project_task_log = self.env['auditlog.log'].search_count([
+                ('model_id', '=', self.env.ref(
+                    'project.model_project_task').id),
+                ('res_id', '=', rec.id)
+            ])
 
     def _compute_asterisk_column(self):
         for rec in self:

@@ -1,0 +1,60 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition -->
+    <!--
+    <record model="ir.ui.view" id="project_production.list">
+      <field name="name">project_production list</field>
+      <field name="model">project_production.project_production</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="value"/>
+          <field name="value2"/>
+        </tree>
+      </field>
+    </record>
+    -->
+
+    <!-- actions opening views on models -->
+    <!--
+    <record model="ir.actions.act_window" id="project_production.action_window">
+      <field name="name">project_production window</field>
+      <field name="res_model">project_production.project_production</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+    -->
+
+    <!-- server action to the one above -->
+    <!--
+    <record model="ir.actions.server" id="project_production.action_server">
+      <field name="name">project_production server</field>
+      <field name="model_id" ref="model_project_production_project_production"/>
+      <field name="state">code</field>
+      <field name="code">
+        action = {
+          "type": "ir.actions.act_window",
+          "view_mode": "tree,form",
+          "res_model": self._name,
+        }
+      </field>
+    </record>
+    -->
+
+    <!-- Top menu item -->
+    <!--
+    <menuitem name="project_production" id="project_production.menu_root"/>
+    -->
+    <!-- menu categories -->
+    <!--
+    <menuitem name="Menu 1" id="project_production.menu_1" parent="project_production.menu_root"/>
+    <menuitem name="Menu 2" id="project_production.menu_2" parent="project_production.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="project_production.menu_1_list" parent="project_production.menu_1"
+              action="project_production.action_window"/>
+    <menuitem name="Server to list" id="project_production" parent="project_production.menu_2"
+              action="project_production.action_server"/>
+    -->
+  </data>
+</odoo>

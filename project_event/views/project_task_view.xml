@@ -21,16 +21,6 @@
                     <field name="task_state" widget="statusbar" statusbar_visible="draft,option,approved,postponed,canceled"/>
                 </header>
                 <sheet>
-                    <div align="right">
-                        <div name="button_box" position="inside">
-                            <button class="oe_stat_button" type="action"
-                                    name="%(project_event.action_project_task_auditlog_log)d"
-                                    icon="fa-history"
-                                    context="{'search_default_res_id': active_id}">
-                                <field string="Activity Logs" name="project_task_log" widget="statinfo"/>
-                            </button>
-                        </div>
-                    </div>
                     <div>
                         <h1>
                             <field name="name"/>
@@ -161,16 +151,7 @@
                            invisible="1"/>
                 </header>
                 <sheet>
-                    <div align="right">
-                        <div name="button_box" position="inside">
-                            <button class="oe_stat_button" type="action"
-                                    name="%(project_event.action_project_task_auditlog_log)d"
-                                    icon="fa-history"
-                                    context="{'search_default_res_id': active_id}">
-                                <field string="Task Logs" name="project_task_log" widget="statinfo"/>
-                            </button>
-                        </div>
-                    </div>
+
                     <div>
                         <h1>
                             <field name="name" attrs="{'readonly': [('task_state', 'in', ['done','accepted'])]}"/>
