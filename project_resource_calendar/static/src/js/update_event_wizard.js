@@ -73,45 +73,6 @@ odoo.define('project_resource_calendar.WizardCalendarController', function (requ
                     }
                 });
             }
-            else if (self.modelName == 'project.task') {
-                self._rpc({
-                    model: 'project.task',
-                    method: 'get_double_booked_resources',
-                    args: [record.id,
-                           false,
-                           false,
-                           false,
-                           record._start.add(-self.getSession().getTZOffset(record._start), 'minutes').format("YYYY-MM-DD HH:mm:ss"),
-                           record._end.add(-self.getSession().getTZOffset(record._end), 'minutes').format("YYYY-MM-DD HH:mm:ss"),
-                          ],
-                }).then(function (booked_resources) {
-                    if(booked_resources.length != 0) {
-
-                        var message = _t('The following resources are booked:<br/>');
-                        booked_resources.forEach(function (resource){
-                            message = message + resource + '<br/>';
-                        });
-                        message = message + _t('Do you want to continue?');
-                        new Dialog(this, {
-                            size: 'large',
-                            title : _t("Please Confirm your reservation"),
-                            $content: $('<div>', {
-                                html: message,
-                            }),
-                            buttons: [
-                                {text: _t('Continue'), classes : "btn-primary", click: function() {
-                                    self.model.updateRecord(record).always(self.reload.bind(self));
-                                }, close:true},
-                                {text: _t("Cancel"), click: function() {
-                                    self.reload();
-                                },close: true}
-                            ],
-                        }).open();
-                    } else {
-                        self.model.updateRecord(record).always(self.reload.bind(self));
-                    }
-                });
-            }
         },
     });
 });

@@ -18,7 +18,7 @@ MSG_CONFIRM = 'Please confirm your reservation.<br>'
 MSG_CONTINUE = 'Do you want to continue?'
 
 
-class Task(models.Model):
+class ProjectProductionTask(models.Model):
     _name = 'project.production.task'
     _inherit = ['project.task']
     _rec_name = 'complete_name'
@@ -710,10 +710,6 @@ class Task(models.Model):
         self.open_resources_reservation()
         self.write({'task_state': 'done'})
         self.send_message('done')
-
-    @api.multi
-    def action_request(self):
-        return self.get_confirmation_wizard('request')
 
     @api.multi
     def action_option(self):
