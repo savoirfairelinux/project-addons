@@ -96,11 +96,13 @@ class Project(models.Model):
 
     @api.multi
     def action_accept(self):
-        return self.get_confirmation_wizard('accept')
+        #validation wizard
+        pass 
 
     @api.multi
     def action_option(self):
-        return self.get_confirmation_wizard('option')
+        #validation wizard
+        pass
 
     @api.multi
     def action_postpone(self):
@@ -150,33 +152,6 @@ class Project(models.Model):
             pass
         child.open_resources_reservation()
         child.write({'task_state': 'requested'})
-
-
-    def get_confirmation_wizard(self, action):
-        res = ''
-        for activity in self.task_ids:
-            res += activity.get_booked_resources()
-        if res != '':
-            res = _('The following resources are already booked:<br>') + res
-        message = _('Please confirm your reservation.<br>') + res + _(
-            'Do you want to continue?')
-        new_wizard = self.env['reservation.validation.wiz'].create(
-            {
-                'event_id': self.id,
-                'message': message,
-                'action': action,
-            }
-        )
-
-        return {
-            'name': 'Confirm reservation',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'reservation.validation.wiz',
-            'target': 'new',
-            'res_id': new_wizard.id,
-        }
 
     @api.multi
     def map_tasks(self, new_project_id):

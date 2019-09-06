@@ -13,10 +13,6 @@ HOURS_IN_DAY = 24
 MIN_SPECTATORS_VALUES_LIMIT = 0
 MAX_SPECTATORS_VALUES_LIMIT = 1000000
 
-MSG_RES = 'The following resources are already booked:<br>'
-MSG_CONFIRM = 'Please confirm your reservation.<br>'
-MSG_CONTINUE = 'Do you want to continue?'
-
 
 class Task(models.Model):
     _inherit = ['project.task']
@@ -700,11 +696,13 @@ class Task(models.Model):
 
     @api.multi
     def action_request(self):
-        return self.get_confirmation_wizard('request')
+        #confirmation wizard
+        pass
 
     @api.multi
     def action_option(self):
-        return self.get_confirmation_wizard('option')
+        #confirmationwizard
+        pass
 
     @api.multi
     def action_return_option(self):
@@ -715,99 +713,6 @@ class Task(models.Model):
                 child.do_clone_task_reservation()
         else:
             self.do_clone_task_reservation()
-
-    def get_booked_resources(self):
-        res = ''
-        if self.is_type_task() and self.is_resource_booked():
-            res += self.room_id.name + '<br>' if (
-                self.room_id) else self.equipment_id.name + '<br>'
-        for attendee in self.get_partners():
-            hres = self.is_hr_resource_double_booked(attendee)
-            partner_attendee = self.env['res.partner'].browse(attendee)
-            if hres and partner_attendee:
-                res += partner_attendee.name + '<br>'
-        if self.is_activity():
-            for child in self.child_ids:
-                if child.is_resource_booked():
-                    res += child.room_id.name + \
-                        ' - ' + child.date_start + \
-                        ' - ' + child.date_end + \
-                        ' - ' + child.code + \
-                        '<br>' if child.room_id else (
-                            child.equipment_id.name + ' - ' +
-                            child.date_start + ' - ' + child.date_end +
-                            ' - ' + child.code + '<br>')
-                for attendee in child.get_partners():
-                    hres = child.is_hr_resource_double_booked(attendee)
-                    attendee_partner = self.env['res.partner'].browse(attendee)
-                    if hres and attendee_partner:
-                        res += attendee_partner.name + \
-                            ' - ' + child.date_start + \
-                            ' - ' + child.date_end + \
-                            ' - ' + child.code + \
-                            '<br>'
-        return res
-
-    def get_double_booked_resources(self, room_id=None,
-                                    equipment_id=None,
-                                    employee_ids=None,
-                                    date_start=None, date_end=None):
-
-        booked_resources = []
-        if not date_end and not date_start:
-            date_start = self.date_start
-            date_end = self.date_end
-
-        if not room_id:
-            room_id = self.room_id.id
-
-        if not equipment_id:
-            equipment_id = self.equipment_id.id
-
-        if not employee_ids:
-            partner_ids = self.get_partners()
-        else:
-            partner_ids = self.get_partners(employee_ids)
-
-        if self.room_id:
-            overlaps = self.env['calendar.event'].search([
-                ('room_id', '=', room_id),
-                ('start', '<', date_end),
-                ('stop', '>', date_start),
-                ('state', '!=', 'cancelled'),
-            ])
-            overlaps_ids = overlaps.ids
-            for overlap_id in overlaps_ids:
-                if self.env['calendar.event']\
-                        .browse(overlap_id).event_task_id.id == self.id:
-                    overlaps_ids.remove(overlap_id)
-            if len(overlaps_ids) > 0:
-                booked_resources.append(self.env['resource.calendar.room']
-                                        .browse(room_id).name)
-
-        overlaps_equipment = self.env['calendar.event'].search([
-            ('equipment_ids', 'in', [equipment_id]),
-            ('start', '<', date_end),
-            ('stop', '>', date_start),
-            ('state', '!=', 'cancelled'),
-        ])
-        overlaps_equipment_ids = overlaps_equipment.ids
-        for overlap_equipment_id in overlaps_equipment_ids:
-            if self.env['calendar.event']\
-                    .browse(overlap_equipment_id)\
-                    .event_task_id.id == self.id:
-                overlaps_equipment_ids.remove(overlap_equipment_id)
-        if len(overlaps_equipment_ids) > 0:
-            booked_resources.append(self.env['resource.calendar.instrument']
-                                        .browse(equipment_id).name)
-
-        for attendee in partner_ids:
-            h_res = self.is_hr_resource_double_booked(attendee)
-            partner_attendee = self.env['res.partner'].browse(attendee)
-            if h_res and partner_attendee:
-                booked_resources.append(partner_attendee.name)
-
-        return booked_resources
 
     @api.multi
     def get_partners(self, employee_ids=None):
@@ -953,7 +858,8 @@ class Task(models.Model):
 
     @api.multi
     def action_accept(self):
-        return self.get_confirmation_wizard('accept')
+        #confirmation wizard
+        pass
 
     @api.multi
     def action_read(self):
@@ -1001,76 +907,6 @@ class Task(models.Model):
             pass
         child.open_resources_reservation()
         child.write({'task_state': 'requested'})
-
-    def is_resource_booked(self):
-        if self.room_id:
-            overlaps = self.env['calendar.event'].search([
-                ('room_id', '=', self.room_id.id),
-                ('start', '<', self.date_end),
-                ('stop', '>', self.date_start),
-                ('state', '!=', 'cancelled'),
-            ])
-            overlaps_ids = overlaps.ids
-            for calendar_event in overlaps_ids:
-                if self.env['calendar.event'] \
-                        .browse(calendar_event).event_task_id.id == self.id:
-                    overlaps_ids.remove(calendar_event)
-            if len(overlaps_ids) > 0:
-                return True
-        if self.equipment_id:
-            overlaps_equipment = self.env['calendar.event'].search([
-                ('equipment_ids', 'in', [self.equipment_id.id]),
-                ('start', '<', self.date_end),
-                ('stop', '>', self.date_start),
-                ('state', '!=', 'cancelled'),
-            ])
-            if len(overlaps_equipment) > 0:
-                return True
-        return False
-
-    def is_hr_resource_double_booked(self, attendee,
-                                     date_start=None, date_end=None):
-        if not date_start and not date_end:
-            date_start = self.date_start
-            date_end = self.date_end
-        overlaps_partners = self.env['calendar.event'].search([
-            ('partner_ids', 'in', attendee),
-            ('start', '<', date_end),
-            ('stop', '>', date_start),
-            ('state', '!=', 'cancelled'),
-        ])
-
-        overlaps_partners_ids = overlaps_partners.ids
-        for overlap_partner_id in overlaps_partners_ids:
-            if self.env['calendar.event']\
-                    .browse(overlap_partner_id).event_task_id.id == self.id:
-                overlaps_partners_ids.remove(overlap_partner_id)
-
-        return len(overlaps_partners_ids) > 0
-
-    @api.multi
-    def get_confirmation_wizard(self, action):
-        self.ensure_one()
-        res = self.get_booked_resources()
-        if res != '':
-            res = _(MSG_RES) + res
-        message = _(MSG_CONFIRM) + res + _(MSG_CONTINUE)
-        new_wizard = self.env['reservation.validation.wiz'].create(
-            {
-                'task_id': self.id,
-                'message': message,
-                'action': action,
-            }
-        )
-        return {
-            'name': 'Confirm reservation',
-            'type': 'ir.actions.act_window',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'res_model': 'reservation.validation.wiz',
-            'target': 'new',
-            'res_id': new_wizard.id,
-        }
 
     @staticmethod
     def check_task_state(task_state_in):
