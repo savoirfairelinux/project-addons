@@ -9,12 +9,7 @@ class TestProjectEvent(TestProjectEventCommon):
 
     def setUp(self):
         super(TestProjectEvent, self).setUp()
-        self.AuditLogObj = self.env['auditlog.log']
 
-        self.AuditLogObj.create({
-            'model_id': self.env.ref('project.model_project_project').id,
-            'res_id': self.project_1.id,
-        })
 
     def test_010_compute_log_count(self):
         self.assertEqual(self.project_1.event_log_count, 3)
