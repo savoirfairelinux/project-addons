@@ -697,7 +697,6 @@ class Task(models.Model):
     def action_done(self):
         self.open_resources_reservation()
         self.write({'task_state': 'done'})
-        self.send_message('done')
 
     @api.multi
     def action_request(self):
@@ -714,10 +713,8 @@ class Task(models.Model):
             for child in self.child_ids:
                 child.write({'task_state': 'option'})
                 child.do_clone_task_reservation()
-                child.send_message('option')
         else:
             self.do_clone_task_reservation()
-            self.send_message('option')
 
     def get_booked_resources(self):
         res = ''
@@ -920,7 +917,7 @@ class Task(models.Model):
     def do_task_reservation(self):
         self.draft_resources_reservation()
         if self.task_state not in ['option', 'done']:
-            self.send_message('option')
+            pass
         self.write({'task_state': 'option'})
         self.do_clone_task_reservation()
 
@@ -930,7 +927,6 @@ class Task(models.Model):
         if self.is_activity():
             for child in self.child_ids:
                 child.do_task_reservation()
-            self.send_message('option')
             self.write({'task_state': 'option'})
         else:
             self.draft_resources_reservation()
@@ -942,7 +938,6 @@ class Task(models.Model):
         if self.is_type_task() and \
                 self.task_state in ['requested', 'read', 'postponed',
                                     'accepted', 'option']:
-            self.send_message('canceled')
             self.cancel_resources_reservation()
             self.reservation_event_id = False
             self.write({'task_state': 'canceled'})
@@ -950,7 +945,6 @@ class Task(models.Model):
             if self.task_state == 'approved':
                 for child in self.child_ids:
                     child.action_cancel()
-                self.send_message('canceled')
                 self.write({'task_state': 'canceled'})
             elif self.task_state == 'option':
                 for child in self.child_ids:
@@ -970,12 +964,11 @@ class Task(models.Model):
     def action_postpone(self):
         if self.is_type_task() and self.task_state in \
                 ['requested', 'read', 'canceled', 'accepted']:
-            self.send_message('postponed')
+            pass
         elif self.is_activity():
             if self.task_state == 'approved':
                 for child in self.child_ids:
                     child.action_postpone()
-                self.send_message('postponed')
             elif self.task_state == 'option':
                 for child in self.child_ids:
                     child.action_postpone()
@@ -986,7 +979,7 @@ class Task(models.Model):
         self.draft_resources_reservation()
         if self.is_type_task() and\
                 self.check_task_state(self.task_state):
-            self.send_message('requested')
+            pass
         self.open_resources_reservation()
         self.write({'task_state': 'requested'})
 
@@ -1000,58 +993,14 @@ class Task(models.Model):
         self.open_resources_reservation()
         if self.is_type_task():
             self.write({'task_state': 'accepted'})
-            self.send_message('accepted')
+            pass
 
     def child_reservation(self, child):
         child.draft_resources_reservation()
         if self.check_task_state(child.task_state):
-            child.send_message('requested')
+            pass
         child.open_resources_reservation()
         child.write({'task_state': 'requested'})
-
-    @staticmethod
-    def get_message_body_task(action):
-        switcher = {
-            'draft': ' ',
-            'option': _('The following is optional and \
-                        appears as crosshatched on your calendar'),
-            'requested': _('The following is requested'),
-            'accepted': _('The following is approved'),
-            'read': ' ',
-            'postponed': _('The following is postponed \
-                        and no longer appear on your calendars'),
-            'done': _('The following is done'),
-            'canceled': _('The following is canceled\
-                         and no longer on your calendars')
-        }
-        return switcher.get(action)
-
-    def get_message(self, action):
-        message = '<br>'
-        if self.is_activity():
-            message += _('Activity: <br>') + self.name + '<br>'
-            message += _('Tasks: <br>')
-            for index_task, task in enumerate(self.child_ids):
-                message += task.name
-                if index_task < len(self.child_ids) - 1:
-                    message += ', '
-        elif self.activity_task_type == 'task':
-            message += _('Task: <br>') + self.name
-        return {
-            'body': self.get_message_body_task(action) + message,
-            'channel_ids': [(6, 0, self.message_channel_ids.ids)],
-            'email_from': 'Administrator <admin@yourcompany.example.com>',
-            'message_type': 'notification',
-            'model': 'project.task',
-            'partner_ids': [(6, 0, self.message_partner_ids.ids)],
-            'record_name': self.name,
-            'reply_to': 'Administrator <admin@yourcompany.example.com>',
-            'res_id': self.id,
-            'subject': self.code
-        }
-
-    def send_message(self, action):
-        self.env['mail.message'].create(self.get_message(action))
 
     def is_resource_booked(self):
         if self.room_id:
@@ -1127,17 +1076,6 @@ class Task(models.Model):
     def check_task_state(task_state_in):
         return task_state_in in \
             ['draft', 'option', 'postponed', 'canceled']
-
-    @api.multi
-    def _message_track(self, tracked_fields, initial):
-        mail_track = super()._message_track(tracked_fields, initial)
-        changes = mail_track[0]
-        tracking_value_ids = mail_track[1]
-        if self.activity_task_type == 'activity':
-            tracking_value_ids = self.order_activity_fields(tracking_value_ids)
-        elif self.activity_task_type == 'task':
-            tracking_value_ids = self.order_task_fields(tracking_value_ids)
-        return changes, tracking_value_ids
 
     @staticmethod
     def order_activity_fields(tracking_values):

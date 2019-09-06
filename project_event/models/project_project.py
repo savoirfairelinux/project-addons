@@ -89,7 +89,7 @@ class Project(models.Model):
     @api.multi
     def action_cancel(self):
         if self.state == 'approved':
-            self.send_message('canceled')
+            pass
         for activity in self.task_ids:
             activity.action_cancel()
         self.write({'state': 'canceled'})
@@ -105,7 +105,7 @@ class Project(models.Model):
     @api.multi
     def action_postpone(self):
         if self.state == 'approved':
-            self.send_message('postponed')
+            pass
         for activity in self.task_ids:
             activity.action_postpone()
         self.write({'state': 'postponed'})
@@ -135,11 +135,11 @@ class Project(models.Model):
                     'draft', 'option', 'postponed', 'canceled']:
                 for child in activity.child_ids:
                     self.child_reservation(child)
-                activity.send_message('requested')
+                pass
             activity.open_resources_reservation()
             activity.write({'task_state': 'approved'})
         if self.state in ['draft', 'option', 'postponed', 'canceled']:
-            self.send_message('approved')
+            pass
         self.write({'state': 'approved'})
 
     @staticmethod
@@ -147,51 +147,10 @@ class Project(models.Model):
         child.draft_resources_reservation()
         if child.task_state in ['draft', 'option', 'postponed',
                                 'canceled']:
-            child.send_message('requested')
+            pass
         child.open_resources_reservation()
         child.write({'task_state': 'requested'})
 
-    @staticmethod
-    def get_message_body(action):
-        switcher = {
-            'draft': ' ',
-            'option': _('The following is optional and \
-                        appears as crosshatched on your calendar'),
-            'approved': _('The following is approved'),
-            'postponed': _('The following is postponed \
-                        and no longer appear on your calendars'),
-            'canceled': _('The following is canceled\
-                         and no longer on your calendars')
-        }
-        return switcher.get(action)
-
-    def get_message(self, action):
-        mail_channel = 'project.mail_channel_project_task_event'
-        message = _('<br>Event: <br>') + self.name + '<br>'
-        for activity in self.task_ids:
-            message += _('Activity: ') + activity.name + _('<br> Tasks: ')
-            for index_task, task in enumerate(activity.child_ids):
-                message += task.name
-                if index_task < len(activity.child_ids) - 1:
-                    message += ', '
-                else:
-                    message += '<br>'
-        return {
-            'body': self.get_message_body(action) + message,
-            'channel_ids': [(6, 0, [self.env.ref
-                                    (mail_channel).id])],
-            'email_from': 'Administrator <admin@yourcompany.example.com>',
-            'message_type': 'notification',
-            'model': 'project.project',
-            'partner_ids': [(6, 0, [self.responsible_id.id])],
-            'record_name': self.name,
-            'reply_to': 'Administrator <admin@yourcompany.example.com>',
-            'res_id': self.id,
-            'subject': self.code
-        }
-
-    def send_message(self, action):
-        self.env['mail.message'].create(self.get_message(action))
 
     def get_confirmation_wizard(self, action):
         res = ''
@@ -233,13 +192,6 @@ class Project(models.Model):
             tasks += task.copy(defaults)
         return self.browse(new_project_id)
 
-    @api.multi
-    def _message_track(self, tracked_fields, initial):
-        mail_track = super()._message_track(tracked_fields, initial)
-        changes = mail_track[0]
-        tracking_value_ids = mail_track[1]
-        order_fields = self.order_event_fields(tracking_value_ids)
-        return changes, order_fields
 
     @staticmethod
     def order_event_fields(tracking_values):
