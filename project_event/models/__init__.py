@@ -7,7 +7,6 @@ from . import project_task
 from . import account_analytic_account
 from . import mail_activity
 from . import calendar_event
-from . import mail_tracking_value
 from . import mail_followers
 from . import res_partner
 from . import res_partner_category
