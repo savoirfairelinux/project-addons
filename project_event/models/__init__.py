@@ -4,7 +4,6 @@
 from . import task_category
 from . import project_project
 from . import project_task
-from . import account_analytic_account
 from . import mail_activity
 from . import calendar_event
 from . import mail_followers
