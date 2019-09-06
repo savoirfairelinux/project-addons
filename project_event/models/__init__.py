@@ -6,7 +6,6 @@ from . import project_project
 from . import project_task
 from . import mail_activity
 from . import calendar_event
-from . import mail_followers
 from . import res_partner
 from . import res_partner_category
 from . import res_partner_category_type
