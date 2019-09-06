@@ -12,5 +12,4 @@ from . import res_partner_category
 from . import res_partner_category_type
 from . import res_partner_sector
 from . import models
-from . import hr_timesheet
 from . import hr_department
