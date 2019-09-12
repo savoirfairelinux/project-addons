@@ -6,6 +6,8 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+from .states.project_task_state import Draft
+from .states.state_factory import StateFactory
 
 MINUTES_IN_HOUR = 60
 CONVERT_SECONDS_TO_MINUTE = 60
@@ -252,7 +254,40 @@ class Task(models.Model):
     parent_id_project_id = fields.Many2one(
         related='parent_id.project_id',
         string="Event"
-    )
+        )      
+
+    def action_done(self):
+        self.open_resources_reservation()
+        self.write({'task_state': 'done'})
+        self.send_message('done')
+
+    @api.multi
+    def action_request(self):
+        return self.get_confirmation_wizard('request')
+
+    @api.multi
+    def change_state(self, context={}):
+        current_state = StateFactory().get_state(self.task_state)
+        return current_state.change_state(
+            self,
+            StateFactory().get_state(
+                context.get('task_state')).__class__)
+
+    @api.multi
+    def action_option(self):
+        return self.get_confirmation_wizard('option')
+
+    @api.multi
+    def action_return_option(self):
+        self.write({'task_state': 'option'})
+        if self.is_activity():
+            for child in self.child_ids:
+                child.write({'task_state': 'option'})
+                child.do_clone_task_reservation()
+                child.send_message('option')
+        else:
+            self.do_clone_task_reservation()
+            self.send_message('option')
 
     def format_date(self, date_to_format, format_str='dd-MMMM-yyyy HH:mm:ss'):
         lang = self.env['res.users'].browse(self.env.uid).lang or 'en_US'
@@ -704,31 +739,6 @@ class Task(models.Model):
             - datetime.strptime(activity_ds, format)
         return time_diff.days * HOURS_IN_DAY * MINUTES_IN_HOUR \
             + time_diff.seconds / CONVERT_SECONDS_TO_MINUTE
-
-    def action_done(self):
-        self.open_resources_reservation()
-        self.write({'task_state': 'done'})
-        self.send_message('done')
-
-    @api.multi
-    def action_request(self):
-        return self.get_confirmation_wizard('request')
-
-    @api.multi
-    def action_option(self):
-        return self.get_confirmation_wizard('option')
-
-    @api.multi
-    def action_return_option(self):
-        self.write({'task_state': 'option'})
-        if self.is_activity():
-            for child in self.child_ids:
-                child.write({'task_state': 'option'})
-                child.do_clone_task_reservation()
-                child.send_message('option')
-        else:
-            self.do_clone_task_reservation()
-            self.send_message('option')
 
     def get_booked_resources(self):
         res = ''

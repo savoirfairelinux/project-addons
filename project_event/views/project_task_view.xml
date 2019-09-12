@@ -127,11 +127,13 @@
         <field name="arch" type="xml">
             <form string="Task">
                 <header>
-                    <button name="action_option" string="Option" attrs="{'invisible': [('task_state', '!=', 'draft')]}"
+                    <button name="change_state" string="Option" attrs="{'invisible': [('task_state', '!=', 'draft')]}"
                             type="object"
+                            context="{'task_state': 'option' }"
                             groups="project_event.group_project_event_editor"/>
                     <button name="action_return_option" string="Return to Option" attrs="{'invisible': [('task_state', 'in', ['draft', 'option', 'done'])]}"
                             type="object"
+                            context="{'task_state': 'option' }"
                             groups="project_event.group_project_event_editor"/>
                     <button name="action_request" string="Request"
                             attrs="{'invisible': [('task_state', 'in', ['requested','accepted','done'])]}"
