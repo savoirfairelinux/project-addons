@@ -45,6 +45,10 @@ class ProjectActivityWizard(models.TransientModel):
         'hr.department',
         string='Main task department',
     )
+    service_id = fields.Many2one(
+        'resource.calendar.service',
+        string='Main task service',
+    )
     duration = fields.Integer(
         string='Duration',
         help="In minutes",
@@ -82,6 +86,7 @@ class ProjectActivityWizard(models.TransientModel):
             self.category_id = self.template_id.category_id
             self.room_id = self.template_id.room_id
             self.department_id = self.template_id.department_id
+            self.service_id = self.template_id.service_id
             self.duration = self.template_id.duration
             self.description = self.template_id.description
             self.notes = self.template_id.notes
@@ -158,6 +163,7 @@ class ProjectActivityWizard(models.TransientModel):
             'activity_task_type': 'activity',
             'room_id': self.room_id.id,
             'department_id': self.department_id.id,
+            'service_id': self.service_id.id,
             'date_start': self.date_start,
             'date_end': fields.Datetime.from_string(
                 self.date_start) + relativedelta(minutes=self.duration),
