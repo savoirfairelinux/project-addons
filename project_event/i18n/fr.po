@@ -914,7 +914,7 @@ msgstr "Heure Début"
 #: model:ir.model.fields,field_description:project_event.field_project_task_task_state_report_not_done_required
 #: model:ir.ui.view,arch_db:project_event.project_event_form
 msgid "State"
-msgstr "Région"
+msgstr "Statut"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_succeeding_task_ids
