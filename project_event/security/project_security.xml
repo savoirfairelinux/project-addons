@@ -92,17 +92,6 @@
         <field name="active">False</field>
     </record>
 
-    <record id="project_event_editor_room_readonly_access" model="ir.rule">
-        <field name="name">Project event editor readonly access to rooms</field>
-        <field name="model_id" ref="project_resource_calendar.model_resource_calendar_room"/>
-        <field name="domain_force">[(1,'=',1)]</field>
-        <field name="groups" eval="[(4, ref('group_project_event_editor'))]"/>
-        <field eval="0" name="perm_unlink"/>
-        <field eval="0" name="perm_write"/>
-        <field eval="1" name="perm_read"/>
-        <field eval="0" name="perm_create"/>
-    </record>
-
     <record id="project_event_manager_room_all_access" model="ir.rule">
         <field name="name">Project event manager all access to rooms</field>
         <field name="model_id" ref="project_resource_calendar.model_resource_calendar_room"/>
@@ -130,14 +119,26 @@
         <field name="groups" eval="[(4,ref('base.group_user'))]"/>
         <field name="active">False</field>
     </record>
-    <record id="calendar_event_access_project_editor_manager_all" model="ir.rule">
-        <field name="name">Calendar Event all access to editor and manager</field>
+
+    <record id="calendar_event_access_project_manager_all" model="ir.rule">
+        <field name="name">Calendar Event all access manager</field>
         <field name="model_id" ref="calendar.model_calendar_event"/>
         <field name="domain_force">[(1,'=',1)]</field>
-        <field name="groups" eval="[(4, ref('group_project_event_editor')),   (4, ref('group_project_event_manager'))]"/>
+        <field name="groups" eval="[(4, ref('group_project_event_manager'))]"/>
         <field eval="1" name="perm_unlink"/>
         <field eval="1" name="perm_write"/>
         <field eval="1" name="perm_read"/>
         <field eval="1" name="perm_create"/>
+    </record>
+
+    <record id="calendar_event_access_project_editor_all" model="ir.rule">
+        <field name="name">All Calendar Event read access to editor</field>
+        <field name="model_id" ref="calendar.model_calendar_event"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('group_project_event_editor'))]"/>
+        <field eval="0" name="perm_unlink"/>
+        <field eval="0" name="perm_write"/>
+        <field eval="1" name="perm_read"/>
+        <field eval="0" name="perm_create"/>
     </record>
 </odoo>
