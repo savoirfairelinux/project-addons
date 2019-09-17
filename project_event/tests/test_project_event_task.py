@@ -177,7 +177,9 @@ class TestProjectEventTask(TestProjectEventCommon):
             self.check_reservation_event_state(task, 1, 'open')
 
     def check_action_return_option(self, task):
-        task.action_return_option()
+        res = task.action_return_option()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_reservation()
         self.assertEqual(task.task_state, 'option')
         self.check_reservation_event_state(task, 1, 'draft')
 
@@ -505,7 +507,9 @@ class TestProjectEventTask(TestProjectEventCommon):
 
     def test_180_check_clone_task_calendar_event(self):
         self.task_1.request_reservation()
-        self.task_1.action_return_option()
+        res = self.task_1.action_return_option()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_reservation()
         calendar_event = self.task_1.get_calendar_event()
         self.assertEqual(
             calendar_event.state,
@@ -516,7 +520,9 @@ class TestProjectEventTask(TestProjectEventCommon):
         self.activity_1.request_reservation()
         for child in self.activity_1.child_ids:
             child.request_reservation()
-        self.activity_1.action_return_option()
+        res = self.activity_1.action_return_option()
+        wiz = self.env['reservation.validation.wiz'].browse(res['res_id'])
+        wiz.confirm_reservation()
         for child in self.activity_1.child_ids:
             calendar_event = child.get_calendar_event()
             self.assertEqual(calendar_event.state, 'draft')
