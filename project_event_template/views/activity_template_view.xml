@@ -17,6 +17,7 @@
                             <field name="event_template_ids" string="Templates Events"/>
                             <field name="category_id"/>
                             <field name="department_id"/>
+                            <field name="service_id"/>
                         </group>
                         <group>
                             <field name="room_id"/>

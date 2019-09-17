@@ -63,6 +63,7 @@ class ProjectEventWizard(models.TransientModel):
                 'event_wizard_id': self.id,
                 'room_id': act.room_id.id,
                 'department_id': act.department_id.id,
+                'service_id': act.service_id.id,
                 'duration': act.duration,
                 'activity_resp_id': self.event_resp_id and
                 self.event_resp_id.id or act.temp_resp_id.id,
@@ -161,6 +162,7 @@ class ProjectEventWizard(models.TransientModel):
                 'activity_task_type': 'activity',
                 'room_id': act.room_id.id,
                 'department_id': act.department_id.id,
+                'service_id': act.service_id.id,
                 'date_start': act.date_start,
                 'date_end': fields.Datetime.from_string(
                     act.date_start) + relativedelta(minutes=act.duration),

@@ -539,7 +539,7 @@ msgstr "Horaire Prévu"
 #: model:ir.ui.view,arch_db:project_event.res_partner_sector_form_view
 #: model:ir.ui.view,arch_db:project_event.view_project_project_search
 msgid "Faculty Sector"
-msgstr "Secteur de la factulté"
+msgstr "Secteur de la faculté"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_calendar_event_font_color

@@ -35,6 +35,10 @@ class ActivityTemplate(models.Model):
         'hr.department',
         string='Main task department',
     )
+    service_id = fields.Many2one(
+        'resource.calendar.service',
+        string='Main task service',
+    )
     duration = fields.Float(
         string='Duration',
         help="In minutes",

@@ -363,6 +363,20 @@ msgid "Main task department"
 msgstr "Département de la tâche principale"
 
 #. module: project_event_template
+#: model:ir.model.fields,field_description:project_event_template.field_activity_template_service_id
+#: model:ir.model.fields,field_description:project_event_template.field_project_activity_wizard_service_id
+msgid "Main task service"
+msgstr "Service de la tâche principale"
+
+#. module: project_event_template
+#: model:ir.model.fields,field_description:project_event_template.field_project_task_wizard_task_sector_id
+#: model:ir.model.fields,field_description:project_event_template.field_project_event_wizard_event_sector_id
+#: model:ir.model.fields,field_description:project_event_template.field_project_activity_wizard_activity_sector_id
+msgid "Faculty Sector"
+msgstr "Secteur de la faculté"
+
+
+#. module: project_event_template
 #: model:ir.model.fields,field_description:project_event_template.field_activity_template_name
 #: model:ir.model.fields,field_description:project_event_template.field_event_template_name
 #: model:ir.model.fields,field_description:project_event_template.field_task_template_name
