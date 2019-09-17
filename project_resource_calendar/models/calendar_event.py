@@ -316,17 +316,17 @@ class CalendarEvent(models.Model):
     @api.multi
     @api.constrains('room_id', 'equipment_ids')
     def _check_resources_is_bookable(self):
+        msg = ''
         for record in self:
             for equipment in record.equipment_ids:
                 if not equipment.is_bookable:
-                    raise ValidationError(str(equipment.name)
-                                          + ': ' + self.get_error_type(
-                                              'RESOURCE_TYPE_ERROR'))
-
+                    msg += str(equipment.name) + ': ' + \
+                        self.get_error_type('RESOURCE_TYPE_ERROR') + '\n'
             if record.room_id and not record.room_id.is_bookable:
-                raise ValidationError(str(record.room_id.name)
-                                      + ': ' + self.get_error_type(
-                                          'ROOM_TYPE_ERROR'))
+                msg += str(record.room_id.name) + ': ' + \
+                    self.get_error_type('ROOM_TYPE_ERROR') + '\n'
+        if msg != '':
+            raise ValidationError(msg)
 
     @api.onchange('room_id')
     def _onchange_room_id(self):
