@@ -299,14 +299,14 @@ class CalendarEvent(models.Model):
                         self.format_date(overlap.stop))
         if equipment:
             for resource in overlap.mapped(lambda s: s.equipment_ids):
-                if resource.id in event.equipment_ids.ids:
+                if resource.id in equipment.ids:
                     message += self.fill_validation_message(
                         resource.name,
                         self.format_date(overlap.start),
                         self.format_date(overlap.stop))
         if attendees:
             for resource in overlap.mapped(lambda s: s.partner_ids):
-                if resource.id in event.partner_ids.ids:
+                if resource.id in attendees.ids:
                     message += self.fill_validation_message(
                         resource.name,
                         self.format_date(overlap.start),

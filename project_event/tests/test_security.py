@@ -56,6 +56,8 @@ class TestSecurity(TestProjectEventCommon):
             'start': fields.Datetime.to_string(datetime.today()),
             'stop': fields.Datetime.to_string(datetime.today() +
                                               timedelta(hours=4)), }
+        self.PROJECT_EVENT_EDITOR.write(
+            {'room_ids': [(6, 0, [self.room_1.id])]})
 
     def get_user_acls_and_rules_to_model(self, user, model):
         rules = self.get_rules_applied_to_user_and_model(user, model)
@@ -374,10 +376,11 @@ class TestSecurity(TestProjectEventCommon):
         self.assertTrue(
             self.category_2.sudo(self.user_manager).unlink())
 
-    def test_730_project_editor_can_read_resource_calendar_room(self):
+    def test_730_project_editor_can_read_resource_calendar_room_in_his_grps(
+            self):
         self.get_user_acls_and_rules_to_model(self.user_editor, self.Rooms)
         self.assertEqual(
-            self.Rooms.search([]),
+            self.room_1,
             self.Rooms.sudo(self.user_editor.id).search([]))
 
     def test_740_project_editor_cannot_write_resource_calendar_room(self):
@@ -391,7 +394,9 @@ class TestSecurity(TestProjectEventCommon):
 
     def test_760_project_editor_cannot_delete_resource_calendar_room(self):
         with self.assertRaises(exceptions.AccessError):
-            self.Rooms.sudo(self.user_editor.id).search([]).unlink()
+            self.Rooms.sudo(
+                self.user_editor.id).browse(
+                self.room_1.id).unlink()
 
     def test_770_project_manager_can_read_resource_calendar_room(self):
         self.get_user_acls_and_rules_to_model(self.user_manager, self.Rooms)
@@ -490,15 +495,25 @@ class TestSecurity(TestProjectEventCommon):
             self.Events.search([]))
 
     def test_930_user_editor_can_create_calendar_event(self):
-        evemt_created = self.Events.sudo(
-            self.user_editor.id).create(self.event_vals)
+        vals = self.event_vals
+        vals['client_id'] = self.user_editor.partner_id.id
+        vals['partner_ids'] = [(6, 0, [self.user_editor.partner_id.id])]
+        vals['room_id'] = self.room_1.id
+        event_created = self.Events.sudo(
+            self.user_editor.id).create(vals)
         self.assertIsInstance(
-            evemt_created,
+            event_created,
             type(self.Events))
 
     def test_940_user_editor_can_delete_calendar_event(self):
+        vals = self.event_vals
+        vals['client_id'] = self.user_editor.partner_id.id
+        vals['partner_ids'] = [(6, 0, [self.user_editor.partner_id.id])]
+        vals['room_id'] = self.room_1.id
+        event_created = self.Events.sudo(
+            self.user_editor.id).create(vals)
         self.assertTrue(
-            self.Events.sudo(self.user_editor.id).search([]).unlink())
+            event_created.unlink())
 
     def test_950_user_manager_can_read_calendar_event(self):
         self.get_user_acls_and_rules_to_model(self.user_manager, self.Events)
