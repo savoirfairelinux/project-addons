@@ -733,8 +733,15 @@ class Task(models.Model):
     def get_booked_resources(self):
         res = ''
         if self.is_type_task() and self.is_resource_booked():
-            res += self.room_id.name + '<br>' if (
-                self.room_id) else self.equipment_id.name + '<br>'
+            if self.room_id:
+                res += self.room_id.name + '<br>'
+                room_instruments = self.env['resource.calendar.room']\
+                    .browse(self.room_id.id).instruments_ids
+                if len(room_instruments) > 0:
+                    for instrument in room_instruments:
+                        res += instrument.name + '<br>'
+            else:
+                res += self.equipment_id.name + '<br>'
         for attendee in self.get_partners():
             hres = self.is_hr_resource_double_booked(attendee)
             partner_attendee = self.env['res.partner'].browse(attendee)
