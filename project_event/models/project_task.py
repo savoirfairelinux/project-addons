@@ -267,10 +267,13 @@ class Task(models.Model):
 
     @api.multi
     def change_state(self, context={}):
-        current_state = StateFactory().get_state(self.task_state)
+        import ipdb; ipdb.set_trace()
+        state_factory = self.env['state.factory']
+        current_state = state_factory.get_state_instance(
+            self.task_state)
         return current_state.change_state(
             self,
-            StateFactory().get_state(
+            state_factory.get_state_instance(
                 context.get('task_state')).__class__)
 
     @api.multi

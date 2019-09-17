@@ -9,7 +9,7 @@ class ReservationValidationWiz(models.TransientModel):
     _name = 'reservation.validation.wiz'
     _description = __doc__
 
-    task_id = fields.Many2one(
+    subject_id = fields.Many2one(
         'project.task',
         string='Task',
     )
@@ -31,10 +31,10 @@ class ReservationValidationWiz(models.TransientModel):
 
     @api.multi
     def confirm_reservation(self):
-        if self.task_id:
-            reservation = self.env['command.reserve'].execute(self.task_id)
+        if self.subject_id:
+            self.subject_id.do_reservation()
         else:
-            for activity in self.event_id.task_ids:
+            for activity in self.event_id.subject_ids:
                 activity.do_reservation()
             if self.event_id.state == 'accepted':
                 self.event_id.send_message('option')
@@ -42,12 +42,12 @@ class ReservationValidationWiz(models.TransientModel):
 
     @api.multi
     def confirm_request_reservation(self):
-        if self.task_id:
-            self.task_id.confirm_reservation()
+        if self.subject_id:
+            self.subject_id.confirm_reservation()
 
     @api.multi
     def confirm_accept_reservation(self):
-        if self.task_id:
-            self.task_id.confirm_accept_reservation()
+        if self.subject_id:
+            self.subject_id.confirm_accept_reservation()
         else:
             self.event_id.confirm_accept_reservation()

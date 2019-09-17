@@ -32,7 +32,7 @@ class ReservationValidationWiz(models.TransientModel):
     @api.multi
     def confirm_reservation(self):
         if self.task_id:
-            reservation = self.env['command.reserve'].execute(self.task_id)
+            self.task_id.do_reservation()
         else:
             for activity in self.event_id.task_ids:
                 activity.do_reservation()

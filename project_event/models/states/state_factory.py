@@ -1,22 +1,22 @@
-from .project_task_state import Draft, Option,\
-     Postponed, Read, Done, Accepted, Canceled, Requested
+from odoo import fields, models, api, _
 
-class StateFactory:
-    @staticmethod
-    def get_state(state):
+
+class StateFactory(models.AbstractModel):
+    _name  = 'state.factory'
+    def get_state_instance(self, state):
         if state == 'draft':
-            return Draft()
+            return self.env['task.state.draft']
         if state == 'option':
-            return Option()
+            return self.env['task.state.option']
         if state == 'postponed':
-            return Postponed()
+            return self.env['task.state.postponed']
         if state == 'read':
-            return Read()
-        if state == 'Done':
-            return Done()
+            return self.env['task.state.read']
+        if state == 'done':
+            return self.env['task.state.done']
         if state == 'accepted':
-            return Accepted()
+            return self.env['task.state.accepted']
         if state == 'canceled':
-            return Canceled()
+            return self.env['task.state.canceled']
         if state == 'requested':
-            return Requested()
+            return self.env['task.state.requested']

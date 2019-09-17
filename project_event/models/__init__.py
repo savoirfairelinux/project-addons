@@ -19,3 +19,4 @@ from . import hr_timesheet
 from . import hr_department
 from . import states
 from . import commands
+from . import reservation
