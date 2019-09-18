@@ -279,6 +279,11 @@ class Task(models.Model):
                  self.format_date(self.date_end))
                 )
 
+    @api.multi
+    def subscribe_employees_to_task(self):
+        if self.get_partners():
+            self.message_subscribe(list(self.get_partners()), force=False)
+
     @api.model
     def create(self, vals):
         if self.is_new_activity(vals):
@@ -943,6 +948,7 @@ class Task(models.Model):
             self.send_message('option')
             self.write({'task_state': 'option'})
         else:
+            self.subscribe_employees_to_task()
             self.draft_resources_reservation()
             self.do_task_reservation()
             self.write({'task_state': 'option'})
