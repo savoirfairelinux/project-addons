@@ -80,11 +80,6 @@
                             required="1"
                             attrs="{'readonly': True}"
                             options="{'no_open': True}"/>
-                  <field name="resource_ids"
-                           widget="many2many_tags"
-                           placeholder="Select Resources"
-                           class="oe_inline"
-                           invisible="1" attrs="{'readonly': [('is_task_event','=',True)]}"/>       
                   <field name="room_id"
                            placeholder="Select Room"
                            required="1"
@@ -94,6 +89,10 @@
                            placeholder="Select Equipment"
                            class="oe_inline" attrs="{'readonly': [('is_task_event','=',True)]}"/>
                 </group>
+            </xpath>
+            <xpath expr="//field[@name='resource_ids']" position="replace">
+            </xpath>
+            <xpath expr="//label[@for='resource_ids']" position="replace">
             </xpath>
         </field>
     </record>
@@ -156,10 +155,6 @@
                  <attribute name="class">oe_inline</attribute>
                  <attribute name="style">font-size: 13px;</attribute>
             </xpath>
-            <field name="resource_ids" position="attributes">
-                <attribute name="invisible">True</attribute>
-                 <attribute name="class">oe_inline</attribute>
-            </field>
             <xpath expr="//field[@name='alarm_ids']" position="after">
                 <field name="partner_id" attrs="{'invisible': [('is_task_event','=',True)]}" options="{'no_open': True}"/>
             </xpath>
@@ -190,6 +185,8 @@
                 <field name="recurrent_state" attrs="{'invisible': [('is_task_event','=',True)]}" readonly = "1"/>
                 <field name="recurrence_type" attrs="{'invisible': [('is_task_event','=',True)]}" readonly = "1"/>
             </xpath>
+            <xpath expr="//field[@name='resource_ids']" position="replace">
+            </xpath>
         </field>
     </record>
 
@@ -202,6 +199,7 @@
             <field name="client_id" position="attributes">
                 <attribute name="attrs">{'readonly': [('is_task_event', '=', True)]}</attribute>
             </field>
+            
         </field>
     </record>
 

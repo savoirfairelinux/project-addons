@@ -34,10 +34,9 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='client_id']" position="after">
                 <field name="client_tag" placeholder="Client Tag"  readonly="1"/>
-            </xpath>
-            <xpath expr="//field[@name='resource_ids']" position="after">
                 <field name="category_id" attrs="{'readonly': [('is_task_event','=',True)]}"/>
             </xpath>
+
             <xpath expr="//field[@name='partner_id']" position="after">
                 <field name="client_id" attrs="{'readonly': [('is_task_event','=',True)]}" options="{'no_open': True}"/>
                 <field name="client_type" attrs="{'readonly': [('is_task_event','=',True)]}"/>
