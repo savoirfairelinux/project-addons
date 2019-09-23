@@ -8,16 +8,25 @@
             <form string="Activity">
                 <header>
                     <button name="action_option" string="Option" attrs="{'invisible': [('task_state', '!=', 'draft')]}"
-                            type="object"/>
+                            type="object"
+                            groups="project_event.group_project_event_editor"/>
                     <button name="action_return_option" string="Return to Option" attrs="{'invisible': [('task_state', 'in', ['draft', 'option', 'canceled'])]}"
-                            type="object"/>
+                            type="object"
+                            groups="project_event.group_project_event_editor"
+                    />
                     <button name="action_accept" string="Approve"
-                            attrs="{'invisible': [('task_state', '=', 'approved')]}" type="object"/>
+                            attrs="{'invisible': [('task_state', '=', 'approved')]}" type="object"
+                            groups="project_event.group_project_event_editor"
+                    />
 
                     <button name="action_postpone" string="Postpone" type="object"
-                            attrs="{'invisible': [('task_state', 'in', ['draft','postponed','canceled'])]}"/>
+                            attrs="{'invisible': [('task_state', 'in', ['draft','postponed','canceled'])]}"
+                            groups="project_event.group_project_event_editor"
+                    />
                     <button name="action_cancel" string="Cancel" type="object"
-                            attrs="{'invisible': [('task_state', 'not in', ['option','approved'])]}"/>
+                            attrs="{'invisible': [('task_state', 'not in', ['option','approved'])]}"
+                            groups="project_event.group_project_event_editor"
+                    />
                     <field name="task_state" widget="statusbar" statusbar_visible="draft,option,approved,postponed,canceled"/>
                 </header>
                 <sheet>

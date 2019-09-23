@@ -29,10 +29,18 @@
         <field name="arch" type="xml">
             <form string="Project Event">
             <header>
-                    <button name="action_option" string="Option" attrs="{'invisible': [('state', '=', 'option')]}" type="object"/>
-                    <button name="action_accept" string="Approve" attrs="{'invisible': [('state', '=', 'approved')]}" type="object"/>
-                    <button name="action_postpone" string="Postpone" attrs="{'invisible': [('state', 'not in', ['option','approved'])]}" type="object"/>
-                    <button name="action_cancel" string="Cancel" type="object" attrs="{'invisible': [('state', 'in', ['draft','canceled','postponed'])]}"/>
+                    <button name="action_option" string="Option" attrs="{'invisible': [('state', '=', 'option')]}" type="object"
+                        groups="project_event.group_project_event_editor"
+                    />
+                    <button name="action_accept" string="Approve" attrs="{'invisible': [('state', '=', 'approved')]}" type="object"
+                        groups="project_event.group_project_event_editor"
+                    />
+                    <button name="action_postpone" string="Postpone" attrs="{'invisible': [('state', 'not in', ['option','approved'])]}" type="object"
+                        groups="project_event.group_project_event_editor"
+                    />
+                    <button name="action_cancel" string="Cancel" type="object" attrs="{'invisible': [('state', 'in', ['draft','canceled','postponed'])]}"
+                        groups="project_event.group_project_event_editor"
+                    />
                     <field name="state" widget="statusbar" statusbar_visible="draft,option,approved,postponed,canceled"/>
                 </header>
                 <sheet>
