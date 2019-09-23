@@ -636,7 +636,7 @@ class Task(models.Model):
                     'name', 'resource_type', 'room_id', 'client_type',
                     'employee_ids', 'sector_id', 'category_id', 'partner_id',
                 ]
-                reservation_event.write(
+                reservation_event.sudo().write(
                     self.set_value_reservation_event(field_names, vals)
                 )
 
