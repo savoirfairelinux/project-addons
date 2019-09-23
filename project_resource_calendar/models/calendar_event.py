@@ -531,3 +531,17 @@ class CalendarEvent(models.Model):
                                         .browse(partner).name)
 
         return booked_resources
+
+    @api.multi
+    def action_detach_recurring_event(self):
+        meeting = self.detach_recurring_event()
+        context = dict(self.env.context)
+        context['form_view_initial_mode'] = 'edit'
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'calendar.event',
+            'view_mode': 'form',
+            'res_id': meeting.id,
+            'target': 'main',
+            'context': context,
+        }
