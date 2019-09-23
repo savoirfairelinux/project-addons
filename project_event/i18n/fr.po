@@ -925,7 +925,7 @@ msgstr "Tâches suivantes"
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_table_child_ids
 msgid "Table Child"
-msgstr "Table Child"
+msgstr "Résumé de l'horaire"
 
 #. module: project_event
 #: model:ir.model.fields,field_description:project_event.field_res_partner_tag_id
