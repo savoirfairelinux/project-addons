@@ -1,11 +1,8 @@
-.fc-recurrency_icon {
-    width: 15px;
-    height: 15px;
-    float: right;
-    background-size: contain;
-    background-image: url('/project_resource_calendar/static/src/images/recurent.png');
+.o_field_recurrency_icon, .o_field_is_cancelled, .o_field_state {
+    visibility: hidden;
 }
 
-.o_field_recurrency_icon {
-    visibility: hidden;
+.cancelled_status {
+    color: red;
+    font-weight: bold;
 }

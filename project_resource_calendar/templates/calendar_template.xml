@@ -5,7 +5,14 @@
             <t t-foreach="widget.displayFields" t-as="name">
                 <t t-if="name == 'recurrency_icon' ">
                     <t t-if="format(record, name) == '1'">
-                        <div class="fc-recurrency_icon" />
+                        <i class="fa fa-refresh" style="color:blue;"></i>
+                    </t>
+                </t>
+                <t t-if="name == 'is_cancelled' ">
+                    <t t-if="format(record, name) == '1'">
+                        <div class="cancelled_status">
+                            <t t-esc="format(record, 'state')" />
+                        </div>
                     </t>
                 </t>
             </t>
