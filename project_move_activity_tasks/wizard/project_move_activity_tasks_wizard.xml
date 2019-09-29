@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_activity_tasks_wizard" model="ir.ui.view">
+        <field name="name">Move activity tasks Wizard</field>
+        <field name="model">move.activity.tasks.wiz</field>
+        <field name="arch" type="xml">
+            <form string="Move activity tasks Wizard">
+                <div>
+                    <field name="message" readonly="1"/>
+                </div>
+                <notebook>
+                        <page string="Tasks">
+                            <field name="child_ids" string="Task" context="{
+                            'form_view_ref':'project_event.project_event_task_form',
+                            'default_activity_task_type':'task',
+                            'default_parent_id': active_id,
+                            }" domain="[('activity_task_type','=', 'task')]">
+                                <tree>
+                                    <field name="equipment_id" string="Resource"/>
+                                    <field name="room_id" string="Room"/>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="parent_id" string="Activity"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                    <field name="asterisk_validate_record"/>
+                                    <field name="task_order" invisible="1"/>
+                                    <field name="task_state"/>
+                                    <field name="department_id"/>
+                                </tree>
+                            </field>
+                        </page>
+                </notebook>
+                <footer>
+                    <button name="move" string="Move" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>
