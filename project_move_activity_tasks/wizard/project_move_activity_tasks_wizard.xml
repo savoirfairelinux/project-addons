@@ -8,31 +8,38 @@
                 <div>
                     <field name="message" readonly="1"/>
                 </div>
+                <group>
+                    <field name="moving_type" widget="radio"/>
+                </group>
+                <group align="left" attrs="{'invisible': [('moving_type','=', 'date')]}">
+                    <field name="days" string="Days"/>
+                    <field name="hours" string="Hours"/>
+                    <field name="minutes" string="Minutes"/>
+                </group>
+                <group attrs="{'invisible': [('moving_type','=', 'date')]}">
+                    <field name="moving_direction" widget="radio"/>
+                </group>
+                <group align="right" attrs="{'invisible': [('moving_type','=', 'interval')]}">
+                    <field name="moving_date" string="Moving date"/>
+                </group>
                 <notebook>
                         <page string="Tasks">
                             <field name="child_ids" string="Task" context="{
                             'form_view_ref':'project_event.project_event_task_form',
                             'default_activity_task_type':'task',
                             'default_parent_id': active_id,
-                            }" domain="[('activity_task_type','=', 'task')]">
+                            }" domain="[('activity_task_type','=', 'task')]" widget="one2many_list">
                                 <tree>
-                                    <field name="equipment_id" string="Resource"/>
-                                    <field name="room_id" string="Room"/>
                                     <field name="name"/>
                                     <field name="code"/>
-                                    <field name="parent_id" string="Activity"/>
                                     <field name="date_start"/>
                                     <field name="date_end"/>
-                                    <field name="asterisk_validate_record"/>
-                                    <field name="task_order" invisible="1"/>
-                                    <field name="task_state"/>
-                                    <field name="department_id"/>
                                 </tree>
                             </field>
                         </page>
                 </notebook>
                 <footer>
-                    <button name="move" string="Move" type="object" class="btn-primary"/>
+                    <button name="confirm_moving" string="Move" type="object" class="btn-primary"/>
                     <button string="Cancel" class="btn-default" special="cancel"/>
                 </footer>
             </form>

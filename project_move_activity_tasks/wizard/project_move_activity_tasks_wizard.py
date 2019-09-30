@@ -25,17 +25,29 @@ class MoveActivityTasksWizard(models.TransientModel):
     minutes = fields.Integer(
         string='Minutes',
     )
+    moving_date = fields.Datetime(
+        string='Moving date',
+        default=None,
+        index=True,
+        copy=False,
+    )
     child_ids = fields.One2many('project.task', 'parent_id',
                                 string="Tasks",
-                                context={'active_test': False})
+                                readonly=True,
+                                )
+    moving_direction = fields.Selection(string='Type',
+                                        selection=[
+                                            ('before', 'Before'),
+                                            ('after', 'After')
+                                        ],
+                                        default="after")
+    moving_type = fields.Selection(string='Type',
+                                   selection=[
+                                       ('interval', 'Interval moving'),
+                                       ('date', 'Date moving')
+                                   ],
+                                   default="interval")
 
-#    @api.multi
-#    def confirm_reservation(self):
-#        if self.task_id:
-#            self.task_id.do_reservation()
-#        else:
-#            for activity in self.event_id.task_ids:
-#                activity.do_reservation()
-#            if self.event_id.state == 'accepted':
-#                self.event_id.send_message('option')
-#            self.event_id.write({'state': 'option'})
+    @api.multi
+    def confirm_moving(self):
+        print('Test')

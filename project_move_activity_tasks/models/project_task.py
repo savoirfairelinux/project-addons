@@ -10,10 +10,11 @@ class Task(models.Model):
     @api.multi
     def get_move_activity_tasks_wizard(self):
         self.ensure_one()
-        message = 'Move activity taks'
+        message = 'Select tasks to move and choose interval or date'
         new_wizard = self.env['move.activity.tasks.wiz'].create(
             {
                 'activity_id': self.id,
+                'child_ids': self.child_ids,
                 'message': message,
             }
         )
