@@ -1,5 +1,5 @@
 Project Move Activity Tasks
-=============
+===========================
 This module helps move project activity tasks in time using a wizard.
 
 Contributors

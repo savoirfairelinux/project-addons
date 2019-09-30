@@ -6,6 +6,9 @@
         <field name="arch" type="xml">
             <form string="Move activity tasks Wizard">
                 <div>
+                    <field name="activity_id" readonly="1"/>
+                </div>
+                <div>
                     <field name="message" readonly="1"/>
                 </div>
                 <group>
@@ -22,14 +25,19 @@
                 <group align="right" attrs="{'invisible': [('moving_type','=', 'interval')]}">
                     <field name="moving_date" string="Moving date"/>
                 </group>
+                <group align="right">
+                    <field name="move_activity" string="Move activity and main task"/>
+                </group>
                 <notebook>
                         <page string="Tasks">
                             <field name="child_ids" string="Task" context="{
                             'form_view_ref':'project_event.project_event_task_form',
                             'default_activity_task_type':'task',
-                            'default_parent_id': active_id,
-                            }" domain="[('activity_task_type','=', 'task')]" widget="one2many_list">
+                            'default_parent_id': activity_id,
+                            }" domain="[('activity_task_type','=', 'task')]">
                                 <tree>
+                                    <button name="action_toggle_checkbox" type="object" string="Select/Unselect"/>
+                                    <field name="moving_checked"/>
                                     <field name="name"/>
                                     <field name="code"/>
                                     <field name="date_start"/>

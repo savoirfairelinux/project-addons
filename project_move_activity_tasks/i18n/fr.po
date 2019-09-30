@@ -1,0 +1,170 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* project_move_activity_tasks
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 11.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2019-09-30 18:11+0000\n"
+"PO-Revision-Date: 2019-09-30 18:11+0000\n"
+"Last-Translator: <>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: project_move_activity_tasks
+#: selection:move.activity.tasks.wiz,moving_direction:0
+msgid "After"
+msgstr "Après"
+
+#. module: project_move_activity_tasks
+#: selection:move.activity.tasks.wiz,moving_direction:0
+msgid "Before"
+msgstr "Avant"
+
+#. module: project_move_activity_tasks
+#: model:ir.ui.view,arch_db:project_move_activity_tasks.view_move_activity_tasks_wizard
+msgid "Cancel"
+msgstr "Annuler"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_project_task_moving_checked
+msgid "Checked"
+msgstr "Coché"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_create_uid
+msgid "Created by"
+msgstr "Créé par"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_create_date
+msgid "Created on"
+msgstr "Créé le"
+
+#. module: project_move_activity_tasks
+#: selection:move.activity.tasks.wiz,moving_type:0
+msgid "Date moving"
+msgstr "Date de déplacement"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_days
+#: model:ir.ui.view,arch_db:project_move_activity_tasks.view_move_activity_tasks_wizard
+msgid "Days"
+msgstr "Jours"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_display_name
+msgid "Display Name"
+msgstr "Nom à afficher"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_hours
+#: model:ir.ui.view,arch_db:project_move_activity_tasks.view_move_activity_tasks_wizard
+msgid "Hours"
+msgstr "Heures"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_id
+msgid "ID"
+msgstr "ID"
+
+#. module: project_move_activity_tasks
+#: selection:move.activity.tasks.wiz,moving_type:0
+msgid "Interval moving"
+msgstr "Intervalle de déplacement"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz___last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_write_uid
+msgid "Last Updated by"
+msgstr "Dernière mise à jour par"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_write_date
+msgid "Last Updated on"
+msgstr "Dernière mise à jour le"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_message
+msgid "Message"
+msgstr "Message"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_minutes
+#: model:ir.ui.view,arch_db:project_move_activity_tasks.view_move_activity_tasks_wizard
+msgid "Minutes"
+msgstr "Minutes"
+
+#. module: project_move_activity_tasks
+#: model:ir.ui.view,arch_db:project_move_activity_tasks.project_event_activity_form_move_activity_tasks
+#: model:ir.ui.view,arch_db:project_move_activity_tasks.view_move_activity_tasks_wizard
+msgid "Move"
+msgstr "Déplacer"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_move_activity
+msgid "Move Activity"
+msgstr "Déplacer l'activité"
+
+#. module: project_move_activity_tasks
+#: model:ir.ui.view,arch_db:project_move_activity_tasks.view_move_activity_tasks_wizard
+msgid "Move activity and main task"
+msgstr "Déplacer l'activité et la tâche principale"
+
+#. module: project_move_activity_tasks
+#: model:ir.ui.view,arch_db:project_move_activity_tasks.view_move_activity_tasks_wizard
+msgid "Move activity tasks Wizard"
+msgstr "Assistant de déplacement des tâches de l'activité"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_moving_date
+msgid "Moving Date"
+msgstr "Date de déplacement"
+
+#. module: project_move_activity_tasks
+#: model:ir.ui.view,arch_db:project_move_activity_tasks.view_move_activity_tasks_wizard
+msgid "Moving date"
+msgstr "Date de déplacement"
+
+#. module: project_move_activity_tasks
+#: model:ir.ui.view,arch_db:project_move_activity_tasks.view_move_activity_tasks_wizard
+msgid "Select/Unselect"
+msgstr "Cocher/Décocher"
+
+#. module: project_move_activity_tasks
+#: model:ir.model,name:project_move_activity_tasks.model_project_task
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_activity_id
+#: model:ir.ui.view,arch_db:project_move_activity_tasks.view_move_activity_tasks_wizard
+msgid "Task"
+msgstr "Tâche"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_child_ids
+#: model:ir.ui.view,arch_db:project_move_activity_tasks.view_move_activity_tasks_wizard
+msgid "Tasks"
+msgstr "Tâches"
+
+#. module: project_move_activity_tasks
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_moving_direction
+#: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_moving_type
+msgid "Type"
+msgstr "Type"
+
+#. module: project_move_activity_tasks
+#: model:ir.model,name:project_move_activity_tasks.model_move_activity_tasks_wiz
+msgid "Wizard Move Activity Tasks"
+msgstr "Assistant de déplacement des tâches de l'activité"
+
+#. module: project_move_activity_tasks
+#: code:addons/project_move_activity_tasks/wizard/project_move_activity_tasks_wizard.py:120
+#, python-format
+msgid "You must set a new date!"
+msgstr "Vous devez saisir une date de déplacement !"
