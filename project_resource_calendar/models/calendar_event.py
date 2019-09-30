@@ -123,6 +123,9 @@ class CalendarEvent(models.Model):
     recurrency_icon = fields.Integer(
         compute='_compute_recurrency_icon'
     )
+    is_cancelled = fields.Integer(
+        compute='_compute_is_cancelled'
+    )
     formated_start = fields.Datetime(
         compute='_compute_formated_date_for_report',
     )
@@ -148,6 +151,14 @@ class CalendarEvent(models.Model):
             self.recurrency_icon = 1
         else:
             self.recurrency_icon = 0
+
+    @api.one
+    def _compute_is_cancelled(self):
+        self.ensure_one()
+        if self.state == 'cancelled':
+            self.is_cancelled = 1
+        else:
+            self.is_cancelled = 0
 
     @api.onchange('client_id')
     def _onchange_client_id(self):
