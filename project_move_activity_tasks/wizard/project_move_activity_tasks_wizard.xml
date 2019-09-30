@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_activity_tasks_wizard" model="ir.ui.view">
+        <field name="name">Move activity tasks Wizard</field>
+        <field name="model">move.activity.tasks.wiz</field>
+        <field name="arch" type="xml">
+            <form string="Move activity tasks Wizard">
+                <div>
+                    <field name="activity_id" readonly="1"/>
+                </div>
+                <div>
+                    <field name="message" readonly="1"/>
+                </div>
+                <group>
+                    <field name="moving_type" widget="radio"/>
+                </group>
+                <group align="left" attrs="{'invisible': [('moving_type','=', 'date')]}">
+                    <field name="days" string="Days"/>
+                    <field name="hours" string="Hours"/>
+                    <field name="minutes" string="Minutes"/>
+                </group>
+                <group attrs="{'invisible': [('moving_type','=', 'date')]}">
+                    <field name="moving_direction" widget="radio"/>
+                </group>
+                <group align="right" attrs="{'invisible': [('moving_type','=', 'interval')]}">
+                    <field name="moving_date" string="Moving date"/>
+                </group>
+                <group align="right">
+                    <field name="move_activity" string="Move activity and main task"/>
+                </group>
+                <notebook>
+                        <page string="Tasks">
+                            <field name="child_ids" string="Task" context="{
+                            'form_view_ref':'project_event.project_event_task_form',
+                            'default_activity_task_type':'task',
+                            'default_parent_id': activity_id,
+                            }" domain="[('activity_task_type','=', 'task')]">
+                                <tree>
+                                    <button name="action_toggle_checkbox" type="object" string="Select/Unselect"/>
+                                    <field name="moving_checked"/>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end"/>
+                                </tree>
+                            </field>
+                        </page>
+                </notebook>
+                <footer>
+                    <button name="confirm_moving" string="Move" type="object" class="btn-primary"/>
+                    <button string="Cancel" class="btn-default" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

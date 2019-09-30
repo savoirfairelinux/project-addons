@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="project_event_activity_form_move_activity_tasks" model="ir.ui.view">
+        <field name="name">Activity Form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_event.project_event_activity_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <div align="left">
+                    <button name="get_move_activity_tasks_wizard" string="Move" type="object"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
