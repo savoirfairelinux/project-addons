@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="project_event_activity_form_shift" model="ir.ui.view">
+        <field name="name">Activity Form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_event.project_event_activity_form"/>
+        <field name="arch" type="xml">
+             <xpath expr="//form/sheet/notebook/page[4]/group" position="before">
+                <h3>Shift timesheet</h3>
+                <field name="shift_timesheet">
+                    <tree editable="bottom" string="Shift Timesheet Activities" default_order="activity_date">
+                        <field name="activity_id" string="Activity"/>
+                        <field name="activity_date" string="Date" readonly="1"/>
+                        <field name="activity_code" string="Code" readonly="1"/>
+                        <field name="department" string="Department"/>
+                        <field name="function" string="Function"/>
+                        <field name="employee_id" string="Employee"/>
+                        <field name="shift" string="Shift"/>
+                        <field name="start_hour" string="Start hour"/>
+                        <field name="start_minute" string="Start minute"/>
+                        <field name="end_hour" string="End hour"/>
+                        <field name="end_minute" string="End minute"/>
+                        <field name="duration" string="Duration"/>
+                        <field name="shift_status" string="Approved" readonly="1"/>
+                    </tree>
+                </field>
+             </xpath>
+        </field>
+    </record>
+</odoo>
