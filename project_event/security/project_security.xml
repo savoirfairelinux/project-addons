@@ -60,7 +60,8 @@
             ('activity_task_type', 'ilike', 'activity'),
             ('child_ids.employee_ids', 'in', user.employee_ids.id), '&amp;',
             ('activity_task_type', 'ilike', 'task'),
-            ('parent_id.child_ids.employee_ids', 'in', user.employee_ids.id)]
+            ('parent_id.child_ids.employee_ids', 'in', user.employee_ids.id),
+            ('task_state', 'in', ['option','requested','accepted'])]
         </field>
         <field name="groups" eval="[(4, ref('group_project_event_user'))]"/>
         <field eval="0" name="perm_unlink"/>
