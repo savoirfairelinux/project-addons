@@ -34,7 +34,7 @@ def _export_rows(self, fields, batch_invalidate=True, virtual_data=None):
                 yield rec
             rs.invalidate_cache(ids=sub.ids)
     if not batch_invalidate:
-        def splittor(rs): 
+        def splittor(rs):
             return rs
     # both _ensure_xml_id and the splitter want to work on recordsets but
     # neither returns one, so can't really be composed...
