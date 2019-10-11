@@ -15,7 +15,9 @@ def _export_rows(self, fields, batch_invalidate=True, virtual_data=None):
 
         :param fields: list of lists of fields to traverse
         :param batch_invalidate:
-            whether to clear the cache for the top-level object every so often (avoids huge memory consumption when exporting large numbers of records)
+            whether to clear the cache for the top-level object every so often
+            (avoids huge memory consumption 
+            when exporting large numbers of records)
         :return: list of lists of corresponding values
     """
     import_compatible = self.env.context.get('import_compat', True)
@@ -72,8 +74,16 @@ def _export_rows(self, fields, batch_invalidate=True, virtual_data=None):
                         if name == 'stop_datetime' or name == 'stop':
                             value = virtual_data_current[1]
                     else:
-                        value = odoo.fields.Datetime.context_timestamp(self, datetime.strptime(
-                            record[name], '%Y-%m-%d %H:%M:%S')) .strftime('%Y-%m-%d %H:%M:%S')
+                        try:
+                            value = \
+                                odoo.fields.Datetime.context_timestamp(
+                                    self, 
+                                    datetime.strptime(
+                                        record[name],
+                                        '%Y-%m-%d %H:%M:%S'))\
+                                             .strftime('%Y-%m-%d %H:%M:%S')
+                        except:
+                            value = ''
                 else:
                     value = record[name]
 

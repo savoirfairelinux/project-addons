@@ -13,10 +13,13 @@ VIRTUALID_DATETIME_FORMAT = "%Y%m%d%H%M%S"
 
 
 def calendar_id2real_id(calendar_id=None, with_date=True):
-    """ Convert a "virtual/recurring event id" (type string) into a real event id (type int).
-        E.g. virtual/recurring event id is 4-20091201100000, so it will return 4.
+    """ Convert a "virtual/recurring event id" (type string) 
+    into a real event id (type int).
+        E.g. virtual/recurring event id is 4-20091201100000, 
+        so it will return 4.
         :param calendar_id: id of calendar
-        :param with_date: if a value is passed to this param it will return dates based on value of withdate + calendar_id
+        :param with_date: if a value is passed to this param it will 
+        return dates based on value of withdate + calendar_id
         :return: real event id
     """
     if calendar_id and isinstance(calendar_id, pycompat.string_types):
