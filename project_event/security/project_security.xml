@@ -72,7 +72,7 @@
     <record id="project_event_own_activity_task_access_edit" model="ir.rule">
         <field name="name">Edit permissions of tasks for project event users</field>
         <field name="model_id" ref="project.model_project_task"/>
-        <field name="domain_force">['|', '&amp;',
+        <field name="domain_force">[
             ('activity_task_type', 'ilike', 'task'),
             ('parent_id.child_ids.employee_ids', 'in', user.employee_ids.id),
             ('task_state', 'in', ['accepted'])]
@@ -81,7 +81,7 @@
         <field eval="1" name="perm_read"/>
         <field eval="0" name="perm_create"/>
         <field eval="0" name="perm_unlink"/>
-        <field eval="0" name="perm_write"/>
+        <field eval="1" name="perm_write"/>
     </record>
 
     <record id="project_event_own_orphan_task_access" model="ir.rule">
