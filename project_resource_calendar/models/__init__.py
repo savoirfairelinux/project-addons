@@ -11,3 +11,4 @@ from . import res_partner
 from . import hr_employee
 from . import res_groups
 from . import service
+from . import models
