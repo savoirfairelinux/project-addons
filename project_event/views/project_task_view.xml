@@ -283,11 +283,13 @@
                                        attrs="{'required':[('resource_type','=','equipment')], 'invisible':[('resource_type','in',['room','user'])], 'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
                             </group>
                             <group>
-                                <field name="service_id" />
+                                <field name="service_id"
+                                       attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}"/>
                             </group>
                         </page>
                         <page string="Description">
-                            <field name="description" />
+                            <field name="description"
+                                   attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}" />
                         </page>
                         <page string="Notes">
                             <field name="notes" />
