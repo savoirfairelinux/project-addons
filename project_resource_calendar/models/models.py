@@ -16,7 +16,7 @@ def _export_rows(self, fields, batch_invalidate=True, virtual_data=None):
         :param fields: list of lists of fields to traverse
         :param batch_invalidate:
             whether to clear the cache for the top-level object every so often
-            (avoids huge memory consumption 
+            (avoids huge memory consumption
             when exporting large numbers of records)
         :return: list of lists of corresponding values
     """
@@ -34,8 +34,8 @@ def _export_rows(self, fields, batch_invalidate=True, virtual_data=None):
                 yield rec
             rs.invalidate_cache(ids=sub.ids)
     if not batch_invalidate:
-        def splittor(rs): return rs
-
+        def splittor(rs): 
+            return rs
     # both _ensure_xml_id and the splitter want to work on recordsets but
     # neither returns one, so can't really be composed...
     xids = dict(self.__ensure_xml_id(skip=['id'] not in fields))
@@ -77,12 +77,12 @@ def _export_rows(self, fields, batch_invalidate=True, virtual_data=None):
                         try:
                             value = \
                                 odoo.fields.Datetime.context_timestamp(
-                                    self, 
+                                    self,
                                     datetime.strptime(
                                         record[name],
                                         '%Y-%m-%d %H:%M:%S'))\
-                                             .strftime('%Y-%m-%d %H:%M:%S')
-                        except:
+                                .strftime('%Y-%m-%d %H:%M:%S')
+                        except BaseException:
                             value = ''
                 else:
                     value = record[name]
