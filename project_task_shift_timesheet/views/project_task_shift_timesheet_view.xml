@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+   <record id="project_shift_timesheet_form" model="ir.ui.view">
+        <field name="name">Shift timesheet Form</field>
+        <field name="model">shift.timesheet</field>
+        <field name="arch" type="xml">
+            <form string="Shift">
+                <group>
+                    <field name="activity_id" string="Activity"/>
+                    <field name="activity_date" string="Date" readonly="1"/>
+                    <field name="department" string="Department"/>
+                    <field name="function" string="Function"/>
+                    <field name="employee_id" string="Employee"/>
+                    <field name="shift" string="Shift"/>
+                    <field name="start_hour" string="Start hour"/>
+                    <field name="start_minute" string="Start minute"/>
+                    <field name="end_hour" string="End hour"/>
+                    <field name="end_minute" string="End minute"/>
+                    <field name="duration" string="Duration"/>
+                    <field name="shift_status" string="Approved" readonly="1"/>
+                    <button name="approve_shift" string="Approve shift" type="object" attrs="{'invisible': [('shift_status','=', True)]}"/>
+                </group>
+            </form>
+        </field>
+   </record>
+
+    <record id="project_shift_timesheet_search" model="ir.ui.view">
+        <field name="name">Shift timesheet Search</field>
+        <field name="model">shift.timesheet</field>
+        <field name="arch" type="xml">
+            <search string="Shift timesheet Search">
+                <field name="activity_id"/>
+                <field name="activity_date"/>
+                <field name="employee_id"/>
+                <field name="shift"/>
+                <field name="department" string="Department"/>
+                <field name="function" string="Function"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="project_shift_timesheet_tree" model="ir.ui.view">
+        <field name="name">Shift timesheet Tree</field>
+        <field name="model">shift.timesheet</field>
+        <field name="arch" type="xml">
+            <tree string="Shift timesheet"
+                default_order="activity_date asc">
+                <field name="activity_id" string="Activity"/>
+                <field name="activity_code" string="Code"/>
+                <field name="activity_date" string="Date"/>
+                <field name="department" string="Department"/>
+                <field name="function" string="Function"/>
+                <field name="employee_id" string="Employee"/>
+                <field name="shift" string="Shift"/>
+                <field name="start_hour" string="Start hour"/>
+                <field name="start_minute" string="Start minute"/>
+                <field name="end_hour" string="End hour"/>
+                <field name="end_minute" string="End minute"/>
+                <field name="duration" string="Duration"/>
+            </tree>
+        </field>
+    </record>
+    <record id="action_project_task_shift_timesheet" model="ir.actions.act_window">
+        <field name="name">Shift timesheet</field>
+        <field name="res_model">shift.timesheet</field>
+        <field name="view_type">form</field>
+        <!--<field name="domain">[('activity_task_type','=','task')]</field> To be used in the form view
+        <field name="context" eval="{'default_activity_task_type': 'task'}"/>-->
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="project_shift_timesheet_search"/>
+        <field name="view_ids"
+               eval="[(5, 0, 0),
+                          (0, 0, {'view_mode': 'tree', 'view_id': ref('project_shift_timesheet_tree')}),
+                          (0, 0, {'view_mode': 'form', 'view_id': ref('project_shift_timesheet_form')})]"/>
+    </record>
+
+    <menuitem id="project_task_shift_timesheet_menu"
+              name="Shift timesheet"
+              parent="project_event.project_event_menu"
+              action="action_project_task_shift_timesheet"
+              sequence="40"/>
+</odoo>
