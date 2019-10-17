@@ -985,7 +985,7 @@ class Task(models.Model):
     @api.multi
     def action_postpone(self):
         if self.is_type_task() and self.task_state in \
-                ['requested', 'read', 'canceled', 'accepted']:
+                ['requested', 'read', 'canceled', 'accepted', 'option']:
             self.send_message('postponed')
         elif self.is_activity():
             if self.task_state == 'approved':
