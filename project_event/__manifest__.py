@@ -49,4 +49,6 @@
     ],
     'installable': True,
     'application': False,
+    'qweb': [
+        'templates/chatter.xml',],
 }
