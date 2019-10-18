@@ -5,7 +5,7 @@ import babel.dates
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, AccessError
 
 MINUTES_IN_HOUR = 60
 CONVERT_SECONDS_TO_MINUTE = 60
@@ -277,7 +277,7 @@ class Task(models.Model):
                 (_('Activity') if self.is_activity() else _('Task'), self.name,
                  self.format_date(self.date_start),
                  self.format_date(self.date_end))
-                )
+            )
 
     @api.multi
     def subscribe_employees_to_task(self):
@@ -579,6 +579,7 @@ class Task(models.Model):
 
     @api.multi
     def write_activity(self, vals):
+        self.verify_field_access_activity_write(vals)
         self.write_children(vals)
         updated_task = super(Task, self).write(vals)
         self.write_main_task(vals)
@@ -599,6 +600,16 @@ class Task(models.Model):
                 continue
             if task_vals:
                 task.write(task_vals)
+
+    def verify_field_access_activity_write(self, vals):
+        if self.task_state == 'approved' and self.user_has_groups(
+                'project_event.group_project_event_user') and not \
+                self.user_has_groups(
+                'project_event.group_project_event_editor'):
+            allowed_keys = ('spectators', 'notes')
+            if not set(vals).issubset(allowed_keys):
+                raise AccessError(
+                    _('You can only edit field notes and spectators'))
 
     @api.multi
     def write_main_task(self, vals):
