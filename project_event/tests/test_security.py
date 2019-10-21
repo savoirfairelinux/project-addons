@@ -1,7 +1,7 @@
 # © 2019 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL).
 
-from common import TestProjectEventCommon
+from .common import TestProjectEventCommon
 from odoo import exceptions
 from odoo import fields
 from datetime import datetime, timedelta
