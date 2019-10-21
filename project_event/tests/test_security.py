@@ -259,6 +259,7 @@ class TestSecurity(TestProjectEventCommon):
             self.create_task_project_user_participant()
         parent_activity = task_with_user_participant.parent_id
         parent_childen_ids = parent_activity.child_ids.ids
+        parent_activity.do_reservation()
         self.assertEqual(
             self.Tasks.sudo(self.project_user.id).search([]).ids,
             parent_childen_ids + [parent_activity.id])
@@ -268,7 +269,8 @@ class TestSecurity(TestProjectEventCommon):
             self.Tasks.sudo(self.project_user.id).create({})
 
     def test_160_project_user_cannot_delete_project_task(self):
-        self.create_task_project_user_participant()
+        task = self.create_task_project_user_participant()
+        task.do_reservation()
         with self.assertRaises(exceptions.AccessError):
             self.Tasks.sudo(self.project_user.id).search([]).unlink()
 
@@ -539,3 +541,19 @@ class TestSecurity(TestProjectEventCommon):
             create(self.event_vals)
         self.assertEqual(self.Events.sudo(self.project_user.id).search([]),
                          calendar_event)
+
+    def test_990_project_user_cannot_only_read_tasks_in_draft_state(self):
+        self.assertEqual(
+            len(self.Tasks.sudo(self.project_user.id).search([])),
+            0)
+        task_with_user_participant =\
+            self.create_task_project_user_participant()
+        parent_activity = task_with_user_participant.parent_id
+        parent_childen_ids = parent_activity.child_ids.ids
+        self.assertEqual(
+            self.Tasks.sudo(self.project_user.id).search([]).ids,
+            [])
+        parent_activity.do_reservation()
+        self.assertEqual(
+            self.Tasks.sudo(self.project_user.id).search([]).ids,
+            parent_childen_ids + [parent_activity.id])
