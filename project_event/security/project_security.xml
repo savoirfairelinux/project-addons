@@ -70,6 +70,30 @@
         <field eval="0" name="perm_create"/>
     </record>
 
+    <record id="project_event_user_project_project_state_draft_not_read" model="ir.rule">
+        <field name="name">Project User can read events in states: option, approved, postponed and canceled</field>
+        <field name="model_id" ref="project.model_project_project"/>
+        <field name="domain_force">[
+            ('state', 'in', ['option','approved','postponed','canceled'])]
+        </field>
+        <field name="groups" eval="[(4, ref('group_project_event_user'))]"/>
+        <field eval="0" name="perm_unlink"/>
+        <field eval="0" name="perm_write"/>
+        <field eval="1" name="perm_read"/>
+        <field eval="0" name="perm_create"/>
+    </record>
+
+    <record id="project_event_editor_project_project_all_access" model="ir.rule">
+        <field name="name">Project Editor can read, create, edit, delete events (project.project)</field>
+        <field name="model_id" ref="project.model_project_project"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('group_project_event_editor'))]"/>
+        <field eval="0" name="perm_unlink"/>
+        <field eval="0" name="perm_write"/>
+        <field eval="1" name="perm_read"/>
+        <field eval="0" name="perm_create"/>
+    </record>
+
     <record id="project_event_own_activity_task_access_edit" model="ir.rule">
         <field name="name">Edit permissions of tasks for project event users</field>
         <field name="model_id" ref="project.model_project_task"/>
