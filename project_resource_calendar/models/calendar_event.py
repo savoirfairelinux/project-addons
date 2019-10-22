@@ -12,9 +12,6 @@ from odoo.addons.calendar.models.calendar import Meeting
 VIRTUALID_DATETIME_FORMAT = "%Y%m%d%H%M%S"
 
 
-
-
-
 class CalendarEvent(models.Model):
 
     _inherit = 'calendar.event'
@@ -607,16 +604,26 @@ class CalendarEvent(models.Model):
             if len(res) == 2:
                 real_id = res[0]
                 if with_date:
-                    r_start = datetime.strptime(self.browse(real_id).start_datetime, DEFAULT_SERVER_DATETIME_FORMAT)
-                    r_stop = datetime.strptime(self.browse(real_id).stop_datetime, DEFAULT_SERVER_DATETIME_FORMAT)
+                    r_start = datetime.strptime(
+                        self.browse(real_id).start_datetime,
+                        DEFAULT_SERVER_DATETIME_FORMAT)
+                    r_stop = datetime.strptime(
+                        self.browse(real_id).stop_datetime,
+                        DEFAULT_SERVER_DATETIME_FORMAT)
                     delta = r_stop - r_start
-                    real_date = fields.Datetime.context_timestamp(self, datetime.strptime(
-                    time.strftime(
-                        DEFAULT_SERVER_DATETIME_FORMAT, time.strptime(
-                            res[1], VIRTUALID_DATETIME_FORMAT)), '%Y-%m-%d %H:%M:%S')) .strftime('%Y-%m-%d %H:%M:%S')
+                    real_date = fields.Datetime.context_timestamp(
+                        self,
+                        datetime.strptime(
+                            time.strftime(
+                                DEFAULT_SERVER_DATETIME_FORMAT,
+                                time.strptime(
+                                    res[1],
+                                    VIRTUALID_DATETIME_FORMAT)),
+                            '%Y-%m-%d %H:%M:%S')) .strftime('%Y-%m-%d %H:%M:%S')
                     start = datetime.strptime(
                         real_date, DEFAULT_SERVER_DATETIME_FORMAT)
-                    end = (start + delta).strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+                    end = (
+                        start + delta).strftime(DEFAULT_SERVER_DATETIME_FORMAT)
                     return (int(real_id), real_date, end)
                 return int(real_id)
         return calendar_id and int(calendar_id) or calendar_id
