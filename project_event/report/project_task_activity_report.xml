@@ -85,7 +85,7 @@
               <th>Expected Arrival</th>
               <th>Real Arrival</th>
             </tr>
-            <t t-foreach="tasks" t-as="task">
+            <t t-foreach="tasks_uniq_dep_and_employee" t-as="task">
               <tr>
                 <td> <t t-esc="task['department']"/></td>
                 <td> <t t-esc="task['employee']"/></td>

@@ -35,6 +35,9 @@ class ReportWeekly(models.AbstractModel):
                 'stop': self.get_tz_format(activity.date_end),
                 'spectators': activity.spectators,
                 'tasks': self.get_task_values(activity.child_ids),
+                'tasks_uniq_dep_and_employee':
+                self.get_task_values_with_uniq_department_and_employee(
+                    activity.child_ids),
                 'description': activity.description,
                 'activity_notes': activity.notes,
                 'remarks': self.get_departments_remarks(activity.child_ids),
@@ -80,6 +83,20 @@ class ReportWeekly(models.AbstractModel):
             table_lines, key=itemgetter(
                 'order', 'department', 'employee'))
         return table_lines_sorted
+
+    def get_task_values_with_uniq_department_and_employee(self, tasks):
+        table_lines_sorted = self.get_task_values(tasks)
+        return self.get_different_department_and_employee(table_lines_sorted)
+
+    @staticmethod
+    def get_different_department_and_employee(sorted_list):
+        done = set()
+        result = []
+        for element in sorted_list:
+            if (element['employee'], element['department']) not in done:
+                done.add((element['employee'], element['department']))
+                result.append(element)
+        return result
 
     def get_tasks_details(self, tasks):
         tasks_details = []
