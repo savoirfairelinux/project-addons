@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_shift_timesheet_group_project_event_editor,shift_timesheet group_project_event_editor,model_shift_timesheet,project_event.group_project_event_editor,1,1,1,1
+

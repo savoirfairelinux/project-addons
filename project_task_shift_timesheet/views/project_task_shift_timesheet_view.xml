@@ -79,5 +79,6 @@
               name="Shift timesheet"
               parent="project_event.project_event_menu"
               action="action_project_task_shift_timesheet"
-              sequence="40"/>
+              sequence="40"
+              groups="project_event.group_project_event_editor"/>
 </odoo>
