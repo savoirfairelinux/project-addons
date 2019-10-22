@@ -42,7 +42,7 @@ class TaskShiftTimesheet(models.Model):
     end_minute = fields.Integer(
         string='Ending minute',
     )
-    duration = fields.Integer(
+    duration = fields.Float(
         string='Duration',
         compute='_compute_duration',
     )
