@@ -38,7 +38,19 @@ def _export_rows(self, fields, batch_invalidate=True, virtual_data=None):
             return rs
     # both _ensure_xml_id and the splitter want to work on recordsets but
     # neither returns one, so can't really be composed...
-    xids = dict(self.__ensure_xml_id(skip=['id'] not in fields))
+    import ipdb; ipdb.set_trace()
+    virtuals = zip(self,virtual_data)
+    uniq_ids = self.browse(list(dict.fromkeys(self.ids)))
+    if False not in virtual_data:
+        xids = dict(
+            uniq_ids.__ensure_xml_id(
+                skip=['id'] not in fields,
+                virtual_data=True))
+    else:
+        xids = dict(self.__ensure_xml_id(skip=['id'] not in fields))
+    for record in virtuals:
+
+        record
     # memory stable but ends up prefetching 275 fields (???)
     for record in splittor(self):
         # main line of record, initially empty
@@ -73,6 +85,8 @@ def _export_rows(self, fields, batch_invalidate=True, virtual_data=None):
                             value = virtual_data_current[0]
                         if name == 'stop_datetime' or name == 'stop':
                             value = virtual_data_current[1]
+                        lines[-1][0] = '__export__.'+ (record._name).replace('.','_')+\
+                            '_' + str(record.id) + '_recurrent_virtual'
                     else:
                         try:
                             value = \
@@ -121,7 +135,7 @@ def _export_rows(self, fields, batch_invalidate=True, virtual_data=None):
     return lines
 
 
-def __ensure_xml_id(self, skip=False):
+def __ensure_xml_id(self, skip=False, virtual_data=False):
     """ Create missing external ids for records in ``self``, and return an
         iterator of pairs ``(record, xmlid)`` for the records in ``self``.
 
@@ -140,7 +154,6 @@ def __ensure_xml_id(self, skip=False):
             % (self._name, self._table))
 
     modname = '__export__'
-
     cr = self.env.cr
     cr.execute("""
         SELECT res_id, module, name

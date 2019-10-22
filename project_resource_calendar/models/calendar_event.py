@@ -12,31 +12,7 @@ from odoo.addons.calendar.models.calendar import Meeting
 VIRTUALID_DATETIME_FORMAT = "%Y%m%d%H%M%S"
 
 
-def calendar_id2real_id(calendar_id=None, with_date=True):
-    """ Convert a "virtual/recurring event id" (type string)
-    into a real event id (type int).
-        E.g. virtual/recurring event id is 4-20091201100000,
-        so it will return 4.
-        :param calendar_id: id of calendar
-        :param with_date: if a value is passed to this param it will
-        return dates based on value of withdate + calendar_id
-        :return: real event id
-    """
-    if calendar_id and isinstance(calendar_id, pycompat.string_types):
-        res = [bit for bit in calendar_id.split('-') if bit]
-        if len(res) == 2:
-            real_id = res[0]
-            if with_date:
-                real_date = time.strftime(
-                    DEFAULT_SERVER_DATETIME_FORMAT, time.strptime(
-                        res[1], VIRTUALID_DATETIME_FORMAT))
-                start = datetime.strptime(
-                    real_date, DEFAULT_SERVER_DATETIME_FORMAT)
-                end = start + timedelta(hours=with_date)
-                return (int(real_id), real_date, end.strftime(
-                    DEFAULT_SERVER_DATETIME_FORMAT))
-            return int(real_id)
-    return calendar_id and int(calendar_id) or calendar_id
+
 
 
 class CalendarEvent(models.Model):
@@ -588,13 +564,12 @@ class CalendarEvent(models.Model):
             'context': context,
         }
 
-    @staticmethod
-    def get_real_ids(ids):
+    def get_real_ids(self, ids):
         if isinstance(ids, (pycompat.string_types, pycompat.integer_types)):
-            return calendar_id2real_id(ids)
+            return self.calendar_id2real_id(ids)
 
         if isinstance(ids, (list, tuple)):
-            return [calendar_id2real_id(_id) for _id in ids]
+            return [self.calendar_id2real_id(_id) for _id in ids]
 
     @api.multi
     def export_data(self, fields_to_export, raw_data=False):
@@ -616,3 +591,32 @@ class CalendarEvent(models.Model):
             fields_to_export,
             raw_data,
             virtual_data)
+
+    def calendar_id2real_id(self, calendar_id=None, with_date=True):
+        """ Convert a "virtual/recurring event id" (type string)
+        into a real event id (type int).
+            E.g. virtual/recurring event id is 4-20091201100000,
+            so it will return 4.
+            :param calendar_id: id of calendar
+            :param with_date: if a value is passed to this param it will
+            return dates based on value of withdate + calendar_id
+            :return: real event id
+        """
+        if calendar_id and isinstance(calendar_id, pycompat.string_types):
+            res = [bit for bit in calendar_id.split('-') if bit]
+            if len(res) == 2:
+                real_id = res[0]
+                if with_date:
+                    r_start = datetime.strptime(self.browse(real_id).start_datetime, DEFAULT_SERVER_DATETIME_FORMAT)
+                    r_stop = datetime.strptime(self.browse(real_id).stop_datetime, DEFAULT_SERVER_DATETIME_FORMAT)
+                    delta = r_stop - r_start
+                    real_date = fields.Datetime.context_timestamp(self, datetime.strptime(
+                    time.strftime(
+                        DEFAULT_SERVER_DATETIME_FORMAT, time.strptime(
+                            res[1], VIRTUALID_DATETIME_FORMAT)), '%Y-%m-%d %H:%M:%S')) .strftime('%Y-%m-%d %H:%M:%S')
+                    start = datetime.strptime(
+                        real_date, DEFAULT_SERVER_DATETIME_FORMAT)
+                    end = (start + delta).strftime(DEFAULT_SERVER_DATETIME_FORMAT)
+                    return (int(real_id), real_date, end)
+                return int(real_id)
+        return calendar_id and int(calendar_id) or calendar_id
