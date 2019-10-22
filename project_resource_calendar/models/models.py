@@ -7,6 +7,8 @@ import io
 import uuid
 from datetime import datetime
 from odoo.models import fix_import_export_id_paths
+from contextlib import contextmanager
+import psycopg2
 
 
 @api.multi
@@ -38,7 +40,13 @@ def _export_rows(self, fields, batch_invalidate=True, virtual_data=None):
             return rs
     # both _ensure_xml_id and the splitter want to work on recordsets but
     # neither returns one, so can't really be composed...
-    xids = dict(self.__ensure_xml_id(skip=['id'] not in fields))
+    uniq_ids = self.browse(list(dict.fromkeys(self.ids)))
+    if virtual_data and False not in virtual_data:
+        xids = dict(
+            uniq_ids.__ensure_xml_id(
+                skip=['id'] not in fields))
+    else:
+        xids = dict(self.__ensure_xml_id(skip=['id'] not in fields))
     # memory stable but ends up prefetching 275 fields (???)
     for record in splittor(self):
         # main line of record, initially empty
@@ -49,6 +57,8 @@ def _export_rows(self, fields, batch_invalidate=True, virtual_data=None):
         primary_done = []
 
         # process column by column
+        virtual_data_current = virtual_data.pop(
+            0) if virtual_data else None
         for i, path in enumerate(fields):
             if not path:
                 continue
@@ -66,13 +76,13 @@ def _export_rows(self, fields, batch_invalidate=True, virtual_data=None):
             else:
                 field = record._fields[name]
                 if isinstance(field, odoo.fields.Datetime):
-                    virtual_data_current = virtual_data.pop(
-                        0) if virtual_data else None
                     if virtual_data_current:
                         if name == 'start_datetime' or name == 'start':
                             value = virtual_data_current[0]
                         if name == 'stop_datetime' or name == 'stop':
                             value = virtual_data_current[1]
+                        lines[-1][0] = '__export__.' + (record._name).replace(
+                            '.', '_') + '_' + str(record.id) + '_recurrent_virtual'
                     else:
                         try:
                             value = \
@@ -140,7 +150,6 @@ def __ensure_xml_id(self, skip=False):
             % (self._name, self._table))
 
     modname = '__export__'
-
     cr = self.env.cr
     cr.execute("""
         SELECT res_id, module, name
@@ -173,19 +182,29 @@ def __ensure_xml_id(self, skip=False):
         for r in missing
     )
     fields = ['module', 'model', 'name', 'res_id']
-    cr.copy_from(io.StringIO(
-        u'\n'.join(
-            u"%s\t%s\t%s\t%d" % (
-                modname,
-                record._name,
-                xids[record.id][1],
-                record.id,
-            )
-            for record in missing
-        )),
-        table='ir_model_data',
-        columns=fields,
-    )
+
+    @contextmanager
+    def _paused_thread():
+        try:
+            thread = psycopg2.extensions.get_wait_callback()
+            psycopg2.extensions.set_wait_callback(None)
+            yield
+        finally:
+            psycopg2.extensions.set_wait_callback(thread)
+    with _paused_thread():
+        cr.copy_from(io.StringIO(
+            u'\n'.join(
+                u"%s\t%s\t%s\t%d" % (
+                    modname,
+                    record._name,
+                    xids[record.id][1],
+                    record.id,
+                )
+                for record in missing
+            )),
+            table='ir_model_data',
+            columns=fields,
+        )
     self.env['ir.model.data'].invalidate_cache(fnames=fields)
 
     return (
