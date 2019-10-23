@@ -9,12 +9,9 @@
                 <h3>Shift timesheet</h3>
                 <field name="shift_timesheet">
                     <tree editable="bottom" string="Shift Timesheet Activities" default_order="activity_date">
-                        <field name="activity_id" string="Activity"/>
-                        <field name="activity_date" string="Date" readonly="1"/>
-                        <field name="activity_code" string="Code" readonly="1"/>
-                        <field name="department" string="Department"/>
-                        <field name="function" string="Function"/>
-                        <field name="employee_id" string="Employee"/>
+                        <field name="department" string="Department" required="1"/>
+                        <field name="function" string="Function" required="1"/>
+                        <field name="employee_id" string="Employee" required="1" readonly="1"/>
                         <field name="shift" string="Shift"/>
                         <field name="start_hour" string="Start hour"/>
                         <field name="start_minute" string="Start minute"/>
