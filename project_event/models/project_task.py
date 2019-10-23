@@ -920,6 +920,7 @@ class Task(models.Model):
     @api.multi
     def draft_resources_reservation(self):
         self.ensure_one()
+        self.subscribe_employees_to_task()
         if not self.reservation_event_id:
             self.request_reservation()
             reserve_event = self.info_calendar_event()
@@ -959,8 +960,6 @@ class Task(models.Model):
             self.send_message('option')
             self.write({'task_state': 'option'})
         else:
-            self.subscribe_employees_to_task()
-            self.draft_resources_reservation()
             self.do_task_reservation()
             self.write({'task_state': 'option'})
 
