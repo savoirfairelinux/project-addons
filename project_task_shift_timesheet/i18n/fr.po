@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-04 01:21+0000\n"
-"PO-Revision-Date: 2019-10-04 01:21+0000\n"
+"POT-Creation-Date: 2019-10-23 16:15+0000\n"
+"PO-Revision-Date: 2019-10-23 16:15+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -28,14 +28,10 @@ msgid "Approve shift"
 msgstr "Approuver quart"
 
 #. module: project_task_shift_timesheet
+#: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_event_activity_form_shift
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_form
 msgid "Approved"
 msgstr "Approuvé"
-
-#. module: project_task_shift_timesheet
-#: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_tree
-msgid "Code"
-msgstr "Code"
 
 #. module: project_task_shift_timesheet
 #: model:ir.model.fields,field_description:project_task_shift_timesheet.field_shift_timesheet_create_uid
@@ -55,6 +51,7 @@ msgstr "Date "
 
 #. module: project_task_shift_timesheet
 #: model:ir.model.fields,field_description:project_task_shift_timesheet.field_shift_timesheet_department
+#: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_event_activity_form_shift
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_form
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_search
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_tree
@@ -68,6 +65,7 @@ msgstr "Nom à afficher"
 
 #. module: project_task_shift_timesheet
 #: model:ir.model.fields,field_description:project_task_shift_timesheet.field_shift_timesheet_duration
+#: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_event_activity_form_shift
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_form
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_tree
 msgid "Duration"
@@ -75,18 +73,21 @@ msgstr "Durée"
 
 #. module: project_task_shift_timesheet
 #: model:ir.model.fields,field_description:project_task_shift_timesheet.field_shift_timesheet_employee_id
+#: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_event_activity_form_shift
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_form
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_tree
 msgid "Employee"
 msgstr "Employé"
 
 #. module: project_task_shift_timesheet
+#: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_event_activity_form_shift
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_form
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_tree
 msgid "End hour"
 msgstr "Heure de fin"
 
 #. module: project_task_shift_timesheet
+#: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_event_activity_form_shift
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_form
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_tree
 msgid "End minute"
@@ -104,6 +105,7 @@ msgstr "Minutes de fin"
 
 #. module: project_task_shift_timesheet
 #: model:ir.model.fields,field_description:project_task_shift_timesheet.field_shift_timesheet_function
+#: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_event_activity_form_shift
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_form
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_search
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_tree
@@ -131,12 +133,33 @@ msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
 
 #. module: project_task_shift_timesheet
+#: model:ir.model.fields,field_description:project_task_shift_timesheet.field_shift_timesheet_name
+msgid "Name"
+msgstr "Nom"
+
+#. module: project_task_shift_timesheet
 #: model:ir.model.fields,field_description:project_task_shift_timesheet.field_shift_timesheet_activity_code
+#: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_tree
 msgid "Number"
 msgstr "Numéro"
 
 #. module: project_task_shift_timesheet
+#: code:addons/project_task_shift_timesheet/models/project_task_shift_timesheet.py:71
+#: sql_constraint:shift.timesheet:0
+#, python-format
+msgid "Please enter hours between 0 and 24 hours"
+msgstr "Please enter hours between 0 and 24 hours"
+
+#. module: project_task_shift_timesheet
+#: code:addons/project_task_shift_timesheet/models/project_task_shift_timesheet.py:76
+#: sql_constraint:shift.timesheet:0
+#, python-format
+msgid "Please enter minutes between 0 and 59 minutes"
+msgstr "Please enter minutes between 0 and 59 minutes"
+
+#. module: project_task_shift_timesheet
 #: model:ir.model.fields,field_description:project_task_shift_timesheet.field_shift_timesheet_shift
+#: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_event_activity_form_shift
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_form
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_tree
 msgid "Shift"
@@ -148,28 +171,50 @@ msgid "Shift Status"
 msgstr "État du Quart"
 
 #. module: project_task_shift_timesheet
+#: code:addons/project_task_shift_timesheet/models/project_task_shift_timesheet.py:12
+#: model:ir.model.fields,field_description:project_task_shift_timesheet.field_project_task_shift_timesheet
+#, python-format
+msgid "Shift Timesheet"
+msgstr "Feuille de temps de quart"
+
+#. module: project_task_shift_timesheet
+#: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_event_activity_form_shift
+msgid "Shift Timesheet Activities"
+msgstr "Feuille de temps de quart des activités"
+
+#. module: project_task_shift_timesheet
 #: model:ir.actions.act_window,name:project_task_shift_timesheet.action_project_task_shift_timesheet
 #: model:ir.ui.menu,name:project_task_shift_timesheet.project_task_shift_timesheet_menu
+#: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_event_activity_form_shift
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_tree
 msgid "Shift timesheet"
-msgstr "Feuille de temps des quarts"
+msgstr "Feuille de temps de quart"
 
 #. module: project_task_shift_timesheet
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_search
 msgid "Shift timesheet Search"
-msgstr "Recherche des des quarts"
+msgstr "Recherche des quarts"
 
 #. module: project_task_shift_timesheet
+#: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_event_activity_form_shift
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_form
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_tree
 msgid "Start hour"
 msgstr "Heure de début"
 
 #. module: project_task_shift_timesheet
+#: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_event_activity_form_shift
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_form
 #: model:ir.ui.view,arch_db:project_task_shift_timesheet.project_shift_timesheet_tree
 msgid "Start minute"
 msgstr "Minutes de début"
+
+#. module: project_task_shift_timesheet
+#: code:addons/project_task_shift_timesheet/models/project_task_shift_timesheet.py:66
+#: sql_constraint:shift.timesheet:0
+#, python-format
+msgid "Start time must be before end time"
+msgstr "Start time must be before end time"
 
 #. module: project_task_shift_timesheet
 #: model:ir.model.fields,field_description:project_task_shift_timesheet.field_shift_timesheet_activity_date
@@ -187,6 +232,12 @@ msgid "Starting minute"
 msgstr "Minutes de début"
 
 #. module: project_task_shift_timesheet
+#: model:ir.model,name:project_task_shift_timesheet.model_project_task
+msgid "Task"
+msgstr "Tâche"
+
+#. module: project_task_shift_timesheet
 #: model:ir.model,name:project_task_shift_timesheet.model_shift_timesheet
 msgid "shift.timesheet"
 msgstr "shift.timesheet"
+
