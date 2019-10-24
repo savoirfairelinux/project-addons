@@ -12,13 +12,15 @@
     'summary': 'Project Event Shift Timesheet module',
     'depends': [
         'project_event',
+        'project_resource_calendar'
     ],
     'external_dependencies': {
         'python': [],
     },
     'data': [
         'views/project_task_shift_timesheet_view.xml',
-        'views/project_task_view.xml'
+        'views/project_task_view.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': True,
     'application': False,

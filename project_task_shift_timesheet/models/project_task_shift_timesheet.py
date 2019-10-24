@@ -8,6 +8,10 @@ import datetime
 class TaskShiftTimesheet(models.Model):
     _name = 'shift.timesheet'
 
+    name = fields.Char(
+        compute='_compute_default_name'
+    )
+
     activity_id = fields.Many2one(
         'project.task',
         track_visibility='onchange',
@@ -15,6 +19,7 @@ class TaskShiftTimesheet(models.Model):
     )
     activity_code = fields.Char(
         related='activity_id.code',
+        string='Number'
     )
     activity_date = fields.Datetime(
         related='activity_id.date_start',
@@ -23,11 +28,16 @@ class TaskShiftTimesheet(models.Model):
         'hr.department',
         track_visibility='onchange',
     )
-    function = fields.Char(string='Function')
+    function = fields.Many2one(
+        'resource.calendar.service',
+        track_visibility='onchange',
+    )
     employee_id = fields.Many2one(
         'hr.employee',
         string='Employee',
         track_visibility='onchange',
+        default=lambda self: self.env['hr.employee'].search([
+            ('user_id', '=', self.env.user.id)])
     )
     shift = fields.Integer(default=1)
     start_hour = fields.Integer(
@@ -42,7 +52,7 @@ class TaskShiftTimesheet(models.Model):
     end_minute = fields.Integer(
         string='Ending minute',
     )
-    duration = fields.Integer(
+    duration = fields.Float(
         string='Duration',
         compute='_compute_duration',
     )
@@ -73,6 +83,10 @@ class TaskShiftTimesheet(models.Model):
                          datetime.datetime(2019, 1, 1, self.start_hour,
                                            self.start_minute, 0))\
             .total_seconds()/60/60
+
+    @api.one
+    def _compute_default_name(self):
+        self.name = "FTQ, " + str(self.id)
 
     def approve_shift(self):
         self.shift_status = True

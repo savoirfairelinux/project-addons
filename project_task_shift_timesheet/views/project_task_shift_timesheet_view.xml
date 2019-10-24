@@ -9,9 +9,9 @@
                 <group>
                     <field name="activity_id" string="Activity"/>
                     <field name="activity_date" string="Date" readonly="1"/>
-                    <field name="department" string="Department"/>
-                    <field name="function" string="Function"/>
-                    <field name="employee_id" string="Employee"/>
+                    <field name="department" string="Department" required="1"/>
+                    <field name="function" string="Function" required="1"/>
+                    <field name="employee_id" string="Employee" required="1"/>
                     <field name="shift" string="Shift"/>
                     <field name="start_hour" string="Start hour"/>
                     <field name="start_minute" string="Start minute"/>
@@ -47,7 +47,7 @@
             <tree string="Shift timesheet"
                 default_order="activity_date asc">
                 <field name="activity_id" string="Activity"/>
-                <field name="activity_code" string="Code"/>
+                <field name="activity_code" string="Number"/>
                 <field name="activity_date" string="Date"/>
                 <field name="department" string="Department"/>
                 <field name="function" string="Function"/>
@@ -79,5 +79,6 @@
               name="Shift timesheet"
               parent="project_event.project_event_menu"
               action="action_project_task_shift_timesheet"
-              sequence="40"/>
+              sequence="40"
+              groups="project_event.group_project_event_editor"/>
 </odoo>
