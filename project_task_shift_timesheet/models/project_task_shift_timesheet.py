@@ -113,9 +113,9 @@ class TaskShiftTimesheet(models.Model):
 
     def _compute_dep(self):
         departments = []
-        if 'params' in self._context and 'id' in self._context['params']:
+        if 'activity_id' in self._context:
             activity = self.env['project.task'].browse(
-                self._context['params']['id'])
+                self._context['activity_id'])
             current_employee = self.env['res.users'].browse(
                 self._context['uid']).employee_ids[0]
             for child in activity.child_ids:
@@ -126,9 +126,9 @@ class TaskShiftTimesheet(models.Model):
     @api.one
     def _compute_function(self):
         services = []
-        if 'params' in self._context and 'id' in self._context['params']:
+        if 'activity_id' in self._context:
             activity = self.env['project.task'].browse(
-                self._context['params']['id'])
+                self._context['activity_id'])
             current_employee = self.env['res.users'].browse(
                 self._context['uid']).employee_ids[0]
             for child in activity.child_ids:
