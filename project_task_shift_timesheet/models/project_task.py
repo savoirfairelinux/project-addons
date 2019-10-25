@@ -14,15 +14,5 @@ class Task(models.Model):
 
     @api.multi
     def write_main_task(self, vals):
-        main_task = self.get_main_task()
         vals.pop('project_id', None)
-        vals.pop('shift_timesheet', None)
-        temp = []
-        if 'task_state' in vals:
-            return False
-        if 'child_ids' in vals:
-            temp = vals.pop('child_ids')
-        main_task = main_task.write(vals)
-        if temp:
-            vals['child_ids'] = temp
-        return main_task
+        return super(Task, self).write_main_task(vals)

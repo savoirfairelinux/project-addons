@@ -10,8 +10,9 @@
                 <field name="shift_timesheet">
                     <tree editable="bottom" string="Shift Timesheet Activities" default_order="activity_date" delete="false">
                         <field name="activity_date" string="Date" invisible="1"/>
-                        <field name="department" string="Department" required="1" attrs="{'readonly': [('shift_status', '=', True)]}"/>
-                        <field name="function" string="Function" required="1" attrs="{'readonly': [('shift_status', '=', True)]}"/>
+                        <field name="compute_fonction" invisible="1"/>
+                        <field name="department" string="Department" required="1"  attrs="{'readonly': [('shift_status', '=', True)]}"/>
+                        <field name="function" string="Function" domain="compute_fonction" required="1" attrs="{'readonly': [('shift_status', '=', True)]}"/>
                         <field name="employee_id" string="Employee" required="1" readonly="1"/>
                         <field name="shift" string="Shift" attrs="{'readonly': [('shift_status', '=', True)]}"/>
                         <field name="start_hour" string="Start hour" attrs="{'readonly': [('shift_status', '=', True)]}"/>

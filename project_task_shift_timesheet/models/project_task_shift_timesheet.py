@@ -11,7 +11,6 @@ class TaskShiftTimesheet(models.Model):
     name = fields.Char(
         compute='_compute_default_name'
     )
-
     activity_id = fields.Many2one(
         'project.task',
         track_visibility='onchange',
@@ -27,17 +26,19 @@ class TaskShiftTimesheet(models.Model):
     department = fields.Many2one(
         'hr.department',
         track_visibility='onchange',
+        domain=lambda self: self._get_default_departments(),
     )
     function = fields.Many2one(
         'resource.calendar.service',
         track_visibility='onchange',
+        domain=lambda self: self._get_default_services(),
     )
+
     employee_id = fields.Many2one(
         'hr.employee',
         string='Employee',
         track_visibility='onchange',
-        default=lambda self: self.env['hr.employee'].search([
-            ('user_id', '=', self.env.user.id)])
+        default=lambda self: self._get_employee()
     )
     shift = fields.Integer(default=1)
     start_hour = fields.Integer(
@@ -90,3 +91,37 @@ class TaskShiftTimesheet(models.Model):
 
     def approve_shift(self):
         self.shift_status = True
+
+    @api.model
+    def _get_default_departments(self):
+        departments = []
+        if 'params' in self._context and 'id' in self._context['params']:        
+            activity = self.env['project.task'].browse(self._context['params']['id'])
+            current_employee = self.env['res.users'].browse(self._context['uid']).employee_ids[0]
+            for child in activity.child_ids:
+                if current_employee in child.employee_ids:
+                    departments.append(child.department_id.id)
+        return [('id','in', departments)]         
+
+    @api.model
+    def _get_default_services(self):
+        services = []
+        if 'params' in self._context and 'id' in self._context['params']:        
+            activity = self.env['project.task'].browse(self._context['params']['id'])
+            current_employee = self.env['res.users'].browse(self._context['uid']).employee_ids[0]
+            for child in activity.child_ids:
+                if current_employee in child.employee_ids:
+                    services.append(child.service_id.id)
+        return [('id','in', services)]      
+
+    def _compute_default_services_str(self):
+        return str(self._get_default_services())
+
+    def _get_employee(self):
+        self._get_default_services()
+        self._get_default_departments()
+        return self.env['hr.employee'].search([
+            ('user_id', '=', self.env.user.id)])[0]
+
+
+    compute_fonction = fields.Char('Current Odoo order Status',  compute='_compute_default_services_str',store=True)
