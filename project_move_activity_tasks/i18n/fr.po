@@ -6,14 +6,26 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-30 18:11+0000\n"
-"PO-Revision-Date: 2019-09-30 18:11+0000\n"
+"POT-Creation-Date: 2019-10-25 14:52+0000\n"
+"PO-Revision-Date: 2019-10-25 14:52+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
+
+#. module: project_move_activity_tasks
+#: code:addons/project_move_activity_tasks/wizard/project_move_activity_tasks_wizard.py:142
+#, python-format
+msgid " has been moved to "
+msgstr " a été déplacée au "
+
+#. module: project_move_activity_tasks
+#: code:addons/project_move_activity_tasks/wizard/project_move_activity_tasks_wizard.py:138
+#, python-format
+msgid "Activity: "
+msgstr "Activité : "
 
 #. module: project_move_activity_tasks
 #: selection:move.activity.tasks.wiz,moving_direction:0
@@ -147,6 +159,12 @@ msgid "Task"
 msgstr "Tâche"
 
 #. module: project_move_activity_tasks
+#: code:addons/project_move_activity_tasks/wizard/project_move_activity_tasks_wizard.py:140
+#, python-format
+msgid "Task: "
+msgstr "Tâche : "
+
+#. module: project_move_activity_tasks
 #: model:ir.model.fields,field_description:project_move_activity_tasks.field_move_activity_tasks_wiz_child_ids
 #: model:ir.ui.view,arch_db:project_move_activity_tasks.view_move_activity_tasks_wizard
 msgid "Tasks"
@@ -164,7 +182,8 @@ msgid "Wizard Move Activity Tasks"
 msgstr "Assistant de déplacement des tâches de l'activité"
 
 #. module: project_move_activity_tasks
-#: code:addons/project_move_activity_tasks/wizard/project_move_activity_tasks_wizard.py:120
+#: code:addons/project_move_activity_tasks/wizard/project_move_activity_tasks_wizard.py:133
 #, python-format
 msgid "You must set a new date!"
 msgstr "Vous devez saisir une date de déplacement !"
+

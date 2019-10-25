@@ -48,6 +48,13 @@ class MoveActivityTasksWizard(models.TransientModel):
                                    default="interval")
     move_activity = fields.Boolean(default=True)
 
+    def _send_message_to_subscribers(self, task):
+        if task.task_state not in ['draft', 'postponed', 'canceled']:
+            self.env['mail.message'].create(self.get_message(task))
+        if task.is_activity():
+            self.env['mail.message'].create(self.get_message(task.
+                                                             get_main_task()))
+
     def _compute_get_activity_childs(self):
         tasks = []
         for child in self.activity_id.child_ids:
@@ -71,6 +78,7 @@ class MoveActivityTasksWizard(models.TransientModel):
                 hours=self.hours,
                 minutes=self.minutes)).strftime('%Y-%m-%d %H:%M:%S')
         })
+        self._send_message_to_subscribers(task)
 
     def _move_tasks_to_date(self, task):
         moving_date = datetime.datetime.strptime(self.moving_date,
@@ -96,6 +104,7 @@ class MoveActivityTasksWizard(models.TransientModel):
                 date_end.second,
             ).strftime('%Y-%m-%d %H:%M:%S')
         })
+        self._send_message_to_subscribers(task)
 
     @api.multi
     def confirm_moving(self):
@@ -107,7 +116,8 @@ class MoveActivityTasksWizard(models.TransientModel):
                     if child.moving_checked and not child.is_main_task:
                         self._move_tasks_with_interval(-1, child)
             else:
-                self._move_tasks_with_interval(1, self.activity_id)
+                if self.move_activity:
+                    self._move_tasks_with_interval(1, self.activity_id)
                 for child in self.child_ids:
                     if child.moving_checked and not child.is_main_task:
                         self._move_tasks_with_interval(1, child)
@@ -120,3 +130,26 @@ class MoveActivityTasksWizard(models.TransientModel):
                     self._move_tasks_to_date(child)
             else:
                 raise ValidationError(_("You must set a new date!"))
+
+    def get_message(self, task):
+        message = '<br>'
+        if task.is_activity():
+            message += _('Activity: ') + task.name
+        elif task.activity_task_type == 'task':
+            message += _('Task: ') + task.name
+        return {
+            'body': message + _(' has been moved to ') + fields.Datetime.
+            context_timestamp(self, datetime.datetime.strptime(task.date_start,
+                                                               '%Y-%m-%d '
+                                                               '%H:%M:%S'))
+            .strftime('%Y-%m-%d %H:%M:%S'),
+            'channel_ids': [(6, 0, task.message_channel_ids.ids)],
+            'email_from': 'Administrator <admin@yourcompany.example.com>',
+            'message_type': 'notification',
+            'model': 'project.task',
+            'partner_ids': [(6, 0, task.message_partner_ids.ids)],
+            'record_name': task.name,
+            'reply_to': 'Administrator <admin@yourcompany.example.com>',
+            'res_id': task.id,
+            'subject': task.code
+        }
