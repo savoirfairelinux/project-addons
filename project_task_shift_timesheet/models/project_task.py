@@ -1,7 +1,8 @@
 # © 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
+from odoo.exceptions import AccessError
 
 
 class Task(models.Model):
@@ -14,15 +15,16 @@ class Task(models.Model):
 
     @api.multi
     def write_main_task(self, vals):
-        main_task = self.get_main_task()
-        vals.pop('project_id', None)
-        vals.pop('shift_timesheet', None)
-        temp = []
-        if 'task_state' in vals:
-            return False
-        if 'child_ids' in vals:
-            temp = vals.pop('child_ids')
-        main_task = main_task.write(vals)
-        if temp:
-            vals['child_ids'] = temp
-        return main_task
+        if 'shift_timesheet' in vals:
+            return
+        return super(Task, self).write_main_task(vals)
+
+    def verify_field_access_activity_write(self, vals):
+        if self.task_state == 'approved' and self.user_has_groups(
+                'project_event.group_project_event_user') and not \
+                self.user_has_groups(
+                'project_event.group_project_event_editor'):
+            allowed_keys = ('spectators', 'notes', 'shift_timesheet')
+            if not set(vals).issubset(allowed_keys):
+                raise AccessError(
+                    _('You can only edit field notes, spectators and timesheet'))

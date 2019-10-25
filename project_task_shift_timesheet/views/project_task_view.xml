@@ -8,10 +8,10 @@
              <xpath expr="//form/sheet/notebook/page[4]/group" position="before">
                 <h3>Shift timesheet</h3>
                 <field name="shift_timesheet">
-                    <tree editable="bottom" string="Shift Timesheet Activities" default_order="activity_date" delete="false">
+                    <tree editable="bottom" string="Shift Timesheet Activities" default_order="activity_date">
                         <field name="activity_date" string="Date" invisible="1"/>
-                        <field name="department" string="Department" required="1" attrs="{'readonly': [('shift_status', '=', True)]}"/>
-                        <field name="function" string="Function" required="1" attrs="{'readonly': [('shift_status', '=', True)]}"/>
+                        <field name="department" string="Department" required="1" domain="[('id','in', compute_dep)]" attrs="{'readonly': [('shift_status', '=', True)]}"/>
+                        <field name="function" string="Function" required="1"  domain="[('id','in', compute_function)]"  attrs="{'readonly': [('shift_status', '=', True)]}"/>
                         <field name="employee_id" string="Employee" required="1" readonly="1"/>
                         <field name="shift" string="Shift" attrs="{'readonly': [('shift_status', '=', True)]}"/>
                         <field name="start_hour" string="Start hour" attrs="{'readonly': [('shift_status', '=', True)]}"/>
@@ -20,6 +20,8 @@
                         <field name="end_minute" string="End minute" attrs="{'readonly': [('shift_status', '=', True)]}"/>
                         <field name="duration" string="Duration"/>
                         <field name="shift_status" string="Approved" readonly="1"/>
+                        <field name="compute_dep"/>
+                        <field name="compute_function" invisible="1"/>
                     </tree>
                 </field>
              </xpath>
