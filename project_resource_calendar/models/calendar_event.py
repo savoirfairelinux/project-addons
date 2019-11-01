@@ -210,9 +210,10 @@ class CalendarEvent(models.Model):
     @api.depends('start_datetime')
     def _compute_get_weekday_number(self):
         if self.start_datetime:
-            self.weekday_number = datetime.strptime(
-                self.start_datetime, '%Y-%m-%d %H:%M:%S'
-            ).weekday()
+            self.weekday_number = fields.Datetime\
+                .context_timestamp(self, datetime
+                                   .strptime(self.start_datetime,
+                                             '%Y-%m-%d %H:%M:%S')).weekday()
 
     @api.constrains('interval')
     def _check_interval_greater_than_0(self):
