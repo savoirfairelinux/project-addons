@@ -11,7 +11,9 @@ class TaskShiftTimesheet(models.Model):
     name = fields.Char(
         compute='_compute_default_name'
     )
-
+    active = fields.Boolean(
+        default=True
+    )
     activity_id = fields.Many2one(
         'project.task',
         track_visibility='onchange',
