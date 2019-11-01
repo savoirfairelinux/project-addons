@@ -49,9 +49,13 @@ class MoveActivityTasksWizard(models.TransientModel):
     move_activity = fields.Boolean(default=True)
 
     def _send_message_to_subscribers(self, task):
-        if task.task_state not in ['draft', 'postponed', 'canceled']:
+        if not task.is_activity() and task.task_state not in ['draft',
+                                                              'postponed',
+                                                              'canceled']:
             self.env['mail.message'].create(self.get_message(task))
-        if task.is_activity():
+        elif task.is_activity() and task.task_state not in ['draft',
+                                                            'postponed',
+                                                            'canceled']:
             self.env['mail.message'].create(self.get_message(task.
                                                              get_main_task()))
 
