@@ -38,6 +38,8 @@ class TaskShiftTimesheet(models.Model):
         track_visibility='onchange',
         default=lambda self: self.env['hr.employee'].search([
             ('user_id', '=', self.env.user.id)])[0]
+        if self.env['hr.employee'].search([
+            ('user_id', '=', self.env.user.id)]) else None
     )
     shift = fields.Integer(default=1)
     start_hour = fields.Integer(
