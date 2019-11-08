@@ -759,8 +759,8 @@ class Task(models.Model):
             for child in self.child_ids:
                 if child.is_resource_booked():
                     res += child.room_id.name + \
-                        ' - ' + child.date_start + \
-                        ' - ' + child.date_end + \
+                        ' - ' + self.format_date(child.date_start) + \
+                        ' - ' + self.format_date(child.date_end) + \
                         ' - ' + child.code + \
                         '<br>' if child.room_id else (
                             child.equipment_id.name + ' - ' +
