@@ -19,7 +19,7 @@
                     <field name="end_minute" string="End minute"/>
                     <field name="duration" string="Duration"/>
                     <field name="shift_status" string="Approved" readonly="1"/>
-                    <button name="approve_shift" string="Approve shift" type="object" attrs="{'invisible': [('shift_status','=', True)]}"/>
+                    <button name="approve_shift" string="Approve shift" type="object" attrs="{'invisible': [('shift_status','=', True)]}" groups="project_event.group_project_event_editor"/>
                 </group>
             </form>
         </field>
