@@ -1141,6 +1141,25 @@ msgid "Workflow:"
 msgstr "Workflow:"
 
 #. module: project_event
+#: code:addons/project_event/models/project_task.py:626
+#, python-format
+msgid "You can only edit field notes and spectators"
+msgstr "Vous ne pouvez éditer que le champs << notes >> et << spectateurs >>"
+
+#. module: project_event
+#: code:addons/project_event/models/project_task.py:613
+#, python-format
+msgid "You cannot edit field description"
+msgstr "Vous ne pouvez pas modifier le champs << description >>"
+
+#. module: project_event
+#: code:addons/project_event/models/project_task.py:616
+#, python-format
+msgid "You cannot edit field description in state \"done\""
+msgstr "Vous ne pouvez pas modifier le champ << description >>> dans le statut
+ \"Réalisé\""
+
+#. module: project_event
 #: code:addons/project_event/models/mail_thread.py:38
 #, python-format
 msgid "created/modified"

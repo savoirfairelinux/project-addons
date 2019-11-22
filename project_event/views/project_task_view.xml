@@ -288,8 +288,7 @@
                             </group>
                         </page>
                         <page string="Description">
-                            <field name="description"
-                                   attrs="{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}" />
+                            <field name="description" />
                         </page>
                         <page string="Notes">
                             <field name="notes" />

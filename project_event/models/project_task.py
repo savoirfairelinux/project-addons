@@ -298,6 +298,7 @@ class Task(models.Model):
         if self.is_activity():
             return self.write_activity(vals)
         else:
+            self.verify_field_access_task_write(vals)
             self.update_reservation_event(vals)
             if 'employee_ids' in vals:
                 self.message_unsubscribe(list(
@@ -600,6 +601,19 @@ class Task(models.Model):
                 continue
             if task_vals:
                 task.write(task_vals)
+
+    def verify_field_access_task_write(self, vals):
+        if self.task_state in ['requested', 'accepted'] and\
+                'description' in vals:
+            if self.user_has_groups(
+                    'project_event.group_project_event_editor'):
+                return
+            else:
+                raise AccessError(
+                    _('You cannot edit field description'))
+        elif self.task_state in ['done'] and 'description' in vals:
+            raise AccessError(
+                _('You cannot edit field description in state "done"'))
 
     def verify_field_access_activity_write(self, vals):
         if self.task_state == 'approved' and self.user_has_groups(
