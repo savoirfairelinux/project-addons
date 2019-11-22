@@ -48,7 +48,7 @@
     <menuitem id="project_event_template_menu"
               name="Template"
               parent="project_event.project_event_menu_root"
-              groups="project_event.group_project_event_manager"/>
+              groups="project_event.group_project_event_editor"/>
     <menuitem id="event_template_menu"
               name="Event Template"
               parent="project_event_template_menu"
