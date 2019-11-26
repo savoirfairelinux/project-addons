@@ -409,6 +409,15 @@ class CalendarEvent(models.Model):
     @api.multi
     def write(self, vals):
         self.validate_client_id_write(vals)
+        if self.create_uid.id != self.env.uid \
+                and self.user_has_groups('project_resource_calendar'
+                                         '.group_resource_calendar_editor') \
+                and not self.user_has_groups('project_resource_calendar'
+                                             '.group_resource'
+                                             '_calendar_manager'):
+            raise ValidationError(
+                _('You are not allowed to do this operation, '
+                  'please contact the system administrator'))
         return super(CalendarEvent, self).write(vals)
 
     @api.multi
