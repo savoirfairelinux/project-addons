@@ -441,14 +441,9 @@ class TestSecurity(TestCalendarEventCommon):
             self.user_guest.id,
             'project_resource_calendar.menu_event_reports'))
 
-    def test_980_editor_user_cannot_get_weekly_report_menu(self):
-        self.assertFalse(self.has_access_to_menu(
-            self.user_editor.id,
-            'project_resource_calendar.menu_event_reports'))
-
-    def test_990_manager_user_can_get_weekly_report_menu(self):
+    def test_980_editor_user_can_get_weekly_report_menu(self):
         self.assertTrue(self.has_access_to_menu(
-            self.user_manager.id,
+            self.user_editor.id,
             'project_resource_calendar.menu_event_reports'))
 
     def test_420_base_user_cannot_delete_calendar_events(self):
