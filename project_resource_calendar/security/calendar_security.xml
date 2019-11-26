@@ -83,6 +83,18 @@
         <field eval="1" name="perm_create"/>
     </record> 
 
+    <record id="all_calendar_event_wc_access" model="ir.rule">
+        <field name="name">All Events WC Editor</field>
+        <field name="model_id" ref="calendar.model_calendar_event"/>
+        <field name="domain_force">[(1,'=',1)]
+        </field>
+        <field name="groups" eval="[(4, ref('group_resource_calendar_editor'))]"/>
+        <field eval="0" name="perm_unlink"/>
+        <field eval="1" name="perm_write"/>
+        <field eval="0" name="perm_read"/>
+        <field eval="1" name="perm_create"/>
+    </record> 
+
     <record id="own_group_calendar_event_room_readonly_access" model="ir.rule">
         <field name="name">Own rooms readonly</field>
         <field name="model_id" ref="model_resource_calendar_room"/>
