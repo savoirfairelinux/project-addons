@@ -29,6 +29,8 @@
         <field name="menu_access"
             eval="[(6, 0,[ref('project_resource_calendar.menu_calendar_gantt'),
             ref('project_resource_calendar.room_sub_menu'),
+            ref('project_resource_calendar.instrument_sub_menu'),
+            ref('project_resource_calendar.service_sub_menu'),
             ref('resource.menu_resource_config')])]"/>
     </record>
 
