@@ -406,15 +406,26 @@ class CalendarEvent(models.Model):
                 vals['partner_ids'] = [
                     (6, 0, vals['partner_ids'][0][2] + [vals['client_id']])]
 
+    @staticmethod
+    def room_in_user_groups(user, room):
+        for group in user.groups_id:
+            if group.room_ids and room.id in group.room_ids.ids:
+                return True
+        return False
+
     @api.multi
     def write(self, vals):
         self.validate_client_id_write(vals)
+        current_user = self.env['res.users'].browse(self.env.uid)
         if self.create_uid.id != self.env.uid \
                 and self.user_has_groups('project_resource_calendar'
                                          '.group_resource_calendar_editor') \
                 and not self.user_has_groups('project_resource_calendar'
                                              '.group_resource'
-                                             '_calendar_manager'):
+                                             '_calendar_manager')\
+                and current_user.partner_id.id not in self.partner_ids.ids\
+                and self.room_id \
+                and not self.room_in_user_groups(current_user, self.room_id):
             raise ValidationError(
                 _('You are not allowed to do this operation, '
                   'please contact the system administrator'))
