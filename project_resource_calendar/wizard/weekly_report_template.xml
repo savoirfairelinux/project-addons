@@ -40,7 +40,10 @@
                   <t t-foreach="docs" t-as="o">
                     <t t-if="o['weekday']==0">
                       <tr>
-                        <td>
+                        <td t-if="o['allday']==True">
+                          <span>All the day</span>
+                        </td>
+                        <td t-if="o['allday']==False">
                          <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
                          <span> to </span>
                          <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
@@ -55,7 +58,10 @@
                   <t t-foreach="docs" t-as="o">
                     <t t-if="o['weekday']==1">
                       <tr>
-                        <td>
+                        <td t-if="o['allday']==True">
+                          <span>All the day</span>
+                        </td>
+                        <td t-if="o['allday']==False">
                          <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
                          <span> to </span>
                          <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
@@ -70,7 +76,10 @@
                   <t t-foreach="docs" t-as="o">
                     <t t-if="o['weekday']==2">
                       <tr>
-                        <td>
+                        <td t-if="o['allday']==True">
+                          <span>All the day</span>
+                        </td>
+                        <td t-if="o['allday']==False">
                          <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
                          <span> to </span>
                          <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
@@ -85,7 +94,10 @@
                   <t t-foreach="docs" t-as="o">
                     <t t-if="o['weekday']==3">
                       <tr>
-                        <td>
+                        <td t-if="o['allday']==True">
+                          <span>All the day</span>
+                        </td>
+                        <td t-if="o['allday']==False">
                          <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
                          <span> to </span>
                          <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
@@ -100,7 +112,10 @@
                   <t t-foreach="docs" t-as="o">
                     <t t-if="o['weekday']==4">
                       <tr>
-                        <td>
+                        <td t-if="o['allday']==True">
+                          <span>All the day</span>
+                        </td>
+                        <td t-if="o['allday']==False">
                          <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
                          <span> to </span>
                          <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
@@ -115,7 +130,10 @@
                   <t t-foreach="docs" t-as="o">
                     <t t-if="o['weekday']==5">
                       <tr>
-                        <td>
+                        <td t-if="o['allday']==True">
+                          <span>All the day</span>
+                        </td>
+                        <td t-if="o['allday']==False">
                          <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
                          <span> to </span>
                          <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
@@ -130,7 +148,10 @@
                   <t t-foreach="docs" t-as="o">
                     <t t-if="o['weekday']==6">
                       <tr>
-                        <td>
+                        <td t-if="o['allday']==True">
+                          <span>All the day</span>
+                        </td>
+                        <td t-if="o['allday']==False">
                          <span t-esc="datetime.datetime.strptime(o['start'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>
                          <span> to </span>
                          <span t-esc="datetime.datetime.strptime(o['stop'], '%Y-%m-%d %H:%M:%S').strftime('%H:%M')"/>

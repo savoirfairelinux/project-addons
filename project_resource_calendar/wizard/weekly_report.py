@@ -36,6 +36,7 @@ class ReportWeekly(models.AbstractModel):
                 'start': self.get_tz_format(event.start),
                 'stop': self.get_tz_format(event.stop),
                 'weekday': event.weekday_number,
+                'allday': event.allday,
             })
         return docs
 

@@ -207,13 +207,16 @@ class CalendarEvent(models.Model):
             self.client_id_partner_ids_names = self._get_res_partners_names()
 
     @api.one
-    @api.depends('start_datetime')
+    @api.depends('start_datetime', 'allday', 'start_date')
     def _compute_get_weekday_number(self):
-        if self.start_datetime:
+        if self.start_datetime and not self.allday:
             self.weekday_number = fields.Datetime\
                 .context_timestamp(self, datetime
                                    .strptime(self.start_datetime,
                                              '%Y-%m-%d %H:%M:%S')).weekday()
+        elif self.allday:
+            self.weekday_number = datetime.strptime(
+                self.start_date, '%Y-%m-%d').weekday()
 
     @api.constrains('interval')
     def _check_interval_greater_than_0(self):
