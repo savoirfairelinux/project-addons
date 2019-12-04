@@ -145,6 +145,7 @@ class ProjectEventWizard(models.TransientModel):
             'sector_id': self.event_sector_id.id,
             'notes': self.event_notes,
             'project_type': 'event',
+            'description': self.event_description,
         }
         event = self.env['project.project'].create(event_vals)
         for act in self.activity_ids:
