@@ -465,7 +465,7 @@ msgstr "Équipement: <br/>"
 #: model:ir.ui.view,arch_db:project_event.project_event_form
 #: selection:project.project,project_type:0
 msgid "Event"
-msgstr "Évènement"
+msgstr "Événement"
 
 #. module: project_event
 #: model:ir.actions.act_window,name:project_event.action_project_event_to_auditlog_log
