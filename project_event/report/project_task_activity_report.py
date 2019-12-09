@@ -93,8 +93,8 @@ class ReportWeekly(models.AbstractModel):
         done = set()
         result = []
         for element in sorted_list:
-            if (element['employee'], element['department']) not in done:
-                done.add((element['employee'], element['department']))
+            if element['employee'] not in done:
+                done.add(element['employee'])
                 result.append(element)
         return result
 
