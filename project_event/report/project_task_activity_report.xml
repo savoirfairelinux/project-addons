@@ -217,36 +217,6 @@
           </table>
         </div>
         <br/>
-        <div style="border-bottom: 2px solid black;">
-          <h4>
-            <strong>Timesheet: </strong>
-          </h4>
-          <table class="table">
-            <tr>
-              <th style="text-align: center">Timesheet - Actual time</th>
-            </tr>
-          </table>
-          <table class="table">
-            <tr>
-              <th>Name</th>
-              <th>Date</th>
-              <th>Service</th>
-              <th>Description</th>
-              <th>Duration</th>
-            </tr>
-            <t t-foreach="tasks" t-as="task_timesheet">
-              <t t-foreach="task_timesheet['timesheet_details']" t-as="timesheet_line">
-                <tr>
-                  <td> <t t-esc="timesheet_line['name']"/></td>
-                  <td> <t t-esc="timesheet_line['date']"/></td>
-                  <td> <t t-esc="task_timesheet['service']"/></td>
-                  <td> <t t-esc="timesheet_line['description']"/></td>
-                  <td> <t t-esc="timesheet_line['duration']"/></td>
-                </tr>
-              </t>
-            </t>
-          </table>
-        </div>
       </div>
           <div class="footer">
             <div class="row text-center">
