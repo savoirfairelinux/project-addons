@@ -150,7 +150,7 @@
                             attrs="{'invisible': [('task_state', 'not in', ['requested','read'])]}" type="object"
                             groups="project_event.group_project_event_editor"/>
                     <button name="action_done" string="Done"
-                            attrs="{'invisible': [('task_state', 'not in', ['accepted','read'])]}"
+                            attrs="{'invisible': ['|', ('task_state', 'not in', ['accepted','read']), ('report_done_required','=', False)]}"
                             type="object"/>
                     <button name="action_read" string="Read" type="object"
                             attrs="{'invisible': [('task_state', '!=', 'requested')]}"/>
