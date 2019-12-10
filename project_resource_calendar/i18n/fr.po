@@ -1092,3 +1092,7 @@ msgstr "Nom"
 msgid "Cancelled"
 msgstr "Annulé"
 
+#. module: project_resource_calendar
+#: model:ir.ui.view,arch_db:project_resource_calendar.weekly_report_view
+msgid "<span>All the day</span>"
+msgstr "<span>Toute la journée</span>"
