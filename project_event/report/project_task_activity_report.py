@@ -178,7 +178,8 @@ class ReportWeekly(models.AbstractModel):
             return rest
         else:
             item = departments.pop()
-            for remark in departments:
+            departments_loop = departments.copy()
+            for remark in departments_loop:
                 if remark[0] == item[0]:
                     new_remark = item[1] + remark[1]
                     item = (item[0], new_remark)
