@@ -778,16 +778,18 @@ class Task(models.Model):
                         ' - ' + child.code + \
                         '<br>' if child.room_id else (
                             child.equipment_id.name + ' - ' +
-                            child.date_start + ' - ' + child.date_end +
+                            self.format_date(child.date_start) +
+                            ' - ' +
+                            self.format_date(child.date_end) +
                             ' - ' + child.code + '<br>')
                 for attendee in child.get_partners():
                     hres = child.is_hr_resource_double_booked(attendee)
                     attendee_partner = self.env['res.partner'].browse(attendee)
                     if hres and attendee_partner:
-                        res += attendee_partner.name + \
-                            ' - ' + child.date_start + \
-                            ' - ' + child.date_end + \
-                            ' - ' + child.code + \
+                        res += attendee_partner.name +\
+                            ' - ' + self.format_date(child.date_start) +\
+                            ' - ' + self.format_date(child.date_end) +\
+                            ' - ' + child.code +\
                             '<br>'
         return res
 
