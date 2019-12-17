@@ -43,7 +43,7 @@ msgstr "Modèles d'activités"
 #: code:addons/project_event_template/wizard/project_event_wizard.py:73
 #, python-format
 msgid "Activities Wizard"
-msgstr "Wizard d'activités"
+msgstr "Assistant d'activités"
 
 #. module: project_event_template
 #: model:ir.model.fields,field_description:project_event_template.field_project_event_wizard_activity_ids
@@ -75,7 +75,7 @@ msgstr "Titre d'activité"
 #: model:ir.ui.view,arch_db:project_event_template.view_activity_event_wizard
 #: model:ir.ui.view,arch_db:project_event_template.view_project_activity_wizard
 msgid "Activity Wizard"
-msgstr "Wizard d'activités"
+msgstr "Assistant d'activités"
 
 #. module: project_event_template
 #: model:ir.ui.view,arch_db:project_event_template.view_activity_event_wizard
@@ -90,7 +90,7 @@ msgstr ""
 #. module: project_event_template
 #: model:ir.model.fields,field_description:project_event_template.field_project_task_wizard_activity_wiz_id
 msgid "Activity wizard"
-msgstr "Wizard d'activités"
+msgstr "Assistant d'activités"
 
 #. module: project_event_template
 #: model:ir.ui.view,arch_db:project_event_template.view_activity_event_wizard
@@ -273,7 +273,7 @@ msgstr "Titre d'événement"
 #: model:ir.ui.menu,name:project_event_template.event_wizard_menu
 #: model:ir.ui.view,arch_db:project_event_template.view_project_event_wizard
 msgid "Event Wizard"
-msgstr "Wizard d'événement"
+msgstr "Assistant d'événement"
 
 #. module: project_event_template
 #: model:ir.ui.view,arch_db:project_event_template.view_project_event_wizard
@@ -476,7 +476,7 @@ msgstr "Titre de la tâche"
 #: model:ir.ui.view,arch_db:project_event_template.view_project_task_wizard
 #: model:ir.ui.view,arch_db:project_event_template.view_project_task_wizard_activity
 msgid "Task Wizard"
-msgstr "Wizard de tâche"
+msgstr "Assistant de tâche"
 
 #. module: project_event_template
 #: model:ir.ui.view,arch_db:project_event_template.view_orphan_task_event_wizard
@@ -502,7 +502,7 @@ msgstr "Modèles de tâches"
 #: code:addons/project_event_template/wizard/project_event_wizard.py:116
 #, python-format
 msgid "Tasks Wizard"
-msgstr "Wizard de tâches"
+msgstr "Assistant de tâches"
 
 #. module: project_event_template
 #: model:ir.model.fields,field_description:project_event_template.field_project_activity_wizard_task_line_ids
@@ -523,20 +523,20 @@ msgstr "Modèles d'événements"
 #. module: project_event_template
 #: model:ir.ui.menu,name:project_event_template.project_event_wizard_menu
 msgid "Wizard"
-msgstr "Wizard"
+msgstr "Assistant"
 
 #. module: project_event_template
 #: model:ir.model,name:project_event_template.model_project_activity_wizard
 msgid "Wizard Event Activity Creation from template"
 msgstr ""
-"Wizard de création d'activité d'événement à partir d'un modèle"
+"Assistant de création d'activité d'événement à partir d'un modèle"
 
 #. module: project_event_template
 #: model:ir.model,name:project_event_template.model_project_event_wizard
 msgid "Wizard Event Creation from Template"
-msgstr "Wizard de création d'événement à partir d'un modèle"
+msgstr "Assistant de création d'événement à partir d'un modèle"
 
 #. module: project_event_template
 #: model:ir.model,name:project_event_template.model_project_task_wizard
 msgid "Wizard Event Task Creation from template"
-msgstr "Wizard de création de tâche d'événement à partir d'un modèle"
+msgstr "Assistant de création de tâche d'événement à partir d'un modèle"
