@@ -1,7 +1,7 @@
 # Copyright 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import fields, models
+from odoo import fields, models, api
 
 
 class Resource(models.Model):
@@ -72,3 +72,20 @@ class Resource(models.Model):
              'time.',
         default=True,
     )
+
+    @api.onchange('is_bookable')
+    def _compute_allow_double_book(self):
+        if not self.is_bookable:
+            self.allow_double_book = False
+
+    @api.model
+    def write(self, vals):
+        if 'is_bookable' in vals and vals['is_bookable'] is False:
+            vals['allow_double_book'] = False
+        return super().write(vals)
+
+    @api.model
+    def create(self, vals):
+        if 'is_bookable' in vals and vals['is_bookable'] is False:
+            vals['allow_double_book'] = False
+        return super().create(vals)

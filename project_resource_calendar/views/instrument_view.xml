@@ -56,7 +56,7 @@
                         <group>
                             <field name="sku"/>
                             <field name="is_bookable"/>
-                            <field name="allow_double_book"/>
+                            <field name="allow_double_book" attrs="{'readonly':[('is_bookable','=',False)]}"/>
                         </group>
                     </group>
                     <notebook>
