@@ -455,8 +455,6 @@ msgstr "Équipement: <br/>"
 #: model:ir.model,name:project_event.model_calendar_event
 #: model:ir.model.fields,field_description:project_event.field_project_task_parent_id_project_id
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_event_id
-#: model:ir.ui.menu,name:project_event.project_event_menu
-#: model:ir.ui.menu,name:project_event.project_event_menu_root
 #: model:ir.ui.menu,name:project_event.project_event_sub_menu
 #: model:ir.ui.view,arch_db:project_event.project_activity_search
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_calendar
@@ -464,6 +462,12 @@ msgstr "Équipement: <br/>"
 #: model:ir.ui.view,arch_db:project_event.project_event_activity_tree
 #: model:ir.ui.view,arch_db:project_event.project_event_form
 #: selection:project.project,project_type:0
+msgid "Event"
+msgstr "Événement"
+
+#. module: project_event
+#: model:ir.ui.menu,name:project_event.project_event_menu
+#: model:ir.ui.menu,name:project_event.project_event_menu_root
 msgid "Event"
 msgstr "Production"
 
