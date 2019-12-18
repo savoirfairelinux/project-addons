@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 from odoo.tools import DEFAULT_SERVER_DATETIME_FORMAT, pycompat
 import time
 from odoo.addons.calendar.models.calendar import Meeting
+import pytz
 
 VIRTUALID_DATETIME_FORMAT = "%Y%m%d%H%M%S"
 
@@ -570,6 +571,33 @@ class CalendarEvent(models.Model):
                                         .browse(partner).name)
 
         return booked_resources
+
+    @api.model
+    def search_read(
+            self, domain=None, fields=None, offset=0,
+            limit=None, order=None):
+        if domain and domain[0] and domain[1]:
+            week_diff = timedelta(-7, 1)
+            domain_interval = datetime.strptime(
+                domain[1][2], '%Y-%m-%d %H:%M:%S') - datetime.strptime(
+                domain[0][2], '%Y-%m-%d %H:%M:%S')
+            if domain[0][2][-8:] == '23:59:59'\
+                    and domain_interval == week_diff:
+                tz = self.env['res.users'].browse(self.env.uid).tz or 'utc'
+                my_timestamp = datetime.strptime(
+                    domain[0][2], '%Y-%m-%d %H:%M:%S')
+                my_tz = pytz.timezone(tz)
+                utc_tz = pytz.timezone('utc')
+                time_in_utc_tz = my_tz.localize(my_timestamp).astimezone(
+                    utc_tz).strftime("%Y-%m-%d %H:%M:%S")
+                domain[0][2] = time_in_utc_tz
+        res = super(CalendarEvent, self).search_read(
+            domain,
+            fields,
+            offset,
+            limit,
+            order)
+        return res
 
     @api.multi
     def action_detach_recurring_event(self):
