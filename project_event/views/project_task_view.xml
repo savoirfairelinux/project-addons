@@ -73,7 +73,7 @@
                             'default_activity_task_type':'task',
                             'default_parent_id': active_id,
                             }" domain="[('activity_task_type','=', 'task')]">
-                                <tree>
+                                <tree default_order="date_start">
                                     <field name="equipment_id" string="Resource"/>
                                     <field name="room_id" string="Room"/>
                                     <field name="name"/>
