@@ -106,6 +106,9 @@
                             'headers': ['Name','Date Start', 'Date End', 'Real Date Start', 'Real Date End', 'Actual Total Time']}" />
                         </group>                        
                         </page>
+                        <page string="Plans">
+                            <field name="plan_ids" />
+                        </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
@@ -292,6 +295,9 @@
                         </page>
                         <page string="Notes">
                             <field name="notes" />
+                        </page>
+                        <page string="Plans">
+                            <field name="plan_ids" />
                         </page>
                     </notebook>
                 </sheet>

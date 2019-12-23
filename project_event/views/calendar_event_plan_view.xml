@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<record id="resource_calendar_room_form" model="ir.ui.view">
+        <field name="name">Plan Form</field>
+        <field name="model">project.event.plan</field>
+        <field name="arch" type="xml">
+            <form string="Plan">
+              <group>
+                <field name="name" required="1"/>
+                <field name="plan" widget="image"/>
+              </group>   
+            </form>
+        </field>
+    </record>
+</odoo>

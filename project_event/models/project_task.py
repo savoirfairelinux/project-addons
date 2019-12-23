@@ -253,6 +253,10 @@ class Task(models.Model):
         related='parent_id.project_id',
         string="Event"
     )
+    plan_ids = fields.Many2many(
+        comodel_name='project.event.plan',
+        string="Plans"
+    )
 
     def format_date(self, date_to_format, format_str='dd-MMMM-yyyy HH:mm:ss'):
         lang = self.env['res.users'].browse(self.env.uid).lang or 'en_US'
@@ -604,16 +608,16 @@ class Task(models.Model):
 
     def verify_field_access_task_write(self, vals):
         if self.task_state in ['requested', 'accepted'] and\
-                'description' in vals:
+                ('description' in vals or 'plan_ids' in vals):
             if self.user_has_groups(
                     'project_event.group_project_event_editor'):
                 return
             else:
                 raise AccessError(
-                    _('You cannot edit field description'))
+                    _('You cannot edit fields description and plans'))
         elif self.task_state in ['done'] and 'description' in vals:
             raise AccessError(
-                _('You cannot edit field description in state "done"'))
+                _('You cannot edit fields description and plans in state "done"'))
 
     def verify_field_access_activity_write(self, vals):
         if self.task_state == 'approved' and self.user_has_groups(

@@ -45,6 +45,8 @@ class ReportWeekly(models.AbstractModel):
                                                                   .child_ids),
                 'tasks_details': self.get_tasks_details(activity.child_ids),
                 'client_child_contacts': activity.partner_id.child_ids,
+                'activity_plans': activity.plan_ids,
+                'task_plans': self.get_task_plans(activity),
             })
         return activities_docs
 
@@ -186,3 +188,10 @@ class ReportWeekly(models.AbstractModel):
                     departments.remove(remark)
             rest.append(item)
             return self.remove_duplicate_department(departments, rest)
+
+    def get_task_plans(self, activity):
+        plans = []
+        for task in activity.child_ids:
+            if not task.is_main_task:
+                plans += task.plan_ids.ids
+        return self.env['project.event.plan'].browse(plans)

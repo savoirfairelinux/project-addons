@@ -54,6 +54,15 @@ msgstr ""
 #. module: project_event
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
 msgid "<strong>\n"
+"              List of Plans:\n"
+"            </strong>"
+msgstr "<strong>\n"
+"              Liste des plans:\n"
+"            </strong>"
+
+#. module: project_event
+#: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
+msgid "<strong>\n"
 "              List of convocation:\n"
 "            </strong>"
 msgstr "<strong>\n"
@@ -203,6 +212,11 @@ msgid "Actual Total Time"
 msgstr "Total Réel"
 
 #. module: project_event
+#: model:ir.model.fields,help:project_event.field_project_event_plan_plan
+msgid "Add Plan"
+msgstr "Ajouter un plan"
+
+#. module: project_event
 #: model:ir.model,name:project_event.model_account_analytic_account
 msgid "Analytic Account"
 msgstr "Compte analytique"
@@ -325,6 +339,7 @@ msgid "Contact:"
 msgstr "Contact:"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_plan_create_uid
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type_create_uid
 #: model:ir.model.fields,field_description:project_event.field_res_partner_sector_create_uid
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_create_uid
@@ -333,6 +348,7 @@ msgid "Created by"
 msgstr "Créé par"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_plan_create_date
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type_create_date
 #: model:ir.model.fields,field_description:project_event.field_res_partner_sector_create_date
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_create_date
@@ -371,12 +387,12 @@ msgid "Description"
 msgstr "Description"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_plan_display_name
 #: model:ir.model.fields,field_description:project_event.field_report_project_event_project_task_activity_report_view_display_name
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type_display_name
 #: model:ir.model.fields,field_description:project_event.field_res_partner_sector_display_name
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_display_name
 #: model:ir.model.fields,field_description:project_event.field_task_category_display_name
-
 msgid "Display Name"
 msgstr "Nom à afficher"
 
@@ -583,6 +599,7 @@ msgid "Human"
 msgstr "Humain"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_plan_id
 #: model:ir.model.fields,field_description:project_event.field_report_project_event_project_task_activity_report_view_id
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type_id
 #: model:ir.model.fields,field_description:project_event.field_res_partner_sector_id
@@ -603,6 +620,7 @@ msgid "Is visible in Activity technical sheet"
 msgstr "Visible dans le bordereau technique"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_plan___last_update
 #: model:ir.model.fields,field_description:project_event.field_report_project_event_project_task_activity_report_view___last_update
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type___last_update
 #: model:ir.model.fields,field_description:project_event.field_res_partner_sector___last_update
@@ -612,6 +630,7 @@ msgid "Last Modified on"
 msgstr "Dernière modification le"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_plan_write_uid
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type_write_uid
 #: model:ir.model.fields,field_description:project_event.field_res_partner_sector_write_uid
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_write_uid
@@ -620,6 +639,7 @@ msgid "Last Updated by"
 msgstr "Dernière mise à jour par"
 
 #. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_plan_write_date
 #: model:ir.model.fields,field_description:project_event.field_res_partner_category_type_write_date
 #: model:ir.model.fields,field_description:project_event.field_res_partner_sector_write_date
 #: model:ir.model.fields,field_description:project_event.field_reservation_validation_wiz_write_date
@@ -704,6 +724,19 @@ msgstr "Étiquettes du partenaire"
 #: model:ir.ui.view,arch_db:project_event.project_task_activity_report_view
 msgid "Phone:"
 msgstr "Téléphone :"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_event_plan_plan
+#: model:ir.ui.view,arch_db:project_event.resource_calendar_room_form
+msgid "Plan"
+msgstr "Plan"
+
+#. module: project_event
+#: model:ir.model.fields,field_description:project_event.field_project_task_plan_ids
+#: model:ir.ui.view,arch_db:project_event.project_event_activity_form
+#: model:ir.ui.view,arch_db:project_event.project_event_task_form
+msgid "Plans"
+msgstr "Plans"
 
 #. module: project_event
 #: code:addons/project_event/models/project_project.py:214
@@ -1151,16 +1184,16 @@ msgid "You can only edit field notes and spectators"
 msgstr "Vous ne pouvez éditer que le champs << notes >> et << spectateurs >>"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:613
+#: code:addons/project_event/models/project_task.py:617
 #, python-format
-msgid "You cannot edit field description"
-msgstr "Vous ne pouvez pas modifier le champs << description >>"
+msgid "You cannot edit fields description and plans"
+msgstr "Vous ne pouvez pas modifier le champs << description >> ni le champs <<plans>>"
 
 #. module: project_event
-#: code:addons/project_event/models/project_task.py:616
+#: code:addons/project_event/models/project_task.py:620
 #, python-format
-msgid "You cannot edit field description in state \"done\""
-msgstr "Vous ne pouvez pas modifier le champ << description >>> dans le statut
+msgid "You cannot edit fields description and plans in state \"done\""
+msgstr "Vous ne pouvez pas modifier le champ << description >>>  ni <<plans>> dans le statut
  \"Réalisé\""
 
 #. module: project_event
@@ -1168,6 +1201,11 @@ msgstr "Vous ne pouvez pas modifier le champ << description >>> dans le statut
 #, python-format
 msgid "created/modified"
 msgstr "créé(e)/modifié(e)"
+
+#. module: project_event
+#: model:ir.model,name:project_event.model_project_event_plan
+msgid "project.event.plan"
+msgstr "project.event.plan"
 
 #. module: project_event
 #: model:ir.model,name:project_event.model_report_project_event_project_task_activity_report_view

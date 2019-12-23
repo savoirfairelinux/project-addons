@@ -218,6 +218,42 @@
         </div>
         <br/>
       </div>
+      <t t-if="activity_plans">
+      <div style="page-break-before:always;">
+        <br/>
+        <div style="border-bottom: 2px solid black;">
+          <h4>
+            <strong>
+              List of Plans:
+            </strong>
+          </h4>
+        </div>
+        <br/>
+        <t t-if="activity_plans">
+              <div>
+                <span t-field="activity_plans[0].plan" t-field-options='{"widget": "image"}' />
+              </div>
+            </t>
+      </div>
+      </t>
+      <t t-foreach="activity_plans" t-as="plan">
+          <div style="page-break-before:always;">
+           <t t-if="plan==activity_plans[0]">
+            </t>
+            <t t-else="">
+              <div>
+                <span t-field="plan.plan" t-field-options='{"widget": "image"}' />
+              </div>
+            </t>
+          </div>
+      </t>
+      <t t-foreach="task_plans" t-as="plan">
+          <div style="page-break-before:always;">
+              <div>
+                <span t-field="plan.plan" t-field-options='{"widget": "image"}' />
+              </div>
+          </div>
+      </t>
           <div class="footer">
             <div class="row text-center">
               <div class="text-center">

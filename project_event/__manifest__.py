@@ -45,6 +45,7 @@
         'views/res_partner_sector_view.xml',
         'views/hr_department_view.xml',
         'views/calendar_event_view.xml',
+        'views/calendar_event_plan_view.xml',
         'wizard/reservation_validation_wiz_view.xml'
     ],
     'installable': True,
