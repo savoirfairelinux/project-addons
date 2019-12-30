@@ -41,7 +41,7 @@ def _export_rows(self, fields, batch_invalidate=True, virtual_data=None):
     # both _ensure_xml_id and the splitter want to work on recordsets but
     # neither returns one, so can't really be composed...
     uniq_ids = self.browse(list(dict.fromkeys(self.ids)))
-    if virtual_data and False not in virtual_data:
+    if virtual_data:
         xids = dict(
             uniq_ids.__ensure_xml_id(
                 skip=['id'] not in fields))

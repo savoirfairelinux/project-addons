@@ -10,7 +10,8 @@ import time
 from odoo.addons.calendar.models.calendar import Meeting
 import pytz
 
-VIRTUALID_DATETIME_FORMAT = "%Y%m%d%H%M%S"
+VIRTUALID_DATETIME_FORMAT = '%Y%m%d%H%M%S'
+ALL_DAY_DATE_FORMAT = '%Y-%m-%d'
 
 
 class CalendarEvent(models.Model):
@@ -655,7 +656,30 @@ class CalendarEvent(models.Model):
             res = [bit for bit in calendar_id.split('-') if bit]
             if len(res) == 2:
                 real_id = res[0]
-                if with_date:
+                if self.browse(real_id).allday:
+                    r_start = datetime.strptime(
+                        self.browse(real_id).start_date,
+                        ALL_DAY_DATE_FORMAT)
+                    r_stop = datetime.strptime(
+                        self.browse(real_id).stop_date,
+                        ALL_DAY_DATE_FORMAT)
+                    delta = r_stop - r_start
+                    real_date = fields.Datetime.context_timestamp(
+                        self,
+                        datetime.strptime(
+                            time.strftime(
+                                DEFAULT_SERVER_DATETIME_FORMAT,
+                                time.strptime(
+                                    res[1],
+                                    VIRTUALID_DATETIME_FORMAT)),
+                            '%Y-%m-%d %H:%M:%S')) .strftime(ALL_DAY_DATE_FORMAT)
+                    start = datetime.strptime(real_date, ALL_DAY_DATE_FORMAT)
+                    end = (start + delta).strftime(ALL_DAY_DATE_FORMAT)
+                    return (
+                        int(real_id),
+                        real_date + ' 00:00:00',
+                        end + ' 23:59:59')
+                elif with_date:
                     r_start = datetime.strptime(
                         self.browse(real_id).start_datetime,
                         DEFAULT_SERVER_DATETIME_FORMAT)
