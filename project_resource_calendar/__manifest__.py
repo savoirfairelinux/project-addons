@@ -48,4 +48,10 @@
     ],
     'installable': True,
     'application': True,
+    'images': [
+        'static/description/conflict_prompt.png',
+        'static/description/piano_on_stage.png',
+        'static/description/room_screenshot.png',
+        'static/description/main_screenshot.png'
+    ]
 }
