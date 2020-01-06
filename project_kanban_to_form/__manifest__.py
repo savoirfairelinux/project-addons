@@ -8,7 +8,7 @@
     'author': 'Savoir-faire Linux',
     'maintainer': 'Savoir-faire Linux',
     'website': 'https://www.savoirfairelinux.com',
-    'license': 'LGPL-3',
+    'license': 'AGPL-3',
     'category': 'Project',
     'summary': 'Access the form view of a project from the kanban',
     'depends': ['project'],
