@@ -12,7 +12,7 @@
     'summary': 'Project Resource Calendar',
     'depends': [
         'auditlog',
-        'calendar_resource',
+        'resource_calendar',
         'resource',
         'calendar',
         'hr',

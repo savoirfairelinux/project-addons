@@ -1047,12 +1047,12 @@ msgid "Resources"
 msgstr "Ressources"
 
 #. module: project_resource_calendar
-#: model:ir.ui.menu,name:calendar_resource.calendar_event_menu
+#: model:ir.ui.menu,name:resource_calendar.calendar_event_menu
 msgid "Event Calendar"
 msgstr "Calendrier des événements"
 
 #. module: project_resource_calendar
-#: model:ir.ui.menu,name:calendar_resource.calendar_menu
+#: model:ir.ui.menu,name:resource_calendar.calendar_menu
 msgid "Calendars"
 msgstr "Calendrier"
 
