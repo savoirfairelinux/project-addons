@@ -50,12 +50,7 @@ jobs:
           
       - run:
           name: MV web_widget_table
-          command: mkdir web_widget_table && mv ./web-addons/web_widget_table/* ./web_widget_table
-      
-      - run:
-          name: MV calendar_resource
-          command: mkdir calendar_resource && mv ./crm/calendar_resource/* ./calendar_resource
-     
+          command: mkdir web_widget_table && mv ./web-addons/web_widget_table/* ./web_widget_table     
       
       - run:
           name: Odoo install repos modules
