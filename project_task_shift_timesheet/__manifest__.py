@@ -7,7 +7,7 @@
     'author': 'Savoir-faire Linux, Odoo Community Association (OCA)',
     'maintainer': 'Savoir-faire Linux',
     'website': 'http://www.savoirfairelinux.com',
-    'license': 'LGPL-3',
+    'license': 'AGPL-3',
     'category': 'Project Management',
     'summary': 'Project Event Shift Timesheet module',
     'depends': [
