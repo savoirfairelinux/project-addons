@@ -577,7 +577,7 @@ class CalendarEvent(models.Model):
     def search_read(
             self, domain=None, fields=None, offset=0,
             limit=None, order=None):
-        if domain and domain[0] and domain[1]:
+        if domain and domain[0] and domain[0][0] and domain[0][0] == 'start':
             week_diff = timedelta(-7, 1)
             domain_interval = datetime.strptime(
                 domain[1][2], '%Y-%m-%d %H:%M:%S') - datetime.strptime(
