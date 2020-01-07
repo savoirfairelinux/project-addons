@@ -1,5 +1,5 @@
 # @ 2018 Savoir-failre Linux
-# License LGPL-3.0 or Later (http://www.gnu.org/licenses/lgpl).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 
 from odoo import _, api, fields, models
