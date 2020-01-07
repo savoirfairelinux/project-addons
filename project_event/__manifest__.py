@@ -54,4 +54,16 @@
     'qweb': [
         'templates/chatter.xml',
     ],
+    'images': [
+        'static/description/status_management1.png',
+        'static/description/status_management2.png',
+        'static/description/status_management3.png',
+        'static/description/setup_categories.png',
+        'static/description/Technical sheet-1.png',
+        'static/description/Technical sheet-2.png',
+        'static/description/Technical sheet-3.png',
+        'static/description/Technical sheet-4.png',
+        'static/descriptiondouble_booking.png',
+        'static/description/main_screenshot.png'
+    ]
 }
