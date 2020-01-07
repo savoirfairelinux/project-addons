@@ -367,7 +367,7 @@
         <field name="model">project.task</field>
         <field name="arch" type="xml">
             <calendar string="Calendar View" date_start="date_start"
-                      date_stop="date_end" quick_add="False">
+                      date_stop="date_end" quick_add="False" js_class="calendar_colour" color="category_id">
                 <field name="name"/>
                 <field name="code"/>
                 <field name="project_id" string="Event"/>
@@ -382,7 +382,7 @@
         <field name="model">project.task</field>
         <field name="arch" type="xml">
             <calendar string="Calendar View" date_start="date_start"
-                      date_stop="date_end" quick_add="False">
+                      date_stop="date_end" quick_add="False" js_class="calendar_colour" color="category_id">
                 <field name="complete_name"/>
                 <field name="partner_id"  string="Task Client" eval="ref('project_event_activity_form')"/>
                 <field name="room_id" string="Room"/>            
