@@ -46,7 +46,9 @@
         'views/hr_department_view.xml',
         'views/calendar_event_view.xml',
         'views/calendar_event_plan_view.xml',
-        'wizard/reservation_validation_wiz_view.xml'
+        'wizard/reservation_validation_wiz_view.xml',
+        'views/project_task_view.xml',
+        'views/project_project_view.xml',
     ],
     'installable': True,
     'application': False,

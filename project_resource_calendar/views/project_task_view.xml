@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="project_event_activity_calendar">
+        <field name="name">project.event.activity.calendar</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_event.project_event_activity_calendar"/>
+        <field name="arch" type="xml">
+            <xpath expr="//calendar" position="attributes">
+                <attribute name="js_class">calendar_colour</attribute>
+                <attribute name="color">category_id</attribute>
+            </xpath>
+        </field>
+    </record>
+    <!-- The parameter form_view_id and readonly define the view that is going to
+      be used to open the task in mode popup
+    -->
+    <!--To use js_class needs to use the patch in
+	   https://github.com/odoo/odoo/pull/26750
+    -->
+    <record model="ir.ui.view" id="project_event_task_calendar">
+        <field name="name">project.event.task.calendar</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_event.project_event_task_calendar"/>
+        <field name="arch" type="xml">
+            <xpath expr="//calendar" position="attributes">
+                <attribute name="js_class">calendar_colour</attribute>
+                <attribute name="color">category_id</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="project_event_task_form_inherit_event_user_group" model="ir.ui.view">
+        <field name="name">Task Form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_event.project_event_task_form"/>
+        <field name="groups_id" eval="[(6, 0, [ref('project_event.group_project_event_user')])]"/>
+        <field name="arch" type="xml">
+            <field name="responsible_id" position="attributes">
+                <attribute name="attrs">{'readonly': True}</attribute>
+            </field>
+            <field name="partner_id" position="attributes">
+                <attribute name="attrs">{'readonly': True}</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="project_event_task_form_inherit_event_editor_group" model="ir.ui.view">
+        <field name="name">Task Form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_event.project_event_task_form"/>
+        <field name="groups_id" eval="[(6, 0, [ref('project_event.group_project_event_editor'), ref('project_event.group_project_event_manager')])]"/>
+        <field name="arch" type="xml">
+            <field name="responsible_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}</attribute>
+            </field>
+            <field name="partner_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="project_event_activity_form_inherit_event_user_group" model="ir.ui.view">
+        <field name="name">Activity Form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_event.project_event_activity_form"/>
+        <field name="groups_id" eval="[(6, 0, [ref('project_event.group_project_event_user')])]"/>
+        <field name="arch" type="xml">
+            <field name="name" position="attributes">
+                <attribute name="attrs">{'readonly': True}</attribute>
+            </field>
+            <field name="project_id" position="attributes">
+                <attribute name="attrs">{'readonly': True}</attribute>
+                <attribute name="options">{'no_create_edit': True}</attribute>
+            </field>
+            <field name="responsible_id" position="attributes">
+                <attribute name="attrs">{'readonly': True}</attribute>
+            </field>
+            <field name="partner_id" position="attributes">
+                <attribute name="attrs">{'readonly': True}</attribute>
+            </field>
+            <field name="client_type" position="attributes">
+                <attribute name="attrs">{'readonly': True}</attribute>
+            </field>
+            <field name="sector_id" position="attributes">
+                <attribute name="attrs">{'readonly': True}</attribute>
+            </field>
+            <field name="category_id" position="attributes">
+                <attribute name="attrs">{'readonly': True}</attribute>
+            </field>
+            <field name="room_id" position="attributes">
+                <attribute name="attrs">{'readonly': True}</attribute>
+            </field>
+            <field name="date_start" position="attributes">
+                <attribute name="attrs">{'readonly': True}</attribute>
+            </field>
+            <field name="date_end" position="attributes">
+                <attribute name="attrs">{'readonly': True}</attribute>
+            </field>
+            <field name="child_ids" position="attributes">
+                <attribute name="attrs">{'readonly': True}</attribute>
+            </field>
+            <field name="description" position="attributes">
+                <attribute name="attrs">{'readonly': True}</attribute>
+            </field>
+        </field>
+    </record>
+
+    <record id="project_event_activity_form_inherit_event_editor_group" model="ir.ui.view">
+        <field name="name">Activity Form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project_event.project_event_activity_form"/>
+        <field name="groups_id" eval="[(6, 0, [ref('project_event.group_project_event_editor'), ref('project_event.group_project_event_manager')])]"/>
+        <field name="arch" type="xml">
+            <field name="name" position="attributes">
+                <attribute name="attrs">{'readonly': False}</attribute>
+            </field>
+            <field name="project_id" position="attributes">
+                <attribute name="attrs">{'readonly': False}</attribute>
+                <attribute name="options">{'no_create_edit': True}</attribute>
+            </field>
+            <field name="responsible_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}
+                </attribute>
+            </field>
+            <field name="partner_id" position="attributes">
+                <attribute name="attrs">{'readonly': [('task_state', 'in', ['requested','accepted','done'])]}
+                </attribute>
+            </field>
+            <field name="client_type" position="attributes">
+                <attribute name="attrs">{'readonly': False}</attribute>
+            </field>
+            <field name="sector_id" position="attributes">
+                <attribute name="attrs">{'readonly': False}</attribute>
+            </field>
+            <field name="category_id" position="attributes">
+                <attribute name="attrs">{'readonly': False}</attribute>
+            </field>
+            <field name="room_id" position="attributes">
+                <attribute name="attrs">{'readonly': False}</attribute>
+            </field>
+            <field name="date_start" position="attributes">
+                <attribute name="attrs">{'readonly': False}</attribute>
+            </field>
+            <field name="date_end" position="attributes">
+                <attribute name="attrs">{'readonly': False}</attribute>
+            </field>
+            <field name="child_ids" position="attributes">
+                <attribute name="attrs">{'readonly': False}</attribute>
+            </field>
+            <field name="description" position="attributes">
+                <attribute name="attrs">{'readonly': False}</attribute>
+            </field>
+        </field>
+    </record>
+
+</odoo>

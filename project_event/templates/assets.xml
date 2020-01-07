@@ -3,6 +3,12 @@
     <template id="assets_backend" name="actions access archive" inherit_id="web.assets_backend">
         <xpath expr="." position="inside">
             <script type="text/javascript" src="/project_event/static/src/js/disable_archive_action.js"/>
+            <script type="text/javascript"
+                    src="/project_event/static/src/js/web_calendar_colour.js"/>    
+            <link href="/project_event/static/src/css/calendar_style.css"
+                    rel="stylesheet"/>
+            <link href="/project_event/static/src/css/timeline_style.css"
+                    rel="stylesheet"/>
         </xpath>
-    </template>
+    </template>    
 </odoo>
