@@ -1,5 +1,5 @@
 # © 2018 Savoir-faire Linux
-# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
+# License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
     'name': 'Project Task Shift Timesheet',
@@ -7,7 +7,7 @@
     'author': 'Savoir-faire Linux, Odoo Community Association (OCA)',
     'maintainer': 'Savoir-faire Linux',
     'website': 'http://www.savoirfairelinux.com',
-    'license': 'LGPL-3',
+    'license': 'AGPL-3',
     'category': 'Project Management',
     'summary': 'Project Event Shift Timesheet module',
     'depends': [
