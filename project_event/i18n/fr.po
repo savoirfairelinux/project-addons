@@ -1120,12 +1120,6 @@ msgid "The following resources are already booked:<br>"
 msgstr "Ces ressources sont déjà réservées:<br>"
 
 #. module: project_event
-#: code:addons/project_event/models/hr_timesheet.py:22
-#, python-format
-msgid "The task should be related to a project!"
-msgstr "La tâche doit être reliée à un projet"
-
-#. module: project_event
 #: code:addons/project_event/models/project_task.py:486
 #, python-format
 msgid "There must be a responsible or a client"
