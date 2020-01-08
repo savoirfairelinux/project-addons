@@ -72,9 +72,10 @@ jobs:
        ls
       working-directory: ${{env.working-directory}}
     
-    - name: ls
-      run: |
-       ls
+    - uses: actions/checkout@v2
+      with:
+        path: project-addons
+      name:  Checkout project-addons
      
     - name: Install base
       run: |
