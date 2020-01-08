@@ -62,7 +62,7 @@ jobs:
     steps:
     - name: dir2 directory
       run: |
-       ls -R && git checkout
+       ls -R
       working-directory: ${{env.working-directory}}
      
     
