@@ -3,33 +3,12 @@ name: Odoo CI
 on: [push]
 
 jobs:
-  build:
-
+  checkout:
     runs-on: ubuntu-16.04
     env:
       working-directory: /mnt/extra-addons
       version: '11.0' 
-    container:
-      image: docker://savoirfairelinux/odoo-ci:11.0
-    
-    services:
-      postgres:
-        image: postgres:10.8
-        env:
-          POSTGRES_USER: odoo
-          POSTGRES_PASSWORD: odoo
-          POSTGRES_DB: postgres
-        ports:
-        - 5432:5432
-        # needed because the postgres container does not provide a healthcheck
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-        
     steps:
-    - name: dir2 directory
-      run: |
-       ls -R
-      working-directory: ${{env.working-directory}}
-     
     - uses: actions/checkout@v2
       name:  Checkout project-addons
     
@@ -57,6 +36,36 @@ jobs:
         ref: ${{env.version}}
       name:  Checkout savoirfairelinux/web-addons
 
+  build:
+
+    runs-on: ubuntu-16.04
+    env:
+      working-directory: /mnt/extra-addons
+      version: '11.0' 
+    container:
+      image: docker://savoirfairelinux/odoo-ci:11.0
+      volumes: 
+      - $GITHUB_WORKSPACE:/mnt/extra-addons
+    
+    services:
+      postgres:
+        image: postgres:10.8
+        env:
+          POSTGRES_USER: odoo
+          POSTGRES_PASSWORD: odoo
+          POSTGRES_DB: postgres
+        ports:
+        - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        
+    steps:
+    - name: dir2 directory
+      run: |
+       ls -R && git checkout
+      working-directory: ${{env.working-directory}}
+     
+    
   
   
     - name: Install base
