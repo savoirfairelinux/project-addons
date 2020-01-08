@@ -67,5 +67,5 @@ jobs:
      
     - name: Install base
       run: |
-        odoo --db_host=${{ job.services.postgres.ports[5432] }} --db_user=odoo --db_password=odoo -d ci_test --workers=0 -i base --stop-after-init
+        odoo --db_host=postgres --db_user=odoo --db_password=odoo -d ci_test --workers=0 -i base --stop-after-init
       working-directory: ${{env.working-directory}}
