@@ -47,7 +47,8 @@ jobs:
     runs-on: ubuntu-16.04
     env:
       working-directory: /mnt/extra-addons
-      version: '11.0' 
+      version: '11.0'
+     
     container:
       image: docker://savoirfairelinux/odoo-ci:11.0
       volumes: 
@@ -68,8 +69,12 @@ jobs:
     steps:
     - name: dir2 directory
       run: |
-       ls -R
+       ls
       working-directory: ${{env.working-directory}}
+    
+    - name: ls
+      run: |
+       ls
      
     - name: Install base
       run: |
