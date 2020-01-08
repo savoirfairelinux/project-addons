@@ -10,28 +10,34 @@ jobs:
       version: '11.0' 
     steps:
     - uses: actions/checkout@v2
+      with:
+        path: project-addons
       name:  Checkout project-addons
     
     - uses: actions/checkout@v2
       with:
+        path: crm
         repository: savoirfairelinux/crm
         ref: ${{env.version}}
       name:  Checkout savoirfairelinux/crm
     
     - uses: actions/checkout@v2
       with:
+        path: server-tools
         repository: OCA/server-tools
         ref: ${{env.version}}
       name:  Checkout OCA/server-tools
     
     - uses: actions/checkout@v2
       with:
+        path: web
         repository: OCA/web
         ref: ${{env.version}}
       name:  Checkout OCA/web
     
     - uses: actions/checkout@v2
       with:
+        path: web-addons
         repository: savoirfairelinux/web-addons
         ref: ${{env.version}}
       name:  Checkout savoirfairelinux/web-addons
