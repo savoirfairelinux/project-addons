@@ -26,6 +26,8 @@ jobs:
         
     steps:
     - uses: actions/checkout@v2
+      with:
+        path: main
       name:  Checkout project-addons
     
     - uses: actions/checkout@v2
