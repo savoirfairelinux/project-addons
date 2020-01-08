@@ -25,9 +25,12 @@ jobs:
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
         
     steps:
+    - name: dir2 directory
+      run: |
+       ls -R
+      working-directory: ${{env.working-directory}}
+     
     - uses: actions/checkout@v2
-      with:
-        path: main
       name:  Checkout project-addons
     
     - uses: actions/checkout@v2
