@@ -1,0 +1,64 @@
+name: Odoo CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-16.04
+    env:
+      working-directory: mnt/extra-addons
+      version: '11.0' 
+    container:
+      image: docker://savoirfairelinux/odoo-ci:11.0
+    
+    services:
+      postgres:
+        image: postgres:10.8
+        env:
+          POSTGRES_USER: odoo
+          POSTGRES_PASSWORD: odoo
+          POSTGRES_DB: postgres
+        ports:
+        - 5432:5432
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+        
+    steps:
+    - uses: actions/checkout@v2
+    - name:  Checkout project-addons
+      working-directory: ${{env.working-directory}}
+    
+    - uses: actions/checkout@v2
+      with:
+        repository: savoirfairelinux/crm
+        ref: ${{env.version}}
+    - name:  Checkout savoirfairelinux/crm
+      working-directory: ${{env.working-directory}}
+    
+    - uses: actions/checkout@v2
+      with:
+        repository: OCA/server-tools
+        ref: ${{env.version}}
+    - name:  Checkout OCA/server-tools
+      working-directory: ${{env.working-directory}}
+    
+    - uses: actions/checkout@v2
+      with:
+        repository: OCA/web
+        ref: ${{env.version}}
+    - name:  Checkout OCA/web
+      working-directory: ${{env.working-directory}}
+    
+    - uses: actions/checkout@v2
+      with:
+        repository: savoirfairelinux/web-addons
+        ref: ${{env.version}}
+    - name:  Checkout savoirfairelinux/web-addons
+      working-directory: ${{env.working-directory}}
+  
+  
+    - name: Install base
+      run: |
+        odoo --db_host=localhost --db_user=odoo --db_password=odoo -d ci_test --workers=0 -i base --stop-after-init
+   
