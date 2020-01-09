@@ -9,6 +9,7 @@
                 <h3>Shift timesheet</h3>
                 <field name="shift_timesheet" context="{'activity_id': active_id}">
                     <tree editable="bottom" string="Shift Timesheet Activities" default_order="activity_date" delete="false">
+                        <field name="working_date" string="Working Date" required="1"/>
                         <field name="activity_date" string="Date" invisible="1"/>
                         <field name="department" string="Department" required="1" attrs="{'readonly': [('shift_status', '=', True)]}"/>
                         <field name="function" string="Function" required="1"   attrs="{'readonly': [('shift_status', '=', True)]}"/>

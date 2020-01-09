@@ -7,8 +7,9 @@
         <field name="arch" type="xml">
             <form string="Shift">
                 <group>
+                    <field name="working_date" string="Working Date" required="1"/>
                     <field name="activity_id" string="Activity"/>
-                    <field name="activity_date" string="Date" readonly="1"/>
+                    <field name="activity_date" string="Activity date" readonly="1"/>
                     <field name="department" string="Department" required="1"/>
                     <field name="function" string="Function" required="1"/>
                     <field name="employee_id" string="Employee" required="1"/>
@@ -30,6 +31,7 @@
         <field name="model">shift.timesheet</field>
         <field name="arch" type="xml">
             <search string="Shift timesheet Search">
+                <field name="working_date"/>
                 <field name="activity_id"/>
                 <field name="activity_date"/>
                 <field name="employee_id"/>
@@ -46,9 +48,10 @@
         <field name="arch" type="xml">
             <tree string="Shift timesheet"
                 default_order="activity_date asc">
+                <field name="working_date" string="Working Date"/>
                 <field name="activity_id" string="Activity"/>
                 <field name="activity_code" string="Number"/>
-                <field name="activity_date" string="Date"/>
+                <field name="activity_date" string="Activity date"/>
                 <field name="department" string="Department"/>
                 <field name="function" string="Function"/>
                 <field name="employee_id" string="Employee"/>

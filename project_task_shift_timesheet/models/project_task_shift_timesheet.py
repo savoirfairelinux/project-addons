@@ -23,8 +23,13 @@ class TaskShiftTimesheet(models.Model):
         string='Number'
     )
     activity_date = fields.Datetime(
+        'Activity date',
         compute='_compute_activity_date',
         store=True
+    )
+    working_date = fields.Date(
+        'Working Date',
+        default=fields.Datetime.now()
     )
     department = fields.Many2one(
         'hr.department',
