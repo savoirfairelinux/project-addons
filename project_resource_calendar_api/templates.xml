@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="index">
+        <title>Calendar events</title>
+        <t t-foreach="events" t-as="event">
+            <p>
+                <t t-esc="event.name"/>
+            </p>
+        </t>
+    </template>
+</odoo>

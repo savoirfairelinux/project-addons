@@ -1,0 +1,57 @@
+import json
+from odoo import http
+from datetime import datetime
+from odoo.http import Response
+
+
+class GesteveApi(http.Controller):
+    @http.route('/api/calendar/events', auth='public',
+                type='http', method=['GET'], cors='*')
+    def get_calendar_events(self, **kw):
+        headers = {'Content-Type': 'application/json'}
+        try:
+            start_date = kw['start_date']
+            end_date = kw['end_date']
+            room_name = kw['room']
+            room = http.request.env['resource.calendar.room'].sudo().search([
+                ('name', '=', room_name)])
+            calendar_events = http.request.env['calendar.event'].sudo().search(
+                [('room_id', '=', room.id), ('start_datetime', '>=', start_date),
+                 ('stop_datetime', '<=', end_date)])
+            calendar_events = calendar_events + \
+                http.request.env['calendar.event'].sudo().search(
+                    [('allday', '>=', True), ('room_id', '=', room.id),
+                     ('start_date', '>=', start_date), ('stop_date', '<=', end_date)])
+
+            data = []
+            for event in calendar_events:
+                event_dict = {}
+                event_dict['id'] = event.id
+                event_dict['title'] = event.name + ((
+                    '\n' + event.room_id.name) if type(event.room_id.name) is str
+                    else 'No Room')
+                event_dict['start'] = self.format_date(event.start_datetime) if type(
+                    event.start_datetime) is str else event.start_datetime
+                event_dict['end'] = self.format_date(event.stop_datetime) if type(
+                    event.start_datetime) is str else event.stop_datetime
+                event_dict['allDay'] = event.allday
+                event_dict['backgroundColor'] = event.color
+                event_dict['textColor'] = event.font_color
+                event_dict['room_id'] = event.room_id.id if event.room_id else 'Null'
+                event_dict['room_name'] = event.room_id.name if type(
+                    event.room_id.name) is str else 'Null'
+                data.append(event_dict)
+
+            body = {'results': {'code': 200, 'message': data}}
+
+            return Response(json.dumps(body), headers=headers)
+        except:
+
+            body = {'results': {'code': 500,
+                                'message': 'Error missing parameters'}}
+
+            return Response(json.dumps(body), headers=headers)
+
+    def format_date(self, date):
+        return datetime.strptime(date, '%Y-%m-%d %H:%M:%S').strftime(
+            '%Y-%m-%dT%H:%M:%SZ')
