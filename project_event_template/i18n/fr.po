@@ -140,17 +140,17 @@ msgstr "Client"
 #. module: project_event_template
 #: model:ir.ui.view,arch_db:project_event_template.view_project_task_wizard_activity
 msgid "Create Activity from Template"
-msgstr "Créer une activité à partir d'un modèle"
+msgstr "Créer un brouillon d'activité à partir d'un modèle"
 
 #. module: project_event_template
 #: model:ir.ui.view,arch_db:project_event_template.view_project_task_wizard
 msgid "Create Event from Template"
-msgstr "Créer un événement à partir d'un modèle"
+msgstr "Créer un brouillon d'événement à partir d'un modèle"
 
 #. module: project_event_template
 #: model:ir.ui.view,arch_db:project_event_template.view_orphan_task_event_wizard
 msgid "Create Task From Template"
-msgstr "Créer une tâche à partir d'un modèle"
+msgstr "Créer un brouillon de tâche à partir d'un modèle"
 
 #. module: project_event_template
 #: model:ir.model.fields,field_description:project_event_template.field_activity_template_create_uid
