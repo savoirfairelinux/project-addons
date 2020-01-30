@@ -18,9 +18,9 @@ def get_formview_id(self, access_uid=None):
     """
     if self._name == 'project.task':
         if self.activity_task_type == 'task':
-            return self.env.ref('project_event.project_event_task_form').id
+            return self.env.ref('project_event.project_event_task_form_no_plans').id
         elif self.activity_task_type == 'activity':
-            return self.env.ref('project_event.project_event_activity_form').id
+            return self.env.ref('project_event.project_event_activity_form_no_plans').id
     return False
 
 
@@ -68,7 +68,6 @@ def fields_view_get(
     # Override context for postprocessing
     if view_id and result.get('base_model', self._name) != self._name:
         View = View.with_context(base_model_name=result['base_model'])
-
     # Apply post processing, groups and modifiers etc...
     xarch, xfields = View.postprocess_and_fields(
         self._name, etree.fromstring(result['arch']), view_id)

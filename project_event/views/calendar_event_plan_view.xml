@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-<record id="resource_calendar_room_form" model="ir.ui.view">
+<record id="project_event_plan_form" model="ir.ui.view">
         <field name="name">Plan Form</field>
         <field name="model">project.event.plan</field>
         <field name="arch" type="xml">
@@ -12,4 +12,14 @@
             </form>
         </field>
     </record>
+    <record id="project_event_plan_tree" model="ir.ui.view">
+        <field name="name">Plan Tree</field>
+        <field name="model">project.event.plan</field>
+        <field name="arch" type="xml">
+            <tree string="Plans">
+                <field name="name"/>
+            </tree>
+        </field>
+    </record>
+  
 </odoo>
