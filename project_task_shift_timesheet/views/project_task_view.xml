@@ -5,14 +5,14 @@
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project_event.project_event_activity_form"/>
         <field name="arch" type="xml">
-             <xpath expr="//form/sheet/notebook/page[4]/group" position="before">
+            <xpath expr="//form/sheet/notebook/page[4]/group" position="before">
                 <h3>Shift timesheet</h3>
                 <field name="shift_timesheet" context="{'activity_id': active_id}">
                     <tree editable="bottom" string="Shift Timesheet Activities" default_order="activity_date" delete="false">
-                        <field name="working_date" string="Working Date" required="1"/>
+                        <field name="working_date" string="Working Date" required="1" attrs="{'readonly': [('shift_status', '=', True)]}"/> <!-- ajouter l'attribut readonly quand shift_status = True-->
                         <field name="activity_date" string="Date" invisible="1"/>
                         <field name="department" string="Department" required="1" attrs="{'readonly': [('shift_status', '=', True)]}"/>
-                        <field name="function" string="Function" required="1"   attrs="{'readonly': [('shift_status', '=', True)]}"/>
+                        <field name="function" string="Function" required="1" attrs="{'readonly': [('shift_status', '=', True)]}"/>
                         <field name="employee_id" string="Employee" required="1" readonly="1"/>
                         <field name="shift" string="Shift" attrs="{'readonly': [('shift_status', '=', True)]}"/>
                         <field name="start_hour" string="Start hour" attrs="{'readonly': [('shift_status', '=', True)]}"/>
