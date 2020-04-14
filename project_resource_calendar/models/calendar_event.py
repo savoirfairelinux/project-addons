@@ -614,6 +614,16 @@ class CalendarEvent(models.Model):
             'context': context,
         }
 
+    @api.multi
+    def action_detach_calendar_event(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'project.task',
+            'view_mode': 'form',
+            'res_id': self.event_task_id.id,
+            'target': 'main',
+        }
+
     def get_real_ids(self, ids):
         if isinstance(ids, (pycompat.string_types, pycompat.integer_types)):
             return self.calendar_id2real_id(ids)
