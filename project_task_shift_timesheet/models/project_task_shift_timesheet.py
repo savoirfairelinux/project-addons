@@ -76,7 +76,7 @@ class TaskShiftTimesheet(models.Model):
         sore=False)
     _sql_constraints = [
         ('check_shift_start_and_end_time',
-         "CHECK ((start_hour < end_hour)) ",
+         "CHECK ((start_hour <= end_hour)) ",
          _('Start time must be before end time')),
         ('check_hours',
          "CHECK ("

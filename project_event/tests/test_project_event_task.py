@@ -12,17 +12,6 @@ class TestProjectEventTask(TestProjectEventCommon):
     def setUp(self):
         super(TestProjectEventTask, self).setUp()
 
-    def test_010_compute_project_task_log(self):
-        self.AuditLogObj = self.env['auditlog.log']
-
-        self.AuditLogObj.create({
-            'model_id': self.env.ref('project.model_project_task').id,
-            'res_id': self.activity_1.id,
-        })
-        self.assertEqual(self.activity_1.project_task_log, 2)
-        self.activity_1.write({'name': 'Test Event Activity 1'})
-        self.assertEqual(self.activity_1.project_task_log, 3)
-
     def test_020_create_main_task(self):
         self.assertEqual(len(self.activity_1.child_ids), 1)
         self.assertEqual(
