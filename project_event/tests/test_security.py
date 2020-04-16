@@ -317,11 +317,11 @@ class TestSecurity(TestProjectEventCommon):
         self.assertTrue(self.Tasks.sudo(self.user_manager.id).unlink())
 
     def test_610_project_user_can_read_project_task_category(self):
-
         self.get_user_acls_and_rules_to_model(
             self.project_user, self.Task_category)
-        with self.assertRaises(exceptions.AccessError):
-            self.Task_category.sudo(self.project_user.id).search([])
+        self.assertEqual(
+            self.Task_category.search([]),
+            self.Task_category.sudo(self.project_user.id).search([]))
 
     def test_620_project_user_cannot_write_project_task_category(self):
         self.user_cannot_write_project_task_category(self.project_user)
