@@ -8,7 +8,7 @@
     </record>
 
     <record model="ir.ui.menu" id="hr.menu_hr_root">
-          <field name="groups_id" eval="[(3,ref('base.group_user'))]"/>
+        <field name="groups_id" eval="[(3,ref('base.group_user'))]"/>
     </record>
 
     <record id="group_resource_calendar_user" model="res.groups">
@@ -28,8 +28,7 @@
     <record id="group_resource_calendar_editor" model="res.groups">
         <field name="name">Resource Calendar Editor</field>
         <field name="category_id" ref="module_category_resource_event_calendar"/>
-        <field name="implied_ids" 
-        eval="[(4, ref('project_resource_calendar.group_resource_calendar_user'))]"/>
+        <field name="implied_ids" eval="[(4, ref('project_resource_calendar.group_resource_calendar_user'))]"/>
         <field name="users" eval="[(4, ref('base.user_root'))]"/>
     </record>
 
@@ -44,11 +43,26 @@
         <field eval="1" name="perm_create"/>
     </record>
 
-    <record id="calendar.calendar_event_rule_my" model="ir.rule">
-            <field name="name">Own events</field>
-            <field ref="model_calendar_event" name="model_id"/>
-            <field name="domain_force">[('partner_ids','in',user.partner_id.id)]</field>
-            <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    <record id="calendar.calendar_event_rule_my_calendar" model="ir.rule">
+        <field name="name">Own events all calendar</field>
+        <field ref="model_calendar_event" name="model_id"/>
+        <field name="domain_force">[('partner_ids','in',user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+        <field eval="0" name="perm_unlink"/>
+        <field eval="0" name="perm_write"/>
+        <field eval="1" name="perm_read"/>
+        <field eval="0" name="perm_create"/>
+    </record>
+
+    <record id="calendar.calendar_event_rule_my_rwcd" model="ir.rule">
+        <field name="name">Own events</field>
+        <field ref="model_calendar_event" name="model_id"/>
+        <field name="domain_force">[('partner_ids','in',user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('group_resource_calendar_user'))]"/>
+        <field eval="1" name="perm_unlink"/>
+        <field eval="1" name="perm_write"/>
+        <field eval="1" name="perm_read"/>
+        <field eval="1" name="perm_create"/>
     </record>
 
     <record id="own_group_calendar_event_rwcd_access" model="ir.rule">
@@ -81,7 +95,7 @@
         <field eval="1" name="perm_write"/>
         <field eval="1" name="perm_read"/>
         <field eval="1" name="perm_create"/>
-    </record> 
+    </record>
 
     <record id="all_calendar_event_wc_access" model="ir.rule">
         <field name="name">All Events WC Editor</field>
@@ -93,7 +107,7 @@
         <field eval="1" name="perm_write"/>
         <field eval="0" name="perm_read"/>
         <field eval="1" name="perm_create"/>
-    </record> 
+    </record>
 
     <record id="own_group_calendar_event_room_readonly_access" model="ir.rule">
         <field name="name">Own rooms readonly</field>

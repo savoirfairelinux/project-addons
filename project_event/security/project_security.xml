@@ -4,7 +4,7 @@
     <record model="res.groups" id="base.group_user">
         <field name="menu_access" eval="[(3, ref('project_resource_calendar.menu_calendar_gantt'))]"/>
     </record>
-        <record id="project_resource_calendar.group_resource_calendar_user" model="res.groups">
+    <record id="project_resource_calendar.group_resource_calendar_user" model="res.groups">
         <field name="menu_access" eval="[(4, ref('project_resource_calendar.menu_calendar_gantt'))]"/>
     </record>
 
@@ -26,8 +26,7 @@
         <field name="category_id" ref="module_category_project_event"/>
         <field name="implied_ids" eval="[(4, ref('group_project_event_user'))]"/>
         <field name="users" eval="[(4, ref('base.user_root'))]"/>
-        <field name="menu_access"
-            eval="[(6, 0,[ref('project_resource_calendar.menu_calendar_gantt'),
+        <field name="menu_access" eval="[(6, 0,[ref('project_resource_calendar.menu_calendar_gantt'),
             ref('project_resource_calendar.room_sub_menu'),
             ref('project_resource_calendar.instrument_sub_menu'),
             ref('project_resource_calendar.service_sub_menu'),
@@ -128,7 +127,7 @@
         <field eval="0" name="perm_unlink"/>
         <field eval="1" name="perm_write"/>
     </record>
-    
+
     <record id="project_event_activity_access_edit" model="ir.rule">
         <field name="name">Edit permissions of activities for project event users</field>
         <field name="model_id" ref="project.model_project_task"/>
@@ -220,4 +219,27 @@
         <field eval="1" name="perm_read"/>
         <field eval="0" name="perm_create"/>
     </record>
+
+    <record id="project_event_own_event_access" model="ir.rule">
+        <field name="name">Own calendar event with related task</field>
+        <field name="model_id" ref="calendar.model_calendar_event"/>
+        <field name="domain_force">[('event_task_id','!=',None)]
+        </field>
+        <field name="groups" eval="[(4, ref('group_project_event_user'))]"/>
+        <field eval="0" name="perm_unlink"/>
+        <field eval="1" name="perm_write"/>
+        <field eval="0" name="perm_read"/>
+        <field eval="0" name="perm_create"/>
+    </record>
+    <record id="calendar_event_rule_my_WCS" model="ir.rule">
+        <field name="name">Own events WCS</field>
+        <field ref="model_calendar_event" name="model_id"/>
+        <field name="domain_force">[('partner_ids','in',user.partner_id.id)]</field>
+        <field name="groups" eval="[(4, ref('group_project_event_editor'))]"/>
+        <field eval="1" name="perm_unlink"/>
+        <field eval="1" name="perm_write"/>
+        <field eval="0" name="perm_read"/>
+        <field eval="1" name="perm_create"/>
+    </record>
+
 </odoo>
