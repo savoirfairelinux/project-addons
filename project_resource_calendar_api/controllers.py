@@ -1,6 +1,7 @@
 import json
 from odoo import http
 from datetime import datetime
+from datetime import timedelta
 from odoo.http import Response
 
 
@@ -34,13 +35,21 @@ class GesteveApi(http.Controller):
                 event_dict['title'] = event.name + ((
                     '\n' + event.room_id.name) if isinstance(event.room_id.name, str)
                     else 'No Room')
-                event_dict['start'] = self.format_date(
-                    event.start_datetime) if isinstance(
-                    event.start_datetime, str) else event.start_datetime
-                event_dict['end'] = self.format_date(
-                    event.stop_datetime) if isinstance(
-                    event.start_datetime, str) else event.stop_datetime
                 event_dict['allDay'] = event.allday
+
+                if event.allday:
+                    event_dict['start'] = event.start_date
+                    stop_date = datetime.strptime(
+                        event.stop_date, '%Y-%m-%d') + timedelta(days=1)
+                    event_dict['end'] = stop_date.strftime('%Y-%m-%d')
+                else:
+                    event_dict['start'] = self.format_date(
+                        event.start_datetime) if isinstance(
+                        event.start_datetime, str) else event.start_datetime
+                    event_dict['end'] = self.format_date(
+                        event.stop_datetime) if isinstance(
+                        event.start_datetime, str) else event.stop_datetime
+
                 event_dict['backgroundColor'] = event.color
                 event_dict['textColor'] = event.font_color
                 event_dict['room_id'] = event.room_id.id if event.room_id else 'Null'
