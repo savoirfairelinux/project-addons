@@ -18,7 +18,7 @@
                 </div>
                 <div align="right">
                     <h2>
-                       <button type="object" name="action_detach_calendar_event"  attrs="{'invisible': [('is_task_event','=',False)]}" ><field name="event_task_id" readonly="1" options="{'no_open': True}"/></button>
+                       <button type="object" name="action_detach_calendar_event"  attrs="{'invisible': ['|',('is_task_event','=',False),('state','=','cancelled')]}" ><field name="event_task_id" readonly="1" options="{'no_open': True}"/></button>
                     </h2>
                     <br/>
                 </div>
@@ -122,7 +122,7 @@
                 </div>
                 <div align="right">
                     <h2>
-                       <button type="object" name="action_detach_calendar_event"  attrs="{'invisible': [('is_task_event','=',False)]}"><field name="event_task_id" readonly="1" options="{'no_open': True}"/></button>
+                       <button type="object" name="action_detach_calendar_event"  attrs="{'invisible': ['|',('is_task_event','=',False),('state','=','cancelled')]}"><field name="event_task_id" readonly="1" options="{'no_open': True}"/></button>
                     </h2>
                 </div>
             </xpath>
