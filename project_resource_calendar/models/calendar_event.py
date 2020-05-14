@@ -619,6 +619,7 @@ class CalendarEvent(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'res_model': 'project.task',
+            'view_id': self.env.ref('project_event.project_event_task_form').id,
             'view_mode': 'form',
             'res_id': self.event_task_id.id,
             'target': 'main',
