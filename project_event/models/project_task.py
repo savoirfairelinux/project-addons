@@ -612,6 +612,9 @@ class Task(models.Model):
             if self.user_has_groups(
                     'project_event.group_project_event_editor'):
                 return
+            if self.is_main_task and self.user_has_groups(
+                    'project_event.group_project_event_user'):
+                vals.pop('description')
             else:
                 raise AccessError(
                     _('You cannot edit fields description and plans'))
