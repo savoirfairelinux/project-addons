@@ -19,6 +19,7 @@ class Task(models.Model):
             return
         return super(Task, self).write_main_task(vals)
 
+    @api.one
     def verify_field_access_activity_write(self, vals):
         if self.task_state == 'approved' and self.user_has_groups(
                 'project_event.group_project_event_user') and not \

@@ -80,8 +80,9 @@ class Project(models.Model):
     @api.multi
     def write(self, vals):
         super(Project, self).write(vals)
-        if self.project_type == 'event':
-            self.write_activity(vals)
+        for project in self:
+            if project.project_type == 'event':
+                project.write_activity(vals)
 
     @api.multi
     def write_activity(self, vals):
