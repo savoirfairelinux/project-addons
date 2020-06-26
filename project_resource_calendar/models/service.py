@@ -1,6 +1,6 @@
 # Copyright 2018 Savoir-faire Linux
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class Service(models.Model):
@@ -21,3 +21,8 @@ class Service(models.Model):
                     service).id),
                 ('res_id', '=', rec.id)
             ])
+
+    @api.multi
+    def write(self, vals):
+        res = super(Service, self).write(vals)
+        return res
