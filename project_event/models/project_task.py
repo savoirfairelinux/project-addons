@@ -606,7 +606,7 @@ class Task(models.Model):
             # The result of get_main_task() is a list so
             # we can't compare an object with list
             # It's a Warring on the log
-            if [task] == self.get_main_task():
+            if task == self.get_main_task():
                 continue
             if task_vals:
                 task.write(task_vals)
@@ -643,19 +643,17 @@ class Task(models.Model):
             return False
         if 'child_ids' in vals:
             temp = vals.pop('child_ids')
-        # main_task is a list of object
-        # so we can't apply write method to a list
-        main_task_updated = []
-        for task in main_task:
-            main_task_updated.append(task.write(vals))
+        main_task = main_task.write(vals)
         if temp:
             vals['child_ids'] = temp
-        return main_task_updated
+        return main_task
 
-    @api.one
     def get_main_task(self):
+        task_ids = []
+        for task in self:
+            task_ids.append(task.id)
         return self.env['project.task'].search([
-            ('parent_id', '=', self.id),
+            ('parent_id', 'in', task_ids),
             ('is_main_task', '=', True)]
         )
 
