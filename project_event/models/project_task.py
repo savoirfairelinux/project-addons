@@ -299,21 +299,24 @@ class Task(models.Model):
 
     @api.multi
     def write(self, vals):
-        if self.is_activity():
-            return self.write_activity(vals)
-        else:
-            self.verify_field_access_task_write(vals)
-            self.update_reservation_event(vals)
-            if 'employee_ids' in vals:
-                self.message_unsubscribe(list(
-                    self.get_partners()))
-                if vals['employee_ids'][0][2]:
-                    self.message_subscribe(list(self.get_partners(
-                        vals['employee_ids'][0][2])), force=False)
-                else:
-                    self.message_subscribe(list([]), force=False)
+        for task in self:
+            if task.is_activity():
+                task.write_activity(vals)
+                continue
+            else:
+                task.verify_field_access_task_write(vals)
+                task.update_reservation_event(vals)
+                if 'employee_ids' in vals:
+                    task.message_unsubscribe(list(
+                        task.get_partners()))
+                    if vals['employee_ids'][0][2]:
+                        task.message_subscribe(list(task.get_partners(
+                            vals['employee_ids'][0][2])), force=False)
+                    else:
+                        task.message_subscribe(list([]), force=False)
 
-            return super(Task, self).write(vals)
+                return super(Task, self).write(vals)
+            return True
 
     @api.multi
     def copy(self, default=None):
@@ -576,7 +579,6 @@ class Task(models.Model):
             child[2]['parent_id'] = parent_id
             self.create_task(child[2])
 
-    @api.one
     def is_activity(self):
         return self.activity_task_type == 'activity'
 
@@ -591,7 +593,6 @@ class Task(models.Model):
         self.write_main_task(vals)
         return updated_task
 
-    @api.one
     def write_children(self, vals):
         task_vals = {}
         if 'responsible_id' in vals:
@@ -603,9 +604,6 @@ class Task(models.Model):
         if 'sector_id' in vals:
             task_vals['sector_id'] = vals['sector_id']
         for task in self.child_ids:
-            # The result of get_main_task() is a list so
-            # we can't compare an object with list
-            # It's a Warring on the log
             if task == self.get_main_task():
                 continue
             if task_vals:
@@ -649,11 +647,8 @@ class Task(models.Model):
         return main_task
 
     def get_main_task(self):
-        task_ids = []
-        for task in self:
-            task_ids.append(task.id)
         return self.env['project.task'].search([
-            ('parent_id', 'in', task_ids),
+            ('parent_id', '=', self.id),
             ('is_main_task', '=', True)]
         )
 
