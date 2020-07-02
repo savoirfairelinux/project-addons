@@ -579,11 +579,12 @@ class CalendarEvent(models.Model):
             limit=None, order=None):
         if domain and domain[0] and domain[0][0] and domain[0][0] == 'start':
             week_diff = timedelta(-7, 1)
+            days_diff = timedelta(-1, 1)
             domain_interval = datetime.strptime(
                 domain[1][2], '%Y-%m-%d %H:%M:%S') - datetime.strptime(
                 domain[0][2], '%Y-%m-%d %H:%M:%S')
-            if domain[0][2][-8:] == '23:59:59'\
-                    and domain_interval == week_diff:
+            diff = domain_interval == week_diff or domain_interval == days_diff
+            if domain[0][2][-8:] == '23:59:59' and diff:
                 tz = self.env['res.users'].browse(self.env.uid).tz or 'utc'
                 my_timestamp = datetime.strptime(
                     domain[0][2], '%Y-%m-%d %H:%M:%S')
