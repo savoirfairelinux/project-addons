@@ -577,22 +577,30 @@ class CalendarEvent(models.Model):
     def search_read(
             self, domain=None, fields=None, offset=0,
             limit=None, order=None):
-        if domain and domain[0] and domain[0][0] and domain[0][0] == 'start':
-            week_diff = timedelta(-7, 1)
-            days_diff = timedelta(-1, 1)
-            domain_interval = datetime.strptime(
-                domain[1][2], '%Y-%m-%d %H:%M:%S') - datetime.strptime(
-                domain[0][2], '%Y-%m-%d %H:%M:%S')
-            diff = domain_interval == week_diff or domain_interval == days_diff
-            if domain[0][2][-8:] == '23:59:59' and diff:
-                tz = self.env['res.users'].browse(self.env.uid).tz or 'utc'
-                my_timestamp = datetime.strptime(
-                    domain[0][2], '%Y-%m-%d %H:%M:%S')
-                my_tz = pytz.timezone(tz)
-                utc_tz = pytz.timezone('utc')
-                time_in_utc_tz = my_tz.localize(my_timestamp).astimezone(
-                    utc_tz).strftime("%Y-%m-%d %H:%M:%S")
-                domain[0][2] = time_in_utc_tz
+        if domain and domain[0]:
+            dt_start = None
+            dt_stop = None
+            for i in range(0, len(domain)):
+                if domain[i][0] == 'start':
+                    dt_start = i
+                elif domain[i][0] == 'stop':
+                    dt_stop = i
+            if dt_start is not None and dt_stop is not None:
+                week_diff = timedelta(-7, 1)
+                days_diff = timedelta(-1, 1)
+                domain_interval = datetime.strptime(
+                    domain[dt_stop][2], '%Y-%m-%d %H:%M:%S') - datetime.strptime(
+                    domain[dt_start][2], '%Y-%m-%d %H:%M:%S')
+                diff = domain_interval == week_diff or domain_interval == days_diff
+                if domain[dt_start][2][-8:] == '23:59:59' and diff:
+                    tz = self.env['res.users'].browse(self.env.uid).tz or 'utc'
+                    my_timestamp = datetime.strptime(
+                        domain[dt_start][2], '%Y-%m-%d %H:%M:%S')
+                    my_tz = pytz.timezone(tz)
+                    utc_tz = pytz.timezone('utc')
+                    time_in_utc_tz = my_tz.localize(my_timestamp).astimezone(
+                        utc_tz).strftime("%Y-%m-%d %H:%M:%S")
+                    domain[dt_start][2] = time_in_utc_tz
         res = super(CalendarEvent, self).search_read(
             domain,
             fields,
