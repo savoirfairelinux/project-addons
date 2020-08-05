@@ -22,11 +22,6 @@ class GesteveApi(http.Controller):
                                     ('start_datetime',
                                      '>=', start_date),
                                     ('stop_datetime', '<=', end_date)])
-                calendar_events = calendar_events + \
-                    http.request.env['calendar.event'].sudo().search(
-                        [('allday', '>=', True), ('room_id', '=', room.id),
-                         ('start_date', '>=', start_date),
-                         ('stop_date', '<=', end_date)])
 
             data = []
             for event in calendar_events:
