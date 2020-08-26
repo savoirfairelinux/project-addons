@@ -17,11 +17,16 @@ class GesteveApi(http.Controller):
             room = http.request.env['resource.calendar.room'].sudo().search([
                 ('name', '=', room_name)])
             if room:
-                calendar_events = http.request.env['calendar.event'] \
+                all_calendar_events = http.request.env['calendar.event'] \
                     .sudo().search([('room_id', '=', room.id),
-                                    ('start_datetime',
-                                     '>=', start_date),
+                                    ('start_datetime', '>=', start_date),
                                     ('stop_datetime', '<=', end_date)])
+                all_day_calendar_events = http.request.env['calendar.event'] \
+                    .sudo().search([('allday', '>=', True),
+                                    ('room_id', '=', room.id),
+                                    ('start_date', '>=', start_date),
+                                    ('stop_date', '<=', end_date)])
+                calendar_events = all_calendar_events - all_day_calendar_events
 
             data = []
             for event in calendar_events:
