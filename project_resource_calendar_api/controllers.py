@@ -17,19 +17,25 @@ class GesteveApi(http.Controller):
             room = http.request.env['resource.calendar.room'].sudo().search([
                 ('name', '=', room_name)])
             if room:
-                all_calendar_events = http.request.env['calendar.event'] \
+                calendar_events = http.request.env['calendar.event'] \
                     .sudo().search([('room_id', '=', room.id),
-                                    ('start_datetime', '>=', start_date),
+                                    ('start_datetime',
+                                     '>=', start_date),
                                     ('stop_datetime', '<=', end_date)])
-                all_day_calendar_events = http.request.env['calendar.event'] \
-                    .sudo().search([('allday', '>=', True),
-                                    ('room_id', '=', room.id),
-                                    ('start_date', '>=', start_date),
-                                    ('stop_date', '<=', end_date)])
-                calendar_events = all_calendar_events - all_day_calendar_events
+                calendar_events = calendar_events + \
+                    http.request.env['calendar.event'].sudo().search(
+                        [('allday', '>=', True), ('room_id', '=', room.id),
+                         ('start_date', '>=', start_date),
+                         ('stop_date', '<=', end_date)])
+
+                no_duplicate_calendar_events = []
+
+                for event in calendar_events:
+                    if event not in no_duplicate_calendar_events:
+                        no_duplicate_calendar_events.append(event)
 
             data = []
-            for event in calendar_events:
+            for event in no_duplicate_calendar_events:
                 event_dict = {}
                 event_dict['id'] = event.id
                 event_dict['title'] = event.name + ((
