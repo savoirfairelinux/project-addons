@@ -14,6 +14,11 @@ class GesteveApi(http.Controller):
             start_date = kw['start_date']
             end_date = kw['end_date']
             room_name = kw['room']
+
+            ctx = dict(http.request.context)
+            ctx.update({"tz": kw['timezone']})
+            http.request.context = ctx
+
             room = http.request.env['resource.calendar.room'].sudo().search([
                 ('name', '=', room_name)])
             if room:
