@@ -67,6 +67,7 @@ class GesteveApi(http.Controller):
                 event_dict['room_name'] = event.room_id.name if isinstance(
                     event.room_id.name, str) else 'Null'
                 data.append(event_dict)
+                event_dict['state'] = event.state
 
             body = {'results': {'code': 200, 'message': data}}
 
